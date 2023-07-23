@@ -3,7 +3,7 @@ import { BsCart4, BsSearch } from 'react-icons/bs';
 
 const Navbar = () => {
   return (
-    <div className="container mx-auto bg-black">
+    <div className="py-2 bg-black">
       {/* Navbar */}
       <div className="flex justify-between px-4 items-center ">
         {/* Logo */}
@@ -16,19 +16,19 @@ const Navbar = () => {
         <div>
           <ul className="flex gap-4">
             <li>
-              <Link className="px-4 py-2 inline-block" href={'#'}>Home</Link>
+              <Link className="py-2 hover:border-b hover:border-white border-b border-transparent duration-300 px-3 inline-block" href={'#'}>Home</Link>
             </li>
             <li>
-              <Link className="px-4 py-2 inline-block" href={'#'}>Messages</Link>
+              <Link className="py-2 hover:border-b hover:border-white border-b border-transparent duration-300 px-3 inline-block" href={'#'}>Messages</Link>
             </li>
             <li>
-              <Link className="px-4 py-2 inline-block" href={'#'}>Notifications</Link>
+              <Link className="py-2 hover:border-b hover:border-white border-b border-transparent duration-300 px-3 inline-block" href={'#'}>Notifications</Link>
             </li>
             <li>
-              <Link className="px-4 py-2 inline-block" href={'#'}>Contact</Link>
+              <Link className="py-2 hover:border-b hover:border-white border-b border-transparent duration-300 px-3 inline-block" href={'#'}>Contact</Link>
             </li>
             <li>
-              <Link className="px-4 py-2 inline-block" href={'#'}>Join</Link>
+              <Link className="py-2 hover:border-b hover:border-white border-b border-transparent duration-300 px-3 inline-block" href={'#'}>Join</Link>
             </li>
           </ul>
         </div>
