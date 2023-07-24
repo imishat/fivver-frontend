@@ -1,4 +1,5 @@
 import Main from "@/Layout/Main";
+import DesignSection from "@/components/Home/DesignSection/DesignSection";
 import Hero from "@/components/Home/Hero/Hero";
 import { Inter } from "next/font/google";
 
@@ -17,6 +18,9 @@ export default function Home() {
         {/* Hero */}
         <div>
           <Hero />
+        </div>
+        <div>
+          <DesignSection />
         </div>
         <div>Home page</div>
       </div>
