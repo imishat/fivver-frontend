@@ -4,10 +4,10 @@ import CompanyCard from "./CompanyCard";
 const DesignCategorySectionCard = () => {
     return (
         <div>
-            <div className="border px-4 pt-2 pb-4 rounded-md">
-                <div className="flex justify-between py-2">
-                    <h2>Door Hanger Design</h2>
-                    <Link href={'#'}>All Design</Link>
+            <div className="border px-4  pb-4 h-64 rounded-md">
+                <div className="flex py-1 justify-between">
+                    <h2 className="font-bold">Door Hanger Design</h2>
+                    <Link className="text-blue-300 font-bold" href={'#'}>All Design</Link>
                 </div>
                 <div>
                     <div className="grid grid-cols-3 gap-2 ">

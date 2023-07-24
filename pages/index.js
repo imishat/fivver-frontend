@@ -22,7 +22,6 @@ export default function Home() {
         <div>
           <DesignSection />
         </div>
-        <div>Home page</div>
       </div>
     </Main>
   );
