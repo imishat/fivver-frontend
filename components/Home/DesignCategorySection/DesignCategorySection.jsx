@@ -1,13 +1,19 @@
+import { RiArrowDownDoubleLine } from 'react-icons/ri';
 import DesignCategorySectionCard from "./DesignCategorySectionCard";
 
-const DesignCategorySection = () => {
+export default function  DesignCategorySection  () {
     return (
-        <div className="flex gap-3 flex-col">
-            {
-                [1,1,1,1].map(item=><DesignCategorySectionCard />)
+         <div className="space-y-3">
+             {
+                [1,1,1,1].map((item,i)=><DesignCategorySectionCard key={i} />)
             }
+              
+              {/* // Pagination */}
+              <div className='flex justify-center'>
+                <button className='border rounded-full'><RiArrowDownDoubleLine size={66} /></button>
+              </div>
         </div>
+       
     );
 };
 
-export default DesignCategorySection;

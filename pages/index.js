@@ -1,6 +1,8 @@
 import Main from "@/Layout/Main";
 import DesignSection from "@/components/Home/DesignSection/DesignSection";
 import Hero from "@/components/Home/Hero/Hero";
+import SiteInfo from "@/components/Home/SiteInfo/SiteInfo";
+import Testimonials from "@/components/Home/Testimonials/Testimonials";
 import { Inter } from "next/font/google";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -19,8 +21,14 @@ export default function Home() {
         <div>
           <Hero />
         </div>
-        <div>
+        <div className="px-6">
           <DesignSection />
+        </div>
+        <div className="px-6">
+          <SiteInfo />
+        </div>
+        <div className="px-6">
+          <Testimonials />
         </div>
       </div>
     </Main>

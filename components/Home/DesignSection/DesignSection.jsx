@@ -1,6 +1,8 @@
 import DesignCategorySection from "../DesignCategorySection/DesignCategorySection";
 import DesignCategories from "./DesignCategories/DesignCategories";
 import DesignTags from "./DesignTags/DesignTags";
+import StockImageSites from "./StockImageSites/StockImageSites";
+import UserAnalytics from "./UserAnalytics/UserAnalytics";
 
 const DesignSection = () => {
   return (
@@ -19,8 +21,9 @@ const DesignSection = () => {
           <DesignCategorySection />
         </div>
             {/* User analytis */}
-        <div className="w-3/12">
-          <div className="h-[300px] rounded-md border"></div>
+        <div className="w-3/12 space-y-4">
+          <UserAnalytics />
+          <StockImageSites />
         </div>
       </div>
     </div>

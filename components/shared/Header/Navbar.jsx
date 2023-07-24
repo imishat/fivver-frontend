@@ -3,7 +3,7 @@ import { BsCart4, BsSearch } from 'react-icons/bs';
 
 const Navbar = () => {
   return (
-    <div className="py-2 bg-black container mx-auto">
+    <div className="py-2 bg-black text-white container mx-auto">
       {/* Navbar */}
       <div className="flex justify-between px-4 items-center ">
         {/* Logo */}
