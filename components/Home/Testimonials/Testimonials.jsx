@@ -1,4 +1,5 @@
 import { BsStarFill } from "react-icons/bs";
+import Reviews from "./Reviews";
 
 const Testimonials = () => {
   return (
@@ -9,8 +10,8 @@ const Testimonials = () => {
           Testimonials
         </h2>
       </div>
-      {/* Rating counts */}
-      <div className="h-96 bg-[#E7F4FC] rounded-md px-4">
+      <div className="h-full bg-[#E7F4FC] rounded-md px-4">
+        {/* Rating counts */}
         <div className="flex justify-around pt-12 text-xl py-5 ">
           <h3 className="font-bold">29 reviews of this site</h3>
           <div className="flex gap-2 items-center">
@@ -26,64 +27,84 @@ const Testimonials = () => {
         </div>
         {/*  Stars */}
         <div className="grid grid-cols-5 gap-4">
-        <div className="text-center font-bold space-y-2 bg-white py-4 rounded-md">
+          <div className="text-center font-bold space-y-2 bg-white py-4 rounded-md">
             <h2 className="text-xl font-bold">5 Stars</h2>
             <div className="flex gap-2 items-center justify-center text-xl">
-            <BsStarFill color="#1781CB" />
+              <BsStarFill color="#1781CB" />
               <BsStarFill color="#1781CB" />
               <BsStarFill color="#1781CB" />
               <BsStarFill color="#1781CB" />
               <BsStarFill color="#1781CB" />
             </div>
             <p>(25)</p>
+          </div>
+          <div className="text-center font-bold space-y-2 bg-white py-4 rounded-md">
+            <h2 className="text-xl font-bold">5 Stars</h2>
+            <div className="flex gap-2 items-center justify-center text-xl">
+              <BsStarFill color="#1781CB" />
+              <BsStarFill color="#1781CB" />
+              <BsStarFill color="#1781CB" />
+              <BsStarFill color="#1781CB" />
+              <BsStarFill color="#C8E3F6" />
+            </div>
+            <p>(25)</p>
+          </div>
+          <div className="text-center font-bold space-y-2 bg-white py-4 rounded-md">
+            <h2 className="text-xl font-bold">5 Stars</h2>
+            <div className="flex gap-2 items-center justify-center text-xl">
+              <BsStarFill color="#1781CB" />
+              <BsStarFill color="#1781CB" />
+              <BsStarFill color="#1781CB" />
+              <BsStarFill color="#C8E3F6" />
+              <BsStarFill color="#C8E3F6" />
+            </div>
+            <p>(25)</p>
+          </div>
+          <div className="text-center font-bold space-y-2 bg-white py-4 rounded-md">
+            <h2 className="text-xl font-bold">5 Stars</h2>
+            <div className="flex gap-2 items-center justify-center text-xl">
+              <BsStarFill color="#1781CB" />
+              <BsStarFill color="#1781CB" />
+              <BsStarFill color="#C8E3F6" />
+              <BsStarFill color="#C8E3F6" />
+              <BsStarFill color="#C8E3F6" />
+            </div>
+            <p>(25)</p>
+          </div>
+          <div className="text-center font-bold space-y-2 bg-white py-4 rounded-md">
+            <h2 className="text-xl font-bold">5 Stars</h2>
+            <div className="flex gap-2 items-center justify-center text-xl">
+              <BsStarFill color="#1781CB" />
+              <BsStarFill color="#C8E3F6" />
+              <BsStarFill color="#C8E3F6" />
+              <BsStarFill color="#C8E3F6" />
+              <BsStarFill color="#C8E3F6" />
+            </div>
+            <p>(25)</p>
+          </div>
         </div>
-        <div className="text-center font-bold space-y-2 bg-white py-4 rounded-md">
-            <h2 className="text-xl font-bold">5 Stars</h2>
-            <div className="flex gap-2 items-center justify-center text-xl">
-            <BsStarFill color="#1781CB" />
-              <BsStarFill color="#1781CB" />
-              <BsStarFill color="#1781CB" />
-              <BsStarFill color="#1781CB" />
-              <BsStarFill color="#C8E3F6" />
+        <div>
+          {/* Sort area */}
+          <div className="my-6">
+            <div className="flex w-full items-center text-xl border-b py-5 border-[#242627]">
+              <p className="font-bold w-44">Sort By</p>
+             <div className="justify-between flex  w-full px-6">
+             <button className="border bg-[#FFEFEF] px-4 py-1 border-[#8B8588]  rounded-md">
+                Most Relevant
+              </button>
+              <button className="px-4 py-1">Most Relevant</button>
+              <button className="px-4 py-1">
+                Delevey Images <span>(23)</span>
+              </button>
+             </div>
             </div>
-            <p>(25)</p>
-        </div>
-        <div className="text-center font-bold space-y-2 bg-white py-4 rounded-md">
-            <h2 className="text-xl font-bold">5 Stars</h2>
-            <div className="flex gap-2 items-center justify-center text-xl">
-            <BsStarFill color="#1781CB" />
-              <BsStarFill color="#1781CB" />
-              <BsStarFill color="#1781CB" />
-              <BsStarFill color="#C8E3F6" />
-              <BsStarFill color="#C8E3F6" />
+            {/* User reviews */}
+            <div>
+                <Reviews />
             </div>
-            <p>(25)</p>
-        </div>
-        <div className="text-center font-bold space-y-2 bg-white py-4 rounded-md">
-            <h2 className="text-xl font-bold">5 Stars</h2>
-            <div className="flex gap-2 items-center justify-center text-xl">
-            <BsStarFill color="#1781CB" />
-              <BsStarFill color="#1781CB" />
-              <BsStarFill color="#C8E3F6" />
-              <BsStarFill color="#C8E3F6" />
-              <BsStarFill color="#C8E3F6" />
-            </div>
-            <p>(25)</p>
-        </div>
-        <div className="text-center font-bold space-y-2 bg-white py-4 rounded-md">
-            <h2 className="text-xl font-bold">5 Stars</h2>
-            <div className="flex gap-2 items-center justify-center text-xl">
-            <BsStarFill color="#1781CB" />
-              <BsStarFill color="#C8E3F6" />
-              <BsStarFill color="#C8E3F6" />
-              <BsStarFill color="#C8E3F6" />
-              <BsStarFill color="#C8E3F6" />
-            </div>
-            <p>(25)</p>
+          </div>
         </div>
       </div>
-      </div>
-      
     </div>
   );
 };
