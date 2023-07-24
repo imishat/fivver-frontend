@@ -1,8 +1,66 @@
+import Link from "next/link";
+import { BsFacebook } from "react-icons/bs";
 
 const Footer = () => {
     return (
-        <div>
-            Footer
+        <div> 
+            {/* Email */}
+            <div className="bg-[#1781CB] py-2 text-2xl text-white flex gap-4 px-6"> 
+                <p>Email: </p> <p>mahfujurrahman535@gmail.com</p>
+            </div>
+            {/* Main Footer */}
+            <div className="bg-black">
+
+           
+            <div className="flex justify-between text-white border-b px-6 mx-5">
+                <div className="flex flex-col space-y-3">
+                    <div className="text-center">
+                        <p className="text-3xl uppercase font-bold">Logo</p>
+                        <h2 className="text-lg font-bold">mahfujurrahman535</h2>
+                        <p>Graphic Designer</p>
+                    </div>
+                    {/* Social icons */}
+                    <div>
+                        <ul className="flex gap-2 items-center">
+                            <li><a className="border-2 rounded-full p-2 border-blue-300 bg-white text-blue-600 inline-block" href="#"><BsFacebook /></a></li>
+                            <li><a className="border-2 rounded-full p-2 border-blue-300 bg-white text-blue-600 inline-block" href="#"><BsFacebook /></a></li>
+                            <li><a className="border-2 rounded-full p-2 border-blue-300 bg-white text-blue-600 inline-block" href="#"><BsFacebook /></a></li>
+                            <li><a className="border-2 rounded-full p-2 border-blue-300 bg-white text-blue-600 inline-block" href="#"><BsFacebook /></a></li>
+                            <li><a className="border-2 rounded-full p-2 border-blue-300 bg-white text-blue-600 inline-block" href="#"><BsFacebook /></a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div className="py-3">
+                    <ul>
+                        <li>
+                            <Link href={'#'}>About</Link>
+                        </li>
+                        <li>
+                            <Link href={'#'}>Designs</Link>
+                        </li>
+                        <li>
+                            <Link href={'#'}>Companies</Link>
+                        </li>
+                        <li>
+                            <Link href={'#'}>Price List</Link>
+                        </li>
+                        <li>
+                            <Link href={'#'}>Project</Link>
+                        </li>
+                        <li>
+                            <Link href={'#'}>Affiliate</Link>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div className=" text-white px-6 py-4">
+                <div className="flex gap-4 items-center">
+                    <Link href={'#'}>Terms and Conditions</Link>
+                    |
+                    <Link href={'#'}>Privacy Policy</Link>
+                </div>
+            </div>
+            </div>
         </div>
     );
 };

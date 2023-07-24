@@ -104,7 +104,11 @@ const Testimonials = () => {
             </div>
           </div>
         </div>
+       
       </div>
+      <div>
+            <h2 className="text-3xl">100% Satisfaction Guaranteed</h2>
+        </div>
     </div>
   );
 };
