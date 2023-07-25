@@ -45,8 +45,8 @@ export default function DesignCategorySectionCard () {
                 
                  <div  >
                          {
-                             [2,2,2,2,2,2].map(item=>
-                                <SwiperSlide className='flex !gap-2' >
+                             [2,2,2,2,2,2].map((item,i)=>
+                                <SwiperSlide key={i} className='flex !gap-2' >
                                     <CompanyCard />
                                 </SwiperSlide>
                                 )

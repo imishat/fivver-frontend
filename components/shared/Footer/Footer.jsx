@@ -12,10 +12,12 @@ const Footer = () => {
             <div className="bg-black">
 
            
-            <div className="flex justify-between text-white border-b px-6 mx-5">
+            <div className="flex text-white items-center border-b pb-3 px-6 mx-5">
                 <div className="flex flex-col space-y-3">
                     <div className="text-center">
-                        <p className="text-3xl uppercase font-bold">Logo</p>
+                       <div className="flex justify-center">
+                       <img src="./images/logo.png" className="w-20" alt="" />
+                       </div>
                         <h2 className="text-lg font-bold">mahfujurrahman535</h2>
                         <p>Graphic Designer</p>
                     </div>
@@ -30,20 +32,30 @@ const Footer = () => {
                         </ul>
                     </div>
                 </div>
-                <div className="py-3">
-                    <ul>
+                <div className="py-3 w-8/12 mx-auto">
+                    <ul className="flex w-full justify-between">
                         <li>
-                            <Link href={'#'}>About</Link>
+                            <Link href={'#'}>Home</Link>
                         </li>
+                       
                         <li>
                             <Link href={'#'}>Designs</Link>
                         </li>
                         <li>
-                            <Link href={'#'}>Companies</Link>
-                        </li>
-                        <li>
                             <Link href={'#'}>Price List</Link>
                         </li>
+                        <li>
+                            <Link href={'#'}>Contact</Link>
+                        </li>
+                        </ul>
+                        <ul className="flex justify-between">
+                        <li>
+                            <Link href={'#'}>About</Link>
+                        </li>
+                        <li>
+                            <Link href={'#'}>Companies</Link>
+                        </li>
+                       
                         <li>
                             <Link href={'#'}>Project</Link>
                         </li>
@@ -51,6 +63,8 @@ const Footer = () => {
                             <Link href={'#'}>Affiliate</Link>
                         </li>
                     </ul>
+                <div className="w-12 my-6 border-b"></div>
+                <p className="text-xl">Email: <span>example@gmail.com</span></p>
                 </div>
             </div>
             <div className=" text-white px-6 py-4">
