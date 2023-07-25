@@ -86,9 +86,9 @@ const Testimonials = () => {
         <div>
           {/* Sort area */}
           <div className="my-6">
-            <div className="flex w-full items-center text-xl border-b py-5 border-[#242627]">
+            <div className="md:flex w-full items-center text-xl border-b py-5 border-[#242627]">
               <p className="font-bold w-44">Sort By</p>
-             <div className="justify-between flex  w-full px-6">
+             <div className="justify-between md:flex  w-full px-6">
              <button className="border bg-[#FFEFEF] px-4 py-1 border-[#8B8588]  rounded-md">
                 Most Relevant
               </button>

@@ -8,9 +8,9 @@ import 'swiper/css/navigation';
 import './styles.module.css';
 
 // import required modules
+import Card from '@/components/Card/Card';
 import Link from 'next/link';
 import { Navigation } from 'swiper/modules';
-import CompanyCard from './CompanyCard';
 
 export default function DesignCategorySectionCard () {
     return (
@@ -47,7 +47,7 @@ export default function DesignCategorySectionCard () {
                          {
                              [2,2,2,2,2,2].map((item,i)=>
                                 <SwiperSlide key={i} className='flex !gap-2' >
-                                    <CompanyCard />
+                                    <Card />
                                 </SwiperSlide>
                                 )
                         }

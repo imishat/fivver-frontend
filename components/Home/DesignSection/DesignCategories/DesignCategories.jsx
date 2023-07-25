@@ -4,7 +4,7 @@ const DesignCategories = () => {
         <div className="border-b-2 border-blue-400 ">
             <div className="my-6">
                 {/* Design card */}
-                <ul className='flex px-8 gap-2 flex-wrap'>
+                <ul className='flex sm:px-8 gap-2 flex-wrap'>
                     <li><button className='bg-blue-300 text-black px-3 rounded-full'>Buisness Card</button></li>
                     <li><button className='bg-blue-300 text-black px-3 rounded-full'>Door Hanger</button></li>
                     <li><button className='bg-blue-300 text-black px-3 rounded-full'>Flyer</button></li>

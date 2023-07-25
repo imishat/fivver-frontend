@@ -5,7 +5,7 @@ const Footer = () => {
     return (
         <div> 
             {/* Email */}
-            <div className="bg-[#1781CB] py-2 text-2xl text-white flex gap-4 px-6"> 
+            <div className="bg-[#1781CB] py-2 md:text-2xl text-white flex gap-4 px-6"> 
                 <p>Email: </p> <p>mahfujurrahman535@gmail.com</p>
             </div>
             {/* Main Footer */}
@@ -23,7 +23,7 @@ const Footer = () => {
                     </div>
                     {/* Social icons */}
                     <div>
-                        <ul className="flex gap-2 items-center">
+                        <ul className="md:flex gap-2 items-center">
                             <li><a className="border-2 rounded-full p-2 border-blue-300 bg-white text-blue-600 inline-block" href="#"><BsFacebook /></a></li>
                             <li><a className="border-2 rounded-full p-2 border-blue-300 bg-white text-blue-600 inline-block" href="#"><BsFacebook /></a></li>
                             <li><a className="border-2 rounded-full p-2 border-blue-300 bg-white text-blue-600 inline-block" href="#"><BsFacebook /></a></li>
@@ -33,7 +33,7 @@ const Footer = () => {
                     </div>
                 </div>
                 <div className="py-3 w-8/12 mx-auto">
-                    <ul className="flex w-full justify-between">
+                    <ul className="md:flex w-full justify-between">
                         <li>
                             <Link href={'#'}>Home</Link>
                         </li>
@@ -48,7 +48,7 @@ const Footer = () => {
                             <Link href={'#'}>Contact</Link>
                         </li>
                         </ul>
-                        <ul className="flex justify-between">
+                        <ul className="md:flex justify-between">
                         <li>
                             <Link href={'#'}>About</Link>
                         </li>
@@ -64,7 +64,7 @@ const Footer = () => {
                         </li>
                     </ul>
                 <div className="w-12 my-6 border-b"></div>
-                <p className="text-xl">Email: <span>example@gmail.com</span></p>
+                <p className="md:text-xl">Email: <span>example@gmail.com</span></p>
                 </div>
             </div>
             <div className=" text-white px-6 py-4">
