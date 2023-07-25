@@ -17,7 +17,7 @@ export default function DesignCategorySectionCard () {
         <div className="border px-4 pb-6 w-full h-64 rounded-md"> 
         <div className="flex py-1 justify-between">
                     <h2 className="font-bold">Door Hanger Design</h2>
-                  <Link className="text-blue-500 font-bold" href={'#'}>All Design</Link>
+                  <Link className="text-blue-500 font-bold" href={'#'}>All Designs</Link>
                  </div>
         <Swiper
           slidesPerView={1}
