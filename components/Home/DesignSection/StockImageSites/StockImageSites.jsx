@@ -6,7 +6,7 @@ const StockImageSites = () => {
         <div className="bg-blue-400 text-white px-3 py-2">
             <p>I've added links to a few stock image sites below. You can choose images from any of the sites linked below for your design.</p>
         </div>
-        <div className="p-2 space-y-3">
+        <div className="p-2 space-y-3 grid sm:grid-cols-2 md:grid-cols-1 gap-2">
             {
                 [1,1,1,1,1].map((item,i)=><StockSiteCard key={i} />)
             }

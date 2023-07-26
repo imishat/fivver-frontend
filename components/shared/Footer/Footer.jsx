@@ -12,8 +12,8 @@ const Footer = () => {
             <div className="bg-black">
 
            
-            <div className="flex text-white items-center border-b pb-3 px-6 mx-5">
-                <div className="flex flex-col space-y-3">
+            <div className="flex text-white justify-between items-center border-b pb-3 md:px-6 md:mx-5">
+                <div className="flex flex-col w-1/2 space-y-3">
                     <div className="text-center">
                        <div className="flex justify-center">
                        <img src="./images/logo.png" className="w-20" alt="" />
@@ -22,8 +22,8 @@ const Footer = () => {
                         <p>Graphic Designer</p>
                     </div>
                     {/* Social icons */}
-                    <div>
-                        <ul className="md:flex gap-2 items-center">
+                    <div className="flex justify-center">
+                        <ul className="md:flex grid grid-cols-3 md:gap-2 gap-1 items-center">
                             <li><a className="border-2 rounded-full p-2 border-blue-300 bg-white text-blue-600 inline-block" href="#"><BsFacebook /></a></li>
                             <li><a className="border-2 rounded-full p-2 border-blue-300 bg-white text-blue-600 inline-block" href="#"><BsFacebook /></a></li>
                             <li><a className="border-2 rounded-full p-2 border-blue-300 bg-white text-blue-600 inline-block" href="#"><BsFacebook /></a></li>
@@ -32,8 +32,8 @@ const Footer = () => {
                         </ul>
                     </div>
                 </div>
-                <div className="py-3 w-8/12 mx-auto">
-                    <ul className="md:flex w-full justify-between">
+                <div className="py-3 w-1/2 mx-auto">
+                    <ul className="grid grid-cols-2 md:grid-cols-4 w-full justify-between">
                         <li>
                             <Link href={'#'}>Home</Link>
                         </li>
@@ -47,8 +47,6 @@ const Footer = () => {
                         <li>
                             <Link href={'#'}>Contact</Link>
                         </li>
-                        </ul>
-                        <ul className="md:flex justify-between">
                         <li>
                             <Link href={'#'}>About</Link>
                         </li>

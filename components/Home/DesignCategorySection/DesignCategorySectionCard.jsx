@@ -24,8 +24,8 @@ export default function DesignCategorySectionCard () {
           spaceBetween={10}
           navigation={true}
           breakpoints={{
-            640: {
-              slidesPerView: 1,
+            440: {
+              slidesPerView: 2,
               spaceBetween: 3,
             },
             768: {
