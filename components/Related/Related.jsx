@@ -1,6 +1,7 @@
-import Card from "../Card/Card";
 
-const Related = () => {
+import Card from "../Card/Card";
+const Related = ({ currentItems }) => {
+    const items = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
     return (
         <div className="bg-[#F2F9FF] p-8 h-full">
             <div className="flex justify-center">

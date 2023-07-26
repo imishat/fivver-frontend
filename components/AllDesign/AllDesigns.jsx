@@ -1,11 +1,11 @@
 import Card from "@/components/Card/Card";
+import Pagination from "rc-pagination";
 import { useState } from "react";
-import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
 import Related from "../Related/Related";
-
 const AllDesigns = () => {
     // pagination
     const [currentPage,setCurrentPage] = useState(0)
+    console.log(currentPage)
     //  count
     const pageCount = 10
   return (
@@ -34,21 +34,24 @@ const AllDesigns = () => {
       </div>
       {/* pagination */}
       <div className="flex justify-center my-6">
+      <Pagination onChange={(e)=>setCurrentPage(e)} className="flex gap-2 px-3 py-1 " total={500} defaultPageSize={3} />
+      </div>
+      {/* <div className="flex justify-center my-6">
         <div>
         <div className="flex flex-wrap items-center gap-2">
                 {/* Prev btn */}
-                <button disabled={currentPage<=0} onClick={()=>setCurrentPage(currentPage-1)} className={`p-2 rounded-full border disabled:text-[#DDEFFE] text-[#1C8BDC]`}><MdKeyboardArrowLeft size={30} /></button>
+                {/* <button disabled={currentPage<=0} onClick={()=>setCurrentPage(currentPage-1)} className={`p-2 rounded-full border disabled:text-[#DDEFFE] text-[#1C8BDC]`}><MdKeyboardArrowLeft size={30} /></button> */}
                   {/* Page */}
-          {[...Array(pageCount).keys()].map((item, i) => 
+          {/* {[...Array(pageCount).keys()].map((item, i) => 
                 <button key={i} onClick={()=>setCurrentPage(i)} className={`px-3 py-1 ${currentPage===i ? 'bg-blue-200':''}`}>{item+1}</button>
                
-          )}
+          )} */}
            {/* Next btn */}
-            <button disabled={currentPage===pageCount-1} onClick={()=>setCurrentPage(currentPage+1)} className="p-2 rounded-full border disabled:text-[#DDEFFE] text-[#1C8BDC]"><MdKeyboardArrowRight size={30} /></button>
+            {/* <button disabled={currentPage===pageCount-1} onClick={()=>setCurrentPage(currentPage+1)} className="p-2 rounded-full border disabled:text-[#DDEFFE] text-[#1C8BDC]"><MdKeyboardArrowRight size={30} /></button>
             </div>
-        </div>
+        </div> */}
         
-      </div>
+      {/* </div> */} 
       {/* Related */}
       <Related />
     </div>

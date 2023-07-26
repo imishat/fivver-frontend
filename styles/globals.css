@@ -14,3 +14,57 @@
   padding: 5px 9px;
   border-radius: 100%;
 }
+
+/*  pagination css */
+/* Prev Disabled */
+.rc-pagination-disabled:after {
+  border-radius: 100%;
+  color: #a2d1f2;
+}
+/* Prev btn */
+.rc-pagination-prev {
+  border-radius: 100%;
+  color: #1b8bdc !important;
+}
+/* next btn */
+.rc-pagination-next {
+  border-radius: 100%;
+  color: #1b8bdc !important;
+}
+/* Prev btn after */
+.rc-pagination-prev::after {
+  padding: 6px 12px;
+  content: "<";
+  height: 20px;
+  width: 20px;
+  border: 1px solid #aaa;
+  border-radius: 100%;
+}
+/* Next btn after */
+.rc-pagination-next::after {
+  padding: 6px 12px;
+
+  border: 1px solid #aaa;
+  content: ">";
+  border-radius: 100%;
+}
+
+/* Active page */
+li.rc-pagination-item.rc-pagination-item-active {
+  background: #a2d1f2;
+  padding: 4px 7px;
+}
+/* Normal page */
+ul.rc-pagination.flex.gap-2.px-3.py-1 li {
+  padding: 4px 7px;
+}
+/* pagination-jump-next */
+li.rc-pagination-jump-next:after {
+  content: "...";
+  color: #000;
+}
+/* pagination-jump-prev */
+li.rc-pagination-jump-prev:after {
+  content: "...";
+  color: #000;
+}
