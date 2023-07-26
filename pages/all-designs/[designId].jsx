@@ -4,7 +4,7 @@ import AllDesigns from "@/components/AllDesign/AllDesigns";
 
 const designId = () => {
     return (
-        <Main title='All Designs'>
+        <Main title='Door Hanger Design'>
            <AllDesigns />
         </Main>
     );

@@ -13,7 +13,7 @@ const Footer = () => {
 
            
             <div className="flex text-white justify-between items-center border-b pb-3 md:px-6 md:mx-5">
-                <div className="flex flex-col w-1/2 space-y-3">
+                <div className="flex flex-col w-4/12 space-y-3">
                     <div className="text-center">
                        <div className="flex justify-center">
                        <img src="./images/logo.png" className="w-20" alt="" />
@@ -32,7 +32,7 @@ const Footer = () => {
                         </ul>
                     </div>
                 </div>
-                <div className="py-3 w-1/2 mx-auto">
+                <div className="py-3 w-8/12 mx-auto">
                     <ul className="grid grid-cols-2 md:grid-cols-4 w-full justify-between">
                         <li>
                             <Link href={'#'}>Home</Link>

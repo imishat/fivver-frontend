@@ -68,3 +68,6 @@ li.rc-pagination-jump-prev:after {
   content: "...";
   color: #000;
 }
+li.rc-pagination-options {
+  display: none;
+}
