@@ -46,7 +46,7 @@ const Navbar = () => {
               <Link className="py-2 hover:border-b hover:border-white border-b border-transparent duration-300 lg:px-3 inline-block" href={'#'}>Contact</Link>
             </li>
             <li>
-              <Link className="py-2 hover:border-b hover:border-white border-b border-transparent duration-300 lg:px-3 inline-block" href={'#'}>Join</Link>
+              <Link className="py-2 hover:border-b hover:border-white border-b border-transparent duration-300 lg:px-3 inline-block" href={'/join'}>Join</Link>
             </li>
           </ul>
         </div>

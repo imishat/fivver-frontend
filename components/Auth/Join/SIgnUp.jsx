@@ -117,14 +117,14 @@ const SIgnUp = ({ setToggle }) => {
         </div>
         {/* Confirm Password */}
         <div>
-          <label htmlFor="password" className="px-2">
+          <label htmlFor="confirmPassword" className="px-2">
             Confirm Password
           </label>
           <input
             {...register("confirmPassword", { required: true })}
             className="px-4 py-2 bg-white border border-gray-300 text-black w-full"
             type="password"
-            id="password"
+            id="confirmPassword"
           />
           {/* Handle input error */}
           {errors.confirmPassword && (
