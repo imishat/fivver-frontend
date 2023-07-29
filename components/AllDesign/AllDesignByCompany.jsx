@@ -1,21 +1,33 @@
 import Card from "@/components/Card/Card";
+import axios from "axios";
 import Pagination from "rc-pagination";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Related from "../Related/Related";
-const AllDesigns = () => {
+const AllDesignByCompany = () => {
     // pagination
     const [currentPage,setCurrentPage] = useState()
     console.log(currentPage)
     // Count
     const count  = 10
+
+
+    // import fake data
+    const [designs,setDesigns] = useState([])
+    useEffect(()=>{
+      axios.get(`/company.json`)
+      .then(res=>{
+        setDesigns(res.data)
+      })
+    },[])
+    console.log(designs)
   return (
     <div>
       {/* Design Title */}
       <div className="h-full w-full relative">
-        <img className="w-full h-full" src="/images/alldesign.png" alt="" />
+        <img className="w-full h-full bg-[#FEF2F2]" src="/images/alldesign.png" alt="" />
         <div className="flex justify-center items-center  text-black ">
           <h3 className="absolute text-[#1C8CDD] md:text-4xl sm:text-2xl text-xl top-1/2 font-bold text-center ">
-            Door Hanger Designs
+           Pressure And Soft Washing <br /> Door Hanger Designs
           </h3>
         </div>
       </div>
@@ -28,8 +40,8 @@ const AllDesigns = () => {
         </div>
       </div>
       <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 px-4 gap-4">
-        {[1, 1, 1, 1, 1, 1, 1, 1].map((item, i) => (
-          <Card key={i} />
+      {designs.map((data, i) => (
+          <Card data={data} key={i} />
         ))}
       </div>
       {/* pagination */}
@@ -43,4 +55,4 @@ const AllDesigns = () => {
   );
 };
 
-export default AllDesigns;
+export default AllDesignByCompany;

@@ -9,15 +9,26 @@ import './styles.module.css';
 
 // import required modules
 import Card from '@/components/Card/Card';
+import axios from 'axios';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 import { Navigation } from 'swiper/modules';
 
 export default function DesignCategorySectionCard () {
+     // import fake data
+     const [designs,setDesigns] = useState([])
+     useEffect(()=>{
+       axios.get(`/design.json`)
+       .then(res=>{
+         setDesigns(res.data)
+       })
+     },[])
+     console.log(designs)
     return (
         <div className="border px-4 pb-6 w-full h-64 rounded-md"> 
         <div className="flex py-1 justify-between">
                     <h2 className="font-bold">Door Hanger Design</h2>
-                  <Link className="text-blue-500 font-bold" href={'/all-designs/door-hanger-design'}>All Designs</Link>
+                  <Link className="text-blue-500 font-bold" href={'/designs/category/door-hanger-design'}>All Designs</Link>
                  </div>
         <Swiper
           slidesPerView={1}
@@ -45,9 +56,9 @@ export default function DesignCategorySectionCard () {
                 
                  <div  >
                          {
-                             [2,2,2,2,2,2].map((item,i)=>
+                            designs.map((data,i)=>
                                 <SwiperSlide key={i} className='flex !gap-2' >
-                                    <Card />
+                                    <Card data={data} />
                                 </SwiperSlide>
                                 )
                         }

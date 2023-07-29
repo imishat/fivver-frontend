@@ -1,11 +1,11 @@
 import Main from "@/Layout/Main";
-import AllDesigns from "@/components/AllDesign/AllDesigns";
+import AllDesignByCatetgory from "@/components/AllDesign/AllDesignByCatetgory";
 
 
 const designId = () => {
     return (
         <Main title='Door Hanger Design'>
-           <AllDesigns />
+           <AllDesignByCatetgory />
         </Main>
     );
 };

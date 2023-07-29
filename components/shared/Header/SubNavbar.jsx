@@ -14,7 +14,7 @@ const SubNavbar = () => {
           <Link className="sm:py-2 py-1 hover:border-b hover:border-white border-b border-transparent duration-300 px-5 w-full inline-block" href={'#'}>Companies</Link>
         </li>
         <li>
-          <Link className="sm:py-2 py-1 hover:border-b hover:border-white border-b border-transparent duration-300 px-5 w-full inline-block" href={'#'}>Price List</Link>
+          <Link className="sm:py-2 py-1 hover:border-b hover:border-white border-b border-transparent duration-300 px-5 w-full inline-block" href={'/price-list'}>Price List</Link>
         </li>
         <li>
           <Link className="sm:py-2 py-1 hover:border-b hover:border-white border-b border-transparent duration-300 px-5 w-full inline-block" href={'#'}>Project</Link>

@@ -21,7 +21,7 @@ const Navbar = () => {
         </div>
         {/* Logo */}
        
-          <img className="md:w-20" src="./images/logo.png" alt="" />
+          <img className="md:w-20" src="/images/logo.png" alt="" />
           </div>
         {/* Search box */}
         <div className={`relative ${showSearch?' top-10 absolute md:static w-full left-0':'hidden md:flex'} flex items-center md:w-64 lg:w-80`}>
@@ -37,7 +37,7 @@ const Navbar = () => {
               <Link className="py-2 hover:border-b hover:border-white border-b border-transparent duration-300 lg:px-3 inline-block" href={'/'}>Home</Link>
             </li>
             <li>
-              <Link className="py-2 hover:border-b hover:border-white border-b border-transparent duration-300 lg:px-3 inline-block" href={'/all-designs'}>Messages</Link>
+              <Link className="py-2 hover:border-b hover:border-white border-b border-transparent duration-300 lg:px-3 inline-block" href={'#'}>Messages</Link>
             </li>
             <li>
               <Link className="py-2 hover:border-b hover:border-white border-b border-transparent duration-300 lg:px-3 inline-block" href={'#'}>Notifications</Link>
