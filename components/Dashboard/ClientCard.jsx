@@ -2,17 +2,17 @@ import Link from "next/link";
 
 const ClientCard = () => {
     return (
-        <div className="flex justify-between items-center border border-gray-400 p-4">
-            <div className="flex items-center gap-4">
-                <div className="w-24 h-16">
-                    <img className="w-full h-full" src="https://dummyimage.com/100x70" alt="" />
+        <div className="sm:flex justify-between bg-[#F4F9FF] items-center border border-gray-400 p-4">
+            <div className="sm:flex items-center gap-4">
+                <div className="sm:w-24 h-44 sm:h-16 w-full">
+                    <img className="object-cover w-full h-full" src="https://dummyimage.com/100x70" alt="" />
                 </div>
-                <div className="flex items-center gap-2">
-                    <img className="w-8 h-8 rounded-full" src="https://dummyimage.com/20x20" alt="" />
+                <div className="flex py-3 sm:py-0 items-center gap-2">
+                    <img className="object-cover w-8 h-8 rounded-full" src="https://dummyimage.com/20x20" alt="" />
                     <p className="font-bold">Client Name</p>
                 </div>
             </div>
-            <div className=" w-6/12">
+            <div className=" sm:w-6/12">
                 <ul className="flex justify-between w-full items-center">
                     <li className="text-center">
                         <p>Price</p>
@@ -27,7 +27,7 @@ const ClientCard = () => {
                         <span className="font-bold text-lg text-[#DA560A]">Revision</span>
                     </li>
                     <li>
-                        <Link className="font-bold text-lg text-[#1C8DDD]" href={'#'}>Price</Link>
+                        <Link className="font-bold text-lg text-[#1C8DDD]" href={'#'}>View</Link>
                     </li>
                 </ul>
             </div>
