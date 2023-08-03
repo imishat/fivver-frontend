@@ -13,6 +13,11 @@ import { Navigation } from 'swiper/modules';
 import CompanyCard from './CompanyCard';
 
 export default function DesignCategorySectionCard () {
+  // image size shoud be v 2000px h 2700 
+  //1st page desing catagory
+  // company  catagory 
+  // All Design shoud be all company sm  titel desing
+  // if user click the desing page show the paticolur desin in the conpany 
     return (
         <div className="border px-4 pb-6 w-full h-64 rounded-md"> 
         <div className="flex py-1 justify-between">
