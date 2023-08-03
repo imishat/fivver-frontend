@@ -23,7 +23,6 @@ export default function DesignCategorySectionCard () {
          setDesigns(res.data)
        })
      },[])
-     console.log(designs)
     return (
         <div className="border px-4 pb-6 w-full h-64 rounded-md"> 
         <div className="flex py-1 justify-between">
