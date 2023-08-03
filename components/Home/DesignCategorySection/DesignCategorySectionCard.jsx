@@ -8,29 +8,34 @@ import 'swiper/css/navigation';
 import './styles.module.css';
 
 // import required modules
+import Card from '@/components/Card/Card';
+import axios from 'axios';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 import { Navigation } from 'swiper/modules';
-import CompanyCard from './CompanyCard';
 
 export default function DesignCategorySectionCard () {
-  // image size shoud be v 2000px h 2700 
-  //1st page desing catagory
-  // company  catagory 
-  // All Design shoud be all company sm  titel desing
-  // if user click the desing page show the paticolur desin in the conpany 
+     // import fake data
+     const [designs,setDesigns] = useState([])
+     useEffect(()=>{
+       axios.get(`/design.json`)
+       .then(res=>{
+         setDesigns(res.data)
+       })
+     },[])
     return (
         <div className="border px-4 pb-6 w-full h-64 rounded-md"> 
         <div className="flex py-1 justify-between">
                     <h2 className="font-bold">Door Hanger Design</h2>
-                  <Link className="text-blue-500 font-bold" href={'#'}>All Design</Link>
+                  <Link className="text-blue-500 font-bold" href={'/designs/category/door-hanger-design'}>All Designs</Link>
                  </div>
         <Swiper
           slidesPerView={1}
           spaceBetween={10}
           navigation={true}
           breakpoints={{
-            640: {
-              slidesPerView: 1,
+            440: {
+              slidesPerView: 2,
               spaceBetween: 3,
             },
             768: {
@@ -50,9 +55,9 @@ export default function DesignCategorySectionCard () {
                 
                  <div  >
                          {
-                             [2,2,2,2,2,2].map(item=>
-                                <SwiperSlide className='flex !gap-2' >
-                                    <CompanyCard />
+                            designs.map((data,i)=>
+                                <SwiperSlide key={i} className='flex !gap-2' >
+                                    <Card data={data} />
                                 </SwiperSlide>
                                 )
                         }
@@ -64,4 +69,3 @@ export default function DesignCategorySectionCard () {
         
     );
 };
-

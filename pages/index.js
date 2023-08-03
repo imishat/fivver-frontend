@@ -21,13 +21,13 @@ export default function Home() {
         <div>
           <Hero />
         </div>
-        <div className="px-6">
+        <div className="sm:px-6 px-1">
           <DesignSection />
         </div>
-        <div className="px-6">
+        <div className="sm:px-6 px-1">
           <SiteInfo />
         </div>
-        <div className="px-6">
+        <div className="sm:px-6 px-1">
           <Testimonials />
         </div>
       </div>

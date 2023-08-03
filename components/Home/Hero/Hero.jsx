@@ -5,7 +5,7 @@ const Hero = () => {
         <img src="./images/hero.png" className="w-full " alt="" />
       </div>
       <div className="bg-rose-100 flex justify-center text-center py-4">
-        <div className="text-2xl font-semibold">
+        <div className="md:text-2xl font-semibold">
           <p className="text-red-800">
             I do not own the photos used in my designs.
           </p>
