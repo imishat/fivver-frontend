@@ -1,9 +1,9 @@
 import '@/styles/globals.css'
-import { QueryClientProvider } from '@tanstack/react-query'
+import { QueryClientProvider } from '../components/provider/QueryClientProvider'
 
 
 export default function App({ Component, pageProps }) {
-  let myObject = { mount: true}
+  let myObject = { mount: true ,}
 
 if (myObject && myObject.mount) {
   // Do something with myObject.mount
