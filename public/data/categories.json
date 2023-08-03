@@ -1,0 +1,7 @@
+[
+  { "label": "Buisness Card", "value": "buisness-card" },
+  { "label": "Door Hanger", "value": "door-hanger" },
+  { "label": "Flyer", "value": "flyer" },
+  { "label": "Postcard", "value": "postcard" },
+  { "label": "Billboard", "value": "billboard" }
+]

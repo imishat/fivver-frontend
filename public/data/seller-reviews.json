@@ -1,0 +1,42 @@
+[
+  {
+    "id": "1",
+    "profileImage": "https://dummyimage.com/50x50",
+    "name": "Mahfujurrahman123",
+    "review": "Great Experience! Great Buyer!! Thank you very much!!!",
+    "date": "2 hours ago",
+    "stars": "5"
+  },
+  {
+    "id": "2",
+    "profileImage": "https://dummyimage.com/50x50",
+    "name": "Mahfujurrahman123",
+    "review": "Great experience! Great buyer!! Thank you very much!!! Great experience! Great buyer! Thank you very much! Great experience! Great buyer!! Thank you very mucht!! Great experience! Great buyer!! Thank you very much!!!",
+    "date": "2 hours ago",
+    "stars": "4"
+  },
+  {
+    "id": "3",
+    "profileImage": "https://dummyimage.com/50x50",
+    "name": "Mahfujurrahman123",
+    "review": "Great experience! Great buyer!! Thank you very much!!! Great experience! Great buyer! Thank you very much! Great experience! Great buyer!! Thank you very mucht!! Great experience! Great buyer!! Thank you very much!!!",
+    "date": "2 hours ago",
+    "stars": "3"
+  },
+  {
+    "id": "4",
+    "profileImage": "https://dummyimage.com/50x50",
+    "name": "Mahfujurrahman123",
+    "review": "Great experience! Great buyer!! Thank you very much!!! Great experience! Great buyer! Thank you very much! Great experience! Great buyer!! Thank you very mucht!! Great experience! Great buyer!! Thank you very much!!!",
+    "date": "2 hours ago",
+    "stars": "4"
+  },
+  {
+    "id": "5",
+    "profileImage": "https://dummyimage.com/50x50",
+    "name": "Mahfujurrahman123",
+    "review": "Great Experience! Great Buyer!! Thank you very much!!!",
+    "date": "2 hours ago",
+    "stars": "5"
+  }
+]
