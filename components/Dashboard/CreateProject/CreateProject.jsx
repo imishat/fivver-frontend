@@ -44,6 +44,9 @@ useEffect(()=>{
                         <input {...register("imageTwo", { required: true })} className="px-4 py-2 border" type="file" id="images" />
                         <input {...register("imageThree", { required: true })} className="px-4 py-2 border" type="file" id="images" />
                        </div>
+                       <span className="text-error px-3">
+                       {errors.imageOne && <span>Min one image is required</span>}
+                       </span>
                     </div>
                     {/* Title */}
                     <div className="flex flex-col border">

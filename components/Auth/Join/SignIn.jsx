@@ -47,14 +47,14 @@ const SignIn = ({setToggle}) => {
               <div className="flex justify-between px-3">
                 {/* Remember me */}
                 <div className="flex items-center gap-2">
-                  <input  {...register("remember", { required: false })} type="checkbox" id="rememberme" />{" "}
+                  <input  {...register("remember", { required: false })} type="checkbox" id="rememberme" />
                   <label className="select-none" htmlFor="rememberme">
                     Remember me
                   </label>
                 </div>
                 {/* forgot password */}
                 <div>
-                  <Link href={`#`} className="text-blue-500">
+                  <Link href={`/auth/forgot-password`} className="text-blue-500">
                     Forgot password?
                   </Link>
                 </div>
@@ -68,7 +68,7 @@ const SignIn = ({setToggle}) => {
               {/* Don't have account */}
               <div className="flex justify-center py-4">
                 <p>
-                  Don't have Account?{" "}
+                  Don't have Account?
                   <span
                     className="text-[#1B8CDC] font-bold cursor-pointer"
                     onClick={() => setToggle("signup")}
