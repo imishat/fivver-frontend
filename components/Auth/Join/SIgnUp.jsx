@@ -1,12 +1,12 @@
-import { useUserLogin } from "@/components/queries/mutation/user.mutation";
+import { useCreteAccount } from "@/components/queries/mutation/user.mutation";
 import { Spin } from "@/components/utility/LoadingSpinner";
 import useToast from "@/components/utility/useToast";
 import { useForm } from "react-hook-form";
 
 const SIgnUp = ({ setToggle }) => {
   // react hook form
-  // import send login data funtion 
-  const {mutate:LoginData,isLoading}=useUserLogin()
+  // import send login data function 
+  const {mutate:LoginData,isLoading}=useCreteAccount()
   // set toasat showing data
   const { Toast, showToast } = useToast();
 
@@ -14,6 +14,7 @@ const SIgnUp = ({ setToggle }) => {
     register,
     handleSubmit,
     watch,
+    reset,
     formState: { errors },
   } = useForm();
 
@@ -23,6 +24,7 @@ const SIgnUp = ({ setToggle }) => {
     LoginData(data,{
       onSuccess: (res) => {
       showToast('crate acount', 'success');
+      reset()
       
    
    
@@ -157,9 +159,7 @@ const SIgnUp = ({ setToggle }) => {
         </div>
         {/* Sign up btn */}
         <div>
-          {/* <button className="w-full px-4 py-2 font-bold bg-[#1B8CDC] text-white text-xl ">
-            Sign Up
-          </button> */}
+         
           <button disabled={isLoading} type="submit" className="w-full px-4 py-2 font-bold bg-[#1B8CDC] text-white text-xl ">
                     {isLoading? <Spin/> :"Sign Up"}
                     </button>

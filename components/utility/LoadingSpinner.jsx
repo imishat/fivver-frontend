@@ -4,7 +4,7 @@
 
 import React from 'react';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
-export function Spin({ size = 20, color = "text-black-500", speed = "0.2s" }) {
+export function Spin({ size = 35, color = "text-green-700", speed = "0.2s" }) {
 
   return (
     <div className="flex justify-center items-center">

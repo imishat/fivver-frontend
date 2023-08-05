@@ -1,4 +1,4 @@
-// const rootURL = "http://103.49.169.89:30912";
+
 export const queryClientOptions = {
   defaultOptions: {
     queries: {
@@ -7,5 +7,9 @@ export const queryClientOptions = {
   },
 };
 
-// all api put here to curd oparetion 
-export const USER_LOGIN="users/signup"
+// all api put here to curd oparetion
+
+//USER CREATE ACCOUNT 
+export const USER_CREATE_ACCOUNT="users/signup";
+//singup 
+export const SING_UP="users/login";

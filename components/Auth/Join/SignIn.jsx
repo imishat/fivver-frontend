@@ -1,3 +1,6 @@
+import { useUserSingUp } from '@/components/queries/mutation/user.mutation';
+import { Spin } from '@/components/utility/LoadingSpinner';
+import useToast from '@/components/utility/useToast';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 
@@ -7,15 +10,38 @@ const SignIn = ({setToggle}) => {
     register,
     handleSubmit,
     watch,
+    reset,
+
     formState: { errors },
   } = useForm();
+  // toast
+const { Toast, showToast } = useToast();
+
+// import send singup data function
+
+const{mutate:SingData,isLoading}=useUserSingUp()
 
   //   handle SingIn
   const handleSingIn = (data) => {
-    console.log(data);
+    
+
+    //send singdata
+    SingData(data,{
+      onSuccess: (res) => {
+      showToast('singup', 'success');
+      reset()
+      
+   
+   
+    },
+    onError: err => {
+      showToast(err?.response?.data?.message)
+    }
+  })
   };
     return (
         <div>
+          <Toast/>
              <form onSubmit={handleSubmit(handleSingIn)} className="flex flex-col space-y-3 px-4 pt-14 pb-4">
               {/* Email */}
               <div>
@@ -61,9 +87,10 @@ const SignIn = ({setToggle}) => {
               </div>
               {/* Sign in btn */}
               <div>
-                <button className="w-full px-4 py-2 font-bold bg-[#1B8CDC] text-white text-xl ">
-                  Sign In
-                </button>
+                
+                <button disabled={isLoading} type="submit" className="w-full px-4 py-2 font-bold bg-[#1B8CDC] text-white text-xl ">
+                    {isLoading? <Spin/> :"Sign In"}
+                    </button>
               </div>
               {/* Don't have account */}
               <div className="flex justify-center py-4">
