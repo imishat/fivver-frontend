@@ -1,7 +1,15 @@
+import { useUserLogin } from "@/components/queries/mutation/user.mutation";
+import { Spin } from "@/components/utility/LoadingSpinner";
+import useToast from "@/components/utility/useToast";
 import { useForm } from "react-hook-form";
 
 const SIgnUp = ({ setToggle }) => {
   // react hook form
+  // import send login data funtion 
+  const {mutate:LoginData,isLoading}=useUserLogin()
+  // set toasat showing data
+  const { Toast, showToast } = useToast();
+
   const {
     register,
     handleSubmit,
@@ -11,10 +19,26 @@ const SIgnUp = ({ setToggle }) => {
 
   //   handle signup
   const handleSignUp = (data) => {
-    console.log(data);
-  };
+  
+    LoginData(data,{
+      onSuccess: (res) => {
+      showToast('crate acount', 'success');
+      
+   
+   
+    },
+    onError: err => {
+      showToast(err?.response?.data?.message)
+    }
+  })
+
+
+
+
+  }
   return (
     <div>
+      <Toast/>
       <form
         onSubmit={handleSubmit(handleSignUp)}
         className="flex flex-col space-y-3 px-4 pt-14 pb-4"
@@ -133,9 +157,12 @@ const SIgnUp = ({ setToggle }) => {
         </div>
         {/* Sign up btn */}
         <div>
-          <button className="w-full px-4 py-2 font-bold bg-[#1B8CDC] text-white text-xl ">
+          {/* <button className="w-full px-4 py-2 font-bold bg-[#1B8CDC] text-white text-xl ">
             Sign Up
-          </button>
+          </button> */}
+          <button disabled={isLoading} type="submit" className="w-full px-4 py-2 font-bold bg-[#1B8CDC] text-white text-xl ">
+                    {isLoading? <Spin/> :"Sign Up"}
+                    </button>
         </div>
         {/* already have account */}
         <div className="flex justify-center py-4">

@@ -8,3 +8,4 @@ export const queryClientOptions = {
 };
 
 // all api put here to curd oparetion 
+export const USER_LOGIN="users/signup"
