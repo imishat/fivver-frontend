@@ -9,21 +9,18 @@ import "./styles.module.css";
 
 // import required modules
 import Card from "@/components/Card/Card";
-import { useAllDesigns } from "@/components/queries/query/designs.queries";
+import { useAllDesigns } from "@/components/queries/query/designs.query";
 import Link from "next/link";
 import { Navigation } from "swiper/modules";
 
 export default function DesignCategorySectionCard({category}) {
+  // category title
+  const designId = category?.categoryId
   // get all designs
-  const { data } = useAllDesigns();
-  // import fake data
-  //  const [designs,setDesigns] = useState([])
-  //  useEffect(()=>{
-  //    axios.get(`/design.json`)
-  //    .then(res=>{
-  //      setDesigns(res.data)
-  //    })
-  //  },[])
+  const { data } = useAllDesigns({designId});
+  console.log(category)
+
+  // all designs
   const designs = data?.data?.designs
   return (
     <div className="border children px-4 pb-3 w-full h-60 rounded-md">

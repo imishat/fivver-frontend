@@ -22,4 +22,4 @@ export const UPLOAD_FILE="files"
 // get file by id
 export const GET_FILE_BY_ID = 'files/:id'
 // get all designs
-export const GET_DESIGNS="designs?query=&sortingOrders=createdAt-desc"
+export const GET_DESIGNS="designs"

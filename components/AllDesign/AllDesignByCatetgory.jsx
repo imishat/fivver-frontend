@@ -2,7 +2,7 @@ import Card from "@/components/Card/Card";
 import Pagination from "rc-pagination";
 import { useState } from "react";
 import Related from "../Related/Related";
-import { useAllDesigns } from "../queries/query/designs.queries";
+import { useAllDesigns } from "../queries/query/designs.query";
 
 const AllDesignByCatetgory = () => {
 
