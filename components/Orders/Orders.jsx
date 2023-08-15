@@ -1,6 +1,12 @@
 import { BsCheckCircleFill } from "react-icons/bs";
+import ImageDropdown from "./dropdown/ImageDropdown";
 
 const Orders = () => {
+  const options = [
+    { label: 'Option 1', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUjVqFE1iM6blKPVB6BUeEs3awNfyGKQJev-uGhQqJ&s' },
+    { label: 'Option 2', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUjVqFE1iM6blKPVB6BUeEs3awNfyGKQJev-uGhQqJ&s' },
+    // ... other options
+  ];
   return (
     <div className="w-full ">
       {/* warinig */}
@@ -23,19 +29,8 @@ const Orders = () => {
           <p className="text-sm py-1">Choos the design you need</p>
           {/* select */}
           <div className="flex items-center border p-3  bg-white">
-            <img
-              className="w-24 h-16"
-              src="https://linuxhint.com/wp-content/uploads/2021/10/Best-Color-Picker-Apps-for-Linux-1.png"
-              alt=""
-            />
-            <select
-              className="w-full py-5 px-2 bg-white focus-visible::ring-0 focus-visible:outline-none text-xl font-bold"
-              id="design"
-            >
-              <option className="py-8 flex" value="door-hanger-design">
-                Door Hanger Design
-              </option>
-            </select>
+           
+          <ImageDropdown options={options} />
           </div>
         </div>
         {/* Variant */}

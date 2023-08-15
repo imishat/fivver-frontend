@@ -1,10 +1,13 @@
 import Card from "@/components/Card/Card";
-import axios from "axios";
 import Pagination from "rc-pagination";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Related from "../Related/Related";
+import { useAllDesigns } from "../queries/query/designs.queries";
 
 const AllDesignByCatetgory = () => {
+
+  // get all desings
+  const {data:designs} = useAllDesigns()
  
     // pagination
     const [currentPage,setCurrentPage] = useState()
@@ -13,14 +16,14 @@ const AllDesignByCatetgory = () => {
     const count  = 10
 
     // import fake data
-    const [designs,setDesigns] = useState([])
-    useEffect(()=>{
-      axios.get(`/design.json`)
-      .then(res=>{
-        setDesigns(res.data)
-      })
-    },[])
-    console.log(designs)
+    // const [designs,setDesigns] = useState([])
+    // useEffect(()=>{
+    //   axios.get(`/design.json`)
+    //   .then(res=>{
+    //     setDesigns(res.data)
+    //   })
+    // },[])
+    console.log('All Desing',designs)
   return (
     <div>
       {/* Design Title */}

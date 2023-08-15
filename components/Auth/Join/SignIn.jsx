@@ -28,11 +28,9 @@ const{mutate:SingData,isLoading}=useUserSingUp()
     //send singdata
     SingData(data,{
       onSuccess: (res) => {
-      showToast('singup', 'success');
+      showToast('Sign In Successfully','success');
       reset()
       
-   
-   
     },
     onError: err => {
       showToast(err?.response?.data?.message)

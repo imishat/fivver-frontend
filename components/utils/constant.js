@@ -13,3 +13,13 @@ export const queryClientOptions = {
 export const USER_CREATE_ACCOUNT="users/signup";
 //singup 
 export const SING_UP="users/login";
+// Create project
+export const CREATE_DESIGN="designs";
+// categories
+export const GET_CATEGORIES ="categories"
+// file upload
+export const UPLOAD_FILE="files"
+// get file by id
+export const GET_FILE_BY_ID = 'files/:id'
+// get all designs
+export const GET_DESIGNS="designs?query=&sortingOrders=createdAt-desc"
