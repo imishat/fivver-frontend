@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 
 
 export function useGetCategoryData({categoryId}){
-   return useQuery([GET_CATEGORIES], async()=>{
+   return useQuery([GET_CATEGORIES,categoryId], async()=>{
     const {data,isLoading} = await axios("GET",`${GET_CATEGORIES}?query=${categoryId}`);
     return data
    })

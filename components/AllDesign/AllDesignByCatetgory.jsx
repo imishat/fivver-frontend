@@ -1,6 +1,6 @@
 import Pagination from "rc-pagination";
 import { useState } from "react";
-import Card from "../Card/Card";
+import DesignCard from "../Card/DesignCard";
 import Related from "../Related/Related";
 import { useAllDesigns } from "../queries/query/designs.query";
 import { useGetCategoryData } from "../queries/query/getCategory.query";
@@ -44,7 +44,7 @@ const category = categories?.data?.categories[0]
     {  designs?.length ? 
       <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 px-4 gap-4">
         { designs.map((data, i) => (
-          <Card data={data} key={i} />
+          <DesignCard data={data} key={i} />
         ))
        
       

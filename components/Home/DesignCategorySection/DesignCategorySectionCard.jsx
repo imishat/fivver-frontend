@@ -11,7 +11,7 @@ import "./styles.module.css";
 import Card from "@/components/Card/Card";
 import { useAllDesigns } from "@/components/queries/query/designs.query";
 import Link from "next/link";
-import { Navigation } from "swiper/modules";
+import { Autoplay, Navigation } from "swiper/modules";
 
 export default function DesignCategorySectionCard({category}) {
   // category title
@@ -23,7 +23,7 @@ export default function DesignCategorySectionCard({category}) {
   // all designs
   const designs = data?.data?.designs
   return (
-    <div className="border children px-4 pb-3 w-full h-60 rounded-md">
+    <div className="border children px-4 pb-3 w-full h-auto rounded-md">
       <div className="flex py-1 justify-between">
         <h2 className="font-bold">{category?.name}</h2>
         <Link
@@ -37,6 +37,11 @@ export default function DesignCategorySectionCard({category}) {
         slidesPerView={1}
         spaceBetween={10}
         navigation={true}
+        speed={1200}
+        autoplay={{
+          delay: 2500,
+          disableOnInteraction: false,
+        }}
         breakpoints={{
           440: {
             slidesPerView: 2,
@@ -51,16 +56,19 @@ export default function DesignCategorySectionCard({category}) {
             spaceBetween: 10,
           },
         }}
-        modules={[Navigation]}
+        modules={[Navigation,Autoplay]}
         className="mySwiper"
       >
         <div>
           <div>
-            {designs?.length  && designs?.map((data, i) => (
+            {designs?.length ? designs?.map((data, i) => (
               <SwiperSlide key={i} className="flex !gap-2">
                 <Card data={data} />
               </SwiperSlide>
-            ))}
+            ))
+          :
+          <p>No data</p>
+          }
           </div>
         </div>
       </Swiper>

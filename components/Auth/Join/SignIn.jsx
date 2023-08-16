@@ -2,6 +2,7 @@ import { useUserSingUp } from '@/components/queries/mutation/user.mutation';
 import { Spin } from '@/components/utility/LoadingSpinner';
 import useToast from '@/components/utility/useToast';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 
 const SignIn = ({setToggle}) => {
@@ -14,6 +15,9 @@ const SignIn = ({setToggle}) => {
 
     formState: { errors },
   } = useForm();
+
+  // router 
+  const router = useRouter()
   // toast
 const { Toast, showToast } = useToast();
 
@@ -23,13 +27,18 @@ const{mutate:SingData,isLoading}=useUserSingUp()
 
   //   handle SingIn
   const handleSingIn = (data) => {
-    
-
     //send singdata
     SingData(data,{
       onSuccess: (res) => {
-      showToast('Sign In Successfully','success');
-      reset()
+        console.log(res)
+        if(res?.data){
+          showToast('Sign In Successfully','success');
+          localStorage.setItem('accessToken',res?.data?.accessToken)
+          reset()
+          router.push('/')
+        }else{
+          showToast('Sign In Faild');
+        }
       
     },
     onError: err => {

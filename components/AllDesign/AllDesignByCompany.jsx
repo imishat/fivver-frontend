@@ -1,33 +1,32 @@
-import Card from "@/components/Card/Card";
-import axios from "axios";
 import Pagination from "rc-pagination";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import DesignCard from "../Card/DesignCard";
 import Related from "../Related/Related";
-const AllDesignByCompany = () => {
-    // pagination
-    const [currentPage,setCurrentPage] = useState()
-    console.log(currentPage)
-    // Count
-    const count  = 10
+import { useAllDesigns } from "../queries/query/designs.query";
+const AllDesignByCompany = ({ companyId }) => {
+  // pagination
+  const [currentPage, setCurrentPage] = useState();
+  console.log(currentPage);
+  // Count
+  const count = 10;
+
+  const { data: designData } = useAllDesigns({ designId: companyId });
+  const query = designData?.data?.query;
 
 
-    // import fake data
-    const [designs,setDesigns] = useState([])
-    useEffect(()=>{
-      axios.get(`/company.json`)
-      .then(res=>{
-        setDesigns(res.data)
-      })
-    },[])
-    console.log(designs)
+  const designs = designData?.data?.designs
   return (
     <div>
       {/* Design Title */}
       <div className="h-full w-full relative">
-        <img className="w-full h-full bg-[#FEF2F2]" src="/images/alldesign.png" alt="" />
+        <img
+          className="w-full h-full bg-[#FEF2F2]"
+          src="/images/alldesign.png"
+          alt=""
+        />
         <div className="flex justify-center items-center  text-black ">
-          <h3 className="absolute text-[#1C8CDD] md:text-4xl sm:text-2xl text-xl top-1/2 font-bold text-center ">
-           Pressure And Soft Washing <br /> Door Hanger Designs
+          <h3 className="absolute text-[#1C8CDD] md:text-4xl sm:text-2xl text-xl top-1/2 font-bold text-center w-1/2">
+            {query}
           </h3>
         </div>
       </div>
@@ -39,16 +38,28 @@ const AllDesignByCompany = () => {
           </h2>
         </div>
       </div>
-      <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 px-4 gap-4">
-      {designs.map((data, i) => (
-          <Card data={data} key={i} />
-        ))}
-      </div>
+      {designs?.length ? (
+        <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 px-4 gap-4">
+          {designs.map((data, i) => (
+            <DesignCard data={data} key={i} />
+          ))}
+        </div>
+      ) : (
+        <div className="flex justify-center w-full">
+          <p className="capitalize">No data in {query}</p>
+        </div>
+      )}
+
       {/* pagination */}
       <div className="flex justify-center my-6">
-      <Pagination onChange={(e)=>setCurrentPage(e)} className="flex cursor-pointer select-none gap-2 px-3 py-1 " total={count} defaultPageSize={1} />
+        <Pagination
+          onChange={(e) => setCurrentPage(e)}
+          className="flex cursor-pointer select-none gap-2 px-3 py-1 "
+          total={count}
+          defaultPageSize={1}
+        />
       </div>
-      
+
       {/* Related */}
       <Related />
     </div>

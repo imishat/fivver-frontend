@@ -12,7 +12,9 @@ import "./styles.module.css";
 // import required modules
 import { Navigation } from "swiper/modules";
 
-const DesignDescription = () => {
+const DesignDescription = ({data:designData}) => {
+  console.log(designData)
+  const design = designData?.data?.design
   // import fake data
   const [designs, setDesigns] = useState([]);
   useEffect(() => {
@@ -30,12 +32,12 @@ const DesignDescription = () => {
         >
           <div>
             <div>
-              {designs.map((data, i) => (
+              {design?.imageIds?.map((id, i) => (
                 <SwiperSlide key={i} className="flex !gap-2">
                   <div className="border">
                     <img
                       className="w-full h-full"
-                      src="https://dummyimage.com/640x4:3/"
+                      src={`http://103.49.169.89:30912/api/v1.0/files/download/public/${id}`}
                       alt=""
                     />
                   </div>
@@ -48,20 +50,19 @@ const DesignDescription = () => {
         <div className="sm:w-80 p-4 bg-[#F2F9FF]">
           <div>
             <h1 className="md:text-2xl sm:text-xl font-bold">
-              Pressure & Soft Washing Door Hanger Design
+            {design?.title +' '+ design?.categoryName}
             </h1>
           </div>
           <div className="my-3 text-sm sm:text-sm md:my-12">
             <ul>
               <li className="flex gap-1">
-                <p className="font-bold">Size:</p> 4.5x11, + 0.25 bleed
+                <p className="font-bold">Size:</p> {design?.size}
               </li>
               <li className="flex gap-1">
-                <p className="font-bold">File Format:</p> Photoshop File
+                <p className="font-bold">File Format:</p> {design?.fileFormat}
               </li>
               <li className="flex gap-1">
-                <p className="font-bold">Design:</p> Dubble Sidded Door Hanger
-                Design
+                <p className="font-bold">Design:</p> {design?.subcategory[0].name}
               </li>
             </ul>
           </div>
@@ -77,18 +78,10 @@ const DesignDescription = () => {
       </div>
       <div className="px-8">
         <h2 className="sm:text-3xl text-lg font-semibold my-3">
-          Pressure & Soft Washing Door Hanger Design
+          {design?.title +' '+ design?.categoryName}
         </h2>
         <p className="my-4 text-sm">
-          This Door Hanger Design is specially created for Pressure & Soft
-          Washing Services. You can definitely use this design for any other
-          service/company if you want. If you give me all the information of
-          your design, then | will edit this design according to your
-          information. Or if you want to create a different design according to
-          your information instead of this design, then | can create your
-          design. Please start a project for your design. If you feeling any
-          difficulties while starting the project, or if you have any questions.
-          Then feel FREE to contact us.
+         {design?.description}
         </p>
         <h3 className="sm:text-2xl text-lg font-bold my-8 ">
           If you just want to get the template/source file of this design,{" "}

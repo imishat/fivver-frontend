@@ -24,8 +24,8 @@ export default function DesignCategorySection() {
     }
   }, [limit,categories]);
   return (
-    <div className="space-y-3 relative">
-      <div className="categories relative">
+    <div className="relative">
+      <div className="categories relative space-y-3 ">
         {categories?.length ? (
           categories.map((category, i) => (
             <DesignCategorySectionCard category={category} key={i} />

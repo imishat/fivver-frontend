@@ -38,7 +38,10 @@ const CreateDesign = () => {
   // get category id when select
   const [categoryId,setCategoryId] = useState('')
  //  category
- const {data:category} = useGetCategoryData({categoryId:categoryId})
+ const {data:category} = useGetCategoryData({categoryId})
+
+
+
   // handle create project
   const handleCreateProject = (data) => {
 
@@ -67,15 +70,18 @@ const CreateDesign = () => {
           imageIds.push(images[i].fileId);
         }
 
+      
+
+
         // if image uploaded
         if(imageIds.length){
           const projectData = {
-            title: data.title,
+            title: data.company,
             description: data.description,
             size: data.size,
             fileFormat: data.fileFormat,
             categoryId: data.category,
-            subcategoryId: selectedCategory.subcategoryIds[0],
+            subcategoryId:selectedCategory.subcategoryIds[0],
             imageIds: imageIds,
           };
           console.log(projectData)
@@ -97,7 +103,7 @@ const CreateDesign = () => {
         // loading stop
         setDesignLoading(false);
         // reset
-        reset();
+        // reset();
       },
       onError: (err) => {
         showToast(err?.response?.data?.message);
@@ -109,7 +115,7 @@ const CreateDesign = () => {
   //    react select
 
  
-console.log(category)
+
   return (
     <form onSubmit={handleSubmit(handleCreateProject)} className="my-12">
       <Toast />
@@ -130,7 +136,7 @@ console.log(category)
 
             <div>
               <input
-                className="file-input file-input-bordered w-full rounded-none m-1"
+                className="file-input file-input-md file-input-bordered w-full rounded-none m-1"
                 {...register("image", { required: true })}
                 type="file"
                 accept="image/*"
@@ -142,21 +148,22 @@ console.log(category)
               {errors.image && <span>Image is required</span>}
             </span>
           </div>
-          {/* Title */}
+          {/* Company */}
           <div className="flex flex-col border">
             <label
               className="px-3 py-2 inline-block bg-base-200 w-full"
-              htmlFor="title"
+              htmlFor="company"
             >
-              Title
+              Company
             </label>
             <input
-              {...register("title", { required: true })}
+              {...register("company", { required: true })}
               type="text"
               className="px-4 m-1 py-2 border border-gray-400"
-              id="title"
+              id="company"
             />
           </div>
+         
           {/* Description */}
           <div className="flex flex-col border">
             <label
@@ -174,6 +181,7 @@ console.log(category)
         </div>
         {/* Right side */}
         <div className="sm:w-96 px-2 sm:px-1">
+           
           {/* Size */}
           <div className="flex flex-col border">
             <label
@@ -204,21 +212,6 @@ console.log(category)
               id="fileformat"
             />
           </div>
-          {/* Design */}
-          {/* <div className="flex flex-col border">
-            <label
-              className="px-3 py-2 inline-block bg-base-200 w-full"
-              htmlFor="design"
-            >
-              Design
-            </label>
-            <input
-              {...register("design", { required: true })}
-              className="px-4 m-1 py-2 border border-gray-400"
-              type="text"
-              id="design"
-            />
-          </div> */}
          
           {/* Categories */}
           <div className="flex flex-col border">
@@ -242,26 +235,7 @@ console.log(category)
             </select>
           </div>
 
-           {/* Tags */}
-           {/* <div className="flex flex-col border">
-            <label
-              className="px-3 py-2 inline-block bg-base-200 w-full"
-              htmlFor="subCategories"
-            >
-              Sub Categories
-            </label>
-            <select
-              {...register("subCategories", { required: true })}
-             
-              className="px-4 py-2 bg-white m-1 border border-gray-400"
-            >
-              {categories?.map((subCategory) => {
-                return (
-                  <option key={subCategory.categoryId} value={category.categoryId}>{category.name}</option>
-                );
-              })}
-            </select>
-          </div> */}
+          
         </div>
       </div>
       {/* Submit */}
