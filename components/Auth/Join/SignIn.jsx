@@ -1,4 +1,8 @@
+import { useUserSingUp } from '@/components/queries/mutation/user.mutation';
+import { Spin } from '@/components/utility/LoadingSpinner';
+import useToast from '@/components/utility/useToast';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 
 const SignIn = ({setToggle}) => {
@@ -7,15 +11,44 @@ const SignIn = ({setToggle}) => {
     register,
     handleSubmit,
     watch,
+    reset,
+
     formState: { errors },
   } = useForm();
 
+  // router 
+  const router = useRouter()
+  // toast
+const { Toast, showToast } = useToast();
+
+// import send singup data function
+
+const{mutate:SingData,isLoading}=useUserSingUp()
+
   //   handle SingIn
   const handleSingIn = (data) => {
-    console.log(data);
+    //send singdata
+    SingData(data,{
+      onSuccess: (res) => {
+        console.log(res)
+        if(res?.data){
+          showToast('Sign In Successfully','success');
+          localStorage.setItem('accessToken',res?.data?.accessToken)
+          reset()
+          router.push('/')
+        }else{
+          showToast('Sign In Faild');
+        }
+      
+    },
+    onError: err => {
+      showToast(err?.response?.data?.message)
+    }
+  })
   };
     return (
         <div>
+          <Toast/>
              <form onSubmit={handleSubmit(handleSingIn)} className="flex flex-col space-y-3 px-4 pt-14 pb-4">
               {/* Email */}
               <div>
@@ -47,28 +80,29 @@ const SignIn = ({setToggle}) => {
               <div className="flex justify-between px-3">
                 {/* Remember me */}
                 <div className="flex items-center gap-2">
-                  <input  {...register("remember", { required: false })} type="checkbox" id="rememberme" />{" "}
+                  <input  {...register("remember", { required: false })} type="checkbox" id="rememberme" />
                   <label className="select-none" htmlFor="rememberme">
                     Remember me
                   </label>
                 </div>
                 {/* forgot password */}
                 <div>
-                  <Link href={`#`} className="text-blue-500">
+                  <Link href={`/auth/forgot-password`} className="text-blue-500">
                     Forgot password?
                   </Link>
                 </div>
               </div>
               {/* Sign in btn */}
               <div>
-                <button className="w-full px-4 py-2 font-bold bg-[#1B8CDC] text-white text-xl ">
-                  Sign In
-                </button>
+                
+                <button disabled={isLoading} type="submit" className="w-full px-4 py-2 font-bold bg-[#1B8CDC] text-white text-xl ">
+                    {isLoading? <Spin/> :"Sign In"}
+                    </button>
               </div>
               {/* Don't have account */}
               <div className="flex justify-center py-4">
                 <p>
-                  Don't have Account?{" "}
+                  Don't have Account?
                   <span
                     className="text-[#1B8CDC] font-bold cursor-pointer"
                     onClick={() => setToggle("signup")}

@@ -1,6 +1,6 @@
 import DesignCategorySection from "../DesignCategorySection/DesignCategorySection";
 import DesignCategories from "./DesignCategories/DesignCategories";
-import DesignTags from "./DesignTags/DesignTags";
+import DesignTags from "./DesignCompanies/DesignTags";
 import StockImageSites from "./StockImageSites/StockImageSites";
 import UserAnalytics from "./UserAnalytics/UserAnalytics";
 

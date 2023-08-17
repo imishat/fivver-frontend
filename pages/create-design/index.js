@@ -1,10 +1,10 @@
 import Main from "@/Layout/Main";
-import CreateProject from "@/components/Dashboard/CreateProject/CreateProject";
+import CreateDesign from "@/components/Dashboard/CreateDesign/CreateDesign";
 
 const create = () => {
     return (
         <Main title={'Create Project'}>
-            <CreateProject />
+            <CreateDesign  />
         </Main>
     );
 };

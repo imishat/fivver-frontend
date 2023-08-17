@@ -16,7 +16,7 @@ const Footer = () => {
                 <div className="flex flex-col w-4/12 space-y-3">
                     <div className="text-center">
                        <div className="flex justify-center">
-                       <img src="./images/logo.png" className="w-20" alt="" />
+                       <img src="/images/logo.png" className="w-20" alt="" />
                        </div>
                         <h2 className="text-lg font-bold">mahfujurrahman535</h2>
                         <p>Graphic Designer</p>

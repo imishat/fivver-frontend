@@ -3,7 +3,7 @@ import axios from "axios";
 
 
 const axiosInstance = axios.create({
-  baseURL: "http://103.49.169.89:30912",
+  baseURL: "http://103.49.169.89:30912/api/v1.0",
   headers: { "X-Custom-Header": "foobar" },
 });
 
@@ -11,7 +11,7 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
   (config) => {
     if (typeof window !== "undefined") {
-      const token = localStorage.getItem("access-token");
+      const token = localStorage.getItem("accessToken");
       if (token) {
         config.headers["Authorization"] = `Bearer ${token}`;
       }

@@ -1,4 +1,4 @@
-// const rootURL = "http://103.49.169.89:30912";
+
 export const queryClientOptions = {
   defaultOptions: {
     queries: {
@@ -7,4 +7,19 @@ export const queryClientOptions = {
   },
 };
 
-// all api put here to curd oparetion 
+// all api put here to curd oparetion
+
+//USER CREATE ACCOUNT 
+export const USER_CREATE_ACCOUNT="users/signup";
+//singup 
+export const SING_UP="users/login";
+// Create project
+export const CREATE_DESIGN="designs";
+// categories
+export const GET_CATEGORIES ="categories"
+// file upload
+export const UPLOAD_FILE="files"
+// get file by id
+export const GET_FILE_BY_ID = 'files/:id'
+// get all designs
+export const GET_DESIGNS="designs"
