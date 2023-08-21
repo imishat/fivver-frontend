@@ -21,5 +21,9 @@ export const GET_CATEGORIES ="categories"
 export const UPLOAD_FILE="files"
 // get file by id
 export const GET_FILE_BY_ID = 'files/:id'
-// get all designs
+// designs
 export const GET_DESIGNS="designs"
+// companies
+export const COMPANIES="companies"
+// tags
+export const TAGS="tags"

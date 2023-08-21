@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 const SubNavbar = () => {
-  return <div className="flex justify-center bg-blue-500 text-white">
+  return <div className="flex lg:mt-5 justify-center bg-blue-500 text-white">
     <div>
       <ul className="flex flex-wrap md:py-2 items-center">
         <li>

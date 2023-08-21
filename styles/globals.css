@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+  font-family: "Montserrat", sans-serif;
+}
+
 .swiper-button-prev:after,
 .swiper-button-next:after {
   font-family: swiper-icons;
@@ -89,4 +93,51 @@ li.rc-pagination-options {
     white,
     white
   );
+}
+.ql-editor {
+  height: 300px !important;
+}
+
+.description > ol {
+  list-style: auto !important;
+  margin: auto !important;
+  padding-inline-start: 40px !important;
+}
+.description > ul {
+  list-style: auto !important;
+  margin: auto !important;
+  padding-inline-start: 40px !important;
+}
+.description > menu {
+  list-style: auto !important;
+  margin: auto !important;
+  padding-inline-start: 40px !important;
+}
+.description h1 {
+  size: auto !important;
+  font-size: 2em !important;
+  font-weight: revert !important;
+  margin: 12px !important;
+}
+
+.description h2 {
+  size: auto !important;
+  font-size: 1.5em !important;
+  font-weight: revert !important;
+  margin: 12px !important;
+}
+
+.description h3 {
+  size: auto !important;
+  font-size: 1.17em !important;
+  font-weight: revert !important;
+  margin: 12px !important;
+}
+
+.description a {
+  color: cornflowerblue !important;
+}
+.description a:hover {
+  color: rgb(55, 112, 219) !important;
+  text-decoration: underline !important;
 }

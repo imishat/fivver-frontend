@@ -1,6 +1,6 @@
 import Pagination from "rc-pagination";
 import { useState } from "react";
-import DesignCard from "../Card/DesignCard";
+import CompanyCard from "../Card/CompanyCard";
 import Related from "../Related/Related";
 import { useAllDesigns } from "../queries/query/designs.query";
 const AllDesignByCompany = ({ companyId }) => {
@@ -41,7 +41,7 @@ const AllDesignByCompany = ({ companyId }) => {
       {designs?.length ? (
         <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 px-4 gap-4">
           {designs.map((data, i) => (
-            <DesignCard data={data} key={i} />
+            <CompanyCard data={data} key={i} />
           ))}
         </div>
       ) : (
