@@ -4,10 +4,9 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { BsCart4, BsSearch } from "react-icons/bs";
 import { RiCloseLine, RiMenu4Line } from "react-icons/ri";
+import CartSidebar from "./Cart/CartSidebar";
 
 const Navbar = () => {
-
- 
   // responsive menu hide and show
   const [showMenu, setShowMenu] = useState(false);
   // search box show and hide
@@ -22,22 +21,25 @@ const Navbar = () => {
   } = useForm();
 
   // handleOnchenge
-  const [search,setSearch] = useState('')
-  
-   // get all designs
-   const {data:designData} = useAllDesigns({designId:search})
+  const [search, setSearch] = useState("");
 
-  const designs = designData?.data?.designs 
+  // get all designs
+  const { data: designData } = useAllDesigns({ designId: search });
+
+  const designs = designData?.data?.designs;
 
   // handle search
-  const handleSearch = data =>{
-  }
+  const handleSearch = (data) => {};
+
+  // handle cart
+  const [cartShow, setCartShow] = useState(false);
+
   return (
-    <div className="md:py-2 bg-black text-white container mx-auto">
+    <div className="fixed z-10 top-0 bg-black text-white container mx-auto ">
       {/* Navbar */}
-      <div className="flex justify-between px-4 items-center relative">
+      <div className="flex justify-between px-4 w-full items-center relative">
         {/* Hamburgar menu */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center justify-between w-full sm:justify-normal gap-3">
           <div className="md:hidden">
             <button onClick={() => setShowMenu(!showMenu)}>
               <RiMenu4Line size={30} />
@@ -46,38 +48,76 @@ const Navbar = () => {
           {/* Logo */}
 
           <img className="md:w-20" src="/images/logo.png" alt="" />
+
+          {/* Cart and seart icon in mobile */}
+          <div className="flex sm:hidden items-center">
+            <button
+            
+              onClick={() => setShowSearch(!showSearch)}
+              className="md:absolute sm:hidden right-0.5  top-2.5 px-2 py-1.5 bg-blue-400 rounded-md  text-white"
+            >
+              <BsSearch />
+            </button>
+            {/* Cart icon */}
+            <button
+              onClick={() => setCartShow(!cartShow)}
+              className="px-4 py-2 "
+            >
+              <BsCart4 size={24} />
+            </button>
+          </div>
         </div>
         {/* Search box */}
         <form
           onSubmit={handleSubmit(handleSearch)}
-          className={`relative w-full rounded-md sm:top-0 ${
-            showSearch ? "top-10 absolute  md:staticleft-0" : "hidden sm:flex"
+          className={`top-8 sm:top-0 sm:w-full w-full fixed sm:relative rounded-md ${
+            showSearch
+              ? "top-0 w-full z-[9] sm:static left-0"
+              : "hidden w-full sm:flex"
           } flex items-center md:w-64 lg:w-80`}
         >
-          <div className={`absolute left-0 top-10 w-full z-50 rounded-md bg-white ${search.length ?'':'hidden'}`}>
+          <div
+            className={`absolute left-0 top-10 w-full z-50 rounded-md bg-white ${
+              search.length ? "" : "hidden"
+            }`}
+          >
             <ul>
-              {
-                designs?.length ? 
-                designs?.map(design=>{
-                 return <Link key={design.designId} href={`/design/${design.designId}`} className="w-full inline-block text-black py-2 px-3 border-b">{design.title+' '+ design.categoryName}</Link>
-                })
-               
-                :
-                ''
-              }
+              {designs?.length
+                ? designs?.map((design) => {
+                    return (
+                      <Link
+                        key={design.designId}
+                        href={`/design/${design.designId}`}
+                        className="w-full inline-block text-black py-2 px-3 border-b"
+                      >
+                        {design.title + " " + design.categoryName}
+                      </Link>
+                    );
+                  })
+                : ""}
             </ul>
           </div>
           <input
-          {...register("search", { required: true })}
-            className="px-2 md:w-64 lg:w-80 w-full py-1 my-2 sm:rounded-r-none md:rounded-md bg-white text-black rounded-md "
+            {...register("search", { required: true })}
+            className="px-2 md:w-64 border z-50  lg:w-80 w-full py-1 my-2 sm:rounded-r-none md:rounded-md bg-white text-black rounded-l-md "
             type="search"
-            onChange={(e)=>setSearch(e.target.value)}
+            onChange={(e) => setSearch(e.target.value)}
             placeholder="What design are you looking for today?"
           />
-          <button onClick={()=>{reset() 
-            setSearch('')}} className={`absolute right-6 px-2 py-1 rounded-full text-black ${search.length || 'hidden'}`}><RiCloseLine size={24} /></button>
+          <button
+          hidden={!search.length}
+            onClick={() => {
+              reset();
+              setSearch("");
+            }}
+            className={`absolute right-8 z-50 hidden md:block px-2 py-1 rounded-full text-black ${
+              search.length || "hidden"
+            }`}
+          >
+            <RiCloseLine  hidden={!search.length} size={24} />
+          </button>
           {/* Search btn */}
-          <button className="md:absolute border-none  sm:border-2 border-white sm:border-none sm:rounded-l-none right-0 px-4 md:px-2 py-1 md:py-1.5 flex items-center h-8 bg-blue-400 rounded-md text-white">
+          <button className="md:absolute  rounded-l-none border-none z-50 sm:border-2 border-white sm:border-none sm:rounded-l-none right-0 px-4 md:px-2 py-1 md:py-1.5 flex items-center h-8 bg-blue-400 rounded-md text-white">
             <BsSearch />
           </button>
         </form>
@@ -131,18 +171,22 @@ const Navbar = () => {
           </ul>
         </div>
         {/* Cart icon */}
-        <div className="flex items-center">
+        <div className="hidden sm:flex items-center">
+          {/* search icon */}
           <button
             onClick={() => setShowSearch(!showSearch)}
             className="md:absolute sm:hidden right-0.5  top-2.5 px-2 py-1.5 bg-blue-400 rounded-md  text-white"
           >
             <BsSearch />
           </button>
-          <button className="px-4 py-2 ">
+          {/* Cart icon */}
+          <button onClick={() => setCartShow(!cartShow)} className="px-4 py-2 ">
             <BsCart4 size={24} />
           </button>
         </div>
       </div>
+      {/* Cart Sidebar */}
+      {<CartSidebar cartShow={cartShow} setCartShow={setCartShow} />}
     </div>
   );
 };

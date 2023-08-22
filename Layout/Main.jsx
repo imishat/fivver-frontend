@@ -5,7 +5,7 @@ import Head from "next/head";
 
 const Main = ({ children, title, description, thumb }) => {
   return (
-    <div className="container mx-auto">
+    <div className="container mx-auto my-14 md:my-20   overflow-hidden">
       <Head>
         <title>{title}</title>
         <meta name="description" content={description} key="desc" />
@@ -13,13 +13,13 @@ const Main = ({ children, title, description, thumb }) => {
         <meta property="og:description" content={description} />
         <meta property="og:image" content={thumb} />
       </Head>
-      <div>
+      <div className="">
         <Navbar />
       </div>
       <div>
         <SubNavbar />
       </div>
-      <div>{children}</div>
+      <div className="">{children}</div>
       <div>
         <Footer />
       </div>

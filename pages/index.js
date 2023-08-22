@@ -3,9 +3,8 @@ import DesignSection from "@/components/Home/DesignSection/DesignSection";
 import Hero from "@/components/Home/Hero/Hero";
 import SiteInfo from "@/components/Home/SiteInfo/SiteInfo";
 import Testimonials from "@/components/Home/Testimonials/Testimonials";
-import { Inter } from "next/font/google";
 
-const inter = Inter({ subsets: ["latin"] });
+
 
 export default function Home() {
   return (

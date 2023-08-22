@@ -4,7 +4,6 @@ import { useQuery } from "@tanstack/react-query";
 
 
 export function useAllDesigns({designId}){
-   console.log(designId)
    return useQuery([GET_DESIGNS,designId], async()=>{
     const {data} = await axios("GET",`${GET_DESIGNS}?query=${designId}`);
     return data

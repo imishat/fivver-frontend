@@ -1,16 +1,19 @@
 // Import Swiper React components
+import parse from 'html-react-parser';
+import "react-quill/dist/quill.snow.css";
 import { Swiper, SwiperSlide } from "swiper/react";
+
 
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/navigation";
 
 import axios from "axios";
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import "./styles.module.css";
 // import required modules
 import { Navigation } from "swiper/modules";
+import RelatedDesignCard from './RelatedDesignCard';
 
 const DesignDescription = ({data:designData}) => {
   console.log(designData)
@@ -22,8 +25,9 @@ const DesignDescription = ({data:designData}) => {
       setDesigns(res.data);
     });
   }, []);
+
   return (
-    <div>
+       <div>
       <div className="w-full sm:flex justify-center my-12 md:gap-4">
         <Swiper
           navigation={true}
@@ -50,7 +54,7 @@ const DesignDescription = ({data:designData}) => {
         <div className="sm:w-80 p-4 bg-[#F2F9FF]">
           <div>
             <h1 className="md:text-2xl sm:text-xl font-bold">
-            {design?.title +' '+ design?.categoryName}
+            {design?.title}
             </h1>
           </div>
           <div className="my-3 text-sm sm:text-sm md:my-12">
@@ -78,20 +82,24 @@ const DesignDescription = ({data:designData}) => {
       </div>
       <div className="px-8">
         <h2 className="sm:text-3xl text-lg font-semibold my-3">
-          {design?.title +' '+ design?.categoryName}
+          {design?.title}
         </h2>
-        <p className="my-4 text-sm">
-         {design?.description}
-        </p>
-        <h3 className="sm:text-2xl text-lg font-bold my-8 ">
-          If you just want to get the template/source file of this design,{" "}
-          <br /> then you can{" "}
-          <Link href={"#"} className="border-b border-black">
-            contact us by clicking here.
-          </Link>{" "}
-          And show us this design.
-        </h3>
+        <div className="my-4 description text-sm">
+          {parse(design?.description)}
+        </div>
       </div>
+
+      {/* Design Related */}
+      <div className="bg-[#F2F9FF] md:p-8 h-full">
+            <div className="flex justify-center">
+                <h2 className="text-3xl font-bold p-3">Related Design</h2>
+            </div>
+            <div className="grid sm:grid-cols-2 p-4 grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-3">
+                {
+                    design?.relatedDesigns?.map((data,i)=><RelatedDesignCard data={data} key={i} />)
+                }
+            </div>
+        </div>
     </div>
   );
 };
