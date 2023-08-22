@@ -13,7 +13,7 @@ import { useEffect, useState } from "react";
 import "./styles.module.css";
 // import required modules
 import { Navigation } from "swiper/modules";
-import DesignCard from '../Card/DesignCard';
+import RelatedDesignCard from './RelatedDesignCard';
 
 const DesignDescription = ({data:designData}) => {
   console.log(designData)
@@ -96,7 +96,7 @@ const DesignDescription = ({data:designData}) => {
             </div>
             <div className="grid sm:grid-cols-2 p-4 grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-3">
                 {
-                    design?.relatedDesigns?.map((data,i)=><DesignCard data={data} key={i} />)
+                    design?.relatedDesigns?.map((data,i)=><RelatedDesignCard data={data} key={i} />)
                 }
             </div>
         </div>

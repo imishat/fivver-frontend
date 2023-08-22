@@ -18,7 +18,7 @@ export default function DesignCategorySectionCard({category}) {
   const designId = category?.categoryId
   // get all designs
   const { data } = useAllDesigns({designId});
-  console.log(category)
+
 
   // all designs
   const designs = data?.data?.designs
@@ -63,7 +63,7 @@ export default function DesignCategorySectionCard({category}) {
           <div>
             {designs?.length ? designs?.map((data, i) => (
               <SwiperSlide key={i} className="flex !gap-2">
-                <Card data={data} />
+                <Card category={category} data={data} />
               </SwiperSlide>
             ))
           :

@@ -1,10 +1,11 @@
+import AdminLayout from '@/Layout/AdminLayout';
 import AdminDashboard from '@/components/AdminDashboard/AdminDashboard';
 
 const index = () => {
     return (
-        <div>
+        <AdminLayout title={'Admin Dashboard'}>
             <AdminDashboard />
-        </div>
+        </AdminLayout>
     );
 };
 
