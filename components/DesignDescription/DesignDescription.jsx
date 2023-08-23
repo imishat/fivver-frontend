@@ -12,6 +12,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import "./styles.module.css";
 // import required modules
+import { Watermark } from '@hirohe/react-watermark';
 import { Navigation } from "swiper/modules";
 import RelatedDesignCard from './RelatedDesignCard';
 
@@ -39,11 +40,16 @@ const DesignDescription = ({data:designData}) => {
               {design?.imageIds?.map((id, i) => (
                 <SwiperSlide key={i} className="flex !gap-2">
                   <div className="border">
-                    <img
+                  <Watermark text="Watermark">
+    <div style={{ width: 500, height: 500, backgroundColor: '#000' }}>
+    <img
                       className="w-full h-full"
                       src={`http://103.49.169.89:30912/api/v1.0/files/download/public/${id}`}
                       alt=""
                     />
+    </div>
+  </Watermark>
+                    
                   </div>
                 </SwiperSlide>
               ))}
