@@ -14,20 +14,44 @@ import "./styles.module.css";
 // import required modules
 import { Navigation } from "swiper/modules";
 import RelatedDesignCard from './RelatedDesignCard';
+import { useDispatch, useSelector } from 'react-redux';
+import { addToCart } from '../redux/features/cart/cart';
+import useToast from '../utility/useToast';
 
 const DesignDescription = ({data:designData}) => {
-  console.log(designData)
+
+  const { Toast, showToast } = useToast();
+ 
+  const {products}= useSelector(state => state.cart);
   const design = designData?.data?.design
-  // import fake data
-  const [designs, setDesigns] = useState([]);
-  useEffect(() => {
-    axios.get(`/design.json`).then((res) => {
-      setDesigns(res.data);
-    });
-  }, []);
+
+
+
+  const [isAdded, setIsAdded] = useState(false);
+console.log(isAdded)
+  // send data in redux cart store
+  const dispatch = useDispatch()
+
+  const handleAddProduct = (product) => {
+  
+      // Check if the product is already in the cart
+      const isProductInCart =products.find(item => item.designId=== product
+        .designId);
+      
+      if (!isProductInCart) {
+        dispatch(addToCart(product)); // Assuming you're dispatching an action to add to cart
+        showToast('Product Added', 'success');
+        setIsAdded(true);
+      } else {
+        showToast('Product is already in the cart', 'error');
+        setIsAdded(false);
+      }
+  
+  };
 
   return (
        <div>
+               <Toast/>
       <div className="w-full sm:flex justify-center my-12 md:gap-4">
         <Swiper
           navigation={true}
@@ -71,8 +95,8 @@ const DesignDescription = ({data:designData}) => {
             </ul>
           </div>
           <div className="space-y-3">
-            <button className="py-2 w-full hover:bg-blue-200 duration-300 border-2 rounded-full border-blue-400 text-[#1B8CDC] font-bold text-xl">
-              Add to cart
+            <button className="py-2 w-full hover:bg-blue-200 duration-300 border-2 rounded-full border-blue-400 text-[#1B8CDC] font-bold text-xl"onClick={() => handleAddProduct(design)} disabled={isAdded}>
+            {isAdded ? 'Product added ' : 'Add to cart'}
             </button>
             <button className="py-2 w-full hover:bg-blue-600 duration-300 text-white font-bold border bg-[#1B8CDC] rounded-full border-blue-400 text-xl">
               Project Start
