@@ -25,10 +25,10 @@ const DesignDescription = ({data:designData}) => {
   const {products}= useSelector(state => state.cart);
   const design = designData?.data?.design
 
-
+  
 
   const [isAdded, setIsAdded] = useState(false);
-console.log(isAdded)
+
   // send data in redux cart store
   const dispatch = useDispatch()
 
@@ -39,12 +39,14 @@ console.log(isAdded)
         .designId);
       
       if (!isProductInCart) {
-        dispatch(addToCart(product)); // Assuming you're dispatching an action to add to cart
+        dispatch(addToCart(product));
+         // Assuming you're dispatching an action to add to cart
         showToast('Product Added', 'success');
         setIsAdded(true);
       } else {
         showToast('Product is already in the cart', 'error');
         setIsAdded(false);
+       
       }
   
   };
@@ -95,9 +97,12 @@ console.log(isAdded)
             </ul>
           </div>
           <div className="space-y-3">
-            <button className="py-2 w-full hover:bg-blue-200 duration-300 border-2 rounded-full border-blue-400 text-[#1B8CDC] font-bold text-xl"onClick={() => handleAddProduct(design)} disabled={isAdded}>
+            <button className="py-2 w-full hover:bg-blue-200 duration-300 border-2 rounded-full border-blue-400 text-[#1B8CDC] font-bold text-xl"onClick={() => handleAddProduct(design)} disabled={
+              
+              isAdded}>
             {isAdded ? 'Product added ' : 'Add to cart'}
             </button>
+            <p>{design.isAdded}</p>
             <button className="py-2 w-full hover:bg-blue-600 duration-300 text-white font-bold border bg-[#1B8CDC] rounded-full border-blue-400 text-xl">
               Project Start
             </button>

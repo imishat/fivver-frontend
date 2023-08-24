@@ -9,10 +9,11 @@ const CartSidebar = ({ cartShow, setCartShow }) => {
 
     
   const dispatch = useDispatch()
-    const {products}=useSelector((state)=>state.cart)
+  //get data from reduc store 
+    const {products,isAdded}=useSelector((state)=>state.cart)
 
     const handlecheckoutProduct=(product)=>{
-console.log(product,'product')
+console.log(isAdded,'product')
     }
     
   return (
