@@ -17,11 +17,11 @@ const AllDesignByCatetgory = ({categoryId}) => {
   const category = categories?.data?.categories[0]
     
     // Count
-    const count  = 10
+    const count = Math.ceil((designData?.data?.totalCount || 10 )/ 10)
 
     // all designs
     const designs = designData?.data?.designs
-    console.log(currentPage)
+ 
   return (
     <div>
       {/* Design Title */}
