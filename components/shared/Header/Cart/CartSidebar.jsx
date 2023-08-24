@@ -1,10 +1,8 @@
 
 import { removeFromCart } from "@/components/redux/features/cart/cart";
-import axios from "axios";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import { RiCloseLine } from "react-icons/ri";
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux';
 const CartSidebar = ({ cartShow, setCartShow }) => {
 
     
@@ -35,7 +33,9 @@ console.log(product,'product')
         {/* Single Desing */}
         {
             products.map(cart=>{
-                return  <div key={cart.id} className="flex justify-between items-center px-3 py-2 border bg-red-700" onClick={()=>handlecheckoutProduct(cart)} >
+                return  <label key={cart._id} htmlFor={cart?._id} className="flex relative items-center">
+                  <input className="checkbox absolute checkbox-info left-4 top-3 checkbox-sm rounded" type="checkbox" name="" id={cart?._id} />
+                  <div key={cart.id} className="flex justify-between items-center px-3 py-2 border" onClick={()=>handlecheckoutProduct(cart)} >
           <div className="flex gap-2 w-full ">
             <div className="w-20 h-16">
               <img
@@ -56,6 +56,7 @@ console.log(product,'product')
             </button>
           </div>
         </div>
+                </label>
             })
         }
        
