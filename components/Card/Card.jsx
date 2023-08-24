@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 const Card = ({data,category}) => {
-console.log(category)
+
     return (
         <div className="border border-gray-300">
             <div className="bg-rose-100 h-40 w-full">

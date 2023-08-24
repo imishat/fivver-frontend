@@ -1,27 +1,27 @@
 import Pagination from "rc-pagination";
 import { useState } from "react";
 import DesignCard from "../Card/DesignCard";
-import Related from "../Related/Related";
 import { useAllDesigns } from "../queries/query/designs.query";
 import { useGetCategoryData } from "../queries/query/getCategory.query";
 
 const AllDesignByCatetgory = ({categoryId}) => {
 
-  // get category by id
-const {data: categories} = useGetCategoryData({categoryId})
-const category = categories?.data?.categories[0]
-
+  // pagination
+  const [currentPage,setCurrentPage] = useState(1)
+  
   // get all desings
-  const {data:designData} = useAllDesigns({designId:categoryId})
- 
-    // pagination
-    const [currentPage,setCurrentPage] = useState()
+  const {data:designData} = useAllDesigns({designId:categoryId,page:currentPage,limit:10})
+  
+  // get category by id
+  const {data: categories} = useGetCategoryData({categoryId})
+  const category = categories?.data?.categories[0]
     
     // Count
     const count  = 10
 
     // all designs
     const designs = designData?.data?.designs
+    console.log(currentPage)
   return (
     <div>
       {/* Design Title */}
@@ -60,7 +60,7 @@ const category = categories?.data?.categories[0]
       </div>
       
       {/* Related */}
-      <Related />
+      {/* <Related /> */}
     </div>
   );
 };

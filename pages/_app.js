@@ -1,5 +1,7 @@
 import '@/styles/globals.css'
 import { QueryClientProvider } from '../components/provider/QueryClientProvider'
+import { Provider } from 'react-redux';
+import { store } from '@/components/redux/store';
 
 
 export default function App({ Component, pageProps }) {
@@ -7,9 +9,9 @@ export default function App({ Component, pageProps }) {
 
 if (myObject && myObject.mount) {
   // Do something with myObject.mount
-   return <QueryClientProvider  >
+   return<Provider store={store}><QueryClientProvider  >
      <Component {...pageProps} />
-  </QueryClientProvider>
+  </QueryClientProvider></Provider>
    
 } else {
   console.log('myObject or myObject.mount is undefined');

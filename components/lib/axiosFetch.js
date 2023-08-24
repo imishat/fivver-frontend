@@ -3,7 +3,7 @@ import axios from "axios";
 
 
 const axiosInstance = axios.create({
-  baseURL: "http://103.49.169.89:30912/api/v1.0",
+  baseURL: process.env.NEXT_PUBLIC_API,
   headers: { "X-Custom-Header": "foobar" },
 });
 

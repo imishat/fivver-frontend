@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 const RelatedDesignCard = ({data}) => {
-    console.log(data)
+    
     return (
         <div className="border border-gray-300">
             <div className="bg-rose-100 h-40 w-full">
