@@ -1,20 +1,20 @@
 import Pagination from "rc-pagination";
 import { useState } from "react";
 import CompanyCard from "../Card/CompanyCard";
-import Related from "../Related/Related";
 import { useAllDesigns } from "../queries/query/designs.query";
 const AllDesignByCompany = ({ companyId }) => {
   // pagination
-  const [currentPage, setCurrentPage] = useState();
+  const [currentPage, setCurrentPage] = useState(1);
   console.log(currentPage);
   // Count
   const count = 10;
 
-  const { data: designData } = useAllDesigns({ designId: companyId });
+  const { data: designData } = useAllDesigns({ designId: companyId , page:currentPage,limit:10});
   const query = designData?.data?.query;
 
 
   const designs = designData?.data?.designs
+  console.log(query,'Design')
   return (
     <div>
       {/* Design Title */}
@@ -61,7 +61,7 @@ const AllDesignByCompany = ({ companyId }) => {
       </div>
 
       {/* Related */}
-      <Related />
+      {/* <Related /> */}
     </div>
   );
 };
