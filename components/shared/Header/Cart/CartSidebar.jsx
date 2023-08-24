@@ -1,6 +1,7 @@
 
 import { removeFromCart } from "@/components/redux/features/cart/cart";
 import Link from "next/link";
+import { useState } from "react";
 import { RiCloseLine } from "react-icons/ri";
 import { useDispatch, useSelector } from 'react-redux';
 const CartSidebar = ({ cartShow, setCartShow }) => {
@@ -10,9 +11,17 @@ const CartSidebar = ({ cartShow, setCartShow }) => {
     const {products}=useSelector((state)=>state.cart)
 
     const handlecheckoutProduct=(product)=>{
-console.log(product,'product')
+
     }
+
     
+    // get selected designs
+    const [selectedDesign,setSelectedDesign]= useState([])
+
+
+console.log(selectedDesign)
+
+
   return (
     <div
       className={`h-screen duration-300 top-0 z-50 fixed w-full sm:w-96 ${
@@ -33,8 +42,10 @@ console.log(product,'product')
         {/* Single Desing */}
         {
             products.map(cart=>{
-                return  <label key={cart._id} htmlFor={cart?._id} className="flex relative items-center">
-                  <input className="checkbox absolute checkbox-info left-4 top-3 checkbox-sm rounded" type="checkbox" name="" id={cart?._id} />
+
+
+                return  <label  key={cart.designId} htmlFor={cart?._id} className="flex relative items-center">
+                  <input onChange={()=>setSelectedDesign([...selectedDesign,cart])} className="checkbox absolute checkbox-info left-4 top-3 checkbox-sm rounded" type="checkbox" value={cart.designId} id={cart?._id} />
                   <div key={cart.id} className="flex justify-between items-center px-3 py-2 border" onClick={()=>handlecheckoutProduct(cart)} >
           <div className="flex gap-2 w-full ">
             <div className="w-20 h-16">
@@ -70,6 +81,7 @@ console.log(product,'product')
           Close
         </button>
         <Link
+        onClick={()=>handleSelectedData()}
           href={"#"}
           className="w-1/2 inline-block text-center bg-[#3B82F6] py-2"
         >
