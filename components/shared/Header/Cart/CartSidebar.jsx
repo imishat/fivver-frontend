@@ -45,7 +45,13 @@ console.log(selectedDesign)
 
 
                 return  <label  key={cart.designId} htmlFor={cart?._id} className="flex relative items-center">
-                  <input onChange={()=>setSelectedDesign([...selectedDesign,cart])} className="checkbox absolute checkbox-info left-4 top-3 checkbox-sm rounded" type="checkbox" value={cart.designId} id={cart?._id} />
+                  <input onChange={(e)=>
+                  e.target.checked ?
+                  setSelectedDesign([...selectedDesign,cart])
+                  :
+                  setSelectedDesign(selectedDesign.filter(design=>design.designId!== cart.designId))
+
+                  } className="checkbox absolute checkbox-info left-4 top-3 checkbox-sm rounded" type="checkbox" value={cart.designId} id={cart?._id} />
                   <div key={cart.id} className="flex justify-between items-center px-3 py-2 border" onClick={()=>handlecheckoutProduct(cart)} >
           <div className="flex gap-2 w-full ">
             <div className="w-20 h-16">
