@@ -6,15 +6,15 @@ const AllDesignByCompany = ({ companyId }) => {
   // pagination
   const [currentPage, setCurrentPage] = useState(1);
   console.log(currentPage);
-  // Count
-  const count = 10;
+
 
   const { data: designData } = useAllDesigns({ designId: companyId , page:currentPage,limit:10});
   const query = designData?.data?.query;
 
-
+  // Count
+  const count = Math.ceil((designData?.data?.totalCount || 10 )/ 10)
   const designs = designData?.data?.designs
-  console.log(query,'Design')
+ 
   return (
     <div>
       {/* Design Title */}

@@ -1,20 +1,34 @@
 
 import { removeFromCart } from "@/components/redux/features/cart/cart";
-import axios from "axios";
+import { checkoutCart } from "@/components/redux/features/cart/checkoutCart/checkoutSlice";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { RiCloseLine } from "react-icons/ri";
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux';
 const CartSidebar = ({ cartShow, setCartShow }) => {
 
     
   const dispatch = useDispatch()
-    const {products}=useSelector((state)=>state.cart)
+  //get data from reduc store 
+    const {products,isAdded}=useSelector((state)=>state.cart)
 
-    const handlecheckoutProduct=(product)=>{
-console.log(product,'product')
-    }
     
+
+    
+    // get selected designs
+    const [selectedDesign,setSelectedDesign]= useState([])
+
+
+console.log(selectedDesign)
+
+// send checkout added product to redux store
+ const handlecheckoutProduct =(designs)=>{
+  console.log(designs,"desing")
+  dispatch(checkoutCart(designs))
+ }
+
+
+
   return (
     <div
       className={`h-screen duration-300 top-0 z-50 fixed w-full sm:w-96 ${
@@ -35,7 +49,12 @@ console.log(product,'product')
         {/* Single Desing */}
         {
             products.map(cart=>{
-                return  <div key={cart.id} className="flex justify-between items-center px-3 py-2 border bg-red-700" onClick={()=>handlecheckoutProduct(cart)} >
+
+
+                return  <label  key={cart.designId} htmlFor={cart?._id} className="flex relative items-center">
+                  <input onChange={()=>{setSelectedDesign({...selectedDesign,cart})
+                  handlecheckoutProduct(selectedDesign)}} className="checkbox absolute checkbox-info left-4 top-3 checkbox-sm rounded" type="checkbox" value={cart.designId} id={cart?._id} />
+                  <div key={cart.id} className="flex justify-between items-center px-3 py-2 border"  >
           <div className="flex gap-2 w-full ">
             <div className="w-20 h-16">
               <img
@@ -52,10 +71,13 @@ console.log(product,'product')
           </div>
           <div>
             <button >
-              <RiCloseLine onClick={()=>dispatch(removeFromCart(cart))} size={24} />
+              <RiCloseLine onClick={()=>dispatch(removeFromCart(cart))
+              
+              } size={24} />
             </button>
           </div>
         </div>
+                </label>
             })
         }
        
@@ -69,6 +91,7 @@ console.log(product,'product')
           Close
         </button>
         <Link
+        onClick={()=>handlecheckoutProduct()}
           href={"#"}
           className="w-1/2 inline-block text-center bg-[#3B82F6] py-2"
         >

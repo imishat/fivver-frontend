@@ -11,6 +11,7 @@ import { useState } from "react";
 import "./styles.module.css";
 // import required modules
 import Watermark from "@uiw/react-watermark";
+import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigation } from "swiper/modules";
 import { addToCart } from "../redux/features/cart/cart";
@@ -19,29 +20,32 @@ import RelatedDesignCard from "./RelatedDesignCard";
 
 const DesignDescription = ({ data: designData }) => {
   const { Toast, showToast } = useToast();
+ 
+  const {products}= useSelector(state => state.cart);
+  const design = designData?.data?.design
 
-  const { products } = useSelector((state) => state.cart);
-  const design = designData?.data?.design;
+
 
   const [isAdded, setIsAdded] = useState(false);
-  console.log(isAdded);
+console.log(isAdded)
   // send data in redux cart store
   const dispatch = useDispatch();
 
   const handleAddProduct = (product) => {
-    // Check if the product is already in the cart
-    const isProductInCart = products.find(
-      (item) => item.designId === product.designId
-    );
-
-    if (!isProductInCart) {
-      dispatch(addToCart(product)); // Assuming you're dispatching an action to add to cart
-      showToast("Product Added", "success");
-      setIsAdded(true);
-    } else {
-      showToast("Product is already in the cart", "error");
-      setIsAdded(false);
-    }
+  
+      // Check if the product is already in the cart
+      const isProductInCart =products.find(item => item.designId=== product
+        .designId);
+      
+      if (!isProductInCart) {
+        dispatch(addToCart(product)); // Assuming you're dispatching an action to add to cart
+        showToast('Product Added', 'success');
+        setIsAdded(true);
+      } else {
+        showToast('Product is already in the cart', 'error');
+        setIsAdded(false);
+      }
+  
   };
 
   return (
@@ -65,7 +69,10 @@ const DesignDescription = ({ data: designData }) => {
                       width={50}
                       image="https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Coop_Norge_logo.svg/320px-Coop_Norge_logo.svg.png"
                     >
-                      <img
+
+                      <Image
+                      height={380}
+                      width={640}
                         className="w-full h-full"
                         src={`http://103.49.169.89:30912/api/v1.0/files/download/public/${id}`}
                         alt=""
@@ -99,13 +106,10 @@ const DesignDescription = ({ data: designData }) => {
             </ul>
           </div>
           <div className="space-y-3">
-            <button
-              className="py-2 w-full hover:bg-blue-200 duration-300 border-2 rounded-full border-blue-400 text-[#1B8CDC] font-bold text-xl"
-              onClick={() => handleAddProduct(design)}
-              disabled={isAdded}
-            >
-              {isAdded ? "Product added " : "Add to cart"}
+            <button className="py-2 w-full hover:bg-blue-200 duration-300 border-2 rounded-full border-blue-400 text-[#1B8CDC] font-bold text-xl"onClick={() => handleAddProduct(design)} disabled={isAdded}>
+            {isAdded ? 'Product added ' : 'Add to cart'}
             </button>
+            <p>{design.isAdded}</p>
             <button className="py-2 w-full hover:bg-blue-600 duration-300 text-white font-bold border bg-[#1B8CDC] rounded-full border-blue-400 text-xl">
               Project Start
             </button>
