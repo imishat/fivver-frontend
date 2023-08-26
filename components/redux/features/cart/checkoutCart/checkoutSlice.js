@@ -1,7 +1,7 @@
 const { createSlice } = require("@reduxjs/toolkit")
 
 const initialState={
-products:[]
+checkoutProducts:[]
 }
 const checkOutSlice=createSlice({
     name:"checkout",
@@ -9,7 +9,7 @@ const checkOutSlice=createSlice({
     reducers:{
 
         checkoutCart:(state,action)=>{
-            state.products.push(action.payload)
+            state.checkoutProducts.push(action.payload)
         }
     },
 })
