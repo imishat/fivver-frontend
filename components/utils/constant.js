@@ -17,6 +17,8 @@ export const SING_UP="users/login";
 export const CREATE_DESIGN="designs";
 // categories
 export const GET_CATEGORIES ="categories"
+// subcategories
+export const GET_SUBCATEGORIES ="subcategories"
 // file upload
 export const UPLOAD_FILE="files"
 // get file by id

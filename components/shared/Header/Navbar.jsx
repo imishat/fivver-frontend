@@ -1,10 +1,11 @@
 import { useAllDesigns } from "@/components/queries/query/designs.query";
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { BsCart4, BsSearch } from "react-icons/bs";
 import { RiCloseLine, RiMenu4Line } from "react-icons/ri";
-import CartSidebar from "./Cart/CartSidebar";
+const CartSidebar = dynamic(() => import('./Cart/CartSidebar'), { ssr: false })
 
 const Navbar = () => {
   // responsive menu hide and show

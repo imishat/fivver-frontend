@@ -1,5 +1,5 @@
 import Main from '@/Layout/Main';
-import Payment from '@/components/Orders/Payment';
+import Payment from '@/components/Project/Payment';
 
 const index = () => {
     return (

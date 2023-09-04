@@ -1,5 +1,15 @@
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import PyamentProjectCard from "./PyamentProjectCard";
 
 const Payment = () => {
+
+    // get project data from localstorage
+    const [projectData,setProjectData] = useState([])
+    useEffect(()=>{
+       setProjectData(JSON.parse(typeof window!== 'undefined' && localStorage.getItem('projectData')))
+    },[])
+    console.log(projectData)
     return (
         <div className="md:w-[70%] mx-auto">
             <div>
@@ -8,29 +18,10 @@ const Payment = () => {
                 </div>
                <div className="border mb-12">
                 {/* Header */}
-               <div className="px-4 py-4 bg-[#C6DFF5]">
-                    <div className="sm:flex justify-between items-center">
-                        <div className="flex items-center gap-4">
-                        <div className="w-24 h-16 bg-rose-200">
-                            <img src="" alt="" />
-                        </div>
-                        <div>
-                            <h3 className="text-xl font-semibold">Door Hanger Design</h3>
-                        </div>
-                        </div>
-                        <div className="text-center">
-                            <p>Quantity - 1 </p>
-                        </div>
-                    </div>
-                    <div className="sm:flex space-y-3 my-2 text-center justify-between items-center">
-                        <p>Double Sided Design</p>
-                        <div className="flex justify-center items-center gap-2">
-                            <input type="checkbox" className="toggle toggle-info border border-info toggle-sm w-9" id="" />
-                            Extra fast 1 day delivery <span className="text-blue-500 font-bold">$10</span>
-                        </div>
-                            <h2 className="text-4xl font-bold px-4">$40</h2>
-                    </div>
-                </div>
+                {
+                    projectData.map((project,i)=><PyamentProjectCard key={i} project={project} />)
+                }
+           
                 {/* Body */}
                 <div className="p-6 bg-blue-50">
                     <div>
@@ -100,7 +91,7 @@ const Payment = () => {
                             <div className="sm:w-1/2 flex items-center justify-center">
                                 <div className="w-full text-center">
                                 <p className="py-4">Single Payment</p>
-                                <button className="px-4 py-4 bg-[#2692DD] w-full text-white text-2xl rounded-lg">Pay Now</button>
+                                <Link href={'/project/requirment'} className="px-4 py-4 bg-[#2692DD] w-full text-white text-2xl rounded-lg">Pay Now</Link>
                                 </div>
                             </div>
                         </div>

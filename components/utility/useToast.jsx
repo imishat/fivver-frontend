@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 const useToast = () => {
   const [toast, setToast] = useState(null);
@@ -22,7 +22,7 @@ const useToast = () => {
 
     const { message, type } = toast;
 
-    const toastClasses = `fixed text-2xl top-[85px] right-0 m-4 p-4 rounded-md ${type === 'success' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'
+    const toastClasses = `fixed z-50 text-xl top-[85px] right-0 m-4 px-4 py-2 rounded ${type === 'success' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'
       }`;
 
     return (

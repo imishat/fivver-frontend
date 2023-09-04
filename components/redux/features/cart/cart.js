@@ -2,17 +2,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 
-
-
-
-
-
 const initialState
  = {
     products:[],
-   
-
-   
   };
   const cartSlice=createSlice({
     name: 'cart',
@@ -29,6 +21,9 @@ const initialState
             } else {
               const newProduct = { ...action.payload, quantity: 1,  isAdded:true};
               state.products.push(newProduct);
+
+             localStorage.setItem('selected',JSON.stringify(state.products))
+              
              
             }                                                                                   
     },
@@ -36,8 +31,8 @@ const initialState
         state.products = state.products.filter(
           (product) => product.designId !== action.payload.designId
         );
-  
-        
+           localStorage.setItem('selected',JSON.stringify(state.products.filter(design=> design.designId!==action.payload.designId )))
+        console.log(action)
       },
  
 

@@ -10,7 +10,6 @@ import "swiper/css/navigation";
 import { useState } from "react";
 import "./styles.module.css";
 // import required modules
-import Watermark from "@uiw/react-watermark";
 import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigation } from "swiper/modules";
@@ -62,14 +61,6 @@ console.log(isAdded)
               {design?.imageIds?.map((id, i) => (
                 <SwiperSlide key={i} className="flex !gap-2">
                   <div className="border">
-                    <Watermark
-                      gapX={88}
-                      gapY={88}
-                      height={20}
-                      width={50}
-                      image="https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Coop_Norge_logo.svg/320px-Coop_Norge_logo.svg.png"
-                    >
-
                       <Image
                       height={380}
                       width={640}
@@ -77,7 +68,6 @@ console.log(isAdded)
                         src={`http://103.49.169.89:30912/api/v1.0/files/download/public/${id}`}
                         alt=""
                       />
-                    </Watermark>
                   </div>
                 </SwiperSlide>
               ))}
