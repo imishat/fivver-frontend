@@ -9,7 +9,7 @@ const Payment = () => {
     useEffect(()=>{
        setProjectData(JSON.parse(typeof window!== 'undefined' && localStorage.getItem('projectData')))
     },[])
-    console.log(projectData)
+    const totalPrice = projectData?.length && projectData?.reduce((prev,current) =>  prev + current.totalPrice, 0);
     return (
         <div className="md:w-[70%] mx-auto">
             <div>
@@ -71,21 +71,21 @@ const Payment = () => {
                         {/* Order info */}
                         <div className="sm:flex justify-between bg-white my-4 gap-12 p-4 border">
                             <div className="sm:w-1/2 space-y-3">
-                                <ul className="flex justify-between items-center">
+                                {/* <ul className="flex justify-between items-center">
                                     <li>Door hanger design</li>
                                     <li className="font-bold">$40</li>
                                 </ul>
                                 <ul className="flex justify-between items-center">
                                     <li>Extra fast delivery</li>
                                     <li className="font-bold">$00</li>
-                                </ul>
+                                </ul> */}
                                 <ul className="flex border-b pb-3 border-gray-300 justify-between items-center">
                                     <li>Fee</li>
                                     <li className="font-bold">$00</li>
                                 </ul>
                                 <ul className="flex justify-between items-center">
                                     <li>Total</li>
-                                    <li className="font-bold">$40</li>
+                                    <li className="font-bold">${totalPrice}</li>
                                 </ul>
                             </div>
                             <div className="sm:w-1/2 flex items-center justify-center">

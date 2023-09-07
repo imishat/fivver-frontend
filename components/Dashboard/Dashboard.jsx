@@ -1,5 +1,6 @@
+import dynamic from "next/dynamic";
 import { BsSearch } from "react-icons/bs";
-import ClientCard from "./ClientCard";
+const ClientCard = dynamic(() => import('./ClientCard'), { ssr: false })
 
 const Dashboard = () => {
     return (

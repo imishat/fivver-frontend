@@ -1,10 +1,14 @@
 import Main from '@/Layout/Main';
-import Dashboard from '@/components/Dashboard/Dashboard';
+import AdminRoute from '@/components/Routes/AdminRoute';
+import dynamic from 'next/dynamic';
+const Dashboard = dynamic(() => import('@/components/Dashboard/Dashboard'), { ssr: false })
 
 const index = () => {
     return (
         <Main title={'Dashboard'}>
-            <Dashboard />
+           <AdminRoute>
+           <Dashboard />
+           </AdminRoute>
         </Main>
     );
 };

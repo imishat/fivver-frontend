@@ -4,6 +4,7 @@ import useToast from '@/components/utility/useToast';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
+import { useSelector } from 'react-redux';
 
 const SignIn = ({setToggle}) => {
      // react hook form
@@ -16,10 +17,22 @@ const SignIn = ({setToggle}) => {
     formState: { errors },
   } = useForm();
 
+
+
   // router 
   const router = useRouter()
   // toast
 const { Toast, showToast } = useToast();
+  // token
+  const token =
+    typeof window !== "undefined" && localStorage.getItem("accessToken");
+// get user 
+const {user} = useSelector(state => state.user)
+
+// redirect 
+if(user?.email && token){
+  router.push('/')
+}
 
 // import send singup data function
 
@@ -34,6 +47,7 @@ const{mutate:SingData,isLoading}=useUserSingUp()
         if(res?.data){
           showToast('Sign In Successfully','success');
           localStorage.setItem('accessToken',res?.data?.accessToken)
+          
           reset()
           router.push('/')
         }else{

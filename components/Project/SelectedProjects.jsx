@@ -22,7 +22,7 @@ function SelectedProjects({select,setSubCatPrice,updateData,singleDesign}) {
                     <Image
                       height={100}
                       width={100}
-                      src={`http://103.49.169.89:30912/api/v1.0/files/download/public/${select.imageIds}`}
+                      src={`http://103.49.169.89:30912/api/v1.0/files/download/public/${select?.featuredImageId ? select?.featuredImageId : select?.imageIds[0]}`}
                       alt=""
                     />
                   </div>

@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 const Card = ({data,category}) => {
-console.log(data)
+
     return (
         <div className="border border-gray-300">
             <div className="bg-rose-100 h-40 w-full">

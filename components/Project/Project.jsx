@@ -90,18 +90,13 @@ console.log(subcategory)
       imageIds: singleDesign.imageIds,
       quantity: parseInt(data.quantity),
       isExtraFastDeliveryEnabled: data.extraFast,
-      totalPrice: 
-               
-        extraFast ?
-         ((subcategory?.price + 10 )  * quantity
-         ||
-         subCatPrice)
+      totalPrice: extraFast ?
+         ((subcategory?.price + 10 )  * quantity)
         
         :
         
-        ( subcategory?.price * quantity 
-        ||
-        subCatPrice)}
+        ( subcategory?.price * quantity)
+        }
     
 
     const filterdata = projectData.length? projectData?.filter(
@@ -120,7 +115,7 @@ console.log(subcategory)
           "projectData",
           JSON.stringify([modifyData])
           );
-          reset()
+         
       setUpdateData(!updateData);
     }
   };
@@ -163,7 +158,6 @@ console.log(subcategory)
             <div className="border py-1 px-3  bg-white">
               <select
                 {...register("subcategoryId", { required: true })}
-                onChange={(e)=>setSubCatId(e.target.value)}
                 onClick={(e)=>setSubCatId(e.target.value)}
                 className="w-full bg-white focus-visible::ring-0 focus-visible:outline-none text-sm"
                 id="design"
@@ -272,7 +266,7 @@ console.log(subcategory)
           </div>
           {/* save btn */}
           <div className="w-full p-3 flex justify-center items-center">
-            <button onClick={()=>setSubCatId('')} className="flex items-center gap-3 hover:bg-opacity-70 bg-[#3695E0] w-full text-white justify-center py-2 text-xl font-semibold">
+            <button disabled={!subcategory} className="flex items-center gap-3 hover:bg-opacity-70 bg-[#3695E0] disabled:bg-gray-500 w-full text-white justify-center py-2 text-xl font-semibold">
               Save
             </button>
           </div>

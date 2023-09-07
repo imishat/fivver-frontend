@@ -29,3 +29,5 @@ export const GET_DESIGNS="designs"
 export const COMPANIES="companies"
 // tags
 export const TAGS="tags"
+// get user
+export const GET_USER = 'users/profile'
