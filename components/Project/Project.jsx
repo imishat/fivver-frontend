@@ -180,7 +180,10 @@ console.log(subcategory)
               <p>Quantity</p>
               <select
                 {...register("quantity", { required: true })}
-                onChange={(e)=>setQuantity(e.target.value)}
+                onChange={(e)=>{
+                  setQuantity(e.target.value)
+                  
+                }} 
                 className="sm:px-12 px-2 py-2 bg-white border"
                 id="quantity"
               >

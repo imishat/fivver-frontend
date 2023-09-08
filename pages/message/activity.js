@@ -1,9 +1,11 @@
+import Main from "@/Layout/Main";
+import Activity from "@/components/Message/Activity";
 
 const activity = () => {
     return (
-        <div>
-            
-        </div>
+        <Main title={'Acitvity'}>
+            <Activity />
+        </Main>
     );
 };
 
