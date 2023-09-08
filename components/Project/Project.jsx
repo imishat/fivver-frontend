@@ -280,9 +280,9 @@ console.log(subcategory)
 
         {/* btn */}
         <div className="w-full p-3 flex justify-center items-center">
-          <Link href={'/project/payment'} className="flex items-center gap-3 hover:bg-opacity-70 bg-[#3695E0] w-full text-white justify-center py-2 text-xl font-semibold">
+         {projectData?.length ? <Link href={'/project/payment'} className="flex items-center gap-3 hover:bg-opacity-70 bg-[#3695E0] w-full text-white justify-center py-2 text-xl font-semibold">
             Continue (${totalPrice})
-          </Link>
+          </Link>:""}
         </div>
         {/* hint */}
         <div className="flex justify-center p-3 items-center">
