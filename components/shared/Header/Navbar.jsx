@@ -59,7 +59,7 @@ const {products,isAdded}=useSelector((state)=>state.cart)
             window.localStorage.getItem("selected")
         )
       );
-    }, [products]);
+    }, [products?.length]);
 
     
   // get user

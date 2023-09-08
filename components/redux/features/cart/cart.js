@@ -28,9 +28,18 @@ const initialState
             }                                                                                   
     },
     removeFromCart: (state, action) => {
+      const existing = state.products.find(
+        (product) => product._id === action.payload._id
+      );
+
+      if (existing && existing.quantity === 1) {
+        existing.quantity = existing.quantity - 1;
+      } else {
         state.products = state.products.filter(
-          (product) => product.designId !== action.payload.designId
+          (product) => product._id !== action.payload._id
         );
+      }
+
            localStorage.setItem('selected',JSON.stringify(state.products.filter(design=> design.designId!==action.payload.designId )))
         console.log(action)
       },
