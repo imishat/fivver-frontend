@@ -38,6 +38,10 @@ const Project = () => {
     categoryId: singleDesign.categoryId,
   });
 
+    // get design id
+
+    const [designId,setDesignId] = useState('')
+
   // subcategories
   const subcategories = category?.data?.categories[0]?.subcategories;
 
@@ -51,7 +55,7 @@ const Project = () => {
           window.localStorage.getItem("projectData")
       )
     );
-  }, [subcategories, updateData,selectedDesign]);
+  }, [subcategories,designId, updateData,selectedDesign]);
 
   
   // total price
@@ -74,7 +78,14 @@ const subcategory = subcategoryData?.data?.subcategory
 // extra fast price
 const [extraFast,setExtraFast] = useState(false)
 
-console.log(subcategory)
+
+
+useEffect(()=>{
+    console.log(designId)
+    localStorage.setItem('projectData',JSON.stringify(projectData.filter(project=>project.designId!==designId)))
+    setUpdateData(!updateData)
+  },[designId])
+
   // handle selected single design
 
   const selectedSingleDesign = (data) => {
@@ -82,6 +93,7 @@ console.log(subcategory)
     const modifyData = {
       status: "Pending",
       title: singleDesign.title,
+      designId: singleDesign.designId,
       description: singleDesign.description,
       size: singleDesign.size,
       fileFormat: singleDesign.fileFormat,
@@ -119,6 +131,8 @@ console.log(subcategory)
       setUpdateData(!updateData);
     }
   };
+
+
 
   // get all price
  const totalPrice = projectData?.length && projectData?.reduce((prev,current) =>  prev + current.totalPrice, 0);
@@ -276,7 +290,7 @@ console.log(subcategory)
         </form>
         {/* saved data */}
         {projectData?.length ?
-        projectData?.map((select,i) =><SelectedProjects singleDesign={singleDesign} setSubCatPrice={setSubCatPrice} updateData={updateData} key={i} select={select} />):''}
+        projectData?.map((select,i) =><SelectedProjects setDesignId={setDesignId} singleDesign={singleDesign} setSubCatPrice={setSubCatPrice} updateData={updateData} key={i} select={select} />):''}
 
         {/* btn */}
         <div className="w-full p-3 flex justify-center items-center">

@@ -1,9 +1,9 @@
 import Image from "next/image";
 import { useEffect } from "react";
-import { IoFlashSharp } from 'react-icons/io5';
+import { IoCloseCircle, IoFlashSharp } from 'react-icons/io5';
 import { useGetSubCategoryById } from "../queries/query/getSubcategory.query";
 
-function SelectedProjects({select,setSubCatPrice,updateData,singleDesign}) {
+function SelectedProjects({select,setSubCatPrice,updateData,singleDesign,setDesignId}) {
 
     // get sub category by id
     const {data:subcategoryData} = useGetSubCategoryById({subcategoryId:select.subcategoryId})
@@ -14,10 +14,10 @@ function SelectedProjects({select,setSubCatPrice,updateData,singleDesign}) {
       return setSubCatPrice(subcategory?.price)
     },[select.price,updateData,singleDesign.designId,subcategory])
 
-
     return (
         <div className="mx-4 border p-1">
                 <div className="flex gap-2 items-center">
+                  <button onClick={()=>setDesignId(select.designId)} ><IoCloseCircle color="red" /></button>
                   <div className="w-14 h-auto">
                     <Image
                       height={100}

@@ -11,8 +11,10 @@ import { useState } from "react";
 import "./styles.module.css";
 // import required modules
 import Image from "next/image";
+import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigation } from "swiper/modules";
+import { useAllDesigns } from "../queries/query/designs.query";
 import { addToCart } from "../redux/features/cart/cart";
 import useToast from "../utility/useToast";
 import RelatedDesignCard from "./RelatedDesignCard";
@@ -23,7 +25,8 @@ const DesignDescription = ({ data: designData }) => {
   const {products}= useSelector(state => state.cart);
   const design = designData?.data?.design
 
-
+// router
+const router = useRouter()
 
   const [isAdded, setIsAdded] = useState(false);
 console.log(isAdded)
@@ -46,7 +49,15 @@ console.log(isAdded)
       }
   
   };
-
+const [projectId,setProjectId] = useState('')
+  const {data:projectData} = useAllDesigns({designId:projectId,page:1,limit:1000})
+  // handle project start
+  const handleProjectStart = id =>{
+    setProjectId(id)
+    console.log(id)
+    localStorage.setItem('designs',JSON.stringify([projectData?.data?.designs?.find(project=>project.designId===id)]))
+    router.push('/project')
+  }
   return (
     <div>
       <Toast />
@@ -100,7 +111,7 @@ console.log(isAdded)
             {isAdded ? 'Product added ' : 'Add to cart'}
             </button>
             <p>{design.isAdded}</p>
-            <button className="py-2 w-full hover:bg-blue-600 duration-300 text-white font-bold border bg-[#1B8CDC] rounded-full border-blue-400 text-xl">
+            <button onClick={()=>handleProjectStart(design.designId)} className="py-2 w-full hover:bg-blue-600 duration-300 text-white font-bold border bg-[#1B8CDC] rounded-full border-blue-400 text-xl">
               Project Start
             </button>
           </div>

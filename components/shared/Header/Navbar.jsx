@@ -47,8 +47,8 @@ const Navbar = () => {
     router.push("/join");
   };
 // get selected
-const {products,isAdded}=useSelector((state)=>state.cart)
-  console.log(products)
+const {products,isAdded,removed}=useSelector((state)=>state.cart)
+
     // get data from local
     const [projectData, setProjectData] = useState([]);
 
@@ -59,7 +59,7 @@ const {products,isAdded}=useSelector((state)=>state.cart)
             window.localStorage.getItem("selected")
         )
       );
-    }, [products?.length]);
+    }, [products?.length,removed]);
 
     
   // get user
@@ -78,7 +78,9 @@ const {products,isAdded}=useSelector((state)=>state.cart)
           {/* Logo */}
 
        <div className="w-14">
-       <img className="md:w-20" src="/images/logo.png" alt="" />
+      <Link href={'/'}>
+      <img className="md:w-20" src="/images/logo.png" alt="" />
+      </Link>
        </div>
 
           {/* Cart and seart icon in mobile */}
@@ -170,7 +172,7 @@ const {products,isAdded}=useSelector((state)=>state.cart)
             <li>
               <Link
                 className="py-2 hover:border-b hover:border-white border-b border-transparent duration-300 lg:px-3 inline-block"
-                href={"#"}
+                href={"/message"}
               >
                 Messages
               </Link>

@@ -1,25 +1,45 @@
+import { useRouter } from 'next/router';
+import { useState } from 'react';
 import { HiCheckCircle } from 'react-icons/hi2';
-const PriceCard = ({data}) => {
+import { useAllDesigns } from '../queries/query/designs.query';
+const PriceCard = ({category}) => {
+    // router 
+    const router = useRouter()
+    // get design id
+    const [desingId,setDesingId] = useState('')
+    // get all designs by categories
+    const {data:designData} = useAllDesigns({designId:desingId,page:1,limit:1000})
+
+    const handleStartProject = id =>{
+     
+        setDesingId(id)
+        // console.log(designData)
+        const categoryData = designData?.data?.designs?.filter(design=>design.categoryId===id)
+        // set data in selected data
+        localStorage.setItem('designs',JSON.stringify(categoryData))
+        router.push('/project')
+    }
     return (
         <div className="h-full sm:h-52 rounded-xl overflow-hidden border border-[#D4C9C9] relative">
             {/* Title */}
             <div className=" w-full bg-[#FFEFEF] flex justify-center items-center h-12 ">
-                <h3 className="text-2xl font-bold">Door Hanger Design</h3>
+                <h3 className="text-2xl font-bold">{category.name}</h3>
             </div>
             {/* Prices */}
             <div className="flex flex-col sm:flex-row justify-around w-full items-center py-5">
                 <div className='flex sm:justify-around justify-between sm:w-2/3 px-3'>
-                <div>
-                    <p className="sm:text-xl">Single Side Design</p>
-                    <h3 className="text-center text-[#1B8CDC] sm:text-xl font-bold">$20 USD</h3>
-                </div>
-                <div className=''>
-                    <p className="sm:text-xl">Double Sided Design</p>
-                    <h3 className="text-center text-[#1B8CDC] sm:text-xl font-bold">$50 USD</h3>
-                </div>
+               {
+                category?.subcategories.map((sub,i)=>{
+                    return (
+                    <div key={i}>
+                    <p className="sm:text-xl">{sub.name}</p>
+                    <h3 className="text-center text-[#1B8CDC] sm:text-xl font-bold">${sub.price}USD</h3>
+                </div>)
+                })
+               }
                 </div>
                 <div className="sm:w-40 sm:h-16 flex justify-center items-center">
-                    <button className="w-full py-3 sm:py-0 px-2 h-full sm:text-lg font-semibold text-center uppercase text-white rounded-xl leading-5 bg-[#2791DD]">Project <br className='hidden sm:block' /> Start Here</button>
+                    <button onClick={()=>handleStartProject(category.categoryId)} className="w-full py-3 sm:py-0 px-2 h-full sm:text-lg font-semibold text-center uppercase text-white rounded-xl leading-5 bg-[#2791DD]">Project <br className='hidden sm:block' /> Start Here</button>
                 </div>
             </div>
             <div>
