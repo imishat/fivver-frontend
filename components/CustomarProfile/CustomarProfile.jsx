@@ -1,20 +1,33 @@
 import axios from "axios";
+import moment from "moment";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { BsTwitter } from "react-icons/bs";
-import { FaPinterestP } from "react-icons/fa";
+import { FaPencilAlt, FaPinterestP } from "react-icons/fa";
 import { RiFacebookFill, RiLinkedinFill } from "react-icons/ri";
+import { useSelector } from "react-redux";
+import { useGetProject } from "../queries/query/project.query";
+import Affiliate from "./AffiliateSystem/Affiliate";
+import EditModal from "./EditModal";
 import ProjectCard from "./ProjectCard";
 import SellerReviews from "./SellerReviews";
 
 const CustomarProfile = () => {
+    // get user
+    const { user } = useSelector((state) => state.user);
+
+    // get project by id
+    const {data:projectData} = useGetProject({userId:user?.userId})
+
   // get completed projects
-  const [completedProjects, setCompletedProjects] = useState([]);
+  const completedProjects = projectData?.data?.projects
+
   // fetch data
-  useEffect(() => {
-    axios.get(`/completed.json`).then((res) => {
-      setCompletedProjects(res.data);
-    });
-  }, []);
+  // useEffect(() => {
+  //   axios.get(`/completed.json`).then((res) => {
+  //     setCompletedProjects(res.data);
+  //   });
+  // }, []);
   // get active projects
   const [activeProjects, setActiveProjects] = useState([]);
   // fetch data
@@ -23,33 +36,43 @@ const CustomarProfile = () => {
       setActiveProjects(res.data);
     });
   }, []);
-
+console.log(user)
   //  toggle active and colpleted
   const [toggle, setToggle] = useState("active");
   return (
     <div className="my-8 sm:flex gap-6">
       <div className="sm:w-[43%] md:w-4/12">
         {/* User info */}
-        <div className=" bg-[#F2F9FF] border px-4">
+        <div className=" bg-[#F2F9FF] border px-4 relative">
+          <button className="p-3 absolute right-0" onClick={()=>document.getElementById('editModal').showModal()}  ><FaPencilAlt /></button>
           <div className="text-center mt-12 mb-6 w-full px-7 border-b border-gray-300">
             <div className="flex justify-center w-full ">
-              <h1 className="text-7xl rounded-full relative w-32 flex justify-center items-center h-32 font-bold text-gray-400  bg-gray-300 ">
+              {
+                user?.profilePicture ? 
+                 <div className="w-32 h-32 rounded-full border p-1">
+                   <Image width={100} height={100} src={`http://103.49.169.89:30912/api/v1.0/files/download/public/${user?.profilePicture}`} alt="" />
+                 </div>
+                :
+
+                <h1 className="text-7xl rounded-full relative w-32 flex justify-center items-center h-32 font-bold text-gray-400  bg-gray-300 ">
                 C{" "}
                 <span className="h-4 w-4 bottom-0 right-6 rounded-full bg-blue-500 absolute"></span>
               </h1>
+              }
+             
             </div>
-            <h2 className="text-xl font-bold py-4">clientusername</h2>
+            <h2 className="text-xl font-bold py-4 truncate">{user?.username}</h2>
           </div>
           {/* User status */}
           <div className="mb-8 border-b pb-8">
             <ul className="space-y-3">
               <li className="flex justify-between items-center">
                 <p className="text-base">From</p>
-                <p className="text-base font-bold">United States</p>
+                <p className="text-base font-bold">{user?.country}</p>
               </li>
               <li className="flex justify-between items-center">
                 <p className="text-base">Member Since</p>
-                <p className="text-base font-bold">Feb 2023</p>
+                <p className="text-base font-bold">{moment(user?.createdAt).format('ll')}</p>
               </li>
               <li className="flex justify-between items-center">
                 <p className="text-base">Language</p>
@@ -192,6 +215,8 @@ const CustomarProfile = () => {
         </div>
       </div>
       <div className="sm:w-[67%] md:w-8/12">
+        {/* Affiliate */}
+        <Affiliate />
         {/* Projects */}
         <div className="w-full my-6 sm:my-0">
           <div className="flex mb-8 justify-around items-center text-xl font-bold">
@@ -215,14 +240,14 @@ const CustomarProfile = () => {
           {toggle === "active" ? (
             <div className="grid sm:grid-cols-2 gap-2 w-full">
               {/* active Projects */}
-              {activeProjects.map((project, i) => (
+              { activeProjects?.length && activeProjects?.map((project, i) => (
                 <ProjectCard project={project} key={i} />
               ))}
             </div>
           ) : (
             <div className="grid sm:grid-cols-2 gap-2 w-full">
               {/* Completed Projects */}
-              {completedProjects.map((project, i) => (
+              {completedProjects?.length && completedProjects?.map((project, i) => (
                 <ProjectCard project={project} key={i} />
               ))}
             </div>
@@ -231,6 +256,7 @@ const CustomarProfile = () => {
         {/* Seller reviews */}
        <div className="my-12"> <SellerReviews /></div>
       </div>
+      <EditModal />
     </div>
   );
 };

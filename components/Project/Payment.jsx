@@ -1,15 +1,43 @@
-import Link from "next/link";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { useCreateProject } from "../queries/mutation/project.mutation";
 import PyamentProjectCard from "./PyamentProjectCard";
 
 const Payment = () => {
-
+// router
+const router = useRouter()
+  // project create loading
+  const [projectLoading, setProjectLoading] = useState(false);
+// Create Project 
+const {mutation:sendProjectData} = useCreateProject()
     // get project data from localstorage
     const [projectData,setProjectData] = useState([])
     useEffect(()=>{
        setProjectData(JSON.parse(typeof window!== 'undefined' && localStorage.getItem('projectData')))
     },[])
     const totalPrice = projectData?.length && projectData?.reduce((prev,current) =>  prev + current.totalPrice, 0);
+
+    // handle payment
+    const handlePayment = () =>{
+        setProjectLoading(true)
+        projectData.map(project=>{
+            sendProjectData(project, {
+                onSuccess: (res) => {
+                //   showToast(res.message, "success");
+                  console.log(res);
+                  // loading stop
+                  setProjectLoading(false);
+                  // reset();
+                },
+                onError: (err) => {
+                //   showToast(err?.response?.data?.message);
+                  // loading stop
+                  setProjectLoading(false);
+                },
+              });
+        })
+        // router.push('/project/requirment')
+    }
     return (
         <div className="md:w-[70%] mx-auto">
             <div>
@@ -91,12 +119,12 @@ const Payment = () => {
                             <div className="sm:w-1/2 flex items-center justify-center">
                                 <div className="w-full text-center">
                                 <p className="py-4">Single Payment</p>
-                                <Link href={'/project/requirment'} className="px-4 py-4 bg-[#2692DD] w-full text-white text-2xl rounded-lg">Pay Now</Link>
+                                <button onClick={()=>handlePayment()} className="px-4 py-4 bg-[#2692DD] w-full text-white text-2xl rounded-lg">{projectLoading ? 'Loading...' :'Pay Now'}</button>
                                 </div>
                             </div>
                         </div>
                         {/* Footer */}
-                        <div className="flex justify-center">
+                        <div  className="flex justify-center">
                             <p className="py-2">Go to the Project Requirement option by clicking on "Pay Now"</p>
                         </div>
                     </div>

@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 
 export function useGetDesignCategoriesData({page,limit}){
    return useQuery([GET_CATEGORIES,limit], async()=>{
-    const {data,isLoading} = await axios("GET",`${GET_CATEGORIES}?limit=${limit}&page=${page}`)
+    const {data,isLoading} = await axios("GET",`${GET_CATEGORIES}?limit=${5}&page=${page}`)
     return data
    })
   }

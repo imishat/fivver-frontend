@@ -31,3 +31,7 @@ export const COMPANIES="companies"
 export const TAGS="tags"
 // get user
 export const GET_USER = 'users/profile'
+// Porject path
+export const PROJECTS="projects"
+// password
+export const PASSWORD = 'users/password'

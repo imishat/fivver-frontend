@@ -12,7 +12,6 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import "react-quill/dist/quill.snow.css";
 
-import Select from "react-select";
 import CreatableSelect from "react-select/creatable";
 
 // import ReactQuill from "react-quill";
@@ -50,7 +49,7 @@ const CreateDesign = () => {
   // design id
   const designId = "";
 
-  // get all desings for related designs
+  // get all designs for related designs
   const { data: getAllDesigns } = useAllDesigns({ designId });
   const allDesigns = getAllDesigns?.data?.designs;
 
@@ -60,7 +59,7 @@ const CreateDesign = () => {
   // ====================== Company ======================== //
 
   // company Data
-  const { data: companyData } = useGetCompanies();
+  const { data: companyData } = useGetCompanies({companyId:''});
   const companiesOptions = companyData?.data?.companies;
 
   // companies
@@ -68,7 +67,7 @@ const CreateDesign = () => {
 
   // ====================== Tags ======================== //
   // tags Data
-  const { data: tagsData } = useGetTags();
+  const { data: tagsData } = useGetTags({tagId:''});
   const tagsOptions = tagsData?.data?.tags;
   // tags
   const [selectedTags, setSelectedTags] = useState([]);
@@ -329,11 +328,12 @@ const CreateDesign = () => {
               >
                 Companies
               </label>
-              <Select
+              <CreatableSelect
                 isMulti
                 onChange={(e) => setSelectedCompanies(e)}
                 options={companiesOptions}
                 className="basic-multi-select"
+                isClearable
                 classNamePrefix="select"
               />
             </div>

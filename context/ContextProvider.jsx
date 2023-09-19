@@ -11,9 +11,9 @@ const ContextProvider = ({ children }) => {
     typeof window !== "undefined" && localStorage.getItem("accessToken");
   // get user
   const { data: userInfo } = useGetUserData({token});
-
   //  user object
   const userdata = userInfo?.data?.user;
+  
   useEffect(() => {
     dispatch(userData(userdata));
   }, [userInfo, token]);

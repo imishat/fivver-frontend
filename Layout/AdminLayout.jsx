@@ -1,36 +1,46 @@
-import AdminNavbar from "@/components/shared/Header/Admin/AdminNavbar";
+import Footer from "@/components/shared/Footer/Footer";
+import Navbar from "@/components/shared/Header/Navbar";
 import Head from "next/head";
 import Link from "next/link";
+import { useState } from "react";
+import { BsBackspace } from "react-icons/bs";
 
-const AdminLayout = ({children,title}) => {
-    return (
-       <div className="w-full container mx-auto">
-        <Head>
-            <title>{title}</title>
-        </Head>
-        <AdminNavbar />
-         <div className="drawer lg:drawer-open">
-        <input id="admin-drawer" type="checkbox" className="drawer-toggle" />
-        <div className="drawer-content flex p-4">
-          {children}
-         
-        
-        </div> 
-        <div className="drawer-side">
-          <label htmlFor="admin-drawer" className="drawer-overlay"></label> 
-          <ul className="menu p-4 w-80 h-full bg-base-200 text-base-content">
-            {/* Sidebar content here */}
-            <li><Link href={'/admin'}>Dashboard</Link></li>
-            <li><Link href={'/admin/subcategory'}>Subcategory</Link></li>
-            <li><Link href={'/admin/category'}>Category</Link></li>
-            <li><Link href={'/admin/company'}>Company</Link></li>
-            <li><Link href={'/admin/image'}>Image</Link></li>
-          </ul>
-        
-        </div>
+const AdminLayout = ({ children, title, description, thumb,routes }) => {
+    // dashboard
+    const [route, setRoute] = useState("dashboard");
+  return (
+    <div className="container mx-auto my-14 md:my-20   overflow-hidden">
+      <Head>
+        <title>{title}</title>
+        <meta name="description" content={description} key="desc" />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:image" content={thumb} />
+      </Head>
+      <div className="">
+        <Navbar />
       </div>
-       </div>
-    );
+      <div>
+      <div className="flex my-6 justify-start bg-blue-400 font-bold">
+        <ul className="flex flex-wrap ">
+          <li>
+            <Link href={`/dashboard?n=${routes.toLowerCase()}`}
+              onClick={() => setRoute("dashboard")}
+              className={`px-3 py-3 ${route==='dashboard'?'bg-blue-500':""} h-full text-white flex items-center gap-2`}
+            >
+              <BsBackspace size={24} />
+              Back to {routes}
+            </Link>
+          </li>
+        </ul>
+      </div>
+      </div>
+      <div className="">{children}</div>
+      <div>
+        <Footer />
+      </div>
+    </div>
+  );
 };
 
 export default AdminLayout;
