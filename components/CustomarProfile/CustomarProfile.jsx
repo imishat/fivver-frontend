@@ -22,22 +22,41 @@ const CustomarProfile = () => {
   // get completed projects
   const completedProjects = projectData?.data?.projects
 
-  // fetch data
-  // useEffect(() => {
-  //   axios.get(`/completed.json`).then((res) => {
-  //     setCompletedProjects(res.data);
-  //   });
-  // }, []);
-  // get active projects
+ 
   const [activeProjects, setActiveProjects] = useState([]);
   // fetch data
-  useEffect(() => {
-    axios.get(`/projects.json`).then((res) => {
-      setActiveProjects(res.data);
-    });
-  }, []);
+
 console.log(user)
   //  toggle active and colpleted
+
+  const [isOnline, setIsOnline] = useState(false);
+
+  useEffect(() => {
+    const handleOnlineStatus = () => {
+      setIsOnline(true);
+    };
+
+    const handleOfflineStatus = () => {
+      setIsOnline(false);
+    };
+
+    // Add event listeners for online and offline events
+    window.addEventListener('online', handleOnlineStatus);
+    window.addEventListener('offline', handleOfflineStatus);
+
+    // Initial check for online/offline status
+    if (navigator.onLine) {
+      setIsOnline(true);
+    } else {
+      setIsOnline(false);
+    }
+
+    // Clean up event listeners when the component unmounts
+    return () => {
+      window.removeEventListener('online', handleOnlineStatus);
+      window.removeEventListener('offline', handleOfflineStatus);
+    };
+  }, []);
   const [toggle, setToggle] = useState("active");
   return (
     <div className="my-8 sm:flex gap-6">
@@ -80,7 +99,7 @@ console.log(user)
               </li>
               <li className="flex justify-between items-center">
                 <p className="text-base">Last Visited</p>
-                <p className="text-base font-bold">Online</p>
+                <p className="text-base font-bold">  {isOnline ? 'online' : 'offline'}</p>
               </li>
             </ul>
           </div>

@@ -20,7 +20,7 @@ const {mutation:sendProjectData} = useCreateProject()
     // handle payment
     const handlePayment = () =>{
         setProjectLoading(true)
-        projectData.map(project=>{
+        projectData?.map(project=>{
             sendProjectData(project, {
                 onSuccess: (res) => {
                 //   showToast(res.message, "success");
@@ -47,7 +47,7 @@ const {mutation:sendProjectData} = useCreateProject()
                <div className="border mb-12">
                 {/* Header */}
                 {
-                    projectData.map((project,i)=><PyamentProjectCard key={i} project={project} />)
+                    projectData?.map((project,i)=><PyamentProjectCard key={i} project={project} />)
                 }
            
                 {/* Body */}
@@ -99,14 +99,7 @@ const {mutation:sendProjectData} = useCreateProject()
                         {/* Order info */}
                         <div className="sm:flex justify-between bg-white my-4 gap-12 p-4 border">
                             <div className="sm:w-1/2 space-y-3">
-                                {/* <ul className="flex justify-between items-center">
-                                    <li>Door hanger design</li>
-                                    <li className="font-bold">$40</li>
-                                </ul>
-                                <ul className="flex justify-between items-center">
-                                    <li>Extra fast delivery</li>
-                                    <li className="font-bold">$00</li>
-                                </ul> */}
+                               
                                 <ul className="flex border-b pb-3 border-gray-300 justify-between items-center">
                                     <li>Fee</li>
                                     <li className="font-bold">$00</li>

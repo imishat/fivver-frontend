@@ -30,10 +30,13 @@ const {user} = useSelector(state => state.user)
           <Link className="sm:py-2 py-1 hover:border-b hover:border-white border-b border-transparent duration-300 px-5 w-full inline-block" href={'/price-list'}>Price List</Link>
         </li>
         <li>
-          <Link className="sm:py-2 py-1 hover:border-b hover:border-white border-b border-transparent duration-300 px-5 w-full inline-block" href={'#'}>Project</Link>
+          <Link className="sm:py-2 py-1 hover:border-b hover:border-white border-b border-transparent duration-300 px-5 w-full inline-block" href={'/project'}>Project</Link>
         </li>
         <li>
           <Link className="sm:py-2 py-1 hover:border-b hover:border-white border-b border-transparent duration-300 px-5 w-full inline-block" href={'#'}>About</Link>
+        </li>
+        <li>
+          <Link className="sm:py-2 py-1 hover:border-b hover:border-white border-b border-transparent duration-300 px-5 w-full inline-block" href={'/user/account'}>Profile</Link>
         </li>
       </ul>
     </div>
