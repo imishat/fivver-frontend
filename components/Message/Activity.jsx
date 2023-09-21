@@ -3,19 +3,20 @@ import { AiFillLike } from "react-icons/ai";
 import { BsCheckLg, BsPen, BsThreeDotsVertical, BsTrash } from "react-icons/bs";
 import { FiChevronDown } from "react-icons/fi";
 import { MdAttachment } from "react-icons/md";
+import CustomOfferModal from "./CustomOfferModal";
 
 const Activity = () => {
   // action mode
-  const [editMode,setEditMode] = useState(false)
-  const [deleteMode,setDeleteMode] = useState(false)
+  const [editMode, setEditMode] = useState(false);
+  const [deleteMode, setDeleteMode] = useState(false);
 
   // input value
-  const [value,setValue] = useState('')
+  const [value, setValue] = useState("");
 
   // send value
-  const [sendValue,setSendValue] = useState('')
+  const [sendValue, setSendValue] = useState("");
 
-  console.log(value)
+  console.log(value);
   return (
     <div className="flex gap-6">
       <div className="w-full">
@@ -305,90 +306,130 @@ const Activity = () => {
                   <h2>Quick Response</h2>
                 </div>
                 <div className="flex ">
-                   <div className="flex gap-2 text-[13px] flex-wrap">
-                  <p
-                    className="px-1 flex items-center gap-1 py-0 border border-gray-500"
-                    value="before"
-                  >
-                    Before Final
-                  <span><FiChevronDown /></span>
-                  {
-                    deleteMode?<button className="px-1 py-1 rounded-full bg-rose-500 text-white"><BsTrash /></button>:''
-                  }
-                  {
-                    editMode? <button className="px-1 py-1 rounded-full bg-blue-500 text-white" onClick={()=>document.getElementById('edit_modal').showModal()}><BsPen /></button>:''
-                  }
-                  </p>
+                  <div className="flex gap-2 text-[13px] flex-wrap">
+                    <p
+                      className="px-1 flex cursor-pointer items-center gap-1 py-0 border border-gray-500"
+                      value="before"
+                    >
+                      Before Final
+                      <span>
+                        <FiChevronDown />
+                      </span>
+                      {deleteMode ? (
+                        <button className="px-1 py-1 rounded-full bg-rose-500 text-white">
+                          <BsTrash />
+                        </button>
+                      ) : (
+                        ""
+                      )}
+                      {editMode ? (
+                        <button
+                          className="px-1 py-1 rounded-full bg-blue-500 text-white"
+                          onClick={() =>
+                            document.getElementById("edit_modal").showModal()
+                          }
+                        >
+                          <BsPen />
+                        </button>
+                      ) : (
+                        ""
+                      )}
+                    </p>
 
-                  <p
-                    className="px-1 flex items-center gap-1 py-0 border border-gray-500"
-                    value="before"
-                  >
-                    After Final
-                  <span><FiChevronDown /></span>
-                  </p>
-                  <p
-                    className="px-1 flex items-center gap-1 py-0 border border-gray-500"
-                    value="before"
-                  >
-                    My Service
-                  <span><FiChevronDown /></span>
-                  </p>
-                  <p
-                    className="px-1 flex items-center gap-1 py-0 border border-gray-500"
-                    value="before"
-                  >
-                    Chenge
-                  <span><FiChevronDown /></span>
-                  </p>
-                  <button onClick={(e)=>setValue(sendValue +' '+ e.target.value)}
-                    className="px-1 flex items-center gap-1 py-0 border border-gray-500"
-                    value="like td"
-                  >
-                    Like TD
-                  <span><FiChevronDown /></span>
-                  </button>
-                  <button onClick={(e)=>setValue(sendValue +' '+ e.target.value)}
-                    className="px-1 flex items-center gap-1 py-0 border border-gray-500"
-                    value="Chenge or Final"
-                  >
-                    Chenge or Final
-                  <span><FiChevronDown /></span>
-                  </button>
-                  {/* Add NEw */}
-                  <button className="border border-gray-500 px-1 py-0 bg-white">
-                    + Add New
-                  </button>
-                
+                    <p
+                      className="px-1 flex cursor-pointer items-center gap-1 py-0 border border-gray-500"
+                      value="before"
+                    >
+                      After Final
+                      <span>
+                        <FiChevronDown />
+                      </span>
+                    </p>
+                    <p
+                      className="px-1 flex cursor-pointer items-center gap-1 py-0 border border-gray-500"
+                      value="before"
+                    >
+                      My Service
+                      <span>
+                        <FiChevronDown />
+                      </span>
+                    </p>
+                    <p
+                      className="px-1 flex cursor-pointer items-center gap-1 py-0 border border-gray-500"
+                      value="before"
+                    >
+                      Chenge
+                      <span>
+                        <FiChevronDown />
+                      </span>
+                    </p>
+                    <button
+                      onClick={(e) => setValue(value + " " + e.target.value)}
+                      className="px-1 flex items-center gap-1 py-0 border border-gray-500"
+                      value="like td"
+                    >
+                      Like TD
+                      <span>
+                        <FiChevronDown />
+                      </span>
+                    </button>
+                    <button
+                      onClick={(e) => setValue(value + " " + e.target.value)}
+                      className="px-1 flex items-center gap-1 py-0 border border-gray-500"
+                      value="Chenge or Final"
+                    >
+                      Chenge or Final
+                      <span>
+                        <FiChevronDown />
+                      </span>
+                    </button>
+                    {/* Add NEw */}
+                    <button className="border border-gray-500 px-1 py-0 bg-white">
+                      + Add New
+                    </button>
+                  </div>
+                  <div>
+                    {editMode ? (
+                      <button
+                        onClick={() => setEditMode(false)}
+                        className="px-1 py-0 text-teal-400  font-bold"
+                      >
+                        Done
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => setEditMode(true)}
+                        className="px-1 py-0 text-blue-500 font-bold"
+                      >
+                        Edit
+                      </button>
+                    )}
+                    {deleteMode ? (
+                      <button
+                        onClick={() => setDeleteMode(false)}
+                        className="px-1 py-0 text-teal-400  font-bold"
+                      >
+                        Done
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => setDeleteMode(true)}
+                        className="px-1 py-0 text-rose-400  font-bold"
+                      >
+                        Delete
+                      </button>
+                    )}
+                  </div>
                 </div>
-                <div>
-                  {
-                    editMode ? <button onClick={()=>setEditMode(false)} className="px-1 py-0 text-teal-400  font-bold">
-                    Done
-                  </button>:
-                   <button onClick={()=>setEditMode(true)} className="px-1 py-0 text-blue-500 font-bold">
-                   Edit
-                  </button>
-                  }
-                  {
-                    deleteMode ? <button onClick={()=>setDeleteMode(false)} className="px-1 py-0 text-teal-400  font-bold">
-                    Done
-                  </button>:
-                  <button onClick={()=>setDeleteMode(true)} className="px-1 py-0 text-rose-400  font-bold">
-                  Delete
-                </button>
-                  }
-               
-                  
-                </div>
-                </div>
-               
               </div>
               <div className="my-2">
                 <div className="w-full">
                   <textarea
-                  defaultValue={value}
-                  onChange={(e)=>setSendValue(sendValue + ' '+e.target.value)}
+                    defaultValue={value}
+                    onChange={(e) =>
+                      setSendValue(sendValue + " " + e.target.value)
+                    }
+                    onBlur={(e) => setValue(value + " " + e.target.value)}
                     id="sendbox"
                     className="w-full textarea textarea-bordered rounded-none"
                   ></textarea>
@@ -400,7 +441,12 @@ const Activity = () => {
                   </button>
                   <span className="pr-5 pl-3">|</span>
                   {/* Offer */}
-                  <button className="flex w-full gap-6 items-center">
+                  <button
+                    className="flex w-full gap-6 items-center"
+                    onClick={() =>
+                      document.getElementById("custom_offer").showModal()
+                    }
+                  >
                     <span>
                       <MdAttachment size={24} />
                     </span>
@@ -539,20 +585,28 @@ const Activity = () => {
       <div>
         {/* Open the modal using document.getElementById('ID').showModal() method */}
 
-<dialog id="edit_modal" className="modal">
-  <div className="modal-box w-80">
-  <input type="text" className="px-4 w-full py-2 border border-gray-300 rounded-r-none rounded" />
+        <dialog id="edit_modal" className="modal">
+          <div className="modal-box w-80">
+            <input
+              type="text"
+              className="px-4 w-full py-2 border border-gray-300 rounded-r-none rounded"
+            />
 
-    <div className="modal-action">
-      <form method="dialog" className="flex gap-3 items-center">
-        {/* if there is a button in form, it will close the modal */}
-        <button className="px-4 py-2 bg-gray-200 text-gray-700 rounded-l-none border  border-blue-200 hover:bg-gray-300 duration-300 rounded">Close</button>
-        <button className="px-4 py-2 bg-blue-500 text-white rounded-l-none border  border-blue-500 rounded">Update</button>
-      </form>
-    </div>
-  </div>
-</dialog>
+            <div className="modal-action">
+              <form method="dialog" className="flex gap-3 items-center">
+                {/* if there is a button in form, it will close the modal */}
+                <button className="px-4 py-2 bg-gray-200 text-gray-700 rounded-l-none border  border-blue-200 hover:bg-gray-300 duration-300 rounded">
+                  Close
+                </button>
+                <button className="px-4 py-2 bg-blue-500 text-white rounded-l-none border  border-blue-500 rounded">
+                  Update
+                </button>
+              </form>
+            </div>
+          </div>
+        </dialog>
       </div>
+      <CustomOfferModal />
     </div>
   );
 };

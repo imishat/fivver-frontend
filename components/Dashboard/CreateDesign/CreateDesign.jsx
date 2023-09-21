@@ -258,6 +258,7 @@ const CreateDesign = () => {
               >
                 Categories
               </label>
+              
               <select
                 {...register("category", { required: true })}
                 onChange={(e) => {
