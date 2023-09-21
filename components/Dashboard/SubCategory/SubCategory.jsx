@@ -1,4 +1,5 @@
 import { useGetSubCategoryById } from "@/components/queries/query/getSubcategory.query";
+import Link from "next/link";
 import SubCard from "./SubCard";
 
 function SubCategory() {
@@ -11,6 +12,7 @@ console.log(subcategory)
         <div className="md:flex gap-3">
         <div className="md:w-2/3 mx-auto">
           <div>
+            <Link className="bg-blue-400 px-4 py-2 text-white font-bold rounded hover:bg-blue-500 duration-300" href={'/update/subcategory/create'}>Create</Link>
             {/* Client card */}
             <div className="py-3 space-y-3">
               {subcategory?.length

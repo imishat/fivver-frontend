@@ -1,4 +1,5 @@
 import { useGetCategoryData } from "@/components/queries/query/getCategory.query";
+import Link from "next/link";
 import CategoryCard from "./CategoryCard";
 
 function Categories() {
@@ -10,6 +11,7 @@ function Categories() {
         <div className="md:flex gap-3">
         <div className="md:w-2/3 mx-auto">
           <div>
+          <Link className="bg-blue-400 px-4 py-2 text-white font-bold rounded hover:bg-blue-500 duration-300" href={'/update/category/create'}>Create</Link>
             {/* Client card */}
             <div className="py-3 space-y-3">
               {category?.length
