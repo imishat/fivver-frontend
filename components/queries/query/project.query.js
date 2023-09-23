@@ -3,9 +3,9 @@ import { PROJECTS } from "@/components/utils/constant";
 import { useQuery } from "@tanstack/react-query";
 
 
-export function useGetProject({userId}){
-   return useQuery([PROJECTS,userId], async()=>{
-    const {data,isLoading} = await axios("GET",`${PROJECTS}?query=${userId}&sortingOrders=createdAt-desc`);
+export function useGetProject({status,search}){
+   return useQuery([PROJECTS,search,status], async()=>{
+    const {data,isLoading} = await axios("GET",`${PROJECTS}?query=${search}&status=${status}&sortingOrders=createdAt-desc`);
     return data
    })
   }

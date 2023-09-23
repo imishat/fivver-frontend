@@ -3,9 +3,14 @@ import { AiFillLike } from "react-icons/ai";
 import { BsCheckLg, BsPen, BsThreeDotsVertical, BsTrash } from "react-icons/bs";
 import { FiChevronDown } from "react-icons/fi";
 import { MdAttachment } from "react-icons/md";
+import { useGetQuickResponse } from "../queries/query/getQuickResponse.query";
 import CustomOfferModal from "./CustomOfferModal";
+import MessageCard from "./MessageCard";
 
-const Activity = () => {
+const Activity = ({messageData}) => {
+
+
+  const messages = messageData?.data?.messages
   // action mode
   const [editMode, setEditMode] = useState(false);
   const [deleteMode, setDeleteMode] = useState(false);
@@ -16,7 +21,21 @@ const Activity = () => {
   // send value
   const [sendValue, setSendValue] = useState("");
 
-  console.log(value);
+  // get quick response
+  const {data:quickResponseData} = useGetQuickResponse({quickResponseId:''})
+
+  // console.log(quickResponseData);
+
+  const quickResponses = quickResponseData?.data?.quickResponses
+
+  // modal id
+  const [editId,setEditId] = useState('') 
+
+
+   // get quick response by id
+   const {data:quickResponseDataId} = useGetQuickResponse({quickResponseId:editId})
+   const quickResponse = quickResponseDataId?.data?.quickResponse
+  //  console.log(quickResponseDataId)
   return (
     <div className="flex gap-6">
       <div className="w-full">
@@ -72,32 +91,12 @@ const Activity = () => {
           {/* Message body */}
           <div className="overflow-y-auto h-auto max-h-[600px]">
             {/* Client */}
-            <div className="flex w-full px-2 gap-2 py-3">
-              <div className="w-9">
-                <img
-                  className="w-8 h-8 rounded-full"
-                  src="https://dummyimage.com/60x60/aaaaaa/fff"
-                  alt=""
-                />
-              </div>
-              <div className="w-full">
-                <strong>
-                  Client Name{" "}
-                  <span className="text-xs font-normal">
-                    Apr 22, 2023, 7:33 PM
-                  </span>
-                </strong>
-                <p className="text-sm">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Exercitationem nisi delectus minus. Minima debitis
-                  reprehenderit dolor earum asperiores doloremque numquam quis
-                  consectetur vel accusamus consequuntur deserunt explicabo
-                  nostrum, adipisci culpa!
-                </p>
-              </div>
-            </div>
+            {
+              messages?.map(message=><MessageCard key={message.messageId} message={message} />)
+            }
+           
             {/* Me */}
-            <div className="flex w-full px-2 gap-2 py-3">
+            {/* <div className="flex w-full px-2 gap-2 py-3">
               <div className="w-9">
                 <img
                   className="w-8 h-8 rounded-full"
@@ -121,181 +120,7 @@ const Activity = () => {
                 </p>
               </div>
             </div>
-            {/* client */}
-            <div className="flex w-full px-2 gap-2 py-3">
-              <div className="w-9">
-                <img
-                  className="w-8 h-8 rounded-full"
-                  src="https://dummyimage.com/60x60/aaaaaa/fff"
-                  alt=""
-                />
-              </div>
-              <div className="w-full">
-                <strong>
-                  Client Name{" "}
-                  <span className="text-xs font-normal">
-                    Apr 22, 2023, 7:33 PM
-                  </span>
-                </strong>
-                <p className="text-sm">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Exercitationem nisi delectus minus. Minima debitis
-                  reprehenderit dolor earum asperiores doloremque numquam quis
-                  consectetur vel accusamus consequuntur deserunt explicabo
-                  nostrum, adipisci culpa!
-                </p>
-              </div>
-            </div>
-            {/* Me */}
-            <div className="flex w-full px-2 gap-2 py-3">
-              <div className="w-9">
-                <img
-                  className="w-8 h-8 rounded-full"
-                  src="https://dummyimage.com/60x60/aaaaaa/fff"
-                  alt=""
-                />
-              </div>
-              <div className="w-full">
-                <strong>
-                  Me{" "}
-                  <span className="text-xs font-normal">
-                    Apr 22, 2023, 7:33 PM
-                  </span>
-                </strong>
-                <p className="text-sm">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Exercitationem nisi delectus minus. Minima debitis
-                  reprehenderit dolor earum asperiores doloremque numquam quis
-                  consectetur vel accusamus consequuntur deserunt explicabo
-                  nostrum, adipisci culpa!
-                </p>
-              </div>
-            </div>
-            {/* client */}
-            <div className="flex w-full px-2 gap-2 py-3">
-              <div className="w-9">
-                <img
-                  className="w-8 h-8 rounded-full"
-                  src="https://dummyimage.com/60x60/aaaaaa/fff"
-                  alt=""
-                />
-              </div>
-              <div className="w-full">
-                <strong>
-                  Client Name{" "}
-                  <span className="text-xs font-normal">
-                    Apr 22, 2023, 7:33 PM
-                  </span>
-                </strong>
-                <p className="text-sm">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Exercitationem nisi delectus minus. Minima debitis
-                  reprehenderit dolor earum asperiores doloremque numquam quis
-                  consectetur vel accusamus consequuntur deserunt explicabo
-                  nostrum, adipisci culpa!
-                </p>
-              </div>
-            </div>
-            {/* Me */}
-            <div className="flex w-full px-2 gap-2 py-3">
-              <div className="w-9">
-                <img
-                  className="w-8 h-8 rounded-full"
-                  src="https://dummyimage.com/60x60/aaaaaa/fff"
-                  alt=""
-                />
-              </div>
-              <div className="w-full">
-                <strong>
-                  Me{" "}
-                  <span className="text-xs font-normal">
-                    Apr 22, 2023, 7:33 PM
-                  </span>
-                </strong>
-                <p className="text-sm">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Exercitationem nisi delectus minus. Minima debitis
-                  reprehenderit dolor earum asperiores doloremque numquam quis
-                  consectetur vel accusamus consequuntur deserunt explicabo
-                  nostrum, adipisci culpa!
-                </p>
-              </div>
-            </div>
-            {/* client */}
-            <div className="flex w-full px-2 gap-2 py-3">
-              <div className="w-9">
-                <img
-                  className="w-8 h-8 rounded-full"
-                  src="https://dummyimage.com/60x60/aaaaaa/fff"
-                  alt=""
-                />
-              </div>
-              <div className="w-full">
-                <strong>
-                  Client Name{" "}
-                  <span className="text-xs font-normal">
-                    Apr 22, 2023, 7:33 PM
-                  </span>
-                </strong>
-                <p className="text-sm">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Exercitationem nisi delectus minus. Minima debitis
-                  reprehenderit dolor earum asperiores doloremque numquam quis
-                  consectetur vel accusamus consequuntur deserunt explicabo
-                  nostrum, adipisci culpa!
-                </p>
-              </div>
-            </div>
-            {/* Me */}
-            <div className="flex w-full px-2 gap-2 py-3">
-              <div className="w-9">
-                <img
-                  className="w-8 h-8 rounded-full"
-                  src="https://dummyimage.com/60x60/aaaaaa/fff"
-                  alt=""
-                />
-              </div>
-              <div className="w-full">
-                <strong>
-                  Me{" "}
-                  <span className="text-xs font-normal">
-                    Apr 22, 2023, 7:33 PM
-                  </span>
-                </strong>
-                <p className="text-sm">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Exercitationem nisi delectus minus. Minima debitis
-                  reprehenderit dolor earum asperiores doloremque numquam quis
-                  consectetur vel accusamus consequuntur deserunt explicabo
-                  nostrum, adipisci culpa!
-                </p>
-              </div>
-            </div>
-            {/* client */}
-            <div className="flex w-full px-2 gap-2 py-3">
-              <div className="w-9">
-                <img
-                  className="w-8 h-8 rounded-full"
-                  src="https://dummyimage.com/60x60/aaaaaa/fff"
-                  alt=""
-                />
-              </div>
-              <div className="w-full">
-                <strong>
-                  Client Name{" "}
-                  <span className="text-xs font-normal">
-                    Apr 22, 2023, 7:33 PM
-                  </span>
-                </strong>
-                <p className="text-sm">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Exercitationem nisi delectus minus. Minima debitis
-                  reprehenderit dolor earum asperiores doloremque numquam quis
-                  consectetur vel accusamus consequuntur deserunt explicabo
-                  nostrum, adipisci culpa!
-                </p>
-              </div>
-            </div>
+            */}
           </div>
           {/* send box */}
           <div className="border border-gray-500 m-2">
@@ -307,82 +132,39 @@ const Activity = () => {
                 </div>
                 <div className="flex ">
                   <div className="flex gap-2 text-[13px] flex-wrap">
-                    <p
-                      className="px-1 flex cursor-pointer items-center gap-1 py-0 border border-gray-500"
-                      value="before"
-                    >
-                      Before Final
-                      <span>
-                        <FiChevronDown />
-                      </span>
-                      {deleteMode ? (
-                        <button className="px-1 py-1 rounded-full bg-rose-500 text-white">
-                          <BsTrash />
-                        </button>
-                      ) : (
-                        ""
-                      )}
-                      {editMode ? (
-                        <button
-                          className="px-1 py-1 rounded-full bg-blue-500 text-white"
-                          onClick={() =>
-                            document.getElementById("edit_modal").showModal()
-                          }
-                        >
-                          <BsPen />
-                        </button>
-                      ) : (
-                        ""
-                      )}
-                    </p>
-
-                    <p
-                      className="px-1 flex cursor-pointer items-center gap-1 py-0 border border-gray-500"
-                      value="before"
-                    >
-                      After Final
-                      <span>
-                        <FiChevronDown />
-                      </span>
-                    </p>
-                    <p
-                      className="px-1 flex cursor-pointer items-center gap-1 py-0 border border-gray-500"
-                      value="before"
-                    >
-                      My Service
-                      <span>
-                        <FiChevronDown />
-                      </span>
-                    </p>
-                    <p
-                      className="px-1 flex cursor-pointer items-center gap-1 py-0 border border-gray-500"
-                      value="before"
-                    >
-                      Chenge
-                      <span>
-                        <FiChevronDown />
-                      </span>
-                    </p>
-                    <button
-                      onClick={(e) => setValue(value + " " + e.target.value)}
-                      className="px-1 flex items-center gap-1 py-0 border border-gray-500"
-                      value="like td"
-                    >
-                      Like TD
-                      <span>
-                        <FiChevronDown />
-                      </span>
-                    </button>
-                    <button
-                      onClick={(e) => setValue(value + " " + e.target.value)}
-                      className="px-1 flex items-center gap-1 py-0 border border-gray-500"
-                      value="Chenge or Final"
-                    >
-                      Chenge or Final
-                      <span>
-                        <FiChevronDown />
-                      </span>
-                    </button>
+                    {
+                      quickResponses?.map(quick=> <button
+                        onClick={(e) => setValue(value + " " + e.target.value)}
+                        className="px-1 flex cursor-pointer items-center gap-1 py-0 border border-gray-500"
+                        value={quick.label}
+                      >
+                        {quick.label}
+                        <span>
+                          <FiChevronDown />
+                        </span>
+                        {deleteMode ? (
+                          <button className="px-1 py-1 rounded-full bg-rose-500 text-white">
+                            <BsTrash />
+                          </button>
+                        ) : (
+                          ""
+                        )}
+                        {editMode ? (
+                          <button
+                          onClickCapture={()=>setEditId(quick?.quickResponseId)}
+                            className="px-1 py-1 rounded-full bg-blue-500 text-white"
+                            onClick={() =>
+                              document.getElementById("edit_modal").showModal()
+                            }
+                          >
+                            <BsPen />
+                          </button>
+                        ) : (
+                          ""
+                        )}
+                      </button>)
+                    }
+                   
                     {/* Add NEw */}
                     <button className="border border-gray-500 px-1 py-0 bg-white">
                       + Add New
@@ -590,6 +372,7 @@ const Activity = () => {
             <input
               type="text"
               className="px-4 w-full py-2 border border-gray-300 rounded-r-none rounded"
+              defaultValue={quickResponse?.label}
             />
 
             <div className="modal-action">

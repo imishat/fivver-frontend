@@ -35,3 +35,10 @@ export const GET_USER = 'users/profile'
 export const PROJECTS="projects"
 // password
 export const PASSWORD = 'users/password'
+// quick response 
+export const QUICK_RESPONSE = 'quick-responses'
+
+// messages
+export const MESSAGES = 'messages'
+// statistics
+export const STATISTICS = 'projects/statistics'
