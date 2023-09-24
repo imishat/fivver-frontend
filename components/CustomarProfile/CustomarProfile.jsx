@@ -16,13 +16,14 @@ const CustomarProfile = () => {
     // get user
     const { user } = useSelector((state) => state.user);
     const [toggle, setToggle] = useState("active");
-
+    const isAdmin = !user?.role === "ADMIN";
+console.log(user)
     // get project by id
     const {data:projectData} = useGetProject({search:user?.userId,status:toggle})
 
   // get completed projects
   const completedProjects = projectData?.data?.projects
-
+ console.log(completedProjects,"completedProjects " )
  
   const [activeProjects, setActiveProjects] = useState([]);
   // fetch data
@@ -235,48 +236,51 @@ const CustomarProfile = () => {
           </div>
         </div>
       </div>
+     {
+      isAdmin  &&
       <div className="sm:w-[67%] md:w-8/12">
-        {/* Affiliate */}
-        <Affiliate />
-        {/* Projects */}
-        <div className="w-full my-6 sm:my-0">
-          <div className="flex mb-8 justify-around items-center text-xl font-bold">
-            <button
-              onClick={() => setToggle("active")}
-              className={`flex justify-center ${
-                toggle === "active" && "border-black border-b"
-              }`}
-            >
-              Active Projects
-            </button>
-            <button
-              onClick={() => setToggle("completed")}
-              className={`flex justify-center ${
-                toggle === "completed" && "border-black border-b"
-              }`}
-            >
-              Completed Projects
-            </button>
-          </div>
-          {toggle === "active" ? (
-            <div className="grid sm:grid-cols-2 gap-2 w-full">
-              {/* active Projects */}
-              { activeProjects?.length && activeProjects?.map((project, i) => (
-                <ProjectCard project={project} key={i} />
-              ))}
-            </div>
-          ) : (
-            <div className="grid sm:grid-cols-2 gap-2 w-full">
-              {/* Completed Projects */}
-              {completedProjects?.length && completedProjects?.map((project, i) => (
-                <ProjectCard project={project} key={i} />
-              ))}
-            </div>
-          )}
+      {/* Affiliate */}
+      <Affiliate />
+      {/* Projects */}
+      <div className="w-full my-6 sm:my-0">
+        <div className="flex mb-8 justify-around items-center text-xl font-bold">
+          <button
+            onClick={() => setToggle("active")}
+            className={`flex justify-center ${
+              toggle === "active" && "border-black border-b"
+            }`}
+          >
+            Active Projects
+          </button>
+          <button
+            onClick={() => setToggle("completed")}
+            className={`flex justify-center ${
+              toggle === "completed" && "border-black border-b"
+            }`}
+          >
+            Completed Projects
+          </button>
         </div>
-        {/* Seller reviews */}
-       <div className="my-12"> <SellerReviews /></div>
+        {toggle === "active" ? (
+          <div className="grid sm:grid-cols-2 gap-2 w-full">
+            {/* active Projects */}
+            {completedProjects ?.length ? completedProjects?.map((project, i) => (
+              <ProjectCard project={project} key={i} />
+            )) : "No Projects"}
+          </div>
+        ) : (
+          <div className="grid sm:grid-cols-2 gap-2 w-full">
+            {/* Completed Projects */}
+            { completedProjects ?.length ?completedProjects?.map((project, i) => (
+              <ProjectCard project={project} key={i} />
+            )):"No Projects"}
+          </div>
+        )}
       </div>
+      {/* Seller reviews */}
+     <div className="my-12"> <SellerReviews /></div>
+    </div>
+    }
       <EditModal />
     </div>
   );
