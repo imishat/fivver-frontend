@@ -93,7 +93,7 @@ function Projects() {
   // all time statistics
   const {data:allTimeStatistics} = useAllStatistics({date:statisticsState})
   const allStatistics = allTimeStatistics?.data
-  console.log(allStatistics)
+  
   return (
     <div className="md:flex gap-3">
       <div className="md:w-2/3">

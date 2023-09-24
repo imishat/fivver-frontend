@@ -15,9 +15,10 @@ import SellerReviews from "./SellerReviews";
 const CustomarProfile = () => {
     // get user
     const { user } = useSelector((state) => state.user);
+    const [toggle, setToggle] = useState("active");
 
     // get project by id
-    const {data:projectData} = useGetProject({userId:user?.userId})
+    const {data:projectData} = useGetProject({search:user?.userId,status:toggle})
 
   // get completed projects
   const completedProjects = projectData?.data?.projects
@@ -26,7 +27,7 @@ const CustomarProfile = () => {
   const [activeProjects, setActiveProjects] = useState([]);
   // fetch data
 
-console.log(user)
+
   //  toggle active and colpleted
 
   const [isOnline, setIsOnline] = useState(false);
@@ -57,7 +58,8 @@ console.log(user)
       window.removeEventListener('offline', handleOfflineStatus);
     };
   }, []);
-  const [toggle, setToggle] = useState("active");
+  
+
   return (
     <div className="my-8 sm:flex gap-6">
       <div className="sm:w-[43%] md:w-4/12">
