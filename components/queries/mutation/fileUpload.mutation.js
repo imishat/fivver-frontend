@@ -5,7 +5,7 @@ import { useMutation } from "@tanstack/react-query"
 
 export function useUploadFile(){
     return useMutation(async(payload)=>{
-        const {data,isLoading}=await axios("POST",`${UPLOAD_FILE}`,payload)
+        const {data,isLoading}=await axios("POST",`${UPLOAD_FILE}?shallIncludeWatermark=true`,payload)
         return data
     })
   }

@@ -1,10 +1,13 @@
 import { useAllDesigns } from "@/components/queries/query/designs.query";
+import dynamic from "next/dynamic";
 import Link from "next/link";
-import { useState } from "react";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { BsCart4, BsSearch } from "react-icons/bs";
 import { RiCloseLine, RiMenu4Line } from "react-icons/ri";
-import CartSidebar from "./Cart/CartSidebar";
+import { useSelector } from "react-redux";
+const CartSidebar = dynamic(() => import("./Cart/CartSidebar"), { ssr: false });
 
 const Navbar = () => {
   // responsive menu hide and show
@@ -20,6 +23,9 @@ const Navbar = () => {
     formState: { errors },
   } = useForm();
 
+  // router
+  const router = useRouter();
+
   // handleOnchenge
   const [search, setSearch] = useState("");
 
@@ -34,6 +40,30 @@ const Navbar = () => {
   // handle cart
   const [cartShow, setCartShow] = useState(false);
 
+  // logout
+  const handleLogout = () => {
+    typeof window !== "undefined" && localStorage.removeItem("accessToken");
+    typeof window !== "undefined" && localStorage.removeItem("refreshToken");
+    router.push("/join");
+  };
+// get selected
+const {products,isAdded,removed}=useSelector((state)=>state.cart)
+
+    // get data from local
+    const [projectData, setProjectData] = useState([]);
+
+    useEffect(() => {
+      return setProjectData(
+        JSON.parse(
+          typeof window !== "undefined" &&
+            window.localStorage.getItem("selected")
+        )
+      );
+    }, [products?.length,removed]);
+
+    
+  // get user
+  const { user } = useSelector((state) => state.user);
   return (
     <div className="fixed z-10 top-0 bg-black text-white container mx-auto ">
       {/* Navbar */}
@@ -47,12 +77,15 @@ const Navbar = () => {
           </div>
           {/* Logo */}
 
-          <img className="md:w-20" src="/images/logo.png" alt="" />
+       <div className="w-14">
+      <Link href={'/'}>
+      <img className="md:w-20" src="/images/logo.png" alt="" />
+      </Link>
+       </div>
 
           {/* Cart and seart icon in mobile */}
           <div className="flex sm:hidden items-center">
             <button
-            
               onClick={() => setShowSearch(!showSearch)}
               className="md:absolute sm:hidden right-0.5  top-2.5 px-2 py-1.5 bg-blue-400 rounded-md  text-white"
             >
@@ -105,7 +138,7 @@ const Navbar = () => {
             placeholder="What design are you looking for today?"
           />
           <button
-          hidden={!search.length}
+            hidden={!search.length}
             onClick={() => {
               reset();
               setSearch("");
@@ -114,7 +147,7 @@ const Navbar = () => {
               search.length || "hidden"
             }`}
           >
-            <RiCloseLine  hidden={!search.length} size={24} />
+            <RiCloseLine hidden={!search.length} size={24} />
           </button>
           {/* Search btn */}
           <button className="md:absolute  rounded-l-none border-none z-50 sm:border-2 border-white sm:border-none sm:rounded-l-none right-0 px-4 md:px-2 py-1 md:py-1.5 flex items-center h-8 bg-blue-400 rounded-md text-white">
@@ -139,7 +172,7 @@ const Navbar = () => {
             <li>
               <Link
                 className="py-2 hover:border-b hover:border-white border-b border-transparent duration-300 lg:px-3 inline-block"
-                href={"#"}
+                href={"/message"}
               >
                 Messages
               </Link>
@@ -160,13 +193,23 @@ const Navbar = () => {
                 Contact
               </Link>
             </li>
+
             <li>
-              <Link
-                className="py-2 hover:border-b hover:border-white border-b border-transparent duration-300 lg:px-3 inline-block"
-                href={"/join"}
-              >
-                Join
-              </Link>
+              {!user?.email ? (
+                <Link
+                  className="py-2 hover:border-b hover:border-white border-b border-transparent duration-300 lg:px-3 inline-block"
+                  href={"/join"}
+                >
+                  Join
+                </Link>
+              ) : (
+                <button
+                  onClick={() => handleLogout()}
+                  className="py-2 flex hover:border-b hover:border-white border-b border-transparent duration-300 lg:px-3 "
+                >
+                  Logout
+                </button>
+              )}
             </li>
           </ul>
         </div>
@@ -180,8 +223,12 @@ const Navbar = () => {
             <BsSearch />
           </button>
           {/* Cart icon */}
-          <button onClick={() => setCartShow(!cartShow)} className="px-4 py-2 ">
+          <button onClick={() => setCartShow(!cartShow)} className="px-4 relative py-2 ">
             <BsCart4 size={24} />
+            {
+              projectData?.length ?  <span className="absolute right-0 top-0 bg-rose-500 rounded-full h-6 w-6">{projectData?.length}</span> :''
+            }
+           
           </button>
         </div>
       </div>

@@ -1,5 +1,6 @@
 import { useCreateDesign } from "@/components/queries/mutation/design.mutation";
 import { useUploadFile } from "@/components/queries/mutation/fileUpload.mutation";
+import { useUploadThumbnail } from "@/components/queries/mutation/thumbUpload.mutation";
 import { useGetDesignCategoriesData } from "@/components/queries/query/designCategories.queries";
 import { useAllDesigns } from "@/components/queries/query/designs.query";
 import { useGetCategoryData } from "@/components/queries/query/getCategory.query";
@@ -11,7 +12,6 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import "react-quill/dist/quill.snow.css";
 
-import Select from "react-select";
 import CreatableSelect from "react-select/creatable";
 
 // import ReactQuill from "react-quill";
@@ -25,8 +25,11 @@ const CreateDesign = () => {
   const { Toast, showToast } = useToast();
   // create design call
   const { mutate: sendDesignData } = useCreateDesign();
+
+  const [watermark, setWatermark] = useState(false);
   // image upload call
-  const { mutate: sendFileData } = useUploadFile();
+  const { mutate: sendFileData } = useUploadFile({ watermark });
+  const { mutate: sendThumbnail } = useUploadThumbnail();
   // get all categories
   const { data: getCategories } = useGetDesignCategoriesData({
     page: 1,
@@ -46,7 +49,7 @@ const CreateDesign = () => {
   // design id
   const designId = "";
 
-  // get all desings for related designs
+  // get all designs for related designs
   const { data: getAllDesigns } = useAllDesigns({ designId });
   const allDesigns = getAllDesigns?.data?.designs;
 
@@ -56,7 +59,7 @@ const CreateDesign = () => {
   // ====================== Company ======================== //
 
   // company Data
-  const { data: companyData } = useGetCompanies();
+  const { data: companyData } = useGetCompanies({companyId:''});
   const companiesOptions = companyData?.data?.companies;
 
   // companies
@@ -64,7 +67,7 @@ const CreateDesign = () => {
 
   // ====================== Tags ======================== //
   // tags Data
-  const { data: tagsData } = useGetTags();
+  const { data: tagsData } = useGetTags({tagId:''});
   const tagsOptions = tagsData?.data?.tags;
   // tags
   const [selectedTags, setSelectedTags] = useState([]);
@@ -86,33 +89,15 @@ const CreateDesign = () => {
   const [selectedSubCategories, setSelectedSubCategories] = useState("");
   console.log(selectedSubCategories);
   // ====================== Related ======================== //
-  // selected related
-  const [selectedRelated, setSelectedRelated] = useState([]);
 
-  // get selected ids
-  const [selectedRelatedIds, setSelectedRelatedIds] = useState([]);
-  // get remove ids when remove related data
-  const relatedIds = selectedRelatedIds.slice(0, selectedRelated.length);
-
-  // get related id from designs
-  useEffect(() => {
-    selectedRelated?.map((select) =>
-      setSelectedRelatedIds([...selectedRelatedIds, select.value])
-    );
-  }, [selectedRelated?.length]);
-
-  // designs to selected value
-  const relatedOptions = [];
-  useEffect(() => {
-    allDesigns?.map((design) => {
-      relatedOptions.push({ label: design.title, value: design.designId });
-    });
-  }, [relatedOptions?.length < allDesigns?.length && relatedOptions]);
+  // relatedIds
+  const [relatedIds, setRelatedIds] = useState("");
 
   // ====================== Images ======================== //
   // image ids
   const imageIds = [];
-
+  // thumbnail id
+  const [thumbnailId, setThumbnailId] = useState("");
   // ====================== Description ======================== //
   // description state
   const [description, setDescription] = useState("");
@@ -123,64 +108,79 @@ const CreateDesign = () => {
     // loading start
     setDesignLoading(true);
 
-    // photo upload in mongodb
-    const photo = data.image;
-    const photoData = new FormData();
-
-    for (const p in photo) {
-      photoData.append("files", photo[p]);
-    }
-    // send desing data for create
-    sendFileData(photoData, {
+    // upload thumbnail
+    console.log(data.thumbnail);
+    const thumbnailData = data.thumbnail[0];
+    const thumbData = new FormData();
+    thumbData.append("files", thumbnailData);
+    sendThumbnail(thumbData, {
       onSuccess: (res) => {
-        const images = res?.data?.files;
-        showToast("Photo Uploaded", "success");
-        for (const i in images) {
-          imageIds.push(images[i].fileId);
-        }
+        const thumbnail = res?.data?.files[0]?.fileId;
 
-        // if image uploaded
-        if (imageIds.length) {
-          const projectData = {
-            title: data.title,
-            description: description,
-            size: data.size,
-            fileFormat: data.fileFormat,
-            categoryId: data.category,
-            subcategoryId: selectedSubCategories,
-            imageIds: imageIds,
-            companies: selectedCompanies,
-            relatedDesignIds: relatedIds,
-            tags: selectedTags,
-          };
-          console.log(projectData);
-          sendDesignData(projectData, {
-            onSuccess: (res) => {
-              showToast(res.message, "success");
-              console.log(res);
-              // loading stop
-              setDesignLoading(false);
-              // reset();
-            },
-            onError: (err) => {
-              showToast(err?.response?.data?.message);
-              // loading stop
-              setDesignLoading(false);
-            },
-          });
+        // photo upload in mongodb
+        const photo = data.image;
+        const photoData = new FormData();
+
+        for (const p in photo) {
+          photoData.append("files", photo[p]);
         }
-        // loading stop
-        setDesignLoading(false);
-        // reset
-        // reset();
+        // send desing data for create
+        sendFileData(photoData, {
+          onSuccess: (res) => {
+            const images = res?.data?.files;
+            showToast("Photo Uploaded", "success");
+            for (const i in images) {
+              imageIds.push(images[i].fileId);
+            }
+
+            // if image uploaded
+            if (imageIds.length) {
+              const projectData = {
+                title: data.title,
+                description: description,
+                size: data.size,
+                fileFormat: data.fileFormat,
+                categoryId: data.category,
+                subcategoryId: selectedSubCategories,
+                imageIds: imageIds,
+                companies: selectedCompanies,
+                relatedDesignIds: relatedIds.split(","),
+                tags: selectedTags,
+                featuredImageId: thumbnail,
+              };
+              sendDesignData(projectData, {
+                onSuccess: (res) => {
+                  showToast(res.message, "success");
+                  console.log(res);
+                  // loading stop
+                  setDesignLoading(false);
+                  // reset();
+                },
+                onError: (err) => {
+                  showToast(err?.response?.data?.message);
+                  // loading stop
+                  setDesignLoading(false);
+                },
+              });
+            }
+            // loading stop
+            setDesignLoading(false);
+            // reset
+            // reset();
+          },
+          onError: (err) => {
+            showToast(err?.response?.data?.message);
+            // loading stop
+            setDesignLoading(false);
+          },
+        });
       },
       onError: (err) => {
         showToast(err?.response?.data?.message);
-        // loading stop
-        setDesignLoading(false);
       },
     });
   };
+
   //    react select
 
   // error handle
@@ -241,12 +241,10 @@ const CreateDesign = () => {
               >
                 Related
               </label>
-              <Select
-                isMulti
-                onChange={(e) => setSelectedRelated(e)}
-                options={relatedOptions}
-                className="basic-multi-select m-1"
-                classNamePrefix="select"
+              <textarea
+                onChange={(e) => setRelatedIds(e.target.value)}
+                className="textarea textarea-bordered"
+                id=""
               />
             </div>
           </div>
@@ -260,6 +258,7 @@ const CreateDesign = () => {
               >
                 Categories
               </label>
+              
               <select
                 {...register("category", { required: true })}
                 onChange={(e) => {
@@ -330,11 +329,12 @@ const CreateDesign = () => {
               >
                 Companies
               </label>
-              <Select
+              <CreatableSelect
                 isMulti
                 onChange={(e) => setSelectedCompanies(e)}
                 options={companiesOptions}
                 className="basic-multi-select"
+                isClearable
                 classNamePrefix="select"
               />
             </div>
@@ -353,17 +353,41 @@ const CreateDesign = () => {
                 options={tagsOptions}
               />
             </div>
-            {/* Images */}
+            {/* Thumbnail */}
             <div className="border">
               <p className="px-3 py-2 bg-base-200 ">
                 {" "}
-                Images <span className="text-rose-400">*</span>
+                Thumbnail <span className="text-rose-400">*</span>
+              </p>
+
+              <div>
+                <input
+                  className="file-input file-input-md file-input-bordered w-full rounded-none m-1"
+                  {...register("thumbnail", { required: true })}
+                  onClick={() => setWatermark(false)}
+                  type="file"
+                  accept="image/*"
+                  id="thumb"
+                />
+              </div>
+              <span className="text-error block px-3">
+                {errors.thumbnail && <span>Thumbnail is required</span>}
+              </span>
+            </div>
+            {/* Preview Images */}
+            <div className="border">
+              <p className="px-3 py-2 bg-base-200 ">
+                {" "}
+                Preview Images{" "}
+                <span className="text-xs">(Multiple Select)</span>{" "}
+                <span className="text-rose-400">*</span>
               </p>
 
               <div>
                 <input
                   className="file-input file-input-md file-input-bordered w-full rounded-none m-1"
                   {...register("image", { required: true })}
+                  onChange={() => setWatermark(true)}
                   type="file"
                   accept="image/*"
                   id="images"

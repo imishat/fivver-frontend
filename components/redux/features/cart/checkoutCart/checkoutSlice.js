@@ -10,6 +10,9 @@ const checkOutSlice=createSlice({
 
         checkoutCart:(state,action)=>{
             state.checkoutProducts.push(action.payload)
+            localStorage.setItem('designs',JSON.stringify(action.payload))
+            localStorage.setItem('projectData',JSON.stringify(''))
+          
         }
     },
 })

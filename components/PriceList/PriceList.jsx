@@ -1,7 +1,11 @@
 import StockImageSites from "../Home/DesignSection/StockImageSites/StockImageSites";
+import { useGetCategoryData } from "../queries/query/getCategory.query";
 import PriceCard from "./PriceCard";
 
 const PriceList = () => {
+
+    const {data:categoriesData} = useGetCategoryData({categoryId:''})
+    const categories = categoriesData?.data?.categories
     return (
         <div className="md:flex my-6 gap-6">
             <div className="md:w-9/12">
@@ -13,7 +17,7 @@ const PriceList = () => {
                 </div>
                 <div className="space-y-6">
                     {
-                        [2,2,2,2].map((data,i)=><PriceCard key={i} data={data} />)
+                       categories?.map((category,i)=><PriceCard key={i} category={category} />)
                     }
                 </div>
             </div>

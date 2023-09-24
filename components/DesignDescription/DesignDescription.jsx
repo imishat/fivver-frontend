@@ -10,10 +10,11 @@ import "swiper/css/navigation";
 import { useState } from "react";
 import "./styles.module.css";
 // import required modules
-import Watermark from "@uiw/react-watermark";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigation } from "swiper/modules";
+import { useAllDesigns } from "../queries/query/designs.query";
 import { addToCart } from "../redux/features/cart/cart";
 import useToast from "../utility/useToast";
 import RelatedDesignCard from "./RelatedDesignCard";
@@ -24,7 +25,8 @@ const DesignDescription = ({ data: designData }) => {
   const {products}= useSelector(state => state.cart);
   const design = designData?.data?.design
 
-
+// router
+const router = useRouter()
 
   const [isAdded, setIsAdded] = useState(false);
 console.log(isAdded)
@@ -47,7 +49,15 @@ console.log(isAdded)
       }
   
   };
-
+const [projectId,setProjectId] = useState('')
+  const {data:projectData} = useAllDesigns({designId:projectId,page:1,limit:1000})
+  // handle project start
+  const handleProjectStart = id =>{
+    setProjectId(id)
+    console.log(id)
+    localStorage.setItem('designs',JSON.stringify([projectData?.data?.designs?.find(project=>project.designId===id)]))
+    router.push('/project')
+  }
   return (
     <div>
       <Toast />
@@ -62,14 +72,6 @@ console.log(isAdded)
               {design?.imageIds?.map((id, i) => (
                 <SwiperSlide key={i} className="flex !gap-2">
                   <div className="border">
-                    <Watermark
-                      gapX={88}
-                      gapY={88}
-                      height={20}
-                      width={50}
-                      image="https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Coop_Norge_logo.svg/320px-Coop_Norge_logo.svg.png"
-                    >
-
                       <Image
                       height={380}
                       width={640}
@@ -77,7 +79,6 @@ console.log(isAdded)
                         src={`http://103.49.169.89:30912/api/v1.0/files/download/public/${id}`}
                         alt=""
                       />
-                    </Watermark>
                   </div>
                 </SwiperSlide>
               ))}
@@ -110,7 +111,7 @@ console.log(isAdded)
             {isAdded ? 'Product added ' : 'Add to cart'}
             </button>
             <p>{design.isAdded}</p>
-            <button className="py-2 w-full hover:bg-blue-600 duration-300 text-white font-bold border bg-[#1B8CDC] rounded-full border-blue-400 text-xl">
+            <button onClick={()=>handleProjectStart(design.designId)} className="py-2 w-full hover:bg-blue-600 duration-300 text-white font-bold border bg-[#1B8CDC] rounded-full border-blue-400 text-xl">
               Project Start
             </button>
           </div>

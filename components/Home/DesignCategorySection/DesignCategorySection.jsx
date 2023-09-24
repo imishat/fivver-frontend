@@ -4,7 +4,7 @@ import DesignCategorySectionCard from "./DesignCategorySectionCard";
 
 export default function DesignCategorySection() {
   // limit
-  const [limit, setLimit] = useState("10");
+  const [limit, setLimit] = useState("5");
 
   // page
   const [page, setPage] = useState("1");
@@ -20,7 +20,6 @@ export default function DesignCategorySection() {
       const style = document.createElement("style");
       document.head.appendChild(style);
     style.innerHTML = `.children::after { content: none !important; }`;
-    console.log(limit)
     }
   }, [limit,categories]);
   return (

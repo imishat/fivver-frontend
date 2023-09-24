@@ -17,6 +17,8 @@ export const SING_UP="users/login";
 export const CREATE_DESIGN="designs";
 // categories
 export const GET_CATEGORIES ="categories"
+// subcategories
+export const GET_SUBCATEGORIES ="subcategories"
 // file upload
 export const UPLOAD_FILE="files"
 // get file by id
@@ -27,3 +29,16 @@ export const GET_DESIGNS="designs"
 export const COMPANIES="companies"
 // tags
 export const TAGS="tags"
+// get user
+export const GET_USER = 'users/profile'
+// Porject path
+export const PROJECTS="projects"
+// password
+export const PASSWORD = 'users/password'
+// quick response 
+export const QUICK_RESPONSE = 'quick-responses'
+
+// messages
+export const MESSAGES = 'messages'
+// statistics
+export const STATISTICS = 'projects/statistics'

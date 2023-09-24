@@ -35,7 +35,7 @@ const Footer = () => {
                 <div className="py-3 w-8/12 mx-auto">
                     <ul className="grid grid-cols-2 md:grid-cols-4 w-full justify-between">
                         <li>
-                            <Link href={'#'}>Home</Link>
+                            <Link href={'/'}>Home</Link>
                         </li>
                        
                         <li>
@@ -55,7 +55,7 @@ const Footer = () => {
                         </li>
                        
                         <li>
-                            <Link href={'#'}>Project</Link>
+                            <Link href={'/project'}>Project</Link>
                         </li>
                         <li>
                             <Link href={'#'}>Affiliate</Link>
