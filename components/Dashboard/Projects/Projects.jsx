@@ -20,30 +20,35 @@ function Projects() {
   // sort
   const [status, setStatus] = useState("active");
 
-  const { data: projectData } = useGetProject({ search: search, status: status });
+  const { data: projectData } = useGetProject({ search: search, status: status,projectId:'' });
 
   const projects = projectData?.data?.projects;
  
 
   const { data: statusActive } = useGetProject({
     search: search,
-    status: "active",
+    status: "",
+    projectId:''
   });
   const { data: statusWaiting } = useGetProject({
     search: search,
     status: "pending",
+    projectId:'',
   });
   const { data: statusRevision } = useGetProject({
     search: search,
     status: "revision",
+    projectId:'',
   });
   const { data: statusProcess } = useGetProject({
     search: search,
     status: "progress",
+    projectId:'',
   });
   const { data: statusDelivered } = useGetProject({
     search: search,
-    status: "delivered",
+    projectId:'',
+    status: "COMPLETED",
   });
 
   // active
@@ -102,7 +107,7 @@ function Projects() {
             <h2 className="sm:text-2xl font-bold text-[#1C8CDC]">
                
               {
-                status==='active' && `Active Projects - (${statusActive?.data?.totalCount}) ($
+                status==='' && `Active Projects - (${statusActive?.data?.totalCount}) ($
                   ${activePrice})` 
               }
               {
@@ -117,7 +122,7 @@ function Projects() {
                   ${progressPrice})`
               }
               {
-                status==='delivered' && `Delivered - (${statusDelivered?.data?.totalCount}) ($
+                status==='COMPLETED' && `Delivered - (${statusDelivered?.data?.totalCount}) ($
                   ${deliveredPrice})`
               }
               
@@ -129,7 +134,7 @@ function Projects() {
               name="project"
               id=""
             >
-              <option value="active" key="active">
+              <option value="" key="active">
                 Active Projects ({statusActive?.data?.totalCount})
               </option>
               <option value="revision" key="revision">
@@ -141,7 +146,7 @@ function Projects() {
               <option value="pending" key="pending">
                 Waiting ({statusWaiting?.data?.totalCount})
               </option>
-              <option value="delivered" key="delivered">
+              <option value="COMPLETED" key="delivered">
                 Delivered ({statusDelivered?.data?.totalCount})
               </option>
             </select>

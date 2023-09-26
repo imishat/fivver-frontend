@@ -1,4 +1,5 @@
 import StockImageSites from "@/components/Home/DesignSection/StockImageSites/StockImageSites";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -293,6 +294,9 @@ const Requirment = () => {
                 <button className="py-2 w-full font-bold text-white text-2xl flex justify-center bg-[#1B8CDC]">
                   Start Now
                 </button>
+                <div className="py-2">
+                  <Link href={'#'}>Skip</Link>
+                </div>
               </div>
               {/* Hint */}
               <div className=" bg-[#F2F9FF] py-4">

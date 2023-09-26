@@ -1,16 +1,40 @@
 import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { AiFillLike } from "react-icons/ai";
 import { BsCheckLg, BsPen, BsThreeDotsVertical, BsTrash } from "react-icons/bs";
 import { FiChevronDown } from "react-icons/fi";
+import { IoCloseCircleOutline } from "react-icons/io5";
 import { MdAttachment } from "react-icons/md";
+import { useSelector } from "react-redux";
+import { useCreateMessage } from "../queries/mutation/message.mutation";
 import { useGetQuickResponse } from "../queries/query/getQuickResponse.query";
-import CustomOfferModal from "./CustomOfferModal";
+import useToast from "../utility/useToast";
+// import CustomOfferModal from "./CustomOfferModal";
+import dynamic from "next/dynamic";
+// import EditModal from "./EditModal/EditModal";
 import MessageCard from "./MessageCard";
+import OfferMessageCard from "./OfferMessageCard";
+const CustomOfferModal = dynamic(() => import('./CustomOfferModal'), { ssr: false })
+const EditModal = dynamic(() => import('./EditModal/EditModal'), { ssr: false })
 
-const Activity = ({messageData}) => {
 
+const Activity = ({ messageData,project }) => {
+  // react hook form
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm()
+  
 
-  const messages = messageData?.data?.messages
+        // get user 
+const {user} = useSelector(state => state.user)
+// const userInfo = userData?.data?.user
+  // create message 
+  const {mutate:createMessage} = useCreateMessage()
+  // message data
+  const messages = messageData?.data?.messages;
   // action mode
   const [editMode, setEditMode] = useState(false);
   const [deleteMode, setDeleteMode] = useState(false);
@@ -20,24 +44,68 @@ const Activity = ({messageData}) => {
 
   // send value
   const [sendValue, setSendValue] = useState("");
-
+  console.log(value, sendValue);
   // get quick response
-  const {data:quickResponseData} = useGetQuickResponse({quickResponseId:''})
+  const { data: quickResponseData } = useGetQuickResponse({
+    quickResponseId: "",
+  });
 
+    // toast
+    const { Toast, showToast } = useToast();
   // console.log(quickResponseData);
 
-  const quickResponses = quickResponseData?.data?.quickResponses
+  const quickResponses = quickResponseData?.data?.quickResponses;
 
   // modal id
-  const [editId,setEditId] = useState('') 
+  const [editId, setEditId] = useState("");
 
-
-   // get quick response by id
-   const {data:quickResponseDataId} = useGetQuickResponse({quickResponseId:editId})
-   const quickResponse = quickResponseDataId?.data?.quickResponse
+  // get quick response by id
+  const { data: quickResponseDataId } = useGetQuickResponse({
+    quickResponseId: editId,
+  });
+  const quickResponse = quickResponseDataId?.data?.quickResponse;
   //  console.log(quickResponseDataId)
+
+
+
+
+ 
+  // ================= message send area ==============
+  // Reply 
+  const [reply,setReply] = useState({}) 
+
+
+  // handle send message
+  const handleSendMessage = (data) => {
+    const sendMessage = {
+      type: 'normal',
+      projectId: project?.projectId,
+      content: data?.messageData,
+      sender:{
+        fullName: user?.fullName,
+        profilePicture: user?.profilePicture,
+        userId:user?.userId
+      },
+    reply:reply,
+    userId:project?.startedBy, 
+    };
+    
+    createMessage(sendMessage,{
+      onSuccess: (res) => {
+        console.log(res);
+        showToast("Message Send", "success");
+        setReply({})
+        reset()
+        // router.reload();
+      },
+      onError: (err) => {
+        showToast(err?.message);
+      },
+    })
+  };  
   return (
-    <div className="flex gap-6">
+    <div className="sm:flex gap-6">
+      <Toast />
       <div className="w-full">
         <div className=" py-6 flex items-center gap-6 border-b border-gray-300 my-2">
           {/* Btns */}
@@ -91,10 +159,23 @@ const Activity = ({messageData}) => {
           {/* Message body */}
           <div className="overflow-y-auto h-auto max-h-[600px]">
             {/* Client */}
-            {
-              messages?.map(message=><MessageCard key={message.messageId} message={message} />)
-            }
-           
+            {messages?.map((message) => {
+               return (
+              <div>
+                  {/* // offer message */}
+              {
+                  message?.type=== 'normal'&&
+                  <MessageCard setReply={setReply} key={message.messageId} message={message} />
+              }
+                {/* // Normal Message */}
+                {message?.type=== 'offer'&&
+                <OfferMessageCard setReply={setReply} key={message.messageId} message={message} />}
+              </div>
+               
+               )
+              }
+            )}
+
             {/* Me */}
             {/* <div className="flex w-full px-2 gap-2 py-3">
               <div className="w-9">
@@ -132,8 +213,8 @@ const Activity = ({messageData}) => {
                 </div>
                 <div className="flex ">
                   <div className="flex gap-2 text-[13px] flex-wrap">
-                    {
-                      quickResponses?.map(quick=> <button
+                    {quickResponses?.map((quick) => (
+                      <button
                         onClick={(e) => setValue(value + " " + e.target.value)}
                         className="px-1 flex cursor-pointer items-center gap-1 py-0 border border-gray-500"
                         value={quick.label}
@@ -151,7 +232,9 @@ const Activity = ({messageData}) => {
                         )}
                         {editMode ? (
                           <button
-                          onClickCapture={()=>setEditId(quick?.quickResponseId)}
+                            onClickCapture={() =>
+                              setEditId(quick?.quickResponseId)
+                            }
                             className="px-1 py-1 rounded-full bg-blue-500 text-white"
                             onClick={() =>
                               document.getElementById("edit_modal").showModal()
@@ -162,9 +245,9 @@ const Activity = ({messageData}) => {
                         ) : (
                           ""
                         )}
-                      </button>)
-                    }
-                   
+                      </button>
+                    ))}
+
                     {/* Add NEw */}
                     <button className="border border-gray-500 px-1 py-0 bg-white">
                       + Add New
@@ -204,41 +287,49 @@ const Activity = ({messageData}) => {
                   </div>
                 </div>
               </div>
-              <div className="my-2">
-                <div className="w-full">
+              <div className="my-2 relative">
+                <div className="">
+                  {
+                    reply?.messageId ?<div className="mx-3 flex">
+                      <span className="font-bold">Reply:</span>
+                       <p className="flex rounded-full px-2 max-w-fit my-2 mx-2 bg-base-300 items-center gap-2 ">{reply?.reply?.slice(0,55)} <span>{reply?.reply?.length > 55 ? '...':''}</span>  <span onClick={()=>setReply({})} className="cursor-pointer"><IoCloseCircleOutline color="#f77070" size={20}/></span></p>
+                    </div>:''
+                  }
+                
+                </div>
+               <form onSubmit={handleSubmit(handleSendMessage)}>
+               <div className="w-full">
                   <textarea
+                  {...register("messageData", { required: true })} 
                     defaultValue={value}
-                    onChange={(e) =>
-                      setSendValue(sendValue + " " + e.target.value)
-                    }
-                    onBlur={(e) => setValue(value + " " + e.target.value)}
                     id="sendbox"
                     className="w-full textarea textarea-bordered rounded-none"
                   ></textarea>
                 </div>
                 <div className="flex items-center ">
                   {/* Like */}
-                  <button className="w-14 text-xl flex justify-center">
+                  <span className="w-14 text-xl cursor-pointer flex justify-center">
                     <AiFillLike size={29} />
-                  </button>
+                  </span>
                   <span className="pr-5 pl-3">|</span>
                   {/* Offer */}
-                  <button
+                  <span
                     className="flex w-full gap-6 items-center"
-                    onClick={() =>
-                      document.getElementById("custom_offer").showModal()
-                    }
+                  
                   >
-                    <span>
+                    <span className="cursor-pointer">
                       <MdAttachment size={24} />
                     </span>
-                    Create an offer
-                  </button>
+                  <span className="cursor-pointer"  onClick={() =>
+                      document.getElementById("custom_offer").showModal()
+                    }>  Create an offer</span>
+                  </span>
                   {/* send */}
                   <button className="w-20 px-4 font-bold text-blue-400">
                     Send
                   </button>
                 </div>
+               </form>
               </div>
             </div>
           </div>
@@ -364,32 +455,8 @@ const Activity = ({messageData}) => {
       </div>
 
       {/* Edit modal */}
-      <div>
-        {/* Open the modal using document.getElementById('ID').showModal() method */}
-
-        <dialog id="edit_modal" className="modal">
-          <div className="modal-box w-80">
-            <input
-              type="text"
-              className="px-4 w-full py-2 border border-gray-300 rounded-r-none rounded"
-              defaultValue={quickResponse?.label}
-            />
-
-            <div className="modal-action">
-              <form method="dialog" className="flex gap-3 items-center">
-                {/* if there is a button in form, it will close the modal */}
-                <button className="px-4 py-2 bg-gray-200 text-gray-700 rounded-l-none border  border-blue-200 hover:bg-gray-300 duration-300 rounded">
-                  Close
-                </button>
-                <button className="px-4 py-2 bg-blue-500 text-white rounded-l-none border  border-blue-500 rounded">
-                  Update
-                </button>
-              </form>
-            </div>
-          </div>
-        </dialog>
-      </div>
-      <CustomOfferModal />
+     <EditModal quickResponse={quickResponse}/>
+      <CustomOfferModal reply={reply}  project={project} />
     </div>
   );
 };
