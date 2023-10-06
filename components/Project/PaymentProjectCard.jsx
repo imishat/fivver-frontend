@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { useGetSubCategoryById } from "../queries/query/getSubcategory.query";
 
-const PyamentProjectCard = ({project}) => {
+const PaymentProjectCard = ({project}) => {
 
     // get sub category by id
     const {data: subcategories} = useGetSubCategoryById({subcategoryId:project.subcategoryId})
@@ -35,4 +35,4 @@ const PyamentProjectCard = ({project}) => {
     );
 };
 
-export default PyamentProjectCard;
+export default PaymentProjectCard;

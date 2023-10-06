@@ -1,4 +1,4 @@
-function ProjectMessage() {
+function PreviewDelivery() {
     return (
         <div>
             Enter
@@ -6,4 +6,4 @@ function ProjectMessage() {
     );
 }
 
-export default ProjectMessage;
+export default PreviewDelivery;

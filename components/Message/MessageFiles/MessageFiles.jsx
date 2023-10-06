@@ -2,14 +2,13 @@ import moment from "moment";
 import Link from "next/link";
 import { BsReply } from "react-icons/bs";
 import { useSelector } from "react-redux";
-import { useGetUserData } from "../queries/query/getUserProfile.query";
+import SingleFile from "./SingleFile";
 
-function MessageCard({message,setReply}) {
+function MessageFiles({message,setReply}) {
       // get user 
 const {user} = useSelector(state => state.user)
 // get user by id
-const {data:userData} = useGetUserData({token:'',userId:message?.userId})
-const userInfo = userData?.data?.user
+// console.log(message)
     return (
         <div className="flex w-full px-2 gap-2 py-3">
         <div className="w-9">
@@ -38,8 +37,16 @@ const userInfo = userData?.data?.user
             message?.reply?.messageId ? <a href={`#${message?.reply?.messageId}`} className="p-1 px-3 bg-base-200 top-0 z-0 text-xs relative rounded-full">{message?.reply?.reply?.slice(0,55)} <span>{message?.reply?.reply?.length > 55 ? '...':''}</span>  </a>:''
           }
            
-        <p id={message?.messageId} className={`text-sm bg-base-100  flex items-center gap-2 ${message?.reply? 'mt-0':''}`}>
+        <p id={message?.messageId} className={`text-sm bg-base-100   gap-2 ${message?.reply? 'mt-0':''}`}>
            {message?.content}
+           {/* Files */}
+           <div className="grid grid-cols-3 gap-2">
+            {
+                message?.files?.length > 0? message?.files.map((file,index) => <SingleFile file={file} key={index} />):''
+  
+            }
+            
+           </div>
           <span className="cursor-pointer p-1" onClick={()=>setReply({reply:message?.content,messageId:message?.messageId})}><BsReply /></span>
           </p>
         </div>
@@ -48,4 +55,4 @@ const userInfo = userData?.data?.user
     );
 }
 
-export default MessageCard;
+export default MessageFiles;

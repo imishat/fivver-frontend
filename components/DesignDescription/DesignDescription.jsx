@@ -102,7 +102,7 @@ const [projectId,setProjectId] = useState('')
               </li>
               <li className="flex gap-1">
                 <p className="font-bold">Design:</p>{" "}
-                {design?.subcategory[0].name}
+                {design?.subcategory[0]?.name}
               </li>
             </ul>
           </div>

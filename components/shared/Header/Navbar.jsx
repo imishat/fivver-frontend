@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { BsCart4, BsSearch } from "react-icons/bs";
+import { FaUserAlt } from "react-icons/fa";
 import { RiCloseLine, RiMenu4Line } from "react-icons/ri";
 import { useSelector } from "react-redux";
 const CartSidebar = dynamic(() => import("./Cart/CartSidebar"), { ssr: false });
@@ -194,24 +195,9 @@ const {products,isAdded,removed}=useSelector((state)=>state.cart)
               </Link>
             </li>
 
-            <li>
-              {!user?.email ? (
-                <Link
-                  className="py-2 hover:border-b hover:border-white border-b border-transparent duration-300 lg:px-3 inline-block"
-                  href={"/join"}
-                >
-                  Join
-                </Link>
-              ) : (
-                <button
-                  onClick={() => handleLogout()}
-                  className="py-2 flex hover:border-b hover:border-white border-b border-transparent duration-300 lg:px-3 "
-                >
-                  Logout
-                </button>
-              )}
-            </li>
+           
           </ul>
+          
         </div>
         {/* Cart icon */}
         <div className="hidden sm:flex items-center">
@@ -230,10 +216,38 @@ const {products,isAdded,removed}=useSelector((state)=>state.cart)
             }
            
           </button>
+
+          <button className=" relative py-2 ">
+          <details className="dropdown">
+  <summary className="btn btn-sm flex px-1.5 justify-center items-center rounded-full"><FaUserAlt size={20} /></summary>
+  <ul className="p-2 shadow  rounded-none dropdown-left absolute -left-12 text-black bg-base-100 w-24 z-[1]">
+    <li><a>Item 1</a></li>
+    <li>
+              {!user?.email ? (
+                <Link
+                  className="py-2 hover:border-b hover:border-white border-b border-transparent duration-300 lg:px-3 inline-block"
+                  href={"/join"}
+                >
+                  Join
+                </Link>
+              ) : (
+                <button
+                  onClick={() => handleLogout()}
+                  className="py-2 flex hover:border-b hover:border-white border-b border-transparent duration-300 lg:px-3 "
+                >
+                  Logout
+                </button>
+              )}
+            </li>
+  </ul>
+</details>
+          </button>
         </div>
       </div>
       {/* Cart Sidebar */}
       {<CartSidebar cartShow={cartShow} setCartShow={setCartShow} />}
+      {/* User Profile */}
+    
     </div>
   );
 };

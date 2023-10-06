@@ -1,21 +1,21 @@
 import { useState } from 'react';
-import './style.module.css';
+import './custom.module.css';
 
-const ImageDropdown = ({ selectedDesign,setSingleDesign }) => {
+const CustomDropdown = ({ categories,setSingleDesign }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
   // set Selected design to local
  
-console.log(selectedDesign)
+
    
   return (
-    <div className="dropdown-container border w-full">
-      <div className="selected-option flex w-full" onClick={() => setIsOpen(!isOpen)}>
+    <div className="dropdown-container relative bg-base-100 p-1 border border-gray-400 w-full">
+      <div className="selected-option  flex w-full" onClick={() => setIsOpen(!isOpen)}>
         {selectedOption ? (
           <div className='flex justify-between items-center w-full mr-6'>
             <div className='flex p-1 items-center gap-2'>
-            <img className="w-12 h-12" src={`http://103.49.169.89:30912/api/v1.0/files/download/public/${selectedOption?.imageIds[0]}`} alt="" />
-            <span className='text-lg font-bold'>{selectedOption.title}</span>
+            <img className="w-12 h-12 border border-e-gray-400 object-cover" src={`http://103.49.169.89:30912/api/v1.0/files/download/public/${selectedOption?.imageIds[0]}`} alt="" />
+            <span className='text-lg font-bold'>{selectedOption.name}</span>
           </div>
           <span className='text-xl'>⮟</span>
           </div>
@@ -32,16 +32,16 @@ console.log(selectedDesign)
         )}
       </div>
       {isOpen && (
-        <div className="options w-full  border ">
-          {selectedDesign?.length &&
-          selectedDesign?.map((option, index) => (
+        <div className="options w-full absolute bg-base-100 overflow-y-auto h-64 border ">
+          {categories?.length &&
+          categories?.map((option, index) => (
             <div className='flex text-lg text-blue-500 font-bold border py-1 px-1 items-center gap-3' key={index} onClick={() => {
               setSelectedOption(option);
               setSingleDesign(option)
               setIsOpen(false);
             }}>
                <img className="w-12 h-12" src={`http://103.49.169.89:30912/api/v1.0/files/download/public/${option?.imageIds[0]}`} alt="" />
-              <span>{option?.title}</span>
+              <span>{option?.name}</span>
             </div>
           ))}
         </div>
@@ -50,4 +50,4 @@ console.log(selectedDesign)
   );
 };
 
-export default ImageDropdown;
+export default CustomDropdown;

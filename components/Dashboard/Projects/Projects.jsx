@@ -1,6 +1,7 @@
 import { useAllStatistics } from "@/components/queries/query/getAllStatistics.query";
 import { useThisMonthStatistics } from "@/components/queries/query/getStatistics.query";
 import { useGetProject } from "@/components/queries/query/project.query";
+import { useGetVisitors } from "@/components/queries/query/visitors.query";
 import dynamic from "next/dynamic";
 import { useState } from "react";
 import { BsSearch } from "react-icons/bs";
@@ -20,30 +21,35 @@ function Projects() {
   // sort
   const [status, setStatus] = useState("active");
 
-  const { data: projectData } = useGetProject({ search: search, status: status });
+  const { data: projectData } = useGetProject({ search: search, status: status,projectId:'' });
 
   const projects = projectData?.data?.projects;
  
 
   const { data: statusActive } = useGetProject({
     search: search,
-    status: "active",
+    status: "",
+    projectId:''
   });
   const { data: statusWaiting } = useGetProject({
     search: search,
     status: "pending",
+    projectId:'',
   });
   const { data: statusRevision } = useGetProject({
     search: search,
     status: "revision",
+    projectId:'',
   });
   const { data: statusProcess } = useGetProject({
     search: search,
     status: "progress",
+    projectId:'',
   });
   const { data: statusDelivered } = useGetProject({
     search: search,
-    status: "delivered",
+    projectId:'',
+    status: "COMPLETED",
   });
 
   // active
@@ -93,16 +99,23 @@ function Projects() {
   // all time statistics
   const {data:allTimeStatistics} = useAllStatistics({date:statisticsState})
   const allStatistics = allTimeStatistics?.data
+
+  /// visitors
+  const [visitorsState,setVisitorsState] = useState('days7')
+
+  const {data:getAllVisitors} = useGetVisitors({short:visitorsState})
+
+  const visitors = getAllVisitors?.data?.visitorCount
   
   return (
     <div className="md:flex gap-3">
       <div className="md:w-2/3">
         <div>
           <div className="flex  flex-col sm:flex-row justify-center sm:justify-between items-center px-6 border border-gray-400 h-16">
-            <h2 className="sm:text-2xl font-bold text-[#1C8CDC]">
+            <h2 className="sm:text-2xl font-bold text-[#1C8CDC] truncate pr-4">
                
               {
-                status==='active' && `Active Projects - (${statusActive?.data?.totalCount}) ($
+                status==='' && `Active Projects - (${statusActive?.data?.totalCount}) ($
                   ${activePrice})` 
               }
               {
@@ -117,7 +130,7 @@ function Projects() {
                   ${progressPrice})`
               }
               {
-                status==='delivered' && `Delivered - (${statusDelivered?.data?.totalCount}) ($
+                status==='COMPLETED' && `Delivered - (${statusDelivered?.data?.totalCount}) ($
                   ${deliveredPrice})`
               }
               
@@ -129,7 +142,7 @@ function Projects() {
               name="project"
               id=""
             >
-              <option value="active" key="active">
+              <option value='' key="active">
                 Active Projects ({statusActive?.data?.totalCount})
               </option>
               <option value="revision" key="revision">
@@ -141,7 +154,7 @@ function Projects() {
               <option value="pending" key="pending">
                 Waiting ({statusWaiting?.data?.totalCount})
               </option>
-              <option value="delivered" key="delivered">
+              <option value="COMPLETED" key="delivered">
                 Delivered ({statusDelivered?.data?.totalCount})
               </option>
             </select>
@@ -189,13 +202,16 @@ function Projects() {
               name="sortproject"
               id="sortproject"
             >
-              <option value="allTimes">All Times</option>
-              <option value="lastMonth">Last Month</option>
-              <option value="last3Month"> Last 3 Month</option>
-              <option value="last6Month"> Last 6 Month</option>
-              <option value="thisYear"> This Year</option>
-              <option value="2022"> 2022</option>
-              <option value="2021"> 2021</option>
+
+<option onChange={e=>setProjectStatisticsState(e.target.value)} value="days7">Last 7 Days</option>
+              <option onChange={()=>setProjectStatisticsState('')} value=""> All Times</option>
+              <option onChange={e=>setProjectStatisticsState(e.target.value)} value="monthLast">Last Month</option>
+              <option onChange={e=>setProjectStatisticsState(e.target.value)} value="months3"> Last 3 Month</option>
+              <option onChange={e=>setProjectStatisticsState(e.target.value)} value="months6"> Last 6 Month</option>
+              <option onChange={e=>setProjectStatisticsState(e.target.value)} value="year0"> This Year</option>
+              <option onChange={e=>setProjectStatisticsState(e.target.value)} value="year2022"> 2022</option>
+              <option onChange={e=>setProjectStatisticsState(e.target.value)} value="year2021"> 2021</option>
+             
             </select>
           </div>
           <div className="px-4">
@@ -250,18 +266,18 @@ function Projects() {
               name="sortproject"
               id="sortproject"
             >
-              <option onChange={e=>setProjectStatisticsState(e.target.value)} value="days7">Last 7 Days</option>
-              <option onChange={e=>setProjectStatisticsState(e.target.value)} value="monthLast">Last Month</option>
-              <option onChange={e=>setProjectStatisticsState(e.target.value)} value="months3"> Last 3 Month</option>
-              <option onChange={e=>setProjectStatisticsState(e.target.value)} value="months6"> Last 6 Month</option>
-              <option onChange={e=>setProjectStatisticsState(e.target.value)} value="year0"> This Year</option>
-              <option onChange={e=>setProjectStatisticsState(e.target.value)} value="year2022"> 2022</option>
-              <option onChange={e=>setProjectStatisticsState(e.target.value)} value="year2021"> 2021</option>
-              <option onChange={()=>setProjectStatisticsState('')} value=""> All Times</option>
+              <option onChange={e=>setVisitorsState(e.target.value)} value="days7">Last 7 Days</option>
+              <option onChange={e=>setVisitorsState(e.target.value)} value="monthLast">Last Month</option>
+              <option onChange={e=>setVisitorsState(e.target.value)} value="months3"> Last 3 Month</option>
+              <option onChange={e=>setVisitorsState(e.target.value)} value="months6"> Last 6 Month</option>
+              <option onChange={e=>setVisitorsState(e.target.value)} value="year0"> This Year</option>
+              <option onChange={e=>setVisitorsState(e.target.value)} value="year2022"> 2022</option>
+              <option onChange={e=>setVisitorsState(e.target.value)} value="year2021"> 2021</option>
+              <option onChange={()=>setVisitorsState('')} value=""> All Times</option>
             </select>
           </div>
           <div className="px-4 flex py-4 justify-center">
-            <h2 className="text-5xl font-semibold">50</h2>
+            <h2 className="text-3xl font-semibold">{visitors||0}</h2>
           </div>
         </div>
       </div>
