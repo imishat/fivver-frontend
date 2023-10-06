@@ -1,4 +1,3 @@
-import axios from "axios";
 import moment from "moment";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -16,7 +15,8 @@ const CustomarProfile = () => {
     // get user
     const { user } = useSelector((state) => state.user);
     const [toggle, setToggle] = useState("active");
-    const isAdmin = !user?.role === "ADMIN";
+    const isAdmin = user?.role === 
+    "USER";
 console.log(user)
     // get project by id
     const {data:projectData} = useGetProject({search:user?.userId,status:toggle})
@@ -71,8 +71,8 @@ console.log(user)
             <div className="flex justify-center w-full ">
               {
                 user?.profilePicture ? 
-                 <div className="w-32 h-32 rounded-full border p-1">
-                   <Image width={100} height={100} src={`http://103.49.169.89:30912/api/v1.0/files/download/public/${user?.profilePicture}`} alt="" />
+                 <div className="w-32 h-32 rounded-full border-4 border-blue-400 overflow-hidden">
+                   <Image width={100} className="object-cover w-full" height={100} src={`http://103.49.169.89:30912/api/v1.0/files/download/public/${user?.profilePicture}`} alt="" />
                  </div>
                 :
 
