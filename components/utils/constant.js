@@ -44,3 +44,5 @@ export const MESSAGES = 'messages'
 export const STATISTICS = 'projects/statistics'
 // visitors
 export const VISITORS = 'visitors/count'
+//reviews
+export const REVIEWS='/reviews'

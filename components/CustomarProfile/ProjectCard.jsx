@@ -1,6 +1,6 @@
 
 const ProjectCard = ({project}) => {
-    console.log(project,"project")
+
     const color = 
     project.status==='Revision' && 'text-[#DF7138]' 
     || 

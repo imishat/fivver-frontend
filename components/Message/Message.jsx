@@ -83,7 +83,7 @@ const Message = () => {
 
   // send value
   const [sendValue, setSendValue] = useState("");
-
+  const [update,setUpdate] = useState(false)
   // toast
   const { Toast, showToast } = useToast();
 

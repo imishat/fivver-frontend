@@ -9,7 +9,8 @@ const ReviewCard = ({review}) => {
             </div>
             {/* review body */}
             <div className="py-2">
-                {review.review}
+                {review.description
+}
             </div>
             {/* Stars */}
             <div className="sm:gap-12 flex items-center">

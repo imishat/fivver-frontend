@@ -5,7 +5,7 @@ import { BsTwitter } from "react-icons/bs";
 import { FaPencilAlt, FaPinterestP } from "react-icons/fa";
 import { RiFacebookFill, RiLinkedinFill } from "react-icons/ri";
 import { useSelector } from "react-redux";
-import { useGetProject } from "../queries/query/project.query";
+import { useGetUserProject } from "../queries/query/userProject.query";
 import Affiliate from "./AffiliateSystem/Affiliate";
 import EditModal from "./EditModal";
 import ProjectCard from "./ProjectCard";
@@ -14,16 +14,15 @@ import SellerReviews from "./SellerReviews";
 const CustomarProfile = () => {
     // get user
     const { user } = useSelector((state) => state.user);
-    const [toggle, setToggle] = useState("active");
-    const isAdmin = user?.role === 
-    "USER";
-console.log(user)
+    const [toggle, setToggle] = useState("");
+     const isAdmin = user?.role === "USER";;
+
     // get project by id
-    const {data:projectData} = useGetProject({search:user?.userId,status:toggle})
+    const {data:projectData} = useGetUserProject({search:user?.userId,status:toggle})
 
   // get completed projects
   const completedProjects = projectData?.data?.projects
- console.log(completedProjects,"completedProjects " )
+
  
   const [activeProjects, setActiveProjects] = useState([]);
   // fetch data
@@ -245,7 +244,7 @@ console.log(user)
       <div className="w-full my-6 sm:my-0">
         <div className="flex mb-8 justify-around items-center text-xl font-bold">
           <button
-            onClick={() => setToggle("active")}
+            onClick={() => setToggle("")}
             className={`flex justify-center ${
               toggle === "active" && "border-black border-b"
             }`}
@@ -261,7 +260,7 @@ console.log(user)
             Completed Projects
           </button>
         </div>
-        {toggle === "active" ? (
+        {toggle === "" ? (
           <div className="grid sm:grid-cols-2 gap-2 w-full">
             {/* active Projects */}
             {completedProjects ?.length ? completedProjects?.map((project, i) => (

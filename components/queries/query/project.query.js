@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 
 export function useGetProject({status,search,projectId}){
    return useQuery([PROJECTS,search,status,projectId], async()=>{
-    const {data,isLoading} = await axios("GET",`${PROJECTS}/${projectId}?query=${search}&status=${status}&sortingOrders=createdAt-desc`);
+    const {data} = await axios("GET",`${PROJECTS}/${projectId}?query=${search}&status=${status}&sortingOrders=createdAt-desc`);
     return data
    })
   }
