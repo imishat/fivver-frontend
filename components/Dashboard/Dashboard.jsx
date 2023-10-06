@@ -69,14 +69,6 @@ const router = useRouter()
               Tags
             </Link>
           </li>
-          <li>
-            <Link href={'/dashboard?n=home'}
-              onClick={() => setRoute("home")}
-              className={`px-3 py-3 inline-block ${route==='home'?'bg-blue-500':""} h-full text-white`}
-            >
-              Manage Home
-            </Link>
-          </li>
         </ul>
       </div>
       {

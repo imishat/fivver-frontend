@@ -1,11 +1,11 @@
 import axios from "@/components/lib/axiosFetch"
-import { MESSAGES } from "@/components/utils/constant"
+import { PROJECTS } from "@/components/utils/constant"
 import { useMutation } from "@tanstack/react-query"
 
 
-export function useCreateMessage(){
+export function useUpdateProject(){
     return useMutation(async(payload)=>{
-        const {data}=await axios("POST",`${MESSAGES}`,payload)
+        const {data}=await axios("PUT",`${PROJECTS}/${payload.id}`,payload)
         return data
     })
   }

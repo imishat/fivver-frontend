@@ -1,10 +1,10 @@
+import { useGetUserData } from "@/components/queries/query/getUserProfile.query";
 import moment from "moment";
 import Link from "next/link";
 import { BsReply } from "react-icons/bs";
 import { useSelector } from "react-redux";
-import { useGetUserData } from "../queries/query/getUserProfile.query";
 
-function MessageCard({message,setReply}) {
+function MessageLike({message,setReply}) {
       // get user 
 const {user} = useSelector(state => state.user)
 // get user by id
@@ -39,7 +39,10 @@ const userInfo = userData?.data?.user
           }
            
         <p id={message?.messageId} className={`text-sm bg-base-100  flex items-center gap-2 ${message?.reply? 'mt-0':''}`}>
+            <span className="text-5xl">
            {message?.content}
+            </span>
+                
           <span className="cursor-pointer p-1" onClick={()=>setReply({reply:message?.content,messageId:message?.messageId})}><BsReply /></span>
           </p>
         </div>
@@ -48,4 +51,4 @@ const userInfo = userData?.data?.user
     );
 }
 
-export default MessageCard;
+export default MessageLike;

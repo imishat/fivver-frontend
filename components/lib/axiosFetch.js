@@ -1,10 +1,10 @@
 import axios from "axios";
 
 
-
+// axios.defaults.withCredentials = true
 const axiosInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API,
-  headers: { "X-Custom-Header": "foobar" },
+  headers: { "X-Custom-Header": "foobar","Access-Control-Allow-Credentials": true,'Access-Control-Allow-Origin':process.env.NEXT_PUBLIC_API },
 });
 
 // include bearer token and other req configurations

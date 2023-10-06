@@ -1,3 +1,5 @@
+import { useQuickResponse } from "@/components/queries/mutation/quickResponse.mutation";
+import useToast from "@/components/utility/useToast";
 import { useForm } from "react-hook-form";
 
 function EditModal({quickResponse}) {
@@ -9,14 +11,35 @@ function EditModal({quickResponse}) {
     formState: { errors:editErrors },
   } = useForm()
 
+
+    // toast
+    const { Toast, showToast } = useToast();
+  // update quick response
+  const {mutate:editQuick} = useQuickResponse()
+
     // handle handleEditQuick
     const handleEditQuick = data =>{
-        console.log(data)
+      const editData ={
+        type:'PUT',
+        "label": data?.editData,
+        "value": data?.editData.split(' ').join('-').toLowerCase(),
+        "id": quickResponse?.quickResponseId
+      }
+      editQuick(editData,{
+        onSuccess: (res) => {
+          showToast("Quick Response Update", "success");
+          editReset()
+          // router.reload();
+        },
+        onError: (err) => {
+          showToast(err?.message);
+        },
+      });
       }
     return (
         <form onSubmit={editHandleSubmit(handleEditQuick)}>
         {/* Open the modal using document.getElementById('ID').showModal() method */}
-
+        <Toast/>
         <dialog id="edit_modal" className="modal">
           <div className="modal-box w-80">
             <input

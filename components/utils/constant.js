@@ -22,7 +22,7 @@ export const GET_SUBCATEGORIES ="subcategories"
 // file upload
 export const UPLOAD_FILE="files"
 // get file by id
-export const GET_FILE_BY_ID = 'files/:id'
+export const GET_FILE_BY_ID = 'files'
 // designs
 export const GET_DESIGNS="designs"
 // companies
@@ -42,3 +42,5 @@ export const QUICK_RESPONSE = 'quick-responses'
 export const MESSAGES = 'messages'
 // statistics
 export const STATISTICS = 'projects/statistics'
+// visitors
+export const VISITORS = 'visitors/count'

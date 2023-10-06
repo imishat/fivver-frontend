@@ -1,13 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
+import { io } from "socket.io-client";
 import { useCreateMessage } from "../queries/mutation/message.mutation";
 import { useGetDesignCategoriesData } from "../queries/query/designCategories.queries";
 import { useGetSubCategoryById } from "../queries/query/getSubcategory.query";
 import useToast from "../utility/useToast";
 import CustomDropdown from "./CustomDropdown/CustomDropdown";
 
-function CustomOfferModal({project,reply}) {
+function CustomOfferModal({project,reply,setReply,update,setUpdate}) {
 
     // react hook form
     const {
@@ -28,6 +29,38 @@ const {user} = useSelector(state => state.user)
       page: 1,
       limit: 100,
     });
+
+
+
+  // socket
+  let authorization =
+    `Bearer ${typeof window!=='undefined' && window.localStorage.getItem('accessToken')}`;
+
+  let url = "ws://103.49.169.89:30912";
+  const client = io(url, {
+    path: "/realtime-messaging",
+  });
+
+
+
+    useEffect(() => {
+      client.emit("authorization", authorization);
+      client.on("error", (erroneousResponse) => {
+        erroneousResponse = JSON.parse(erroneousResponse);
+        console.error(erroneousResponse);
+      });
+      client.on("disconnect", () => {
+        client.off("authorized", authorization);
+        client.off("message", onMessageReceivedAsync);
+        console.log("disconnected from the server.");
+      });
+    }, [client]);
+  
+
+
+
+
+
     // categories
     const categories = getCategories?.data?.categories;
 // select change
@@ -41,11 +74,11 @@ const handleSelectChange=e=>{
   const { data: subCategoryData } = useGetSubCategoryById({ subcategoryId:subCategoryId });
     // categories
     const selectSubCategory = subCategoryData?.data?.subcategory;
-    console.log(selectSubCategory)
+    // console.log(selectSubCategory)
 
     // category
     const [singleDesign,setSingleDesign] = useState({})
-    console.log(singleDesign)
+    // console.log(singleDesign)
    // toast
    const { Toast, showToast } = useToast();
 
@@ -55,35 +88,37 @@ const handleSelectChange=e=>{
   const handleCustomOffer = data =>{
     // console.log(data,singleDesign)
     const messageData = {
-      type:'offer',
-      projectId:project?.projectId, ...data,
+      type:'offer',...data,
         categoryName: singleDesign?.name,
         categoryId:singleDesign?.categoryId,
         price: selectSubCategory?.price,
         imageId: singleDesign?.imageIds[0],
-        sender: {
-          fullName: user?.fullName,
-          profilePicture: user?.profilePicture,
-          userId: user?.userId
-        },
         userId: project?.startedBy,
+        receiverId: project?.startedBy,
         reply,
+        projectId:project?.projectId
       
      
     }
-    createMessage(messageData,{
-      onSuccess: (res) => {
-        console.log(res);
-        showToast("Message Send", "success");
-        reset()
-        // router.reload();
-      },
-      onError: (err) => {
-        showToast(err?.message);
-      },
-    })
+       // send
+       client.send(JSON.stringify(messageData));
+       setUpdate(!update)
+       setReply({})
+       showToast('Offer Send','success')
+     
     reset()
   }
+
+
+
+  client.on("message", onMessageReceivedAsync);
+  async function onMessageReceivedAsync(message) {
+    
+    // setSocketData(prevMessages=>[...prevMessages, JSON.parse(message)]);
+    // message.push(JSON.parse(message))
+    setUpdate(!update)
+  }
+
     return (
 <dialog id="custom_offer" className="modal">
   <Toast/>

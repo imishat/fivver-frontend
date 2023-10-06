@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useCreateProject } from "../queries/mutation/project.mutation";
-import PyamentProjectCard from "./PyamentProjectCard";
+import PaymentProjectCard from "./PaymentProjectCard";
 
 const Payment = () => {
 // router
@@ -9,34 +9,37 @@ const router = useRouter()
   // project create loading
   const [projectLoading, setProjectLoading] = useState(false);
 // Create Project 
-const {mutation:sendProjectData} = useCreateProject()
+const {mutate:sendProjectData} = useCreateProject()
     // get project data from localstorage
     const [projectData,setProjectData] = useState([])
     useEffect(()=>{
        setProjectData(JSON.parse(typeof window!== 'undefined' && localStorage.getItem('projectData')))
     },[])
     const totalPrice = projectData?.length && projectData?.reduce((prev,current) =>  prev + current.totalPrice, 0);
-
+console.log(projectData)
     // handle payment
     const handlePayment = () =>{
         setProjectLoading(true)
-        projectData?.map(project=>{
-            sendProjectData(project, {
-                onSuccess: (res) => {
-                //   showToast(res.message, "success");
-                  console.log(res);
-                  // loading stop
-                  setProjectLoading(false);
-                  // reset();
-                },
-                onError: (err) => {
-                //   showToast(err?.response?.data?.message);
-                  // loading stop
-                  setProjectLoading(false);
-                },
-              });
-        })
-        // router.push('/project/requirment')
+        sendProjectData(projectData, {
+            onSuccess: (res) => {
+            //   showToast(res.message, "success");
+            console.log(res)
+              const savedProject = projectData?.length>1 ? res?.data?.projects:res?.data?.project
+              if(savedProject || savedProject?.length){
+                typeof window !== "undefined" && window.localStorage.setItem('savedProjects',JSON.stringify(savedProject))
+                router.push('/project/requirement/')
+              }
+              // loading stop
+              setProjectLoading(false);
+              // reset();
+            },
+            onError: (err) => {
+            //   showToast(err?.response?.data?.message);
+              // loading stop
+              setProjectLoading(false);
+            },
+          });
+        
     }
     return (
         <div className="md:w-[70%] mx-auto">
@@ -47,7 +50,7 @@ const {mutation:sendProjectData} = useCreateProject()
                <div className="border mb-12">
                 {/* Header */}
                 {
-                    projectData?.map((project,i)=><PyamentProjectCard key={i} project={project} />)
+                    projectData?.map((project,i)=><PaymentProjectCard key={i} project={project} />)
                 }
            
                 {/* Body */}
