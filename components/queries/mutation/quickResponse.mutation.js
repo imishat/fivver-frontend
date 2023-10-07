@@ -1,7 +1,7 @@
 import axios from "@/components/lib/axiosFetch"
 import { QUICK_RESPONSE } from "@/components/utils/constant"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { QUICK_RESPONSE } from "@/components/utils/constant";
+
 
 export function useQuickResponse(){
     return useMutation(async(payload)=>{
