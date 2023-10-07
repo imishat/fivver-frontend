@@ -19,7 +19,7 @@ function Projects() {
     setSearch(input)
   }
   // sort
-  const [status, setStatus] = useState("active");
+  const [status, setStatus] = useState("");
 
   const { data: projectData } = useGetProject({ search: search, status: status,projectId:'' });
 

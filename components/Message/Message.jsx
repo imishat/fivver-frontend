@@ -5,7 +5,6 @@ import { BsArrowDownCircle, BsSearch, BsThreeDotsVertical } from "react-icons/bs
 import { IoCloseCircleOutline } from "react-icons/io5";
 import { MdAttachment } from "react-icons/md";
 import { useSelector } from "react-redux";
-import { useCreateMessage } from "../queries/mutation/message.mutation";
 import { useGetMessagesById } from "../queries/query/getMessagesById.query";
 import { useGetUserData } from "../queries/query/getUserProfile.query";
 import useToast from "../utility/useToast";
@@ -13,6 +12,7 @@ import CustomOfferModal from "./CustomOfferModal";
 
 import Link from "next/link";
 import { io } from "socket.io-client";
+import { useGetUniqueMessages } from "../queries/query/getAllUniqueMessages.query";
 import MessageCard from "./MessageCard";
 import MessageLike from "./MessageLike/MessageLike";
 import MessageUserCard from "./MessageUserCard";
@@ -33,12 +33,18 @@ const Message = () => {
 
   // get message id from query
   const { messageId } = router.query;
-
+  // update
+  const [update,setUpdate] = useState(false)
   // get message by projectId
   const { data: messageData } = useGetMessagesById({
     projectId: "",
     userId: messageId,
+    update:update
   });
+
+  // get all unique messages
+  const {data:uniqueMessagesData} = useGetUniqueMessages() 
+  const uniqueMessages = uniqueMessagesData?.data?.messages
 
 // socket
   // socket
@@ -73,8 +79,8 @@ const Message = () => {
   // get user
   const { user } = useSelector((state) => state.user);
   // const userInfo = userData?.data?.user
-  // create message
-  const { mutate: createMessage } = useCreateMessage();
+
+
   // message data
   const messages = messageData?.data?.messages;
 
@@ -83,7 +89,7 @@ const Message = () => {
 
   // send value
   const [sendValue, setSendValue] = useState("");
-  const [update,setUpdate] = useState(false)
+
   // toast
   const { Toast, showToast } = useToast();
 
@@ -153,8 +159,8 @@ const Message = () => {
             content: data?.messageData,
             reply: reply,
             files: imageIds,
-            userId: project?.startedBy,
-            receiverId: project?.startedBy,
+            userId: messageId,
+            receiverId: messageId,
             userName: userInfo?.fullName,
           };
 
@@ -176,11 +182,11 @@ const Message = () => {
       // send normal message
       const sendMessage = {
         type: "normal",
-        projectId: project?.projectId,
+        projectId: '',
         content: data?.messageData,
         reply: reply,
-        receiverId: project?.startedBy,
-        userId: project?.startedBy,
+        receiverId: messageId,
+        userId: messageId,
       };
       // send
       client.send(JSON.stringify(sendMessage));
@@ -199,7 +205,8 @@ const Message = () => {
       type: "like",
       content: "👍",
       reply: reply,
-      userId: userInfo?.userId,
+      receiverId: messageId,
+      userId: messageId,
       userName: userInfo?.fullName,
     };
 
@@ -258,8 +265,8 @@ const Message = () => {
         {/* Result */}
         <div className="overflow-y-auto h-auto max-h-[600px]">
           <ul>
-            {messagesNames?.length
-              ? messagesNames?.map((message) => (
+            {uniqueMessages?.length
+              ? uniqueMessages?.map((message) => (
                   <MessageUserCard key={message?.messageId} message={message} />
                 ))
               : "No Message"}
@@ -389,7 +396,9 @@ const Message = () => {
                       ""
                     )}
                   </div>
+               
                   <form onSubmit={handleSubmit(handleSendMessage)}>
+                  
                     <div className="w-full">
                       <textarea
                         {...register("messageData", { required: true })}
@@ -436,7 +445,7 @@ const Message = () => {
       </div>
       {/* Edit modal */}
 
-      <CustomOfferModal project={{ startedBy: messageId }} reply={reply} />
+      <CustomOfferModal update={update} setUpdate={setUpdate} project={{ startedBy: messageId }} reply={reply} />
     </div>
   );
 };
