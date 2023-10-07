@@ -61,8 +61,8 @@ const CustomarProfile = () => {
   
 
   return (
-    <div className="my-8 sm:flex gap-6">
-      <div className="sm:w-[43%] md:w-4/12">
+    <div className="my-8 sm:flex gap-6 w-full">
+      <div className="sm:w-[43%] md:w-4/12 ">
         {/* User info */}
         <div className=" bg-[#F2F9FF] border px-4 relative">
           <button className="p-3 absolute right-0" onClick={()=>document.getElementById('editModal').showModal()}  ><FaPencilAlt /></button>

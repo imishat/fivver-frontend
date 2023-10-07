@@ -47,22 +47,20 @@ const Navbar = () => {
     typeof window !== "undefined" && localStorage.removeItem("refreshToken");
     router.push("/join");
   };
-// get selected
-const {products,isAdded,removed}=useSelector((state)=>state.cart)
+  // get selected
+  const { products, isAdded, removed } = useSelector((state) => state.cart);
 
-    // get data from local
-    const [projectData, setProjectData] = useState([]);
+  // get data from local
+  const [projectData, setProjectData] = useState([]);
 
-    useEffect(() => {
-      return setProjectData(
-        JSON.parse(
-          typeof window !== "undefined" &&
-            window.localStorage.getItem("selected")
-        )
-      );
-    }, [products?.length,removed]);
+  useEffect(() => {
+    return setProjectData(
+      JSON.parse(
+        typeof window !== "undefined" && window.localStorage.getItem("selected")
+      )
+    );
+  }, [products?.length, removed]);
 
-    
   // get user
   const { user } = useSelector((state) => state.user);
   return (
@@ -78,11 +76,11 @@ const {products,isAdded,removed}=useSelector((state)=>state.cart)
           </div>
           {/* Logo */}
 
-       <div className="w-14">
-      <Link href={'/'}>
-      <img className="md:w-20" src="/images/logo.png" alt="" />
-      </Link>
-       </div>
+          <div className="w-14">
+            <Link href={"/"}>
+              <img className="md:w-20" src="/images/logo.png" alt="" />
+            </Link>
+          </div>
 
           {/* Cart and seart icon in mobile */}
           <div className="flex sm:hidden items-center">
@@ -194,10 +192,7 @@ const {products,isAdded,removed}=useSelector((state)=>state.cart)
                 Contact
               </Link>
             </li>
-
-           
           </ul>
-          
         </div>
         {/* Cart icon */}
         <div className="hidden sm:flex items-center">
@@ -209,45 +204,70 @@ const {products,isAdded,removed}=useSelector((state)=>state.cart)
             <BsSearch />
           </button>
           {/* Cart icon */}
-          <button onClick={() => setCartShow(!cartShow)} className="px-4 relative py-2 ">
+          <button
+            onClick={() => setCartShow(!cartShow)}
+            className="px-4 relative py-2 "
+          >
             <BsCart4 size={24} />
-            {
-              projectData?.length ?  <span className="absolute right-0 top-0 bg-rose-500 rounded-full h-6 w-6">{projectData?.length}</span> :''
-            }
-           
+            {projectData?.length ? (
+              <span className="absolute right-0 top-0 bg-rose-500 rounded-full h-6 w-6">
+                {projectData?.length}
+              </span>
+            ) : (
+              ""
+            )}
           </button>
 
           <button className=" relative py-2 ">
-          <details className="dropdown">
-  <summary className="btn btn-sm flex px-1.5 justify-center items-center rounded-full"><FaUserAlt size={20} /></summary>
-  <ul className="p-2 shadow  rounded-none dropdown-left absolute -left-12 text-black bg-base-100 w-24 z-[1]">
-    <li><a>Item 1</a></li>
-    <li>
-              {!user?.email ? (
+            <details className="dropdown">
+              <summary className="btn btn-sm flex px-1.5  items-center rounded-full">
+                <FaUserAlt size={20} />
+              </summary>
+              <ul className="p-2 flex flex-col shadow  text-left rounded-none dropdown-left absolute -left-64  text-black bg-base-100 w-64 z-[1]">
                 <Link
-                  className="py-2 hover:border-b hover:border-white border-b border-transparent duration-300 lg:px-3 inline-block"
-                  href={"/join"}
+                  className="py-2 hover:border-b hover:border-white hover:bg-base-300 border-b border-gray-300 duration-300 lg:px-3 inline-block"
+                  href={"/user/affiliate"}
                 >
-                  Join
+                  Affiliate
                 </Link>
-              ) : (
-                <button
-                  onClick={() => handleLogout()}
-                  className="py-2 flex hover:border-b hover:border-white border-b border-transparent duration-300 lg:px-3 "
+                <Link
+                  className="py-2 hover:border-b hover:border-white hover:bg-base-300 border-b border-gray-300 duration-300 lg:px-3 inline-block"
+                  href={"/user/affiliate/billing-info"}
                 >
-                  Logout
-                </button>
-              )}
-            </li>
-  </ul>
-</details>
+                  Billing Information
+                </Link>
+                <Link
+                  className="py-2 hover:border-b hover:border-white hover:bg-base-300 border-b border-gray-300 duration-300 lg:px-3 inline-block"
+                  href={"/user/affiliate/payment-method"}
+                >
+                  Payment Method
+                </Link>
+
+                <li>
+                  {!user?.email ? (
+                    <Link
+                      className="py-2 hover:border-b hover:border-white hover:bg-base-300 border-b border-gray-300 duration-300 lg:px-3 inline-block"
+                      href={"/join"}
+                    >
+                      Join
+                    </Link>
+                  ) : (
+                    <button
+                      onClick={() => handleLogout()}
+                      className="py-2 w-full hover:border-b bg-rose-100 text-rose-600 hover:border-white hover:bg-base-300 border-b border-gray-300 duration-300 lg:px-3 "
+                    >
+                      Logout
+                    </button>
+                  )}
+                </li>
+              </ul>
+            </details>
           </button>
         </div>
       </div>
       {/* Cart Sidebar */}
       {<CartSidebar cartShow={cartShow} setCartShow={setCartShow} />}
       {/* User Profile */}
-    
     </div>
   );
 };
