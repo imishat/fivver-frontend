@@ -39,7 +39,7 @@ const userInfo = userData?.data?.user
           }
            
         <p id={message?.messageId} className={`text-sm bg-base-100  flex items-center gap-2 ${message?.reply? 'mt-0':''}`}>
-            <span className="text-5xl">
+            <span className="text-2xl">
            {message?.content}
             </span>
                 

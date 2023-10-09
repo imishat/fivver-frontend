@@ -87,7 +87,11 @@ function MessageDelivery({ message, setReply }) {
   };
 
 // image id
-const [imageId,setImageId]  = useState('')
+const handleSetImageIdInLocal = id =>{
+  if(id){
+    typeof window !== 'undefined' && localStorage.setItem('imageId',id)
+  }
+}
   return (
     <div>
       {/* delivery type */}
@@ -155,7 +159,7 @@ const [imageId,setImageId]  = useState('')
                       </div>
                       <button className="btn" onClick={()=>{
                         document.getElementById('image_modal').showModal()
-                        setImageId(message?.thumbnail?.fileId)
+                        handleSetImageIdInLocal(message?.thumbnail?.fileId)
                       }
                         }>
                      <img
@@ -226,7 +230,7 @@ const [imageId,setImageId]  = useState('')
           </div>
         </div>
       </div>
-      <ImageModal id={imageId} />
+      <ImageModal messageId={message?.messageId} />
     </div>
   );
 }

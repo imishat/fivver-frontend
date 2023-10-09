@@ -12,7 +12,7 @@ const {user} = useSelector(state => state.user)
   const userInfo = userData?.data?.user;
   console.log(message)
     return (
-       <Link className={``} href={`/message/${message?.userId}`}>
+       <Link className={`${message?.sender?.senderId === user?.userId ? 'hidden':''}`} href={`/message/${message?.receiver?.receiverId}`}>
         <li key={message?.messageId} className="flex items-center w-full bg-[#F2F9FF] py-4 border-b border-gray-400 cursor-pointer px-3 gap-2">
         <span className="w-12">
           <img
@@ -24,7 +24,7 @@ const {user} = useSelector(state => state.user)
         <div className="w-full leading-5">
           <div className="flex justify-between items-center w-full">
             <strong className="flex items-center gap-2">
-              {userInfo?.fullName}
+              {message?.sender?.fullName}
               <span>
                 <BsClock />
               </span>

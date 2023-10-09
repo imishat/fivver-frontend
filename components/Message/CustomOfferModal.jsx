@@ -103,7 +103,7 @@ const handleSelectChange=e=>{
        // send
        client.send(JSON.stringify(messageData));
        setUpdate(!update)
-       setReply({})
+      //  setReply({})
        showToast('Offer Send','success')
      
     reset()
@@ -159,6 +159,7 @@ const handleSelectChange=e=>{
             <option value="3">4 Days&nbsp;</option>
           </select>
         </div>
+      
         <div className="flex items-center gap-2">
         <h2>Price</h2>
           <div className="px-6 bg-base-100 outline-none border border-gray-400 select-sm rounded-none">

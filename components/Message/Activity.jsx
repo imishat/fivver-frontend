@@ -11,6 +11,7 @@ import dynamic from "next/dynamic";
 import moment from "moment";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { useSelector } from "react-redux";
 import { io } from "socket.io-client";
 import Requirement from "../Project/Requirment/Requirment";
 import { useUploadFile } from "../queries/mutation/fileUpload.mutation";
@@ -72,18 +73,8 @@ const Activity = () => {
   });
 
 
-  useEffect(() => {
-    client.emit("authorization", authorization);
-    client.on("error", (erroneousResponse) => {
-      erroneousResponse = JSON.parse(erroneousResponse);
-      console.error(erroneousResponse);
-    });
-    client.on("disconnect", () => {
-      client.off("authorized", authorization);
-      client.off("message", onMessageReceivedAsync);
-      console.log("disconnected from the server.");
-    });
-  }, [client]);
+  // get user
+  const { user } = useSelector((state) => state.user);
 
 
 
@@ -252,27 +243,21 @@ useEffect(()=>{
 /**
  * @param {*} data 
  */
-function send(data) {
-  client.send(JSON.stringify(data));
-}
+
 
 /**
  * @param {string} message 
  */
 async function onMessageReceivedAsync(message) {
   console.log('received:', message);
+  setUpdate(!update)
 }
 
 function onAuthorized() {
   console.log('connected to the server.');
 
-  client.on('message', onMessageReceivedAsync);
 
-  send({
-    receiverId: 'dae',        // only admins need to set receiver ID...
-    projectId: '',            // project ID shall be sent if this message belongs to a specific project...
-    content: 'hello world',
-  });
+ 
 }
 
 function onConnected() {
@@ -336,34 +321,36 @@ client.on('disconnect', () => {
             <div className="flex items-center justify-between w-full">
               <div className="flex justify-between w-full items-center leading-4">
                 <div>
-                  <strong>Client Name</strong>
+                  <strong>{userInfo?.fullName}</strong>
                   <p className="text-xs">
-                    Last seen 18 hourse ago | Local Time: May 29, 2023, 1:20 PM
+                    Last seen 1 min ago | Local Time: {moment(new Date()).format('LLL')}
                   </p>
                 </div>
                 <div>
-                  <details className="dropdown dropdown-left md:dropdown-open md:dropdown-bottom">
-                    <summary className="m-1 btn">
-                      <BsThreeDotsVertical />
-                    </summary>
-                    <ul className="p-2 shadow dropdown-content z-[1] bg-base-100 rounded w-28">
-                      <li className="w-20">
-                        <a className="px-3 cursor-pointer py-2 inline-block hover:bg-gray-400 w-24">
-                          Star
-                        </a>
-                      </li>
-                      <li className="w-20">
-                        <a className="px-3 cursor-pointer py-2 inline-block hover:bg-gray-400 w-24">
-                          Block
-                        </a>
-                      </li>
-                      <li className="w-20">
-                        <a className="px-3 cursor-pointer py-2 inline-block hover:bg-gray-400 w-24">
-                          Unblock
-                        </a>
-                      </li>
-                    </ul>
-                  </details>
+                 {
+                  user?.role==='ADMIN' ?  <details className="dropdown dropdown-left md:dropdown-open md:dropdown-bottom">
+                  <summary className="m-1 btn">
+                    <BsThreeDotsVertical />
+                  </summary>
+                  <ul className="p-2 shadow dropdown-content z-[1] bg-base-100 rounded w-28">
+                    <li className="w-20">
+                      <a className="px-3 cursor-pointer py-2 inline-block hover:bg-gray-400 w-24">
+                        Star
+                      </a>
+                    </li>
+                    <li className="w-20">
+                      <a className="px-3 cursor-pointer py-2 inline-block hover:bg-gray-400 w-24">
+                        Block
+                      </a>
+                    </li>
+                    <li className="w-20">
+                      <a className="px-3 cursor-pointer py-2 inline-block hover:bg-gray-400 w-24">
+                        Unblock
+                      </a>
+                    </li>
+                  </ul>
+                </details>:''
+                 }
                   {/* <button><BsThreeDotsVertical /></button> */}
                 </div>
               </div>
@@ -571,11 +558,16 @@ client.on('disconnect', () => {
       <div className="bg-blue-50 p-2 px-4">
         <h2 className="text-xl font-bold">Project Details</h2>
         <div className="flex gap-2 bg-white p-2">
-          <img
+          {
+            project?.imageIds?.length ?  <img
             className="w-20 h-16"
-            src="https://dummyimage.com/100x80/"
+            src={`http://103.49.169.89:30912/api/v1.0/files/download/public/${project?.imageIds?.[0]}`}
             alt=""
           />
+          :
+          <img  className="w-20 h-16" src="https://dummyimage.com/100x80/" alt="" />
+          }
+         
           <div className="">
             <p>{project?.title}</p>
             <p className="text-green-500 font-bold">{project?.status}</p>
@@ -594,15 +586,23 @@ client.on('disconnect', () => {
             </li>
             <li className="flex items-center justify-between">
               <p>Duration</p>
-              <strong>{dateDiffInDays(project?.createdAt,project?.deadline)} Days</strong>
+              {
+                dateDiffInDays(project?.updatedAt,project?.deadline)? 
+                <strong>{dateDiffInDays(project?.updatedAt,project?.deadline)} Days</strong>
+                :
+                <strong>
+                  Not Determined
+                </strong>
+              }
+            
             </li>
             <li className="flex items-center justify-between">
               <p>Project Started</p>
-              <strong>{moment(project?.createdAt).format('ll').split(' ').splice(0,2).join(' ')+ ' ' + moment(project?.createdAt).format('LT')}</strong>
+              <strong>{moment(project?.updatedAt).format('ll').split(' ').splice(0,2).join(' ')+ ' ' + moment(project?.updatedAt).format('LT')}</strong>
             </li>
             <li className="flex items-center justify-between">
               <p>Project Delivery</p>
-              <strong>{moment(project?.deadline).format('ll').split(' ').splice(0,2).join(' ')+ ' ' + moment(project?.createdAt).format('LT')}</strong>
+              <strong>{moment(project?.deadline).format('ll').split(' ').splice(0,2).join(' ')+ ' ' + moment(project?.updatedAt).format('LT')}</strong>
             </li>
             <li className="flex items-center justify-between">
               <p>Total Price</p>
@@ -631,26 +631,20 @@ client.on('disconnect', () => {
             <p>Project Placed</p>
           </div>
           <div className="relative ml-6 border-l pb-5 border-blue-500 pl-4">
-            <span className="absolute bg-blue-500 p-2 h-5 w-5 rounded-full -left-2.5">
-              <BsCheckLg
-                size={16}
-                className="absolute left-0.5 top-0.5"
-                color="white"
-              />
-            </span>
-            <p>Project Placed</p>
-          </div>
-          <div className="relative ml-6 border-l pb-5 border-blue-500 pl-4">
             <span className="absolute bg-blue-500 p-2 h-5 w-5 rounded-full -left-2.5"></span>
-            <p>Project Placed</p>
+            <p>Requirement Submitted</p>
           </div>
           <div className="relative ml-6 border-l pb-5 border-blue-500 pl-4">
             <span className="absolute border border-gray-500 bg-blue-50 p-2 h-5 w-5 rounded-full -left-2.5"></span>
-            <p>Project Placed</p>
+            <p>Project Running</p>
+          </div>
+          <div className="relative ml-6 border-l pb-5 border-blue-500 pl-4">
+            <span className="absolute border border-gray-500 bg-blue-50 p-2 h-5 w-5 rounded-full -left-2.5"></span>
+            <p>Review Delivery</p>
           </div>
           <div className="relative ml-6 border-l border-blue-500 pl-4">
             <span className="absolute border border-gray-500 bg-blue-50 p-2 h-5 w-5 rounded-full -left-2.5"></span>
-            <p>Project Placed</p>
+            <p>Complete Project</p>
           </div>
         </div>
       </div>
