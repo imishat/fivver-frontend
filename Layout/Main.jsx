@@ -5,7 +5,7 @@ import Head from "next/head";
 
 const Main = ({ children, title, description, thumb }) => {
   return (
-    <div className="container mx-auto my-14 md:my-20   overflow-hidden">
+    <div className="container mx-auto my-14 md:my-9   overflow-hidden">
       <Head>
         <title>{title}</title>
         <meta name="description" content={description} key="desc" />

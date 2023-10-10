@@ -141,3 +141,16 @@ li.rc-pagination-options {
   color: rgb(55, 112, 219) !important;
   text-decoration: underline !important;
 }
+
+.image_scroll::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+.image_scroll::-webkit-scrollbar-track {
+  background: #ddd;
+}
+.image_scroll::-webkit-scrollbar-thumb {
+  background: rgb(72, 163, 248);
+  border-radius: 30px;
+}

@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import Affiliate from "./Affiliate/Affiliate";
 import Categories from "./Categories/Categories";
 import Companies from "./Companies/Companies";
 import Designs from "./Designs/Designs";
@@ -69,6 +70,14 @@ const router = useRouter()
               Tags
             </Link>
           </li>
+          <li>
+            <Link href={'/dashboard?n=affiliate'}
+              onClick={() => setRoute("affiliate")}
+              className={`px-3 py-3 inline-block ${route==='affiliate'?'bg-blue-500':""} h-full text-white`}
+            >
+              Affiliate
+            </Link>
+          </li>
         </ul>
       </div>
       {
@@ -88,6 +97,9 @@ const router = useRouter()
       }
       {
         route==='tags' && <Tags />
+      }
+      {
+        route==='affiliate' && <Affiliate />
       }
      
     </div>

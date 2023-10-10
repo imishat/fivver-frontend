@@ -1,6 +1,7 @@
+import Link from "next/link";
 
 const ProjectCard = ({project}) => {
-    console.log(project,"project")
+
     const color = 
     project.status==='Revision' && 'text-[#DF7138]' 
     || 
@@ -15,7 +16,9 @@ const ProjectCard = ({project}) => {
     project.status==='Active' && 'text-[#DA560A]'
     return (
         <div className="border p-3 w-full ">
-            <div className="flex gap-2">
+          <Link href={`/message/project/${project?.projectId}`}>
+          
+          <div className="flex gap-2">
                 <img src={project.design} className="h-14 bg-rose-200 w-20" alt="" />
               <div className="flex flex-col w-full">
               <p className="text-base">{project.title}</p>
@@ -26,6 +29,9 @@ const ProjectCard = ({project}) => {
                 <p>{project.time}</p>
                 <p className={`font-bold ${color}`}>{project.status}</p>
             </div>
+          
+          
+          </Link>
         </div>
     );
 };

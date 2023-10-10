@@ -1,17 +1,22 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import ReviewCard from "./ReviewCard";
+import { useSelector } from "react-redux";
+import { useGetReviews } from "../queries/query/getReviews.qurey";
 
 const SellerReviews = () => {
+    const { user } = useSelector((state) => state.user);
+
+
+
+   
     // get all reviews
-    const [sellerReviews,setSellerReviews] = useState([])
-    // fetch data
-    useEffect(()=>{
-        axios.get(`/data/seller-reviews.json`)
-        .then(res=>{
-            setSellerReviews(res.data)
-        })
-    },[])
+  
+
+    const {data:sellerReviews1} = useGetReviews({userId:user?.userId})
+const reviews = sellerReviews1?.data?.reviews
+   
+  
     return (
         <div>
             {/* title */}
@@ -23,7 +28,7 @@ const SellerReviews = () => {
             {/* Review Card */}
             <div className="space-y-7  my-12">
                 {
-                    sellerReviews.map(review=><ReviewCard key={review.id} review={review} />)
+                    reviews?.map(review=><ReviewCard key={review.id} review={review} />)
                 }
             </div>
         </div>

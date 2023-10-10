@@ -38,7 +38,7 @@ const ClientCard = ({project}) => {
                       <span className="font-bold text-lg text-[#DA560A]">{project?.status}</span>
                   </li>
                   <li>
-                      <Link className="font-bold text-lg text-[#1C8DDD]" href={`/message/activity/${project?.projectId}`}>View</Link>
+                      <Link className="font-bold text-lg text-[#1C8DDD]" href={`/message/project/${project?.projectId}`}>View</Link>
                   </li>
               </ul>
           </div>

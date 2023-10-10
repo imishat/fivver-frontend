@@ -55,6 +55,7 @@ const EditModal = () => {
             profilePicture: images[0].fileId,
             phoneNumber: data.number,
             country: data.country,
+            LOcation:data.location
           };
           console.log(userData);
           if (userData) {
@@ -184,6 +185,17 @@ const EditModal = () => {
                     placeholder="country"
                     className="input w-full input-bordered"
                     id="country"
+                  />
+                </label>
+                <label htmlFor="location">
+                Location
+                  <input
+                    {...register2("location", { required: true })}
+                    defaultValue={user?.Location}
+                    type="text"
+                    placeholder="Location"
+                    className="input w-full input-bordered"
+                    id="location"
                   />
                 </label>
               </div>

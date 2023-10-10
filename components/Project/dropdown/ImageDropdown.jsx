@@ -6,7 +6,7 @@ const ImageDropdown = ({ selectedDesign,setSingleDesign }) => {
   const [selectedOption, setSelectedOption] = useState(null);
   // set Selected design to local
  
-
+console.log(selectedDesign)
    
   return (
     <div className="dropdown-container border w-full">
@@ -41,7 +41,7 @@ const ImageDropdown = ({ selectedDesign,setSingleDesign }) => {
               setIsOpen(false);
             }}>
                <img className="w-12 h-12" src={`http://103.49.169.89:30912/api/v1.0/files/download/public/${option?.imageIds[0]}`} alt="" />
-              <span>{option.title}</span>
+              <span>{option?.title}</span>
             </div>
           ))}
         </div>
