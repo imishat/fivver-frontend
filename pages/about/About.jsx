@@ -1,7 +1,7 @@
 import Main from "@/Layout/Main";
 import Link from "next/link";
 
-const about = () => {
+const About = () => {
   const designCat = [
     "Door hanger design",
     "Postcard Design",
@@ -127,4 +127,4 @@ const about = () => {
   );
 };
 
-export default about;
+export default About;

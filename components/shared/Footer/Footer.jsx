@@ -56,7 +56,7 @@ import { BsFacebook } from "react-icons/bs";
                             <Link href={'#'}>Contact</Link>
                         </li>
                         <li>
-                            <Link href={'#'}>About</Link>
+                            <Link href={'/about'}>About</Link>
                         </li>
                         <li>
                             <Link href={'#'}>Companies</Link>
@@ -128,7 +128,7 @@ import { BsFacebook } from "react-icons/bs";
                         <Link href={'#'}>Contact</Link>
                     </li>
                     <li>
-                        <Link href={'#'}>About</Link>
+                        <Link href={'/about'}>About</Link>
                     </li>
                     <li>
                         <Link href={'#'}>Companies</Link>
