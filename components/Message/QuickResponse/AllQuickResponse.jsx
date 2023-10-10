@@ -46,8 +46,40 @@ const AllQuickResponse = ({setValue,value})=> {
         <div className="p-2 m-2 h-24 overflow-y-auto">
         {/* Quick Response */}
         {/* <Toast /> */}
-        <div>
+        <div className=" flex  justify-between p-2">
           <h2>Quick Response</h2>
+          <div>
+            {editMode ? (
+              <button
+                onClick={() => setEditMode(false)}
+                className="px-1 py-0 text-teal-400  font-bold"
+              >
+                Done
+              </button>
+            ) : (
+              <button
+                onClick={() => setEditMode(true)}
+                className="px-1 py-0 text-blue-500 font-bold"
+              >
+                Edit
+              </button>
+            )}
+            {deleteMode ? (
+              <button
+                onClick={() => setDeleteMode(false)}
+                className="px-1 py-0 text-teal-400  font-bold"
+              >
+                Done
+              </button>
+            ) : (
+              <button
+                onClick={() => setDeleteMode(true)}
+                className="px-1 py-0 text-rose-400  font-bold"
+              >
+                Delete
+              </button>
+            )}
+          </div>
         </div>
         <div className="flex ">
           <div className="flex gap-2 text-[13px] flex-wrap">
@@ -95,38 +127,7 @@ const AllQuickResponse = ({setValue,value})=> {
               + Add New
             </button>
           </div>
-          <div>
-            {editMode ? (
-              <button
-                onClick={() => setEditMode(false)}
-                className="px-1 py-0 text-teal-400  font-bold"
-              >
-                Done
-              </button>
-            ) : (
-              <button
-                onClick={() => setEditMode(true)}
-                className="px-1 py-0 text-blue-500 font-bold"
-              >
-                Edit
-              </button>
-            )}
-            {deleteMode ? (
-              <button
-                onClick={() => setDeleteMode(false)}
-                className="px-1 py-0 text-teal-400  font-bold"
-              >
-                Done
-              </button>
-            ) : (
-              <button
-                onClick={() => setDeleteMode(true)}
-                className="px-1 py-0 text-rose-400  font-bold"
-              >
-                Delete
-              </button>
-            )}
-          </div>
+          
         </div>
         <EditModal quickResponse={quickResponse} />
         <CreateQuick />

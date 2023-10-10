@@ -2,13 +2,16 @@
 import React, { useState } from 'react'
 
 
-import {BiDollar} from "react-icons/bi"
-import { AiFillSetting,AiOutlineClose} from "react-icons/ai"
-import {IoMdAdd} from "react-icons/io"
-import Link from 'next/link'
+import useToast from "@/components/utility/useToast";
+import Image from "next/image";
+import { useRouter } from "next/router";
+import { useForm } from "react-hook-form";
+import { useSelector } from "react-redux";
 
-
-
+import { useUpdatePassword } from '@/components/queries/mutation/chengePass.mutation';
+import { useUpdateUser } from '@/components/queries/mutation/updateUser.mutation';
+import { useUploadFile } from '@/components/queries/mutation/fileUpload.mutation';
+import { Container } from 'postcss';
 
 
 
@@ -21,76 +24,252 @@ import Link from 'next/link'
 
 
 function BillingInformation() {
-    const [modal,setModal] =useState(false)
+   // get user
+   const { user } = useSelector((state) => state.user);
+   //  react hook form
+   const {
+     register,
+     handleSubmit,
+     watch,
+     formState: { errors },
+   } = useForm();
+ 
+   // toast
+   const { Toast, showToast } = useToast();
+   const router = useRouter()
+   //  react hook form 2
+   const {
+     register: register2,
+     handleSubmit: handleSubmit2,
+     formState: { errors: error2 },
+   } = useForm();
+   // update user
+   const { mutate: updateUser } = useUpdateUser();
+   // image upload call
+   const { mutate: sendFileData } = useUploadFile();
+ 
+   // update password
+   const {mutate: chengePassword} = useUpdatePassword()
+ 
+   // handle update user
+   const handleUserProfile = (data) => {
+     // upload image
+     const photo = data.image;
+     const photoData = new FormData();
+ 
+     photoData.append("files", photo[0]);
+ 
+     // send desing data for create
+     if (photo?.length) {
+       sendFileData(photoData, {
+         onSuccess: (res) => {
+           const images = res?.data?.files;
+           showToast("Photo Uploaded", "success");
+           // user data
+           const userData = {
+             fullName: data.name,
+             profilePicture: images[0].fileId,
+             phoneNumber: data.number,
+             country: data.country,
+             LOcation:data.location
+           };
+           console.log(userData);
+           if (userData) {
+             updateUser(userData, {
+               onSuccess: (res) => {
+                 console.log(res);
+                 showToast("Update Profile", "success");
+                 router.reload();
+ 
+ 
+               },
+               onError: (err) => {
+                 showToast(err?.message);
+               },
+             });
+           }
+         },
+         onError: (err) => {
+           showToast(err?.message);
+         },
+       });
+     } else {
+       // if image not select
+       const userData = {
+         fullName: data.name,
+         profilePicture: user.profilePicture,
+         phoneNumber: data.number,
+         country: data.country,
+       };
+       console.log(userData);
+       if (userData) {
+         updateUser(userData, {
+           onSuccess: (res) => {
+             console.log(res);
+             showToast("Update Profile", "success");
+             router.reload();
+           },
+           onError: (err) => {
+             showToast(err?.message);
+           },
+         });
+       }
+     }
+   };
+   // handle password
+   const handlePassword = (data) => {
+     const passwordData = {
+       currentPassword: data.oldPassword,
+       newPassword: data.newPassword,
+       newConfirmPassword: data.confirmPassword,
+     };
+     chengePassword(passwordData,{
+       onSuccess:(res)=>{
+         console.log(res)
+         showToast("Password Updated", "success");
+         router.reload();
+       },
+       onError:(err)=>{
+         showToast(err?.message)
+       }
+     })
+   };
+ 
     return (
-        <>
-        <div className={`px-4 xl:px-0 ${modal && "bg-[gray] h-screen blur-[2px]"}`}>
-        <section className='mt-5'>
-            {/* <Container> */}
-              <h2 className='font-roboto mb-8 font-bold text-3xl text-[#444444]'>Affiliate</h2>
-              <div className='flex flex-wrap justify-center md:justify-start gap-5'>
-                <div className='w-[400px] bg-[#292933] py-10 flex justify-center items-center'>
-                    <div className='text-center'>
-                        <span className='flex justify-center'>
-                          <BiDollar className='font-roboto font-bold text-5xl text-white '/>
-                        </span>
-                        <h3 className='font-roboto mt-2 mb-3 font-normal text-xl text-white'>Affiliate Balance</h3>
-                        <h1 className='font-roboto font-bold text-5xl text-white'>$10.000</h1>
-                    </div>
-                </div>
-    
-                      <div className='w-[400px] bg-[#DFDFE6] hover:bg-[#292933] group duration-200  py-10 flex justify-center items-center'>
-                  <Link href="/user/affiliate/Configer-info">
-                          <div className='text-center'>
-                              <div className='h-[80px] w-[80px] bg-[#292933] group-hover:bg-white group-hover:text-[#292933] duration-200 rounded-full mx-auto flex items-start justify-center'>
-                                <AiFillSetting className='font-roboto font-bold text-5xl h-full text-white  group-hover:text-[#292933] duration-200'/>
-                              </div>
-                              <h3 className='font-roboto mt-2 mb-3 font-normal text-xl text-[#111111] group-hover:text-white duration-200'>Configure Payout</h3>
-                            
-                          </div>
-                  </Link>
-                      </div>
-    
-                <div onClick={()=>{setModal(!modal)}} className='w-[400px] bg-[#DFDFE6] hover:bg-[#292933] group duration-200 py-10 flex justify-center items-center'>
-                    <div className='text-center'>
-                        <div className='h-[80px] w-[80px] bg-[#292933] group-hover:bg-white group-hover:text-[#292933] duration-200 rounded-full mx-auto flex items-start justify-center'>
-                          <IoMdAdd className='font-roboto cursor-pointer  font-bold text-5xl h-full text-white group-hover:text-[#292933] duration-200'/>
-                        </div>
-                        <h3 className='font-roboto mt-2 mb-3 font-normal text-xl text-[#292933] group-hover:text-white duration-200'>Affiliate Withdraw Request</h3>
-                       
-                    </div>
-                </div>
-    
-              </div>
-    
-            {/* </Container> */}
-        </section>
-    
       
-    
-    
-             
-        
-    
-    
-    
-    
-    
-        </div>
-             
-             {
-              modal &&
-                  <div className={`md:w-[700px] w-[400px] bg-white py-10 px-8 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 `}>
-                    <h2 className='font-roboto  font-normal text-sm md:text-3xl text-[#111111] flex justify-between items-center'>Affiliate Withdraw Request  <AiOutlineClose onClick={()=>{setModal(false)}} className='cursor-pointer'/></h2>
-                   
-                    <label className='mr-5 font-roboto   font-normal text-xl text-[#111111]'>Amount *</label>
-                    <input type="text" className='md:w-[500px] px-5 py-4 my-5 border-solid border border-[#666666]'/>
-                    <div className='flex justify-end mr-8'>
-                      <button className='bg-[#D00906] py-4 md:px-16 px-8 font-roboto text-white text-lg font-medium'>Confirm</button>  
-                    </div>
+     
+      <div>
+      <Toast />
+   
+   
+          <h3 className="font-bold text-lg">Edit Profile!</h3>
+          <form onSubmit={handleSubmit2(handleUserProfile)}>
+            <div className="flex w-full ">
+              <div className="flex items-center mx-2 w-44">
+                <label htmlFor="profile">
+                  <p className="text-sm"> Profile Photo</p>
+                  <Image
+                    className="w-24 h-24 border p-1 rounded-full"
+                    width={130}
+                    height={130}
+                    alt={user?.username}
+                    src={`http://103.49.169.89:30912/api/v1.0/files/download/public/${user?.profilePicture}`}
+                  />
+                  <div>
+                    <label
+                      className="px-4 inline-block py-1 my-2 rounded-md border border-gray-400"
+                      htmlFor="upload"
+                    >
+                      Upload
+                      <input
+                        {...register2("image", { required: false })}
+                        hidden
+                        type="file"
+                        id="upload"
+                      />
+                    </label>
                   </div>
-             }
-        </>
+                </label>
+              </div>
+
+              <div>
+                <label htmlFor="fullName">
+                  Name
+                  <input
+                    {...register2("name", { required: true })}
+                    defaultValue={user?.fullName}
+                    type="text"
+                    placeholder="Name"
+                    className="input w-full input-bordered"
+                    id="fullName"
+                  />
+                </label>
+                <label htmlFor="number">
+                  Number
+                  <input
+                    {...register2("number", { required: true })}
+                    defaultValue={user?.phoneNumber}
+                    type="text"
+                    placeholder="Phone Number"
+                    className="input w-full input-bordered"
+                    id="number"
+                  />
+                </label>
+                <label htmlFor="country">
+                  Country
+                  <input
+                    {...register2("country", { required: true })}
+                    defaultValue={user?.country}
+                    type="text"
+                    placeholder="country"
+                    className="input w-full input-bordered"
+                    id="country"
+                  />
+                </label>
+                <label htmlFor="location">
+                Location
+                  <input
+                    {...register2("location", { required: true })}
+                    defaultValue={user?.Location}
+                    type="text"
+                    placeholder="Location"
+                    className="input w-full input-bordered"
+                    id="location"
+                  />
+                </label>
+              </div>
+            </div>
+            <button className="btn btn-block bg-blue-400 text-white flex items-center mx-2 w-44">
+              Update
+            </button>
+          </form>
+          {/* Password */}
+          <form onSubmit={handleSubmit(handlePassword)}>
+            <p className="font-bold my-4">Chenge Password</p>
+            <label htmlFor="password">
+              Old Password
+              <input
+                {...register("oldPassword", { required: true })}
+                defaultValue={user?.password}
+                type="text"
+                placeholder="password"
+                className="input w-full input-bordered"
+                id="password"
+              />
+            </label>
+            <label htmlFor="newPassword">
+              New Password
+              <input
+                {...register("newPassword", { required: true })}
+                defaultValue={user?.password}
+                type="text"
+                placeholder="New Password"
+                className="input w-full input-bordered"
+                id="newPassword"
+              />
+            </label>
+            <label htmlFor="confirmPassword">
+              Confirm Password
+              <input
+                {...register("confirmPassword", { required: true })}
+                defaultValue={user?.password}
+                type="text"
+                placeholder="Confirm Password"
+                className="input w-full input-bordered"
+                id="confirmPassword"
+              />
+            </label>
+            {/* chenge passowrd btn */}
+            <button className="btn btn-block bg-blue-400 text-white my-3 flex items-center mx-2 w-44">
+              Chenge Password
+            </button>
+          </form>
+
+          
+     
+    </div>
+   
+        
     );
 }
 

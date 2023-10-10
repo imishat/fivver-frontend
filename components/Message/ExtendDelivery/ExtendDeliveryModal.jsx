@@ -34,7 +34,7 @@ function ExtendDeliveryModal() {
         <textarea placeholder="Explain why You need more time" className="textarea focus-within:outline-none rounded-none border-none textarea-bordered  w-full"></textarea>
        <div className="flex items-center justify-between px-12">
         {/* Input  */}
-        <div className="flex py-2 items-center justify-between w-1/2">
+        <div className="flex py-2 items-center justify-between w-1/2 sm:w-1/2">
       <div className="flex items-center gap-4">
         <label htmlFor="days">Days</label>
         <input
@@ -61,7 +61,7 @@ function ExtendDeliveryModal() {
     </div>
         {/* Button */}
         <div>
-            <button className="bg-blue-500 font-bold hover:bg-blue-700 text-white py-2 px-6 text-center">Extend</button>
+            <button className="bg-blue-500 font-bold hover:bg-blue-700 text-white py-2 px-6 text-center sm:px-0 sm:py-0">Extend</button>
         </div>
        </div>
     </div>

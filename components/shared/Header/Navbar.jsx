@@ -230,12 +230,12 @@ const Navbar = () => {
                 >
                   Affiliate
                 </Link>
-                {/* <Link
+                <Link
                   className="py-2 hover:border-b hover:border-white hover:bg-base-300 border-b border-gray-300 duration-300 lg:px-3 inline-block"
                   href={"/user/affiliate/billing-info"}
                 >
                   Billing Information
-                </Link> */}
+                </Link>
                 <Link
                   className="py-2 hover:border-b hover:border-white hover:bg-base-300 border-b border-gray-300 duration-300 lg:px-3 inline-block"
                   href={"/user/affiliate/Configer-info"}
