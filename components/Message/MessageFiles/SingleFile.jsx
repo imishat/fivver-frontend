@@ -1,4 +1,5 @@
 import { useGetFile } from "@/components/queries/query/getFiles.queries";
+import Link from "next/link";
 
 function SingleFile({file}) {
 
@@ -7,7 +8,7 @@ function SingleFile({file}) {
     // console.log(singleImage)
     return (
         <div>
-           <img src={`http://103.49.169.89:30912/api/v1.0/files/download/public/${file}`} target="_blank" rel="noopener noreferrer" className="w-full h-44 object-cover"/>
+         <Link href={`http://103.49.169.89:30912/api/v1.0/files/download/public/${file}`} target="_blank">  <img src={`http://103.49.169.89:30912/api/v1.0/files/download/public/${file}`} target="_blank" rel="noopener noreferrer" className="w-full h-44 object-cover"/></Link>
         </div>
     );
 }

@@ -57,7 +57,12 @@ const UpdateDesign = () => {
   // design id
 
   // get all designs for related designs
-  const { data: getAllDesigns } = useAllDesigns({ designId });
+  const { data: getAllDesigns } = useAllDesigns({ designId,page:1,limit:12000 });
+  const { data: getDesigns } = useAllDesigns({ designId:'',page:1,limit:12000 });
+    // get all designs for related designs
+
+    const allDesigns = getDesigns?.data?.designs;
+    console.log(allDesigns)
   const designData = getAllDesigns?.data?.designs[0];
   // console.log(designData);
   // design create loading
@@ -147,20 +152,20 @@ const UpdateDesign = () => {
                 tags: selectedTags || designData?.tags,
                 featuredImageId: thumbnail || designData?.featuredImageId,
               };
-              // sendDesignData(projectData, {
-              //   onSuccess: (res) => {
-              //     showToast(res.message, "success");
-              //     console.log(res);
-              //     // loading stop
-              //     setDesignLoading(false);
-              //     // reset();
-              //   },
-              //   onError: (err) => {
-              //     showToast(err?.response?.data?.message);
-              //     // loading stop
-              //     setDesignLoading(false);
-              //   },
-              // });
+              sendDesignData(projectData, {
+                onSuccess: (res) => {
+                  showToast(res.message, "success");
+                  console.log(res);
+                  // loading stop
+                  setDesignLoading(false);
+                  // reset();
+                },
+                onError: (err) => {
+                  showToast(err?.response?.data?.message);
+                  // loading stop
+                  setDesignLoading(false);
+                },
+              });
             for (const p in photo) {
               photoData.append("files", photo[p]);
             }
@@ -184,26 +189,27 @@ const UpdateDesign = () => {
                       subcategoryId:
                         selectedSubCategories || designData?.subcategoryId,
                       imageIds: imageIds || designData?.imageIds,
+                      priority:data.priority || designData?.priority,
                       companies: selectedCompanies || designData?.companies,
                       relatedDesignIds:
                         relatedIds.split(",") || designData?.relatedDesignIds,
                       tags: selectedTags || designData?.tags,
                       featuredImageId: thumbnail || designData?.featuredImageId,
                     };
-                    // sendDesignData(projectData, {
-                    //   onSuccess: (res) => {
-                    //     showToast(res.message, "success");
-                    //     console.log(res);
-                    //     // loading stop
-                    //     setDesignLoading(false);
-                    //     // reset();
-                    //   },
-                    //   onError: (err) => {
-                    //     showToast(err?.response?.data?.message);
-                    //     // loading stop
-                    //     setDesignLoading(false);
-                    //   },
-                    // });
+                    sendDesignData(projectData, {
+                      onSuccess: (res) => {
+                        showToast(res.message, "success");
+                        console.log(res);
+                        // loading stop
+                        setDesignLoading(false);
+                        // reset();
+                      },
+                      onError: (err) => {
+                        showToast(err?.response?.data?.message);
+                        // loading stop
+                        setDesignLoading(false);
+                      },
+                    });
                   }
                   // loading stop
                   setDesignLoading(false);
@@ -234,25 +240,26 @@ const UpdateDesign = () => {
         categoryId: data.category || designData?.categoryId,
         subcategoryId: selectedSubCategories || designData?.subcategoryId,
         imageIds: imageIds || designData?.imageIds,
+        priority: data.priority || designData?.priority,
         companies: selectedCompanies || designData?.companies,
         relatedDesignIds: relatedIds.split(",") || designData?.relatedDesignIds,
         tags: selectedTags || designData?.tags,
         featuredImageId: thumbnailId || designData?.featuredImageId,
       };
-      // sendDesignData(projectData, {
-      //   onSuccess: (res) => {
-      //     showToast(res.message, "success");
-      //     console.log(res);
-      //     // loading stop
-      //     setDesignLoading(false);
-      //     // reset();
-      //   },
-      //   onError: (err) => {
-      //     showToast(err?.response?.data?.message);
-      //     // loading stop
-      //     setDesignLoading(false);
-      //   },
-      // });
+      sendDesignData(projectData, {
+        onSuccess: (res) => {
+          showToast(res.message, "success");
+          console.log(res);
+          // loading stop
+          setDesignLoading(false);
+          // reset();
+        },
+        onError: (err) => {
+          showToast(err?.response?.data?.message);
+          // loading stop
+          setDesignLoading(false);
+        },
+      });
     }
   };
 
@@ -325,6 +332,39 @@ const UpdateDesign = () => {
                 onChange={(e) => setRelatedIds(e.target.value)}
                 className="textarea textarea-bordered"
                 id=""
+              />
+            </div>
+              {/* Size */}
+              <div className="flex flex-col border">
+              <label
+                className="px-3 py-2 inline-block bg-base-200 w-full"
+                htmlFor="size"
+              >
+                Size
+              </label>
+              <input
+                {...register("size", { required: false })}
+                defaultValue={designData?.size}
+                className="px-4 m-1 py-2 border border-gray-400"
+                type="text"
+                id="size"
+              />
+            </div>
+            {/* File Format */}
+            <div className="flex flex-col border">
+              <label
+                className="px-3 py-2 inline-block bg-base-200 w-full"
+                htmlFor="fileformat"
+              >
+                File Format
+              </label>
+              {/* Iamge upload */}
+              <input
+                {...register("fileFormat", { required: false })}
+                defaultValue={designData?.fileFormat}
+                className="px-4 m-1 py-2 border border-gray-400"
+                type="text"
+                id="fileformat"
               />
             </div>
           </div>
@@ -494,44 +534,29 @@ const UpdateDesign = () => {
                 {errors.image && <span>Image is required</span>}
               </span>
             </div>
-            {/* Size */}
-            <div className="flex flex-col border">
+          
+ {/* Priority */}
+ <div className="flex flex-col border">
               <label
                 className="px-3 py-2 inline-block bg-base-200 w-full"
-                htmlFor="size"
+                htmlFor="Priority"
               >
-                Size
+                Project Priority
               </label>
-              <input
-                {...register("size", { required: false })}
-                defaultValue={designData?.size}
-                className="px-4 m-1 py-2 border border-gray-400"
-                type="text"
-                id="size"
-              />
-            </div>
-            {/* File Format */}
-            <div className="flex flex-col border">
-              <label
-                className="px-3 py-2 inline-block bg-base-200 w-full"
-                htmlFor="fileformat"
-              >
-                File Format
-              </label>
-              {/* Iamge upload */}
-              <input
-                {...register("fileFormat", { required: false })}
-                defaultValue={designData?.fileFormat}
-                className="px-4 m-1 py-2 border border-gray-400"
-                type="text"
-                id="fileformat"
-              />
+              {/* priority select */}
+             <select  defaultValue={designData?.priority} {...register("priority", { required: true })} id="Priority" className="select select-bordered rounded-none">
+              {
+                allDesigns?.map((design,i)=>{
+                  return <option value={i+1}>{i+1}</option>
+                })
+              }
+             </select>
             </div>
 
             <div className="flex justify-center my-2">
               {/* Submit */}
               <button className="md:w-[768px] w-full hover:bg-opacity-75 duration-300 font-bold text-white disabled:bg-gray-500 disabled:cursor-not-allowed mx-auto py-2 bg-[#3B82F6]">
-                {designLoading ? "Creating..." : "Create Project"}
+                {designLoading ? "Updating..." : "Update Project"}
               </button>
             </div>
           </div>

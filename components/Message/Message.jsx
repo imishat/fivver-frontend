@@ -10,10 +10,14 @@ import { useGetUserData } from "../queries/query/getUserProfile.query";
 import useToast from "../utility/useToast";
 import CustomOfferModal from "./CustomOfferModal";
 
+import Image from "next/image";
 import Link from "next/link";
 import { io } from "socket.io-client";
+import { useUploadFile } from "../queries/mutation/fileUpload.mutation";
+import { useUpdateUser } from "../queries/mutation/updateUser.mutation";
 import { useGetUniqueMessages } from "../queries/query/getAllUniqueMessages.query";
 import MessageCard from "./MessageCard";
+import MessageFiles from "./MessageFiles/MessageFiles";
 import MessageLike from "./MessageLike/MessageLike";
 import MessageUserCard from "./MessageUserCard";
 import OfferMessageCard from "./OfferMessageCard";
@@ -27,14 +31,18 @@ const Message = () => {
     reset,
     formState: { errors },
   } = useForm();
-
+  // update
+  const [update,setUpdate] = useState(false)
   // router
   const router = useRouter();
 
+
+
+
+  const { mutate: sendFileData } = useUploadFile({ watermark:false });
   // get message id from query
   const { messageId } = router.query;
-  // update
-  const [update,setUpdate] = useState(false)
+
   // get message by projectId
   const { data: messageData } = useGetMessagesById({
     projectId: "",
@@ -42,6 +50,16 @@ const Message = () => {
     update:update
   });
 
+  // update
+  const {mutate:updateUser} = useUpdateUser()
+
+
+
+  // get user by id
+  const { data: userData } = useGetUserData({ token: "", userId: messageId,update:update });
+  // user info
+  const userInfo = userData?.data?.user;
+   
   // get all unique messages
   const {data:uniqueMessagesData} = useGetUniqueMessages() 
   const uniqueMessages = uniqueMessagesData?.data?.messages
@@ -55,7 +73,10 @@ const Message = () => {
   const client = io(url, {
     path: "/realtime-messaging",
   });
-
+  async function onMessageReceivedAsync(message) {
+    console.log('received:', message);
+    setUpdate(!update)
+  }
   useEffect(() => {
     client.emit("authorization", authorization);
     client.on("error", (erroneousResponse) => {
@@ -87,16 +108,31 @@ const Message = () => {
   // input value
   const [value, setValue] = useState("");
 
-  // send value
-  const [sendValue, setSendValue] = useState("");
+  const [loading,setLoading] = useState(false)
 
+
+// handle star
+const handleStar = () =>{
+  setLoading(true)
+  const action={
+    star:!userInfo?.star,
+    action:'aaaa',
+  }
+  updateUser(action,{
+    onSuccess: (res) => {
+      console.log(res);
+      showToast(`${!userInfo?.star ? 'Star Added':'Star Removed' }`, "success");
+      setLoading(false)
+      setUpdate(!update)
+    },
+    onError: (err) => {
+      setLoading(false)
+      showToast(err?.message);
+    },
+  })  
+}
   // toast
   const { Toast, showToast } = useToast();
-
-  // get user by id
-  const { data: userData } = useGetUserData({ token: "", userId: messageId });
-  // user info
-  const userInfo = userData?.data?.user;
 
   // ================= message send area ==============
   // Reply
@@ -155,7 +191,7 @@ const Message = () => {
 
           const sendMessage = {
             type: "file",
-            projectId: project?.projectId,
+            projectId: '',
             content: data?.messageData,
             reply: reply,
             files: imageIds,
@@ -168,6 +204,7 @@ const Message = () => {
           client.send(JSON.stringify(sendMessage));
           setUpdate(!update)
           reset()
+          handleClick()
           setReply({})
           setImages([])
           showToast('File Send','success')
@@ -193,6 +230,7 @@ const Message = () => {
       setUpdate(!update)
       showToast('Message Send','success')
       reset();
+      handleClick()
       setReply({})
       setValue('')
     }
@@ -213,6 +251,7 @@ const Message = () => {
      // send
      client.send(JSON.stringify(sendLike));
      setUpdate(!update)
+     handleClick()
      setReply({})
      showToast('Liked','success')
   };
@@ -230,17 +269,20 @@ const Message = () => {
     messagesNames?.map((message) => {
       userIds.push(message.userId);
     });
+    handleClick()
   }, [messagesNames]);
 
 
 
+ useEffect(()=>{
   client.on("message", onMessageReceivedAsync);
   async function onMessageReceivedAsync(message) {
-    
+    handleClick()
     // setSocketData(prevMessages=>[...prevMessages, JSON.parse(message)]);
     // message.push(JSON.parse(message))
     setUpdate(!update)
   }
+ },[client])
 
 
   return (
@@ -267,20 +309,21 @@ const Message = () => {
           <ul>
             {uniqueMessages?.length
               ? uniqueMessages?.map((message) => (
-                  <MessageUserCard key={message?.messageId} message={message} />
+                  <MessageUserCard key={message?.messageId} message={message} update={update} setUpdate={setUpdate} />
                 ))
               : "No Message"}
           </ul>
         </div>
       </div>
       {/* Right side */}
-      <div className="w-full">
-        <div className=" py-6 flex items-center gap-6 border-b border-gray-300 my-2">
-          {/* Btns */}
-          <button className="uppercase font-bold text-blue-500 border-b border-blue-500">
-            Activity
-          </button>
+      {
+        router?.asPath === "/message" ?
+        <div className="w-full flex items-center h-96 justify-center">
+          <h3>Select User For Start Message</h3>
         </div>
+        :
+        <div className="w-full">
+       
         {/* Body */}
         <div className="w-full">
           <div className="h-14 w-full bg-[#EFEFEF] pl-4 flex items-center">
@@ -300,9 +343,13 @@ const Message = () => {
                     </summary>
                     <ul className="p-2 shadow dropdown-content z-[1] bg-base-100 rounded w-28">
                       <li className="w-20">
-                        <a className="px-3 cursor-pointer py-2 inline-block hover:bg-gray-400 w-24">
-                          Star
-                        </a>
+                          <button onClick={()=>handleStar()} className={`${loading?'px-3 cursor-pointer py-2 inline-block hover:bg-gray-400 w-24 animate-pulse':'px-3 cursor-pointer py-2 inline-block hover:bg-gray-400 w-24'}`}>
+                          {
+                            userInfo?.star ? 'Stared':'Star'
+                          }
+                        </button>
+                        
+                        
                       </li>
                       <li className="w-20">
                         <a className="px-3 cursor-pointer py-2 inline-block hover:bg-gray-400 w-24">
@@ -344,6 +391,14 @@ const Message = () => {
                       message={message}
                     />
                   )}
+                  {/* Files Message */}
+                  {message?.type === "file" && (
+                    <MessageFiles
+                      setReply={setReply}
+                      key={message.messageId}
+                      message={message}
+                    />
+                  )}
                   {/* // Like Message */}
                   {message?.type === "like" && (
                     <MessageLike
@@ -359,7 +414,8 @@ const Message = () => {
           
           </div>
           {/* send box */}
-          <div className="border border-gray-500 m-2">
+          <div className="border border-gray-500 m-2 relative">
+             {/* Scroll Down */}
           <button className="absolute right-5 -top-12" onClick={handleClick}><BsArrowDownCircle size={20} /></button>
             <div className="w-full">
               {/* Quick Response */}
@@ -396,7 +452,31 @@ const Message = () => {
                       ""
                     )}
                   </div>
-               
+                 {/* If File selected */}
+                 <div>
+                  {imagesBlobs?.length ? (
+                    <span className="font-bold">Files:</span>
+                  ) : (
+                    ""
+                  )}
+                  <div className="flex items-center flex-wrap gap-1 mx-1 my-3">
+                    {imagesBlobs?.length > 0
+                      ? imagesBlobs?.map((image, i) => {
+                          return (
+                            <div key={i} className="flex relative">
+                              <Image
+                                width={80}
+                                height={80}
+                                src={window.URL.createObjectURL(image)}
+                                className="w-20 h-20 rounded object-cover"
+                                alt=""
+                              />
+                            </div>
+                          );
+                        })
+                      : ""}
+                  </div>
+                </div>
                   <form onSubmit={handleSubmit(handleSendMessage)}>
                   
                     <div className="w-full">
@@ -416,11 +496,19 @@ const Message = () => {
                         👍
                       </span>
                       <span className="pr-5 pl-3">|</span>
-                      {/* Offer */}
+                      
                       <span className="flex w-full gap-6 items-center">
-                        <span className="cursor-pointer">
-                          <MdAttachment size={24} />
-                        </span>
+                         {/* Files */}
+                      <label className="cursor-pointer">
+                        <MdAttachment size={24} />
+                        <input
+                          type="file"
+                          className="hidden"
+                          multiple
+                          onChange={(e) => setImages(e)}
+                        />
+                      </label>
+                      {/* Offer */}
                         <span
                           className="cursor-pointer"
                           onClick={() =>
@@ -443,6 +531,8 @@ const Message = () => {
           </div>
         </div>
       </div>
+      }
+     
       {/* Edit modal */}
 
       <CustomOfferModal update={update} setUpdate={setUpdate} project={{ startedBy: messageId }} reply={reply} />

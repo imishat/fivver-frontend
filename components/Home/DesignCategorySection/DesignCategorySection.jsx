@@ -4,7 +4,7 @@ import DesignCategorySectionCard from "./DesignCategorySectionCard";
 
 export default function DesignCategorySection() {
   // limit
-  const [limit, setLimit] = useState("5");
+  const [limit, setLimit] = useState("10");
 
   // page
   const [page, setPage] = useState("1");

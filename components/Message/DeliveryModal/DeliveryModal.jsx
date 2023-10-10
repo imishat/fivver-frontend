@@ -161,7 +161,7 @@ const [draftData,setDraftData] = useState({})
     const messageData = {
         content: draftData?.content||value,
         thumbnail: draftData?.thumbnail?.fileId ? draftData?.thumbnail:thumbnail,
-        sourceFiles:draftData?.sourceFiles[0]?.fileId?draftData?.sourceFiles : sourceFiles,
+        sourceFiles:draftData?.sourceFiles?.[0]?.fileId?draftData?.sourceFiles : sourceFiles,
         projectId: project?.projectId,
         reply: draftData?.reply || reply,
         receiverId: project?.startedBy,

@@ -18,11 +18,14 @@ import { useUploadFile } from "../queries/mutation/fileUpload.mutation";
 import { useGetMessagesById } from "../queries/query/getMessagesById.query";
 import { useGetUserData } from "../queries/query/getUserProfile.query";
 import { useGetProject } from "../queries/query/project.query";
+import CancelModal from "./CancelModal/CancelModal";
+import ExtendDeliveryModal from "./ExtendDelivery/ExtendDeliveryModal";
 import MessageCard from "./MessageCard";
 import MessageDelivery from "./MessageDelivery/MessageDelivery";
 import MessageFiles from "./MessageFiles/MessageFiles";
 import MessageLike from "./MessageLike/MessageLike";
 import OfferMessageCard from "./OfferMessageCard";
+import ProjectCountDown from "./ProjectCountDown";
 const CustomOfferModal = dynamic(() => import("./CustomOfferModal"), {
   ssr: false,
 });
@@ -412,6 +415,7 @@ client.on('disconnect', () => {
           </div>
           {/* send box */}
           <div className="border border-gray-500 m-2 relative">
+            {/* Scroll Down */}
           <button className="absolute right-5 -top-12" onClick={handleClick}><BsArrowDownCircle size={20} /></button>
             <div>
               <div>
@@ -524,8 +528,10 @@ client.on('disconnect', () => {
       {/* Timer */}
       <div className="bg-blue-50 p-2 px-4">
         <h2 className="text-xl font-bold">Time left to deliver</h2>
+
+        {/* Countdown */}
         <div className="flex items-center">
-          <p className="flex flex-col text-center border border-blue-400 px-2 py-2 w-full">
+          {/* <p className="flex flex-col text-center border border-blue-400 px-2 py-2 w-full">
             {" "}
             01 <span>Days</span>
           </p>
@@ -539,8 +545,9 @@ client.on('disconnect', () => {
           </p>
           <p className="flex flex-col text-center border border-blue-400 px-2 py-2 w-full">
             {" "}
-            01 <span>Seconds</span>
-          </p>
+            01 <span>Seconds</span> 
+           </p> */}
+           <ProjectCountDown />
         </div>
         <button
           onClick={() =>
@@ -550,7 +557,7 @@ client.on('disconnect', () => {
         >
           Deliver Now
         </button>
-        <button className="text-center py-3 flex justify-center w-full">
+        <button onClick={()=>document.getElementById('extend_modal').showModal()} className="text-center py-3 flex justify-center w-full">
           Extend delivery date
         </button>
       </div>
@@ -578,7 +585,7 @@ client.on('disconnect', () => {
           <ul className="space-y-3">
             <li className="flex items-center justify-between">
               <p>Project by</p>
-              <strong>Client Name</strong>
+              <strong>{userInfo?.fullName}</strong>
             </li>
             <li className="flex items-center justify-between">
               <p>Quantity</p>
@@ -648,10 +655,16 @@ client.on('disconnect', () => {
           </div>
         </div>
       </div>
+      {/* Project Cancel */}
+      <div className="flex items-center bg-blue-50">
+      <button className=" text-center py-4 px-4" onClick={()=>document.getElementById('cancel_modal').showModal()}>Cancel This Project</button>
+      </div>
     </div>
 
     {/* Edit modal */}
     <EditModal quickResponse={quickResponse} />
+    <ExtendDeliveryModal /> 
+    <CancelModal />
     <CustomOfferModal update={update} setUpdate={setUpdate} setReply={setReply} reply={reply} project={project} />
     <DeliveryModal update={update} setUpdate={setUpdate} setReply={setReply} reply={reply} project={project} />
   </div>

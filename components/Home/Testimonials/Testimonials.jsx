@@ -1,7 +1,9 @@
+import { useRouter } from "next/router";
 import { BsStarFill } from "react-icons/bs";
 import Reviews from "./Reviews";
 
 const Testimonials = () => {
+  const router = useRouter()
   return (
     <div className="md:py-12 py-4">
       <div className="relative flex justify-center">
@@ -106,8 +108,8 @@ const Testimonials = () => {
         </div>
        
       </div>
-      <div>
-            <h2 className="md:text-3xl text-lg text-center">100% Satisfaction Guaranteed</h2>
+      <div className={`${router.asPath==='/'?'flex justify-start w-full':''}`}>
+      <h2 className="md:text-3xl text-lg text-center">100% Satisfaction Guaranteed</h2>
         </div>
     </div>
   );

@@ -45,7 +45,7 @@ const CreateDesign = () => {
     formState: { errors },
   } = useForm();
 
-  // ====================== Deisgns ======================== //
+  // ====================== Designs ======================== //
   // design id
   const designId = "";
 
@@ -143,6 +143,7 @@ const CreateDesign = () => {
                 categoryId: data.category,
                 subcategoryId: selectedSubCategories,
                 imageIds: imageIds,
+                priority:data.priority,
                 companies: selectedCompanies,
                 relatedDesignIds: relatedIds.split(","),
                 tags: selectedTags,
@@ -247,6 +248,37 @@ const CreateDesign = () => {
                 id=""
               />
             </div>
+             {/* Size */}
+             <div className="flex flex-col border">
+              <label
+                className="px-3 py-2 inline-block bg-base-200 w-full"
+                htmlFor="size"
+              >
+                Size
+              </label>
+              <input
+                {...register("size", { required: true })}
+                className="px-4 m-1 py-2 border border-gray-400"
+                type="text"
+                id="size"
+              />
+            </div>
+            {/* File Format */}
+            <div className="flex flex-col border">
+              <label
+                className="px-3 py-2 inline-block bg-base-200 w-full"
+                htmlFor="fileFormat"
+              >
+                File Format
+              </label>
+              {/* Image upload */}
+              <input
+                {...register("fileFormat", { required: true })}
+                className="px-4 m-1 py-2 border border-gray-400"
+                type="text"
+                id="fileFormat"
+              />
+            </div>
           </div>
           {/* Right side */}
           <div className="sm:w-2/5 px-2 sm:px-1">
@@ -265,7 +297,7 @@ const CreateDesign = () => {
                   setCategoryId(e.target.value);
                   setSelectedSubCategories("");
                 }}
-                className="px-4 py-2 bg-white m-1 border border-gray-400"
+                className="select select-bordered rounded-none bg-white m-1 border border-gray-400"
               >
                 {categories?.map((category) => {
                   return (
@@ -398,36 +430,23 @@ const CreateDesign = () => {
                 {errors.image && <span>Image is required</span>}
               </span>
             </div>
-            {/* Size */}
+           
+            {/* Priority */}
             <div className="flex flex-col border">
               <label
                 className="px-3 py-2 inline-block bg-base-200 w-full"
-                htmlFor="size"
+                htmlFor="Priority"
               >
-                Size
+                Project Priority
               </label>
-              <input
-                {...register("size", { required: true })}
-                className="px-4 m-1 py-2 border border-gray-400"
-                type="text"
-                id="size"
-              />
-            </div>
-            {/* File Format */}
-            <div className="flex flex-col border">
-              <label
-                className="px-3 py-2 inline-block bg-base-200 w-full"
-                htmlFor="fileformat"
-              >
-                File Format
-              </label>
-              {/* Iamge upload */}
-              <input
-                {...register("fileFormat", { required: true })}
-                className="px-4 m-1 py-2 border border-gray-400"
-                type="text"
-                id="fileformat"
-              />
+              {/* priority select */}
+             <select  {...register("priority", { required: true })} id="Priority" className="select select-bordered rounded-none">
+              {
+                allDesigns.map((design,i)=>{
+                  return <option value={i+1}>{i+1}</option>
+                })
+              }
+             </select>
             </div>
 
             <div className="flex justify-center my-2">
