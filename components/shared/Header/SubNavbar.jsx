@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 const SubNavbar = () => {
   // get user 
 const {user} = useSelector(state => state.user)
+console.log(user)
   return <div className="flex lg:mt-5 justify-center bg-blue-500 text-white">
     <div>
       <ul className="flex flex-wrap md:py-2 items-center">
@@ -36,7 +37,8 @@ const {user} = useSelector(state => state.user)
           <Link className="sm:py-2 py-1 hover:border-b hover:border-white border-b border-transparent duration-300 px-5 w-full inline-block" href={'/about'}>About</Link>
         </li>
         <li>
-          <Link className="sm:py-2 py-1 hover:border-b hover:border-white border-b border-transparent duration-300 px-5 w-full inline-block" href={'/user/account'}>Profile</Link>
+          <Link className="sm:py-2 py-1 hover:border-b hover:border-white border-b border-transparent duration-300 px-5 w-full inline-block" href={`/user/account ${user?.userId
+}`}>Profile</Link>
         </li>
       </ul>
     </div>

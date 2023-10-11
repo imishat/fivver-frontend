@@ -1,19 +1,20 @@
 import { BsStarFill } from "react-icons/bs";
 import { useState,useEffect } from "react";
 const ReviewCard = ({review}) => {
+    // review time convert
     const [time, setTime] = useState('');
 
     useEffect(() => {
       // Original creation time
       const createTime = new Date(review?.time);
     
-      // Current time
+      
       const currentTime = new Date();
     
-      // Calculate the time difference in milliseconds
+     
       const timeDifference = currentTime - createTime;
     
-      // Convert milliseconds to hours
+    
       const hoursAgo = Math.floor(timeDifference / (1000 * 60 * 60));
     
       if (hoursAgo >= 24) {
