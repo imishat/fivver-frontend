@@ -2,18 +2,18 @@ import Link from "next/link";
 
 const ProjectCard = ({project}) => {
 
-    const color = 
-    project.status==='Revision' && 'text-[#DF7138]' 
-    || 
-    project.status==='Progress' && 'text-[#5BAA5F]'
-    || 
-    project.status==='Waiting' && 'text-[#4AAAB2]'
-    || 
-    project.status==='Delivered' && 'text-[#9D0E65]'
-    || 
-    project.status==='Completed' && 'text-[#1B8CDD]'
-    ||
-    project.status==='Active' && 'text-[#DA560A]'
+  const color = 
+  project?.status==='Revision' && 'text-[#DF7138]' 
+  || 
+  project?.statuss==='Progress' && 'text-[#DA560A]'
+  || 
+  project?.status==='Pending' && 'text-[#7f3055]'
+  || 
+  project?.status==='Delivered' && 'text-[#9dcccd]'
+  || 
+  project?.status==='COMPLETED' && 'text-[#14591a]'
+  ||
+  project?.status==='Active' && 'text-[#DA560A]'
     return (
         <div className="border p-3 w-full ">
           <Link href={`/message/project/${project?.projectId}`}>

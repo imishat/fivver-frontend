@@ -6,6 +6,19 @@ const ClientCard = ({project}) => {
     // const getUserById 
     const {data:userData} = useGetUserData({token:'',userId:project?.startedBy})
     const user = userData?.data?.user
+
+    const color = 
+    project?.status==='Revision' && 'text-[#DF7138]' 
+    || 
+    project?.statuss==='Progress' && 'text-[#DA560A]'
+    || 
+    project?.status==='Pending' && 'text-[#7f3055]'
+    || 
+    project?.status==='Delivered' && 'text-[#9dcccd]'
+    || 
+    project?.status==='COMPLETED' && 'text-[#14591a]'
+    ||
+    project?.status==='Active' && 'text-[#DA560A]'
     return (
        
         <div className="bg-[#F4F9FF] border border-gray-400 p-4">
@@ -35,7 +48,7 @@ const ClientCard = ({project}) => {
                   </li>
                   <li className="text-center">
                       <p>Status</p>
-                      <span className="font-bold text-lg text-[#DA560A]">{project?.status}</span>
+                      <span className={`font-bold text-lg ${color}`}>{project?.status}</span>
                   </li>
                   <li>
                       <Link className="font-bold text-lg text-[#1C8DDD]" href={`/message/project/${project?.projectId}`}>View</Link>
