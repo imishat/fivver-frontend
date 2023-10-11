@@ -1,6 +1,29 @@
 import { BsStarFill } from "react-icons/bs";
-
+import { useState,useEffect } from "react";
 const ReviewCard = ({review}) => {
+    const [time, setTime] = useState('');
+
+    useEffect(() => {
+      // Original creation time
+      const createTime = new Date(review?.time);
+    
+      // Current time
+      const currentTime = new Date();
+    
+      // Calculate the time difference in milliseconds
+      const timeDifference = currentTime - createTime;
+    
+      // Convert milliseconds to hours
+      const hoursAgo = Math.floor(timeDifference / (1000 * 60 * 60));
+    
+      if (hoursAgo >= 24) {
+        const daysAgo = Math.floor(hoursAgo / 24);
+        setTime(daysAgo + " day" + (daysAgo > 1 ? "s" : "") + " ago");
+      } else {
+        setTime(hoursAgo + " hour" + (hoursAgo > 1 ? "s" : "") + " ago");
+      }
+    }, []);
+    
     return (
         <div className="px-2 sm:px-3">
             <div className="flex items-center gap-2">
@@ -28,7 +51,7 @@ const ReviewCard = ({review}) => {
                 </div>
                 {/* Date */}
                 <div>
-                    <p>{review.date}</p>
+                    <p>{time}</p>
                 </div>
             </div>
         </div>

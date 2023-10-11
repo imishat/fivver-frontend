@@ -5,7 +5,7 @@ const ProjectCard = ({project}) => {
   const color = 
   project?.status==='Revision' && 'text-[#DF7138]' 
   || 
-  project?.statuss==='Progress' && 'text-[#DA560A]'
+  project?.status==='Progress' && 'text-[#5c9961]'
   || 
   project?.status==='Pending' && 'text-[#7f3055]'
   || 
