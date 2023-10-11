@@ -1,7 +1,32 @@
 import Link from "next/link";
-
+import { useState,useEffect } from "react";
 const ProjectCard = ({project}) => {
 
+
+
+ // date  convert
+ const [time, setTime] = useState('');
+
+ useEffect(() => {
+   // Original creation time
+   const createTime = new Date(project.createdAt);
+ 
+   
+   const currentTime = new Date();
+ 
+  
+   const timeDifference = currentTime - createTime;
+ 
+ 
+   const hoursAgo = Math.floor(timeDifference / (1000 * 60 * 60));
+ 
+   if (hoursAgo >= 24) {
+     const daysAgo = Math.floor(hoursAgo / 24);
+     setTime(daysAgo + " day" + (daysAgo > 1 ? "s" : "") + " ago");
+   } else {
+     setTime(hoursAgo + " hour" + (hoursAgo > 1 ? "s" : "") + " ago");
+   }
+ }, []);
   const color = 
   project?.status==='Revision' && 'text-[#DF7138]' 
   || 
@@ -26,7 +51,8 @@ const ProjectCard = ({project}) => {
               </div>
             </div>
             <div className="flex justify-between pt-2 items-center">
-                <p>{project.time}</p>
+                <p>{time
+}</p>
                 <p className={`font-bold ${color}`}>{project.status}</p>
             </div>
           

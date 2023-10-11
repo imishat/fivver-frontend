@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 const SubNavbar = () => {
   // get user 
 const {user} = useSelector(state => state.user)
-console.log(user)
+
   return <div className="flex lg:mt-5 justify-center bg-blue-500 text-white">
     <div>
       <ul className="flex flex-wrap md:py-2 items-center">
