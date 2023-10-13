@@ -9,7 +9,7 @@ const ProjectCard = ({project}) => {
 
  useEffect(() => {
    // Original creation time
-   const createTime = new Date(project.createdAt);
+   const createTime = new Date(project?.createdAt);
  
    
    const currentTime = new Date();

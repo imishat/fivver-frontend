@@ -13,6 +13,11 @@ export const queryClientOptions = {
 export const USER_CREATE_ACCOUNT="users/signup";
 //singup 
 export const SING_UP="users/login";
+// user send OTp
+export const USER_SEND_OTP='users/otp/:'
+//user verify 
+
+export const GET_USER_VERIFY='/users/otp/'
 // Create project
 export const CREATE_DESIGN="designs";
 // categories
