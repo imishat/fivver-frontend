@@ -1,5 +1,10 @@
+import { useAdminStatus } from "@/components/queries/query/getAdminStatus.query";
 
 const UserAnalytics = () => {
+  const {data}=useAdminStatus()
+
+  const AdminData=data?.data
+  
     return (
         <div className="h-auto w-auto text-center md:text-left p-2 rounded-md border-2 bg-[#F2F9FF] border-[#A2D1F2]">
         {/* Username */}
@@ -10,11 +15,12 @@ const UserAnalytics = () => {
           <div className="space-y-2">
             <div className="text-black">
               <p className="text-sm">Avg. Response Time</p>
-              <h3 className="font-bold text-xl">1 Hour</h3>
+              <h3 className="font-bold text-xl">{AdminData?.averageResponseTimeInMilliseconds
+ / 3600000} Hour</h3>
             </div>
             <div className="text-black">
               <p className="text-sm">Avg. Rating</p>
-              <h3 className="font-bold text-xl">0 Stars</h3>
+              <h3 className="font-bold text-xl">{AdminData?.averageRating}Stars</h3>
             </div>
             <div className="text-black">
               <p className="text-sm">Last Project Complete</p>
@@ -22,11 +28,12 @@ const UserAnalytics = () => {
             </div>
             <div className="text-black">
               <p className="text-sm">On-time Delivery</p>
-              <h3 className="font-bold text-xl">100%</h3>
+              <h3 className="font-bold text-xl">{AdminData?.onTimeDeliveryPercentage}%</h3>
             </div>
             <div className="text-black">
               <p className="text-sm">Active Project</p>
-              <h3 className="font-bold text-xl">36</h3>
+              <h3 className="font-bold text-xl">{ AdminData?.activeProjects
+}</h3>
             </div>
           </div>
       </div>

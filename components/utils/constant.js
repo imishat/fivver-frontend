@@ -14,12 +14,14 @@ export const USER_CREATE_ACCOUNT="users/signup";
 //singup 
 export const SING_UP="users/login";
 // user send OTp
-export const USER_SEND_OTP='users/otp/:'
+export const USER_SEND_OTP='/users/otp'
 //user verify 
 
-export const GET_USER_VERIFY='/users/otp/'
+export const GET_USER_VERIFY='/users/verify'
+//get admin status
+export const GET_ADMIN_STATS ='/users/admin/stats'
 // Create project
-export const CREATE_DESIGN="designs";
+export const CREATE_DESIGN="designs"
 // categories
 export const GET_CATEGORIES ="categories"
 // subcategories
