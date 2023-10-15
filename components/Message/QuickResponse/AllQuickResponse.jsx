@@ -83,8 +83,8 @@ const AllQuickResponse = ({setValue,value})=> {
         </div>
         <div className="flex ">
           <div className="flex gap-2 text-[13px] flex-wrap">
-            {quickResponses?.map((quick) => (
-                <><button
+            {quickResponses?.map((quick,i) => (
+                <><button key={i}
                 onClick={(e) => setValue(value + " " + e.target.value)}
                 className="px-1 flex cursor-pointer items-center gap-1 py-0 border border-gray-500"
                 value={quick.label}

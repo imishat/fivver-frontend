@@ -1,16 +1,17 @@
+import Image from "next/image";
 import Link from "next/link";
-import { useGetUserData } from "../queries/query/getUser.query";
+import { useGetUserData } from "../queries/query/getUserProfile.query";
 
 const ClientCard = ({project}) => {
 
     // const getUserById 
-    const {data:userData} = useGetUserData({token:'',userId:project?.startedBy})
+    const {data:userData} = useGetUserData({token:'',userId:project?.startedBy,update:''})
     const user = userData?.data?.user
 
     const color = 
     project?.status==='Revision' && 'text-[#DF7138]' 
     || 
-    project?.statuss==='Progress' && 'text-[#DA560A]'
+    project?.status==='Progress' && 'text-[#DA560A]'
     || 
     project?.status==='Pending' && 'text-[#7f3055]'
     || 
@@ -29,10 +30,10 @@ const ClientCard = ({project}) => {
           
           <div className="sm:flex items-center gap-4">
               <div className="sm:w-24 h-44 sm:h-16 w-full">
-                  <img className="object-cover w-full h-full" src={`http://103.49.169.89:30912/api/v1.0/files/download/public/${project?.imageIds[0]}`} alt="" />
+                  <Image height={96} width={96} className="object-cover w-full h-full" src={`http://103.49.169.89:30912/api/v1.0/files/download/public/${project?.imageIds[0]}`} alt="" />
               </div>
               <div className="flex py-3 sm:py-0 items-center gap-2">
-                  <img className="object-cover w-8 h-8 rounded-full" src={`http://103.49.169.89:30912/api/v1.0/files/download/public/${user?.profilePicture}`}  alt="" />
+                  <Image  height={50} width={50} className="object-cover w-8 h-8 rounded-full" src={`http://103.49.169.89:30912/api/v1.0/files/download/public/${user?.profilePicture}`}  alt="" />
                   <p className="font-bold">{user?.fullName}</p>
               </div>
           </div>

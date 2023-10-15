@@ -9,10 +9,10 @@ const PrivateRoute = ({children}) => {
     const router = useRouter()
 // token 
 const token = typeof window !== 'undefined' && localStorage.getItem('accessToken')
-    if(!user?.email && !token){
+    if(!user?.email && !token?.length || token==='undefined'){
         router.push('/join')
     }
-    return children
+    return token && children
 };
 
 export default PrivateRoute;

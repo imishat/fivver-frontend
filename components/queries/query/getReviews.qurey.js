@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 
 export function useGetReviews({userId}){
    return useQuery([REVIEWS,userId], async()=>{
-    const {data,isLoading} = await axios("GET",`${REVIEWS}?userId=${userId}`);
+    const {data,isLoading} = await axios("GET",`${REVIEWS}?userId=${userId}&sortingOrders=createdAt-desc`);
     return data
    })
   }

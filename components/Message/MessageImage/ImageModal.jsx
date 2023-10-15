@@ -1,15 +1,25 @@
 import { useUpdateMessage } from "@/components/queries/mutation/updateMessage.mutation";
 import { useGetFile } from "@/components/queries/query/getFiles.queries";
 import { useGetSingleMessage } from "@/components/queries/query/getSignleMessage.query";
+import { messageData } from "@/components/redux/features/message/messageSlice";
+import { updateState } from "@/components/redux/features/update/updateSlice";
 import useToast from "@/components/utility/useToast";
-import { useState } from "react";
+import Image from "next/image";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { BsArrowLeftCircle, BsReply } from "react-icons/bs";
 import { IoClose } from "react-icons/io5";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 
-function ImageModal({ messageId }) {
+function ImageModal({ messageId,messageIdClick }) {
+
+  /// dispatch
+  const dispatch = useDispatch()
+ 
+  // message
+  const messageState = useSelector(state=>state.message)
+ 
 
   // get user
   const { user } = useSelector((state) => state.user);
@@ -17,25 +27,47 @@ function ImageModal({ messageId }) {
   const [update, setUpdate] = useState(false);
   // hook form
   const { register, handleSubmit, reset } = useForm();
+  // image id from local
+  const [imageId,setImageId] = useState('')
   // update message
-  const { mutate: updateMessage } = useUpdateMessage();
+  const { mutate: updateMessage,isLoading:isLoadingUpdate } = useUpdateMessage();
 
+const {messageUpdate} = useSelector(state=>state.update)
+
+//   const [messageLocalId,setMessageLocalId] = useState('')
+
+//  useEffect(()=>{
+//     setMessageLocalId(typeof window !== "undefined" && localStorage.getItem("messageId"))
+//     },[update,imageId?.length,messageIdClick])
+    
   // get message info
   const { data: signMessageInfo } = useGetSingleMessage({
-    messageId: messageId,
-    update: update,
+    messageId:  messageState?.message?.messageId,
+
   });
-  const singleMessage = signMessageInfo?.data?.message;
-  console.log(singleMessage);
-  // image id from local
-  const imageId =
-    typeof window !== "undefined" && localStorage.getItem("imageId");
+  
+  const singleMessageDta = signMessageInfo?.data?.message
+  const singleMessage = messageState?.message;
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      dispatch(updateState(!messageUpdate?.update))
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, [messageId,imageId,messageIdClick]);
+ 
+
+
+  useEffect(()=>{
+  setImageId(typeof window !== "undefined" && localStorage.getItem("imageId"))
+  dispatch(updateState(!messageUpdate?.update))
+  },[!imageId])
 
   // highlight comment
   const [highLightComment, setHighLightComment] = useState({});
 
   // get file info
-  const { data: imageInfo } = useGetFile({ fileId: imageId });
+  const { data: imageInfo,isLoading,isFetching } = useGetFile({ fileId: singleMessage?.thumbnail?.fileId,update:messageUpdate?.update });
   const image = imageInfo?.data?.file;
 
   // store data
@@ -72,25 +104,27 @@ function ImageModal({ messageId }) {
       reply: reply,
     };
     setCommentStore([...commentStore, commentData]);
-
+    dispatch(updateState(!messageUpdate?.update))
     reset();
     setReply({});
   };
 
   const handleSendComment = () => {
     const messageInfo = {
-      comments: singleMessage?.comments?.concat(commentStore),
-      id: messageId,
+      comments:  singleMessage?.comments?.length ? singleMessage?.comments?.concat(commentStore) :  commentStore,
+      id: singleMessage?.messageId,
       projectId: singleMessage?.projectId,
       receiverId: singleMessage?.receiverId,
     };
-    
+
     updateMessage(messageInfo, {
       onSuccess: (res) => {
-        console.log(res);
+        console.log(res?.data?.message);
         showToast("Comment Submitted", "success");
         setCommentStore([]);
-        setUpdate(!update);
+        dispatch(updateState(!messageUpdate?.update))
+        setHighLightComment({})
+        dispatch(messageData(res?.data?.message))
       },
       onError: (err) => {
         showToast(err?.message);
@@ -100,7 +134,7 @@ function ImageModal({ messageId }) {
 
   // handle delete message
   const handleDeleteMessage = id =>{
-    console.log(id)
+   
     const restComments = singleMessage?.comments.filter(comment=>comment.id!==id)
     const messageInfo = {
       comments: restComments,
@@ -110,9 +144,11 @@ function ImageModal({ messageId }) {
     };
     updateMessage(messageInfo, {
       onSuccess: (res) => {
-        console.log(res);
+        dispatch(messageData({...singleMessage,comments:restComments}))
+        console.log(res?.data?.message)
         showToast("Comment Deleted", "success");
-        setUpdate(!update);
+        dispatch(updateState(!messageUpdate?.update))
+        
       },
       onError: (err) => {
         showToast(err?.message);
@@ -123,20 +159,25 @@ function ImageModal({ messageId }) {
   return (
     <div>
       <Toast />
-      <dialog id="image_modal" className="modal">
-        <div className="modal-box bg-transparent h-full backdrop-blur-md w-full max-w-7xl min-w-fit">
+      
+      {/* aaa */}
+      <input type="checkbox" id="image_modal" className="modal-toggle" />
+<div className="modal">
+<div className="modal-box bg-transparent h-full backdrop-blur-md w-full max-w-7xl min-w-fit">
           <div className="flex w-full h-full">
             <div className="w-full">
               <div className="flex items-center gap-2">
                 {/* Close */}
-                <form method="dialog">
-                  <button className="">
-                    <BsArrowLeftCircle
-                      className="bg-black text-white rounded-full"
-                      size={25}
-                    />
-                  </button>
-                </form>
+                <label onClick={()=>{
+                  dispatch(messageData({}))
+                setHighLightComment({})
+                dispatch(updateState(!messageUpdate?.update))
+              }
+              } className="bg-black text-white rounded-full" htmlFor="image_modal"> <BsArrowLeftCircle
+                     
+                     size={25}
+                   /></label>
+               
                 {/* Title */}
                 <h3 className="font-bold text-lg">
                   {image?.originalFileName && image?.originalFileName}
@@ -145,14 +186,22 @@ function ImageModal({ messageId }) {
 
               {/* Image  */}
               <div className=" w-full relative p-12 flex items-center">
-                <img
+                {
+                  isLoading || isFetching ? <div className="w-full max-h-fit min-h-screen h-[50vh] bg-base-100 rounded-md animate-pulse">
+                    <div className="">
+                    </div>
+                  </div>:
+                  <Image height={500} width={500}
                   draggable={false}
                   className="w-full max-h-fit min-h-full"
-                  src={`http://103.49.169.89:30912/api/v1.0/files/download/public/${image?.fileId}`}
+                  src={`http://103.49.169.89:30912/api/v1.0/files/download/public/${singleMessage?.thumbnail?.fileId}`}
                   onClick={(e) => handleImageClick(e)}
                   alt=""
                 />
+                }
+                
                 {commentStore?.map((comment, i) => {
+                
                   return (
                     <div
                       key={i}
@@ -164,7 +213,7 @@ function ImageModal({ messageId }) {
                     ></div>
                   );
                 })}
-                {singleMessage?.comments?.map((comment, i) => {
+                { singleMessage?.comments?.map((comment, i) => {
                   return (
                     <div
                       key={i}
@@ -181,7 +230,7 @@ function ImageModal({ messageId }) {
                     left: position.x + 40 + "px",
                     top: position.y + 40 + "px",
                   }}
-                  className="bg-indigo-500 absolute h-4 w-4 border-2 border-white rounded-full"
+                  className="bg-emerald-500 absolute h-4 w-4 border-2 border-white rounded-full"
                 ></div>
                 {highLightComment?.comment ? (
                   <div
@@ -189,7 +238,7 @@ function ImageModal({ messageId }) {
                       left: highLightComment?.position?.x + 40 + "px",
                       top: highLightComment?.position?.y + 40 + "px",
                     }}
-                    className="bg-rose-500 absolute h-4 w-4 border-2 border-white rounded-full"
+                    className="bg-orange-500 absolute h-4 w-4 border-2 border-white rounded-full"
                   >
                     <span className="bg-base-100 px-2 py-1 w-24 truncate rounded relative top-6">
                       {highLightComment?.comment}
@@ -209,13 +258,14 @@ function ImageModal({ messageId }) {
                 <h2 className="text-sm font-bold truncate">
                   {image?.originalFileName}
                 </h2>
-                <p className="text-sm">2 Comments</p>
+                <p className="text-sm">{singleMessage?.comments?.length || 0} Comments</p>
               </div>
               {/* COmments */}
               <div className="overflow-y-auto h-96">
                 {/* Submitted Data Get From API */}
                 <div className=" ">
                   {singleMessage?.comments?.map((comment, i) => {
+                     console.log(comment)
                     return (
                       <div
                         key={i}
@@ -224,13 +274,15 @@ function ImageModal({ messageId }) {
                         <div className="flex items-center gap-2 relative">
                           <img
                             className="w-6 object-cover h-6 rounded-full"
-                            src={`http://103.49.169.89:30912/api/v1.0/files/download/public/${image?.fileId}`}
+                            src={`http://103.49.169.89:30912/api/v1.0/files/download/public/${comment?.sender?.profilePicture}`}
                             alt=""
                           />
                           <p className="font-bold text-lg">{comment?.sender?.id ===user?.userId ? 'Me':comment?.sender?.name}</p>
-                          <span onClick={()=>handleDeleteMessage(comment?.id)}
-                            className="bg-rose-400 cursor-pointer rounded-full p-1 absolute h-3 w-3 top-0 right-0"
-                          ></span>
+                         {
+                          comment?.sender?.id ===user?.userId ? <span onClick={()=>handleDeleteMessage(comment?.id)}
+                           className="bg-rose-400 cursor-pointer rounded-full p-1 absolute h-3 w-3 top-0 right-0"
+                         ></span>:''
+                         }
                         </div>
                         <div className="my-2 ml-9  text-sm">
                           {comment?.reply?.id ? (
@@ -253,9 +305,10 @@ function ImageModal({ messageId }) {
                               setReply({
                                 id: comment?.id,
                                 reply: comment?.comment,
+                                profilePicture: comment?.sender?.profilePicture
                               })
                             }
-                            className="flex my-2 items-center gap-2"
+                            className="flex my-2 cursor-pointer items-center gap-2"
                           >
                             <BsReply size={20} />
                             <p className="text-sm">Reply</p>
@@ -286,7 +339,7 @@ function ImageModal({ messageId }) {
                           ></span>
                           <img
                             className="w-6 object-cover h-6 rounded-full"
-                            src={`http://103.49.169.89:30912/api/v1.0/files/download/public/${image?.fileId}`}
+                            src={`http://103.49.169.89:30912/api/v1.0/files/download/public/${comment?.sender?.profilePicture}`}
                             alt=""
                           />
                           <p className="font-bold text-lg">{comment?.sender?.id ===user?.userId ? 'Me':comment?.sender?.name}</p>
@@ -315,9 +368,10 @@ function ImageModal({ messageId }) {
                               setReply({
                                 id: comment?.id,
                                 reply: comment?.comment,
+                               profilePicture: comment?.sender?.profilePicture
                               })
                             }
-                            className="flex my-2 items-center gap-2"
+                            className="flex my-2 cursor-pointer items-center gap-2"
                           >
                             <BsReply size={20} />
                             <p className="text-sm">Reply</p>
@@ -332,11 +386,13 @@ function ImageModal({ messageId }) {
               <div className="border border-emerald-800 m-4">
                 <div className="p-2">
                   <div className="flex items-center overflow-hidden gap-1">
-                    <img
-                      className="w-6 object-cover h-6 rounded-full"
-                      src={`http://103.49.169.89:30912/api/v1.0/files/download/public/${image?.fileId}`}
-                      alt=""
-                    />
+                  {
+                    reply?.id ?  <img
+                    className="w-6 object-cover h-6 rounded-full"
+                    src={`http://103.49.169.89:30912/api/v1.0/files/download/public/${reply?.profilePicture}`}
+                    alt=""
+                  /> :''
+                  } 
                     <p className="font-bold truncate text-sm w-56">
                       {reply?.reply}
                     </p>
@@ -355,9 +411,9 @@ function ImageModal({ messageId }) {
                       className="textarea w-full rounded border-b border-t-0 border-l-0 border-r-0 focus-within:outline-none textarea-bordered"
                     ></textarea>
                     <div className="flex items-center justify-end">
-                      <span className="px-2 cursor-pointer font-bold text-gray-500">
+                      <label  htmlFor="image_modal" className="px-2 cursor-pointer font-bold text-gray-500">
                         Cancel
-                      </span>
+                      </label>
 
                       <button className="px-2 font-bold cursor-pointer text-emerald-600">
                         Add
@@ -368,9 +424,9 @@ function ImageModal({ messageId }) {
                 {/* Submit */}
               </div>
               <div className="absolute mb-4  -bottom-1 w-full flex items-center">
-                <button
+                <button disabled={!commentStore?.length||isLoading}
                   onClick={() => handleSendComment()}
-                  className="py-2 text-center w-full rounded-md mx-4 text-white bg-emerald-500 font-bold text-lg"
+                  className={`py-2 text-center w-full rounded-md mx-4 text-white bg-emerald-500 font-bold text-lg ${isLoadingUpdate ? 'animate-pulse':''}`}
                 >
                   Submit {commentStore?.length} Comments
                 </button>
@@ -378,12 +434,11 @@ function ImageModal({ messageId }) {
             </div>
           </div>
         </div>
-        <form method="dialog" className="modal-backdrop">
-          <button>close</button>
-        </form>
-      </dialog>
+ 
+</div>
     </div>
   );
+
 }
 
 export default ImageModal;

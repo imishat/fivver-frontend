@@ -1,5 +1,5 @@
+import { useEffect, useState } from "react";
 import { BsStarFill } from "react-icons/bs";
-import { useState,useEffect } from "react";
 const ReviewCard = ({review}) => {
     // review time convert
     const [time, setTime] = useState('');
@@ -7,7 +7,7 @@ const ReviewCard = ({review}) => {
     useEffect(() => {
       // Original creation time
       const createTime = new Date(review?.time);
-    
+      
       
       const currentTime = new Date();
     
@@ -33,8 +33,7 @@ const ReviewCard = ({review}) => {
             </div>
             {/* review body */}
             <div className="py-2">
-                {review.description
-}
+                {review.description}
             </div>
             {/* Stars */}
             <div className="sm:gap-12 flex items-center">

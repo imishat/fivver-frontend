@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import { useSocketChat } from "@/hooks/useSocketChat";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useSelector } from "react-redux";
-import { io } from "socket.io-client";
+import { useDispatch, useSelector } from "react-redux";
 import { useCreateMessage } from "../queries/mutation/message.mutation";
 import { useGetDesignCategoriesData } from "../queries/query/designCategories.queries";
 import { useGetSubCategoryById } from "../queries/query/getSubcategory.query";
+import { updateState } from "../redux/features/update/updateSlice";
 import useToast from "../utility/useToast";
 import CustomDropdown from "./CustomDropdown/CustomDropdown";
 
@@ -19,6 +20,11 @@ function CustomOfferModal({project,reply,setReply,update,setUpdate}) {
     } = useForm()
 // get user 
 const {user} = useSelector(state => state.user)
+
+
+const dispatch = useDispatch()
+// get update with redux
+const messageUpdate = useSelector((state) => state.update);
  
  // create message 
  const {mutate:createMessage} = useCreateMessage()
@@ -32,29 +38,7 @@ const {user} = useSelector(state => state.user)
 
 
 
-  // socket
-  let authorization =
-    `Bearer ${typeof window!=='undefined' && window.localStorage.getItem('accessToken')}`;
-
-  let url = "ws://103.49.169.89:30912";
-  const client = io(url, {
-    path: "/realtime-messaging",
-  });
-
-
-
-    useEffect(() => {
-      client.emit("authorization", authorization);
-      client.on("error", (erroneousResponse) => {
-        erroneousResponse = JSON.parse(erroneousResponse);
-        console.error(erroneousResponse);
-      });
-      client.on("disconnect", () => {
-        client.off("authorized", authorization);
-        client.off("message", onMessageReceivedAsync);
-        console.log("disconnected from the server.");
-      });
-    }, [client]);
+    const {  sendMessage, returnMessage } = useSocketChat();
   
 
 
@@ -101,8 +85,8 @@ const handleSelectChange=e=>{
      
     }
        // send
-       client.send(JSON.stringify(messageData));
-       setUpdate(!update)
+       sendMessage(messageData)
+       dispatch(updateState(!messageUpdate?.update))
       //  setReply({})
        showToast('Offer Send','success')
      
@@ -111,13 +95,6 @@ const handleSelectChange=e=>{
 
 
 
-  client.on("message", onMessageReceivedAsync);
-  async function onMessageReceivedAsync(message) {
-    
-    // setSocketData(prevMessages=>[...prevMessages, JSON.parse(message)]);
-    // message.push(JSON.parse(message))
-    setUpdate(!update)
-  }
 
     return (
 <dialog id="custom_offer" className="modal">

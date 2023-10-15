@@ -6,7 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 
 export function useGetSingleMessage({messageId,update}){
    return useQuery([MESSAGES,messageId,update], async()=>{
-    const {data} = await axios("GET",`${MESSAGES}/${messageId}?sortingOrders=createdAt-desc`);
+    const {data} = await axios("GET",MESSAGES/messageId);
     return data
    })
   }

@@ -24,7 +24,7 @@ const AdminLayout = ({ children, title, description, thumb,routes }) => {
       <div className="flex my-6 justify-start bg-blue-400 font-bold">
         <ul className="flex flex-wrap ">
           <li>
-            <Link href={`/dashboard?n=${routes.toLowerCase()}`}
+            <Link href={`/dashboard?n=${routes?.toLowerCase()}`}
               onClick={() => setRoute("dashboard")}
               className={`px-3 py-3 ${route==='dashboard'?'bg-blue-500':""} h-full text-white flex items-center gap-2`}
             >
