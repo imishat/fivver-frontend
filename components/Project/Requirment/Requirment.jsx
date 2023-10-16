@@ -1,6 +1,7 @@
 import StockImageSites from "@/components/Home/DesignSection/StockImageSites/StockImageSites";
 import { useUploadFile } from "@/components/queries/mutation/fileUpload.mutation";
 import { useUpdateProject } from "@/components/queries/mutation/updateProject.mutation";
+import { useGetProject } from "@/components/queries/query/project.query";
 import useToast from "@/components/utility/useToast";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -19,7 +20,7 @@ const Requirement = ({project}) => {
   } = useForm();
 
   // update project
-  const {mutate:updateProject} = useUpdateProject()
+  const {mutate:updateProject,isLoading} = useUpdateProject()
 
 
   // get user 
@@ -41,6 +42,9 @@ const {user} = useSelector(state => state.user)
   // get requirement file
   const [industryFile,setIndustryFile] = useState([]);
 
+  // get project by id
+  const {data:singleProject} = useGetProject({projectId:projectId,status:'',search:''})
+const requirementData = singleProject?.data?.project?.requirement
 
 
   const handleIndustryFile = (data) =>{
@@ -188,6 +192,16 @@ const {user} = useSelector(state => state.user)
     });
   }
 
+
+  const nowUTC = new Date(Date.now());
+
+// Add 6 hours
+nowUTC.setUTCHours(nowUTC.getUTCHours() + 6);
+
+
+
+  const deadline = nowUTC.toISOString()
+
   /// handle submit requirement
   const handleRequirement = (data) => {
 
@@ -196,6 +210,11 @@ const {user} = useSelector(state => state.user)
     if(projectId){
       const requirementData = {
         id:projectId,
+        deadline: deadline,
+        categoryId:project?.categoryId,
+        subcategoryId:project?.subcategoryId,
+        track:2,
+        status:'Progress',
        requirement:{
         ...data,
         industryFile,
@@ -206,11 +225,12 @@ const {user} = useSelector(state => state.user)
         informationFile
        }
       };
+      console.log(requirementData)
       updateProject(requirementData,{
         onSuccess: (res) => {
           if(res?.data){
             showToast('Requirement Send','success');
-            console.log(res?.data)
+            console.log(res?.data,'Project Update')
             localStorage.setItem('accessToken',res?.data?.accessToken)
             // reset()
           }else{
@@ -233,7 +253,7 @@ const {user} = useSelector(state => state.user)
    <>
    {
     user?.role==='ADMIN'?
-    <AdminRequirement />
+    <AdminRequirement project={project} />
     :
     <div className="md:flex gap-6 my-8 justify-between">
     <Toast />
@@ -263,7 +283,7 @@ const {user} = useSelector(state => state.user)
                     <span className="text-blue-400">1.</span>Which industry do
                     you work in?
                   </label>
-                  <textarea
+                  <textarea defaultValue={requirementData?.industry}
                     {...register("industry", { required: true })}
                     className="textarea rounded-none textarea-bordered"
                   ></textarea>
@@ -295,13 +315,13 @@ const {user} = useSelector(state => state.user)
               <div className="text-left">
                 <div className="flex flex-col w-full">
                   <label
-                    htmlFor="industry"
+                    htmlFor="companyLogo"
                     className="font-bold flex items-center gap-2 px-3 py-2"
                   >
                     <span className="text-blue-400">2.</span>
                     Do you have your own/company logo?
                   </label>
-                  <textarea
+                  <textarea defaultValue={requirementData?.companyLogo}
                     {...register("companyLogo", { required: true })}
                     className="textarea rounded-none textarea-bordered"
                   ></textarea>
@@ -333,13 +353,13 @@ const {user} = useSelector(state => state.user)
               <div className="text-left">
                 <div className="flex flex-col w-full">
                   <label
-                    htmlFor="industry"
+                    htmlFor="website"
                     className="font-bold flex items-center gap-2 px-3 py-2"
                   >
                     <span className="text-blue-400">3.</span>
                     Do you have own/company website?
                   </label>
-                  <textarea
+                  <textarea defaultValue={requirementData?.website}
                     {...register("website", { required: true })}
                     className="textarea rounded-none textarea-bordered"
                   ></textarea>
@@ -371,13 +391,13 @@ const {user} = useSelector(state => state.user)
               <div className="text-left">
                 <div className="flex flex-col w-full">
                   <label
-                    htmlFor="industry"
+                    htmlFor="designIdea"
                     className="font-bold flex items-center gap-2 px-3 py-2"
                   >
                     <span className="text-blue-400">4.</span>
                     Do you have any imaginary or specific design idea?
                   </label>
-                  <textarea
+                  <textarea defaultValue={requirementData?.designIdea}
                     {...register("designIdea", { required: true })}
                     className="textarea rounded-none textarea-bordered"
                   ></textarea>
@@ -409,13 +429,13 @@ const {user} = useSelector(state => state.user)
               <div className="text-left">
                 <div className="flex flex-col w-full">
                   <label
-                    htmlFor="industry"
+                    htmlFor="designSize"
                     className="font-bold flex items-center gap-2 px-3 py-2"
                   >
                     <span className="text-blue-400">5.</span>Do you have your
                     specific design size?
                   </label>
-                  <textarea
+                  <textarea defaultValue={requirementData?.designSize}
                     {...register("designSize", { required: true })}
                     className="textarea rounded-none textarea-bordered"
                   ></textarea>
@@ -447,7 +467,7 @@ const {user} = useSelector(state => state.user)
               <div className="text-left">
                 <div className="flex flex-col w-full">
                   <label
-                    htmlFor="industry"
+                    htmlFor="designInfo"
                     className="font-bold flex items-center gap-2 px-3 py-2"
                   >
                     <span className="text-blue-400">6.</span>
@@ -456,7 +476,7 @@ const {user} = useSelector(state => state.user)
                     (For example, all texts, all photos, logo, contact info,
                     etc.) you work in?
                   </label>
-                  <textarea
+                  <textarea defaultValue={requirementData?.designInfo}
                     {...register("designInfo", { required: true })}
                     className="textarea rounded-none textarea-bordered"
                   ></textarea>
@@ -486,7 +506,9 @@ const {user} = useSelector(state => state.user)
             {/* btn */}
             <div className="px-3  bg-[#F2F9FF] py-4">
               <button className="py-2 w-full font-bold text-white text-2xl flex justify-center bg-[#1B8CDC]">
-                Start Now
+               {
+                isLoading ? 'Loading...':'Start Now'
+               } 
               </button>
               {
       router?.pathname==='/message/project/[projectId]' ? '' :   <div className="py-2">

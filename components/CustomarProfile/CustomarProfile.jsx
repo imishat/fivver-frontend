@@ -14,6 +14,7 @@ import SellerReviews from "./SellerReviews";
 const CustomarProfile = () => {
     // get user
     const { user } = useSelector((state) => state.user);
+    console.log(user)
     const [toggle, setToggle] = useState("");
      const isAdmin = user?.role === "USER";;
 
@@ -238,8 +239,7 @@ const CustomarProfile = () => {
      {
       isAdmin  &&
       <div className="sm:w-[67%] md:w-8/12">
-      {/* Affiliate */}
-      {/* <Affiliate /> */}
+    
       {/* Projects */}
       <div className="w-full my-6 sm:my-0">
         <div className="flex mb-8 justify-around items-center text-xl font-bold">

@@ -42,7 +42,7 @@ const {user} = useSelector(state => state.user)
            {/* Files */}
            <div className="grid grid-cols-3 gap-2">
             {
-                message?.files?.length > 0? message?.files.map((file,index) => <SingleFile file={file} key={index} />):''
+                message?.files?.length > 0? message?.files.map((file,index) => <SingleFile file={file} message={message} key={index} />):''
   
             }
             

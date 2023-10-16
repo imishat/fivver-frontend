@@ -4,7 +4,7 @@ import { useMutation } from "@tanstack/react-query"
 
 export function useUpdateMessage(){
     return useMutation(async(payload)=>{
-        const {data}=await axios("PUT",`messages/${payload.id}`,payload)
+        const {data}=await axios("PUT",`messages/x/${payload.id}`,payload)
         return data
     })
   }

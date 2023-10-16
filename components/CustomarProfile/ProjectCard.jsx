@@ -1,19 +1,44 @@
 import Link from "next/link";
-
+import { useState,useEffect } from "react";
 const ProjectCard = ({project}) => {
 
-    const color = 
-    project.status==='Revision' && 'text-[#DF7138]' 
-    || 
-    project.status==='Progress' && 'text-[#5BAA5F]'
-    || 
-    project.status==='Waiting' && 'text-[#4AAAB2]'
-    || 
-    project.status==='Delivered' && 'text-[#9D0E65]'
-    || 
-    project.status==='Completed' && 'text-[#1B8CDD]'
-    ||
-    project.status==='Active' && 'text-[#DA560A]'
+
+
+ // date  convert
+ const [time, setTime] = useState('');
+
+ useEffect(() => {
+   // Original creation time
+   const createTime = new Date(project?.createdAt);
+ 
+   
+   const currentTime = new Date();
+ 
+  
+   const timeDifference = currentTime - createTime;
+ 
+ 
+   const hoursAgo = Math.floor(timeDifference / (1000 * 60 * 60));
+ 
+   if (hoursAgo >= 24) {
+     const daysAgo = Math.floor(hoursAgo / 24);
+     setTime(daysAgo + " day" + (daysAgo > 1 ? "s" : "") + " ago");
+   } else {
+     setTime(hoursAgo + " hour" + (hoursAgo > 1 ? "s" : "") + " ago");
+   }
+ }, []);
+  const color = 
+  project?.status==='Revision' && 'text-[#DF7138]' 
+  || 
+  project?.status==='Progress' && 'text-[#5c9961]'
+  || 
+  project?.status==='Pending' && 'text-[#7f3055]'
+  || 
+  project?.status==='Delivered' && 'text-[#9dcccd]'
+  || 
+  project?.status==='COMPLETED' && 'text-[#14591a]'
+  ||
+  project?.status==='Active' && 'text-[#DA560A]'
     return (
         <div className="border p-3 w-full ">
           <Link href={`/message/project/${project?.projectId}`}>
@@ -26,7 +51,8 @@ const ProjectCard = ({project}) => {
               </div>
             </div>
             <div className="flex justify-between pt-2 items-center">
-                <p>{project.time}</p>
+                <p>{time
+}</p>
                 <p className={`font-bold ${color}`}>{project.status}</p>
             </div>
           

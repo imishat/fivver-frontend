@@ -18,7 +18,7 @@ const ContextProvider = ({ children }) => {
     dispatch(userData(userdata));
   }, [userInfo, token]);
 
-  return <UserContext.Provider>{children}</UserContext.Provider>;
+  return <UserContext.Provider value={''}>{children}</UserContext.Provider>;
 };
 
 export default ContextProvider;

@@ -2,15 +2,46 @@ import moment from "moment";
 import Image from "next/image";
 import Link from "next/link";
 import { BsCheckCircleFill, BsReply } from "react-icons/bs";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useDeleteAction } from "../queries/mutation/delete.mutation";
+import { updateState } from "../redux/features/update/updateSlice";
+import useToast from "../utility/useToast";
 
 function OfferMessageCard({message,setReply}) {
+
+  const dispatch = useDispatch()
+  // get update with redux
+  const messageUpdate = useSelector((state) => state.update);
+
+  const {mutate:deleteMessage,isLoading} = useDeleteAction()
 // get user 
 const {user} = useSelector(state => state.user)
 
+// Toast 
+const {Toast,showToast} = useToast()
+
+
+
+const handleWithdraw = (id) =>{
+  const deleteData ={
+    id:id,
+    type:'messages'
+  }
+  deleteMessage(deleteData,{
+    onSuccess: (res) => {
+      console.log(res);
+      showToast("Withdraw Offer", "success");
+      dispatch(updateState(!messageUpdate?.update))
+    },
+    onError: (err) => {
+      showToast(err?.message);
+    },
+  })
+}
 
 return (
         <div className="flex w-full px-2  gap-2 py-3">
+            <Toast />
         <div className="w-9">
           <img
             className="w-8 h-8 rounded-full border border-gray-500"
@@ -56,7 +87,7 @@ return (
             <div className=" w-full mt-4">
                {
                 user?.role ==='ADMIN'?
-                <button className="w-full bg-blue-500 text-white font-bold py-2 ">Withdraw Offer </button>
+                <button onClick={()=>handleWithdraw(message?.messageId)} className={`w-full bg-blue-500 text-white font-bold py-2  ${isLoading && 'animate-pulse'}`}>Withdraw Offer </button>
                 :
                 <div className="w-full flex justify-between px-5 pb-3">
                 <button className="bg-gray-400 text-white px-5 font-bold py-2">Cancel</button>

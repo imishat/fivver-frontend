@@ -1,39 +1,53 @@
+import { useUpdateMessage } from "@/components/queries/mutation/updateMessage.mutation";
+import { useUpdateProject } from "@/components/queries/mutation/updateProject.mutation";
 import { useGetProject } from "@/components/queries/query/project.query";
+import { messageData } from "@/components/redux/features/message/messageSlice";
+import { updateState } from "@/components/redux/features/update/updateSlice";
+import useToast from "@/components/utility/useToast";
 import { saveAs } from "file-saver";
 import JSZip from "jszip";
 import moment from "moment";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { BsReply } from "react-icons/bs";
-import { useSelector } from "react-redux";
+import { CgCheck } from "react-icons/cg";
+import { useDispatch, useSelector } from "react-redux";
 import ImageModal from "../MessageImage/ImageModal";
 
-
-function MessageDelivery({ message, setReply }) {
+function MessageDelivery({ message, setReply, update, setUpdate }) {
   // get user
   const { user } = useSelector((state) => state.user);
 
-  // get project by id
-  const {data: projectData} = useGetProject({status:'',search:'',projectId:message?.projectId})
-  const project = projectData?.data?.project
+  // update 
+  const messageUpdate = useSelector(state=>state.update)
 
+  // get project by id
+  const { data: projectData } = useGetProject({
+    status: "",
+    search: "",
+    projectId: message?.projectId,
+  });
+  const project = projectData?.data?.project;
+
+  const dispatch = useDispatch();
+
+
+
+  // update project
+  const { mutate: updateProject } = useUpdateProject();
+
+  // update message
+  const { mutate: updateMessage } = useUpdateMessage();
+
+  // toast
+  const { showToast, Toast } = useToast();
   // kb convert
   function formatBytes(bytes, decimals = 2) {
     if (!+bytes) return "0 Bytes";
 
     const k = 1024;
     const dm = decimals < 0 ? 0 : decimals;
-    const sizes = [
-      "Kb",
-      "KB",
-      "MB",
-      "GB",
-      "TB",
-      "PB",
-      "EB",
-      "ZB",
-      "YB",
-    ];
+    const sizes = ["Kb", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
 
     const i = Math.floor(Math.log(bytes) / Math.log(k));
 
@@ -44,24 +58,15 @@ function MessageDelivery({ message, setReply }) {
   const [files, setFiles] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const getFiles = async () => {
-    const res = await fetch("/api/files");
-    const files = await res.json();
-
-    setFiles(files);
-  };
-
-  useEffect(() => {
-    getFiles();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
+ 
   const downloadResourcesOnClick = async () => {
     setLoading(true);
     try {
       const zip = new JSZip();
       const remoteZips = message?.sourceFiles?.map(async (file) => {
-        const response = await fetch(`http://103.49.169.89:30912/api/v1.0/files/download/public/${file?.fileId}`);
+        const response = await fetch(
+          `http://103.49.169.89:30912/api/v1.0/files/download/public/${file?.fileId}`
+        );
         const data = await response.blob();
         zip.file(`${file?.originalFileName}.${file?.fileExtension}`, data);
 
@@ -86,14 +91,71 @@ function MessageDelivery({ message, setReply }) {
     }
   };
 
-// image id
-const handleSetImageIdInLocal = id =>{
-  if(id){
-    typeof window !== 'undefined' && localStorage.setItem('imageId',id)
+  // image id
+  const handleSetImageIdInLocal = (id) => {
+    if (id) {
+      typeof window !== "undefined" && localStorage.setItem("imageId", id);
+    }
+  };
+
+  // image id
+  const handleSetMessageIdInLocal = (id) => {
+    if (id) {
+      typeof window !== "undefined" && localStorage.setItem("messageId", id);
+    }
+  };
+
+ 
+  /// handle update project track
+  const handleUpdateProject = (data) =>{
+    const track = (data === 'accept') ? 5:4
+    const status = (data === 'accept') ? 'Completed':'Revision'
+    const deadline = (data === 'accept') ? '': project?.deadline
+    const projectData = {
+      id:project?.projectId,
+      track:track,
+      status:status,
+      deadline:deadline,
+      categoryId:project?.categoryId,
+      subcategoryId:project?.subcategoryId,
+    }
+    updateProject(projectData,{
+      onSuccess: (res) => {
+        dispatch(updateState(!messageUpdate?.update))
+        showToast("Delivery Success", "success");
+      },
+      onError: (err) => {
+        showToast(err?.response?.data?.message);
+      },
+    })
   }
-}
+
+  // handle user action
+  const handleAction = (data) => {
+    const acceptData = {
+      id: message?.messageId,
+      delivery: data,
+    };
+
+    updateMessage(acceptData, {
+      onSuccess: (res) => {
+         handleUpdateProject(data)        
+        showToast(`${data==='accept'?'Delivery Accepted':'Revision Send'}`, "success");
+         dispatch(updateState(!messageUpdate?.update))
+      },
+      onError: (err) => {
+        showToast(err?.response?.data?.message);
+        // loading stop
+        dispatch(updateState(!messageUpdate?.update))
+      },
+    });
+  };
+
+  const [messageIdClick, setMessageIdClick] = useState({});
+
   return (
     <div>
+      <Toast />
       {/* delivery type */}
       <div>
         <div className="w-1/2 mx-auto my-6">
@@ -107,7 +169,8 @@ const handleSetImageIdInLocal = id =>{
         </div>
       </div>
       <div className="flex w-full px-2 gap-2 py-3">
-        <div className="w-9">
+        <div className="w-9 relative">
+        
           <img
             className="w-8 h-8 rounded-full border border-gray-500"
             src={`http://103.49.169.89:30912/api/v1.0/files/download/public/${message?.sender?.profilePicture}`}
@@ -157,30 +220,101 @@ const handleSetImageIdInLocal = id =>{
                       <div>
                         <h2 className="text-lg font-bold ">Preview Image</h2>
                       </div>
-                      <button className="btn" onClick={()=>{
-                        document.getElementById('image_modal').showModal()
-                        handleSetImageIdInLocal(message?.thumbnail?.fileId)
-                      }
-                        }>
-                     <img
-                        className="w-full object-cover h-96"
-                        src={`http://103.49.169.89:30912/api/v1.0/files/download/public/${message?.thumbnail?.fileId}`}
-                        alt=""
-                      /></button>
+
+                      <label
+                        onClick={() => {
+                          handleSetImageIdInLocal(message?.thumbnail?.fileId);
+                          handleSetMessageIdInLocal(message?.messageId);
+                          dispatch(messageData(message))
+                        }}
+                        htmlFor="image_modal"
+                        className="relative"
+                      >
+                        {" "}
+                        <img
+                          className="w-full object-cover h-96"
+                          src={`http://103.49.169.89:30912/api/v1.0/files/download/public/${message?.thumbnail?.fileId}`}
+                          alt=""
+                        />
+                          <div className="absolute left-0 top-0 px-2 m-1 py-0 backdrop-blur-lg rounded-full border">{message?.comments?.length} Comments</div>
+                      </label>
                     </div>
                     <div>
                       {/* Download Button */}
                       <div className="flex justify-center my-6">
-                        <span onClick={downloadResourcesOnClick} disabled={loading} className=" px-8 py-1 rounded-full border border-gray-500">{loading?'Processing':'Download'}</span>
+                        <Link
+                          href={`http://103.49.169.89:30912/api/v1.0/files/download/public/${message?.thumbnail?.fileId}`}
+                          target="_blank"
+                          className=" px-8 py-1 rounded-full cursor-pointer border border-gray-500"
+                        >
+                          {loading ? "Processing" : "Download"}
+                        </Link>
                       </div>
                       {/* Accept and Revision Button */}
-                      <p>This watermark will no longer show after accepting the delivery file.
-                      Please accept your final file first, then download the files.
+                      <p>
+                        This watermark will no longer show after accepting the
+                        delivery file. Please accept your final file first, then
+                        download the files.
                       </p>
-                      <div className="flex justify-center mt-6 gap-6">
-                        <button className="px-6 py-1 rounded-full bg-blue-400 text-white font-bold">Accept</button>
-                        <button className="px-6 py-1 rounded-full bg-gray-400 text-white font-bold">Revision</button>
-                      </div>
+                      {/* User action */}
+                      {
+                        message?.delivery === "revision" ? 
+                        <div className={`flex justify-center mt-6 gap-6`}>
+                          <button
+                            className="px-6 py-1 rounded-full flex items-center gap-2 cursor-default bg-blue-400 text-white font-bold"
+                          >
+                            {
+                              user?.role==='ADMIN' ? 'Request for revision':'Revision Send'
+                            } <CgCheck size={24} />
+                          </button>
+                        </div>:''
+                      }
+                    {
+                      user?.role==='ADMIN' ?
+                     <div className={`flex ${message?.delivery === "accept" || message?.delivery === "revision" ? 'hidden':''} justify-center mt-6 gap-6`}>
+                       <button
+                      className="px-6 py-1 rounded-full bg-blue-400 text-white font-bold"
+                    >
+                     Project Delivered
+                    </button>
+                     </div>
+                      :
+                      <>
+                      
+                      {message?.delivery === "accept" ? (
+                        <div className="flex justify-center mt-6 gap-6">
+                          <button
+                            onClick={downloadResourcesOnClick}
+                            className="px-6 py-1 rounded-full bg-blue-400 text-white font-bold"
+                          >
+                            Download All Files
+                          </button>
+                        </div>
+                      ) : (
+                        ''
+                      )}
+
+                      {
+                        message?.delivery === 'accept' || message?.delivery==='revision' ?'':
+                        (
+                          <div className="flex justify-center mt-6 gap-6">
+                          <button
+                            onClick={() => handleAction("accept")}
+                            className="px-6 py-1 rounded-full bg-blue-400 text-white font-bold"
+                          >
+                            Accept
+                          </button>
+                          <button hidden={project?.track===4}
+                            onClick={() => handleAction("revision")}
+                            className="px-6 py-1 rounded-full bg-gray-400 text-white font-bold"
+                          >
+                            Revision
+                          </button>
+                        </div>
+                        )
+                      }
+                      </>
+                    }
                     </div>
                   </div>
                   <div className="w-[40%]">
@@ -188,7 +322,7 @@ const handleSetImageIdInLocal = id =>{
                     <div className="text-left mb-4  w-full">
                       <h2 className="text-lg font-bold ">Final Files</h2>
                     </div>
-                    <div className="w-full">
+                    <div className="w-full font-semibold text-left text-ellipsis overflow-hidden">
                       <p className="font-semibold">
                         {message?.thumbnail?.originalFileName}
                         <span className="font-normal">
@@ -200,17 +334,22 @@ const handleSetImageIdInLocal = id =>{
                     <hr className="my-6 border-gray-500 w-12 " />
                     {/* Source files */}
                     <div className="w-full">
-                      {
-                        message?.sourceFiles?.map(file=>{
-                         return <div className="w-full">
-                           <p key={file?.fileId} className="font-semibold text-left text-ellipsis overflow-hidden">
-                         {file?.originalFileName}
-                         <span  className="font-normal"> ({formatBytes(file?.fileSize)})</span>
-                       </p>
-                         </div>
-
-                        })
-                      }
+                      {message?.sourceFiles?.map((file,i) => {
+                        return (
+                          <div key={i} className="w-full">
+                            <p
+                              key={file?.fileId}
+                              className="font-semibold text-left text-ellipsis overflow-hidden"
+                            >
+                              {file?.originalFileName}
+                              <span className="font-normal">
+                                {" "}
+                                ({formatBytes(file?.fileSize)})
+                              </span>
+                            </p>
+                          </div>
+                        );
+                      })}
                     </div>
                   </div>
                 </div>
@@ -230,7 +369,10 @@ const handleSetImageIdInLocal = id =>{
           </div>
         </div>
       </div>
-      <ImageModal messageId={message?.messageId} />
+      <ImageModal update={update} setUpdate={setUpdate}
+        messageId={message?.messageId}
+        messageIdClick={messageIdClick}
+      />
     </div>
   );
 }

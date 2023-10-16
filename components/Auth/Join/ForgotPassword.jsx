@@ -17,9 +17,10 @@ const ForgotPassword = () => {
         <div className="flex justify-center">
             <div className="my-12">
            
-                <form onSubmit={handleSubmit(handleForgotPassword)} className="flex items-center w-96">
-                    <input placeholder="Enter email..." {...register("email", { required: true })} className="px-4 py-2 border border-gray-400" type="email" />
-                    <button className="px-4 py-2 border inline-block">Send Code</button>
+                <form onSubmit={handleSubmit(handleForgotPassword)} className="items-center w-96">
+                    <input  placeholder="Enter email..." {...register("email", { required: true })} className="px-4 py-2 border border-gray-400 mb-2 w-full" type="email" />
+                    <input placeholder="Enter otp..." {...register("number", { required: true })} className="px-4 py-2 border border-gray-400 mb-2 w-full" type="email" />
+                    <button className="px-4 py-2 border w-full text-[#1B8CDC]">Send Code</button>
                 </form>
             </div>
         </div>
