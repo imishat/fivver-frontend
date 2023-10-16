@@ -39,6 +39,16 @@ const handleWithdraw = (id) =>{
   })
 }
 
+// handle accept custom offer
+const handleCustomOfferAccept  = (id)=>{
+  console.log(id)
+}
+
+// handle reject custom offer
+const handleCustomOfferReject  = (id)=>{
+  console.log(id)
+}
+
 return (
         <div className="flex w-full px-2  gap-2 py-3">
             <Toast />
@@ -52,7 +62,7 @@ return (
         <div className="w-full">
           <strong>
           {/* (message?.userId===user.userId ? 'Me':userInfo?.fullName) */}
-           <Link href={`/user/${message?.sender?.userId}`}> {
+           <Link href={`/user/${message?.sender?.senderId}`}> {
               (message?.sender?.userId===user?.userId ? 'Me': message?.sender?.fullName)
             }</Link>
            
@@ -91,7 +101,7 @@ return (
                 :
                 <div className="w-full flex justify-between px-5 pb-3">
                 <button className="bg-gray-400 text-white px-5 font-bold py-2">Cancel</button>
-                <button className="bg-blue-500 text-white px-5 font-bold py-2">Accept</button>
+                <button onClick={()=>handleCustomOfferAccept(message?.messageId)} className="bg-blue-500 text-white px-5 font-bold py-2">Accept</button>
                 </div>
                }
                 

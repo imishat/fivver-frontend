@@ -1,13 +1,50 @@
-    import Link from "next/link";
+    import SocialIcons from "@/components/CustomarProfile/SocialIcons";
+import { useCreateInquiries } from "@/components/queries/mutation/inquiries.mutation";
+import useToast from "@/components/utility/useToast";
+import Link from "next/link";
 import { useRouter } from "next/router";
+import { useForm } from "react-hook-form";
 import { BsFacebook } from "react-icons/bs";
+import { useSelector } from "react-redux";
 
     const Footer = () => {
 
+        // react hook form
+        const {handleSubmit,register,reset} = useForm()
+
         const router = useRouter()
-        console.log(router)
+        const {user} = useSelector((state)=>state.user)
+
+        const {showToast,Toast} = useToast()
+
+        // create useCreateInquiries
+        const {mutate:createInquiry} = useCreateInquiries()
+
+        /// handle send message
+        const handleSendMessage = (data) =>{
+            const messageData = {
+                "name": data?.name,
+                "email": data?.email,
+                "website": data?.website,
+                "favoriteDesign": data?.design,
+                "message": data?.message
+            }
+            createInquiry(data,{
+                onSuccess: (res) => {
+                  showToast('Message send to Admin', "success");
+                  reset()
+                },
+                onError: (err) => {
+                  showToast(err?.response?.data?.message);
+                  // loading stop
+                },
+              }
+           
+            )
+        }
         return (
             <div> 
+                <Toast />
                 {
                     router.asPath!=='/'
                     ?
@@ -92,7 +129,7 @@ import { BsFacebook } from "react-icons/bs";
         <div className="bg-black">
 
        
-        <div className="md:flex text-white justify-center mx-auto w-full md:justify-between items-center border-b pb-3 md:px-6 md:mx-5">
+        <div className="md:flex text-white h-72 justify-center mx-auto w-full md:justify-between items-center border-b pb-3 md:px-6 md:mx-5">
             <div className="flex flex-col md:w-6/12 space-y-3">
                 <div className="text-center">
                    <div className="flex justify-center">
@@ -103,17 +140,11 @@ import { BsFacebook } from "react-icons/bs";
                 </div>
                 {/* Social icons */}
                 <div className="flex justify-center">
-                    <ul className="md:flex grid md:grid-cols-3 grid-cols-6 md:gap-2 gap-1 items-center">
-                        <li><a className="border-2 rounded-full p-2 border-blue-300 bg-white text-blue-600 inline-block" href="#"><BsFacebook /></a></li>
-                        <li><a className="border-2 rounded-full p-2 border-blue-300 bg-white text-blue-600 inline-block" href="#"><BsFacebook /></a></li>
-                        <li><a className="border-2 rounded-full p-2 border-blue-300 bg-white text-blue-600 inline-block" href="#"><BsFacebook /></a></li>
-                        <li><a className="border-2 rounded-full p-2 border-blue-300 bg-white text-blue-600 inline-block" href="#"><BsFacebook /></a></li>
-                        <li><a className="border-2 rounded-full p-2 border-blue-300 bg-white text-blue-600 inline-block" href="#"><BsFacebook /></a></li>
-                    </ul>
+                    <SocialIcons />
                 </div>
             </div>
-            <div className="py-3 md:w-4/12 w-full text-center">
-                <ul className="flex flex-col space-y-4 w-full justify-between">
+            <div className={`${user?.email ? 'py-3 md:w-4/12 w-full text-center':'py-3 md:w-9/12 w-full text-center'}`}>
+                <ul className={`${user?.email ? 'flex flex-wrap sm:flex-col space-y-2 w-full justify-between':'flex md:grid md:flex-wrap grid-cols-2' }`}>
                     <li>
                         <Link href={'#'}>Home</Link>
                     </li>
@@ -143,26 +174,31 @@ import { BsFacebook } from "react-icons/bs";
                 </ul>
             </div>
             {/* Message send form */}
-            <div className={` md:w-8/12 `}>
-        <div className=" flex right-10 bottom-4 h-fit rounded-md  justify-end mr-12">
-             <form className="w-[450px] relative rounded-md bg-rose-100 p-6">
-                 <div className="space-y-3">
-                     <label htmlFor="name"></label>
-                     <input placeholder="Name" className="input input-bordered rounded-none w-full" type="text" id="name" />
-                     <label htmlFor="email"></label>
-                     <input placeholder="Email" className="input input-bordered rounded-none w-full" type="text" id="email" />
-                     <label htmlFor="website"></label>
-                     <input placeholder="Website / Facebook" className="input input-bordered rounded-none w-full" type="text" id="website" />
-                     <label htmlFor="design"></label>
-                     <input placeholder="Favorite Design" className="input input-bordered rounded-none w-full" type="text" id="design" />
-                     <label htmlFor="message"></label>
-                     <textarea placeholder="Message" id="message" className="textarea h-24 textarea-bordered w-full rounded-none"></textarea>
-                    <div className="flex justify-center w-full">
-                    <button className="px-4 py-2 rounded-sm mx-auto bg-blue-500">Submit</button>
-                    </div>
-                 </div>
-             </form>
-         </div>
+            <div className={` ${user?.email ? 'md:w-8/12':''} `}>
+                {
+                    user?.email ? 
+                    <div className=" flex flex-col-reverse flex-col right-10 bottom-12 md:relative h-fit rounded-md  justify-end mr-12">
+                    <form onSubmit={handleSubmit(handleSendMessage)} className="w-[450px] relative rounded-md bg-rose-100 text-black p-6">
+                        <div className="space-y-3">
+                            <label htmlFor="name"></label>
+                            <input {...register('name',{required:'true'})} placeholder="Name" className="input input-bordered rounded-none w-full" type="text" id="name" />
+                            <label htmlFor="email"></label>
+                            <input {...register('email',{required:'true'})} placeholder="Email" className="input input-bordered rounded-none w-full" type="email" id="email" />
+                            <label htmlFor="website"></label>
+                            <input {...register('website',{required:'true'})} placeholder="Website / Facebook" className="input input-bordered rounded-none w-full" type="text" id="website" />
+                            <label htmlFor="design"></label>
+                            <input {...register('design',{required:'true'})} placeholder="Favorite Design" className="input input-bordered rounded-none w-full" type="text" id="design" />
+                            <label htmlFor="message"></label>
+                            <textarea {...register('message',{required:'true'})}  placeholder="Message" id="message" className="textarea h-24 textarea-bordered w-full rounded-none"></textarea>
+                           <div className="flex justify-center w-full">
+                           <button className="px-4 py-2 rounded-sm mx-auto bg-blue-500">Submit</button>
+                           </div>
+                        </div>
+                    </form>
+                </div>
+                :''
+                }
+       
         </div>
         </div>
         <div className=" text-white px-6 py-4">

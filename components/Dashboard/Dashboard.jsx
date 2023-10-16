@@ -6,6 +6,7 @@ import Affiliate from "./Affiliate/Affiliate";
 import Categories from "./Categories/Categories";
 import Companies from "./Companies/Companies";
 import Designs from "./Designs/Designs";
+import MessageInquire from "./Message/Message";
 import Projects from "./Projects/Projects";
 import SubCategory from "./SubCategory/SubCategory";
 import Tags from "./Tags/Tags";
@@ -78,6 +79,14 @@ const router = useRouter()
               Affiliate
             </Link>
           </li>
+          <li>
+            <Link href={'/dashboard?n=message'}
+              onClick={() => setRoute("message")}
+              className={`px-3 py-3 inline-block ${route==='message'?'bg-blue-500':""} h-full text-white`}
+            >
+              Message
+            </Link>
+          </li>
         </ul>
       </div>
       {
@@ -100,6 +109,9 @@ const router = useRouter()
       }
       {
         route==='affiliate' && <Affiliate />
+      }
+      {
+        route==='message' && <MessageInquire />
       }
      
     </div>

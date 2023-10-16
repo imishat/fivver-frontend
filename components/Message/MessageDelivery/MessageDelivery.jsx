@@ -105,17 +105,23 @@ function MessageDelivery({ message, setReply, update, setUpdate }) {
     }
   };
 
- 
+  const nowUTC = new Date(Date.now());
+
+  // Add 6 hours
+  nowUTC.setUTCHours(nowUTC.getUTCHours() + 6);
+  
+  
+  
+    const deadline = nowUTC.toISOString()
+  
   /// handle update project track
   const handleUpdateProject = (data) =>{
     const track = (data === 'accept') ? 5:4
     const status = (data === 'accept') ? 'Completed':'Revision'
-    const deadline = (data === 'accept') ? '': project?.deadline
     const projectData = {
       id:project?.projectId,
       track:track,
       status:status,
-      deadline:deadline,
       categoryId:project?.categoryId,
       subcategoryId:project?.subcategoryId,
     }
@@ -180,7 +186,7 @@ function MessageDelivery({ message, setReply, update, setUpdate }) {
         <div className="w-full">
           <strong>
             {/* (message?.userId===user.userId ? 'Me':userInfo?.fullName) */}
-            <Link href={`/user/${message?.sender?.userId}`}>
+            <Link href={`/user/${message?.sender?.senderId}`}>
               {message?.sender?.userId === user?.userId
                 ? "Me"
                 : message?.sender?.fullName}

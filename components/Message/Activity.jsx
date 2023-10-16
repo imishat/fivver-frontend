@@ -30,8 +30,11 @@ import MessageCard from "./MessageCard";
 import MessageDelivery from "./MessageDelivery/MessageDelivery";
 import MessageFiles from "./MessageFiles/MessageFiles";
 import MessageLike from "./MessageLike/MessageLike";
-import OfferMessageCard from "./OfferMessageCard";
-import ProjectCountDown from "./ProjectCountDown";
+
+
+const OfferMessageCard = dynamic(() => import('./OfferMessageCard'), { ssr: false })
+const ProjectCountDown = dynamic(() => import('./ProjectCountDown'), { ssr: false })
+
 const CustomOfferModal = dynamic(() => import("./CustomOfferModal"), {
   ssr: false,
 });
@@ -47,6 +50,9 @@ const AllQuickResponse = dynamic(
     ssr: false,
   }
 );
+
+
+
 
 const Activity = () => {
   // update messages
@@ -87,7 +93,7 @@ const Activity = () => {
   const [images, setImages] = useState([]);
 
   // image upload call
-  const { mutate: sendFileData } = useUploadFile({ watermark: false });
+  const { mutate: sendFileData } = useUploadFile({ watermark: true });
 
   // get all message with redux
   const messagesRedux = useSelector((state) => state.messages);
@@ -144,6 +150,7 @@ const Activity = () => {
       content: "👍",
       projectId: project?.projectId,
       reply: reply,
+      messageType:'unread',
       userId: userInfo?.userId,
       receiverId: userInfo?.userId,
       userName: userInfo?.fullName,
@@ -190,6 +197,7 @@ const Activity = () => {
             projectId: project?.projectId,
             content: data?.messageData,
             reply: reply,
+            messageType:'unread',
             files: imageIds,
             userId: project?.startedBy,
             receiverId: project?.startedBy,
@@ -218,6 +226,7 @@ const Activity = () => {
         projectId: project?.projectId,
         content: data?.messageData,
         reply: reply,
+        messageType:'unread',
         receiverId: project?.startedBy,
         userId: project?.startedBy,
       };
@@ -334,7 +343,7 @@ const Activity = () => {
                 : 
                 <div className="overflow-y-auto h-auto max-h-[600px]">
                 {/* Client */}
-                {messages?.length &&
+                {messages?.length ?
                   messages?.map((message,i) => {
                     return (
                       <>
@@ -396,7 +405,11 @@ const Activity = () => {
                         </div>
                       </>
                     );
-                  })}
+                  }):
+                  <div className="flex items-center justify-center h-96">
+                    <p>No Message</p>
+                  </div>
+                  }
                 {/* Redux */}
               
               </div>
@@ -544,7 +557,7 @@ const Activity = () => {
             {" "}
             01 <span>Seconds</span> 
            </p> */}
-              <ProjectCountDown deadline={project?.deadline} />
+              <ProjectCountDown project={project} deadline={project?.deadline} />
             </div>
             {
               user?.role==='ADMIN' ? 

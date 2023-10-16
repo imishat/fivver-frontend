@@ -22,7 +22,7 @@ const userInfo = userData?.data?.user
         <div className="w-full">
           <strong>
           {/* (message?.userId===user.userId ? 'Me':userInfo?.fullName) */}
-          <Link href={`/user/${message?.sender?.userId}`}>
+          <Link href={`/user/${message?.sender?.senderId}`}>
             {
               (message?.sender?.userId===user?.userId ? 'Me': message?.sender?.fullName)
             }

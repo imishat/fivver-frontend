@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { useCreateProject } from "../queries/mutation/project.mutation";
+import { useCreateManyProject } from "../queries/mutation/manyProject.mutation";
 import PaymentProjectCard from "./PaymentProjectCard";
 
 const Payment = () => {
@@ -9,21 +9,21 @@ const router = useRouter()
   // project create loading
   const [projectLoading, setProjectLoading] = useState(false);
 // Create Project 
-const {mutate:sendProjectData} = useCreateProject()
+const {mutate:sendProjectData} = useCreateManyProject()
     // get project data from localstorage
     const [projectData,setProjectData] = useState([])
     useEffect(()=>{
        setProjectData(JSON.parse(typeof window!== 'undefined' && localStorage.getItem('projectData')))
-    },[])
+    },[router])
     const totalPrice = projectData?.length && projectData?.reduce((prev,current) =>  prev + current.totalPrice, 0);
-console.log(projectData)
+
     // handle payment
     const handlePayment = () =>{
         setProjectLoading(true)
-        sendProjectData(projectData, {
+        sendProjectData( {"projects":projectData}, {
             onSuccess: (res) => {
             //   showToast(res.message, "success");
-            console.log(res)
+            handleSetProjectInLocal(res?.data)
               const savedProject = projectData?.length>1 ? res?.data?.projects:res?.data?.project
               if(savedProject || savedProject?.length){
                 typeof window !== "undefined" && window.localStorage.setItem('savedProjects',JSON.stringify(savedProject))
@@ -41,6 +41,13 @@ console.log(projectData)
           });
         
     }
+
+
+const handleSetProjectInLocal = (data) =>{
+    const firstProject = projectData?.length === 1 ?  data?.project : data?.projects
+    console.log(firstProject)
+    typeof window !== 'undefined' && localStorage.setItem('projectRequirement',JSON.stringify(projectData[0]))
+}
     return (
         <div className="md:w-[70%] mx-auto">
             <div>

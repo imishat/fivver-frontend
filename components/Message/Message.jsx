@@ -4,18 +4,20 @@ import { useForm } from "react-hook-form";
 import { BsArrowDownCircle, BsSearch, BsThreeDotsVertical } from "react-icons/bs";
 import { IoCloseCircleOutline } from "react-icons/io5";
 import { MdAttachment } from "react-icons/md";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useGetMessagesById } from "../queries/query/getMessagesById.query";
 import { useGetUserData } from "../queries/query/getUserProfile.query";
 import useToast from "../utility/useToast";
 import CustomOfferModal from "./CustomOfferModal";
 
+import { useSocketChat } from "@/hooks/useSocketChat";
+import moment from "moment";
 import Image from "next/image";
 import Link from "next/link";
-import { io } from "socket.io-client";
 import { useUploadFile } from "../queries/mutation/fileUpload.mutation";
 import { useUpdateUser } from "../queries/mutation/updateUser.mutation";
 import { useGetUniqueMessages } from "../queries/query/getAllUniqueMessages.query";
+import { updateState } from "../redux/features/update/updateSlice";
 import MessageCard from "./MessageCard";
 import MessageFiles from "./MessageFiles/MessageFiles";
 import MessageLike from "./MessageLike/MessageLike";
@@ -32,14 +34,21 @@ const Message = () => {
     formState: { errors },
   } = useForm();
   // update
-  const [update,setUpdate] = useState(false)
+
   // router
   const router = useRouter();
+// Socket
+  const {  sendMessage, returnMessage } = useSocketChat();
+
+  // dispatch 
+  const dispatch = useDispatch()
+  // update state
+  // get update with redux
+  const messageUpdate = useSelector((state) => state.update);
 
 
-
-
-  const { mutate: sendFileData } = useUploadFile({ watermark:false });
+  // update 
+  const { mutate: sendFileData } = useUploadFile({ watermark:true });
   // get message id from query
   const { messageId } = router.query;
 
@@ -47,48 +56,25 @@ const Message = () => {
   const { data: messageData } = useGetMessagesById({
     projectId: "",
     userId: messageId,
-    update:update
+    update:messageUpdate?.update
   });
+  console.log(messageUpdate?.update)
 
   // update
   const {mutate:updateUser} = useUpdateUser()
 
-
+  // message type 
+  const [messageType,setMessageType] = useState('')
 
   // get user by id
-  const { data: userData } = useGetUserData({ token: "", userId: messageId,update:update });
+  const { data: userData } = useGetUserData({ token: "", userId: messageId,update:messageUpdate?.update });
   // user info
   const userInfo = userData?.data?.user;
    
   // get all unique messages
-  const {data:uniqueMessagesData} = useGetUniqueMessages() 
+  const {data:uniqueMessagesData} = useGetUniqueMessages({update:messageUpdate?.update}) 
   const uniqueMessages = uniqueMessagesData?.data?.messages
 
-// socket
-  // socket
-  let authorization =
-    `Bearer ${typeof window!=='undefined' && window.localStorage.getItem('accessToken')}`;
-
-  let url = "ws://103.49.169.89:30912";
-  const client = io(url, {
-    path: "/realtime-messaging",
-  });
-  async function onMessageReceivedAsync(message) {
-    console.log('received:', message);
-    setUpdate(!update)
-  }
-  useEffect(() => {
-    client.emit("authorization", authorization);
-    client.on("error", (erroneousResponse) => {
-      erroneousResponse = JSON.parse(erroneousResponse);
-      console.error(erroneousResponse);
-    });
-    client.on("disconnect", () => {
-      client.off("authorized", authorization);
-      client.off("message", onMessageReceivedAsync);
-      console.log("disconnected from the server.");
-    });
-  }, [client]);
 
 
     // scroll messages
@@ -100,6 +86,9 @@ const Message = () => {
   // get user
   const { user } = useSelector((state) => state.user);
   // const userInfo = userData?.data?.user
+
+
+
 
 
   // message data
@@ -123,7 +112,7 @@ const handleStar = () =>{
       console.log(res);
       showToast(`${!userInfo?.star ? 'Star Added':'Star Removed' }`, "success");
       setLoading(false)
-      setUpdate(!update)
+      dispatch(updateState(!messageUpdate?.update))
     },
     onError: (err) => {
       setLoading(false)
@@ -189,20 +178,21 @@ const handleStar = () =>{
           }
           // if upload images
 
-          const sendMessage = {
+          const sendMessageData = {
             type: "file",
             projectId: '',
             content: data?.messageData,
             reply: reply,
             files: imageIds,
+            messageType:'unread',
             userId: messageId,
             receiverId: messageId,
             userName: userInfo?.fullName,
           };
 
           // send
-          client.send(JSON.stringify(sendMessage));
-          setUpdate(!update)
+          sendMessage(sendMessageData);
+          dispatch(updateState(!messageUpdate?.update))
           reset()
           handleClick()
           setReply({})
@@ -217,17 +207,18 @@ const handleStar = () =>{
       });
     } else {
       // send normal message
-      const sendMessage = {
+      const sendMessageData = {
         type: "normal",
         projectId: '',
         content: data?.messageData,
         reply: reply,
+        messageType:'unread',
         receiverId: messageId,
         userId: messageId,
       };
       // send
-      client.send(JSON.stringify(sendMessage));
-      setUpdate(!update)
+      sendMessage(sendMessageData);
+      dispatch(updateState(!messageUpdate?.update))
       showToast('Message Send','success')
       reset();
       handleClick()
@@ -243,17 +234,18 @@ const handleStar = () =>{
       type: "like",
       content: "👍",
       reply: reply,
+      messageType:'unread',
       receiverId: messageId,
       userId: messageId,
       userName: userInfo?.fullName,
     };
 
      // send
-     client.send(JSON.stringify(sendLike));
-     setUpdate(!update)
+     sendMessage(sendLike);
      handleClick()
      setReply({})
      showToast('Liked','success')
+     dispatch(updateState(!messageUpdate?.update))
   };
 
   // get all messages
@@ -273,17 +265,16 @@ const handleStar = () =>{
   }, [messagesNames]);
 
 
-
- useEffect(()=>{
-  client.on("message", onMessageReceivedAsync);
-  async function onMessageReceivedAsync(message) {
+  useEffect(()=>{
+    dispatch(updateState(!messageUpdate?.update))
     handleClick()
-    // setSocketData(prevMessages=>[...prevMessages, JSON.parse(message)]);
-    // message.push(JSON.parse(message))
-    setUpdate(!update)
-  }
- },[client])
+    console.log(messageUpdate?.update)
+  },[returnMessage])
 
+// get last message
+const lastMessage = messages?.at(-1)
+
+const localDate = new Date()
 
   return (
     <div className="md:w-[90%] mx-auto my-12 gap-2 md:flex">
@@ -295,13 +286,18 @@ const handleStar = () =>{
             <span>
               <BsSearch />
             </span>
-            <select className="bg-white border border-gray-400 px-2 py-1">
-              <option value="all">All Conversations</option>
-              <option value="unread">Unread</option>
-              <option value="starred">Starred</option>
-              <option value="block">Block List</option>
-              <option value="custom">Custom Offers</option>
-            </select>
+         {
+          user?.role ==='ADMIN' ?
+          <select onChange={e=>setMessageType(e.target.value)} className="bg-white border border-gray-400 px-2 py-1">
+          <option value="">All Conversations</option>
+          <option value="unread">Unread</option>
+          <option value="starred">Starred</option>
+          <option value="block">Block List</option>
+          <option value="custom">Custom Offers</option>
+        </select>
+          :
+          ''
+         }
           </div>
         </div>
         {/* Result */}
@@ -309,7 +305,7 @@ const handleStar = () =>{
           <ul>
             {uniqueMessages?.length
               ? uniqueMessages?.map((message) => (
-                  <MessageUserCard key={message?.messageId} message={message} update={update} setUpdate={setUpdate} />
+                  <MessageUserCard  messageId={messageId} key={message?.messageId} lastMessage={lastMessage} message={message} />
                 ))
               : "No Message"}
           </ul>
@@ -333,10 +329,12 @@ const handleStar = () =>{
                 <div>
                   <strong>{userInfo?.fullName}</strong>
                   <p className="text-xs">
-                    Last seen 18 hourse ago | Local Time: May 29, 2023, 1:20 PM
+                    Last seen {moment(lastMessage?.createdAt).fromNow()} | Local Time:{moment(localDate).format('lll')}
                   </p>
                 </div>
-                <div>
+                {
+                  user?.role ==='ADMIN' ? 
+                  <div>
                   <details className="dropdown dropdown-left md:dropdown-open md:dropdown-bottom">
                     <summary className="m-1 btn">
                       <BsThreeDotsVertical />
@@ -365,6 +363,9 @@ const handleStar = () =>{
                   </details>
                   {/* <button><BsThreeDotsVertical /></button> */}
                 </div>
+                  :''
+                }
+               
               </div>
             </div>
           </div>
@@ -509,15 +510,19 @@ const handleStar = () =>{
                         />
                       </label>
                       {/* Offer */}
+                       {
+                        user?.role==='ADMIN' ?
                         <span
-                          className="cursor-pointer"
-                          onClick={() =>
-                            document.getElementById("custom_offer").showModal()
-                          }
-                        >
-                          {" "}
-                          Create an offer
-                        </span>
+                        className="cursor-pointer"
+                        onClick={() =>
+                          document.getElementById("custom_offer").showModal()
+                        }
+                      >
+                        {" "}
+                        Create an offer
+                      </span>
+                      :''
+                       }
                       </span>
                       {/* send */}
                       <button className="w-20 px-4 font-bold text-blue-400">
@@ -535,7 +540,7 @@ const handleStar = () =>{
      
       {/* Edit modal */}
 
-      <CustomOfferModal update={update} setUpdate={setUpdate} project={{ startedBy: messageId }} reply={reply} />
+      <CustomOfferModal project={{ startedBy: messageId }} reply={reply} />
     </div>
   );
 };

@@ -103,11 +103,11 @@ useEffect(()=>{
       quantity: parseInt(data.quantity),
       isExtraFastDeliveryEnabled: data.extraFast,
       totalPrice: extraFast ?
-         ((subcategory?.price + 10 )  * quantity)
+         ((parseInt(subcategory?.price) + 10 )  * quantity)
         
         :
         
-        ( subcategory?.price * quantity)
+        ( parseInt(subcategory?.price) * quantity)
         }
     
 
@@ -269,13 +269,13 @@ useEffect(()=>{
                 {
                
                 extraFast ?
-                 ((subcategory?.price + 10 )  * quantity
+                 ((parseInt(subcategory?.price) + 10 )  * quantity
                  ||
                  subCatPrice)
                 
                 :
                 
-                ( subcategory?.price * quantity 
+                ( parseInt(subcategory?.price) * quantity 
                 ||
                 subCatPrice)}</h1>
               </div>

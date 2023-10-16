@@ -49,7 +49,7 @@ function SelectedProjects({select,setSubCatPrice,updateData,singleDesign,setDesi
                    
                   </div>
                   <div className="font-bold">
-                    ${select.isExtraFastDeliveryEnabled  ? (subcategory?.price  + 10) * select.quantity:subcategory?.price * select.quantity}
+                    ${select.isExtraFastDeliveryEnabled  ? (parseInt(subcategory?.price)  + 10) * select.quantity:parseInt(subcategory?.price) * select.quantity}
                   </div>
                 </div>
                 

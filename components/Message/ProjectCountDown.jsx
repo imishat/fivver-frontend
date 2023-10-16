@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 
-function ProjectCountDown({deadline}) {
+function ProjectCountDown({deadline,project}) {
  
   
 // Set the date we're counting down to
@@ -42,7 +42,7 @@ const [seconds,setSeconds] = useState('')
         <>
         
         {
-            distance < 0 ? <>
+            distance < 0 || project?.status==='Completed' ? <>
                 <p className="flex flex-col text-center border border-blue-400 px-2 py-2 w-full">
               {" "}
               <span className="font-bold text-xl">00</span> <span>Days</span>

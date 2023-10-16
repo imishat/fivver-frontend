@@ -22,6 +22,9 @@ const Requirement = ({project}) => {
   // update project
   const {mutate:updateProject,isLoading} = useUpdateProject()
 
+  // get project for requirement
+  const requirementProject = JSON.parse(typeof window!== 'undefined' && localStorage.getItem('projectRequirement'))
+console.log(requirementProject)
 
   // get user 
 const {user} = useSelector(state => state.user)
@@ -29,7 +32,7 @@ const {user} = useSelector(state => state.user)
   // toast 
   const {showToast,Toast} = useToast()
   // upload images
-  const {mutate:sendFileData} = useUploadFile();
+  const {mutate:sendFileData} = useUploadFile({watermark:false});
 
   // router
   const router = useRouter()

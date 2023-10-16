@@ -22,6 +22,8 @@ export const GET_USER_VERIFY='/users/verify'
 export const GET_ADMIN_STATS ='/users/admin/stats'
 // Create project
 export const CREATE_DESIGN="designs"
+// inquiries
+export const INQUIRIES="inquiries"
 // categories
 export const GET_CATEGORIES ="categories"
 // subcategories
@@ -40,6 +42,8 @@ export const TAGS="tags"
 export const GET_USER = 'users/profile'
 // Porject path
 export const PROJECTS="projects"
+
+export const MANY_PROJECTS="projects/create-many"
 // password
 export const PASSWORD = 'users/password'
 // quick response 

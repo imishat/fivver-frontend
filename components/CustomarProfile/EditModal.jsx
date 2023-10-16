@@ -6,8 +6,9 @@ import { useSelector } from "react-redux";
 import { useUpdatePassword } from "../queries/mutation/chengePass.mutation";
 import { useUploadFile } from "../queries/mutation/fileUpload.mutation";
 import { useUpdateUser } from "../queries/mutation/updateUser.mutation";
+import { useGetUserData } from "../queries/query/getUserProfile.query";
 
-const EditModal = () => {
+const EditModal = ({userId}) => {
   // get user
   const { user } = useSelector((state) => state.user);
   //  react hook form
@@ -29,8 +30,18 @@ const EditModal = () => {
   } = useForm();
   // update user
   const { mutate: updateUser } = useUpdateUser();
+
+    // get user by id
+    const { data: userData } = useGetUserData({
+      userId: userId,
+      token: "",
+      update: "",
+    });
+
+    const userInfo = userData?.data?.user
+
   // image upload call
-  const { mutate: sendFileData } = useUploadFile();
+  const { mutate: sendFileData } = useUploadFile({watermark:false});
 
   // update password
   const {mutate: chengePassword} = useUpdatePassword()
@@ -133,8 +144,8 @@ const EditModal = () => {
                     className="w-24 h-24 border p-1 rounded-full"
                     width={130}
                     height={130}
-                    alt={user?.username}
-                    src={`http://103.49.169.89:30912/api/v1.0/files/download/public/${user?.profilePicture}`}
+                    alt={userInfo?.username}
+                    src={`http://103.49.169.89:30912/api/v1.0/files/download/public/${userInfo?.profilePicture}`}
                   />
                   <div>
                     <label
@@ -158,7 +169,7 @@ const EditModal = () => {
                   Name
                   <input
                     {...register2("name", { required: true })}
-                    defaultValue={user?.fullName}
+                    defaultValue={userInfo?.fullName}
                     type="text"
                     placeholder="Name"
                     className="input w-full input-bordered"
@@ -169,7 +180,7 @@ const EditModal = () => {
                   Number
                   <input
                     {...register2("number", { required: true })}
-                    defaultValue={user?.phoneNumber}
+                    defaultValue={userInfo?.phoneNumber}
                     type="text"
                     placeholder="Phone Number"
                     className="input w-full input-bordered"
@@ -180,7 +191,7 @@ const EditModal = () => {
                   Country
                   <input
                     {...register2("country", { required: true })}
-                    defaultValue={user?.country}
+                    defaultValue={userInfo?.country}
                     type="text"
                     placeholder="country"
                     className="input w-full input-bordered"
@@ -191,7 +202,7 @@ const EditModal = () => {
                 Location
                   <input
                     {...register2("location", { required: true })}
-                    defaultValue={user?.Location}
+                    defaultValue={userInfo?.Location}
                     type="text"
                     placeholder="Location"
                     className="input w-full input-bordered"
@@ -211,7 +222,7 @@ const EditModal = () => {
               Old Password
               <input
                 {...register("oldPassword", { required: true })}
-                defaultValue={user?.password}
+                defaultValue={userInfo?.password}
                 type="text"
                 placeholder="password"
                 className="input w-full input-bordered"
@@ -222,7 +233,7 @@ const EditModal = () => {
               New Password
               <input
                 {...register("newPassword", { required: true })}
-                defaultValue={user?.password}
+                defaultValue={userInfo?.password}
                 type="text"
                 placeholder="New Password"
                 className="input w-full input-bordered"
@@ -233,7 +244,7 @@ const EditModal = () => {
               Confirm Password
               <input
                 {...register("confirmPassword", { required: true })}
-                defaultValue={user?.password}
+                defaultValue={userInfo?.password}
                 type="text"
                 placeholder="Confirm Password"
                 className="input w-full input-bordered"

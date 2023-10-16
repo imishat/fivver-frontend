@@ -1,6 +1,7 @@
 import { useCreteAccount } from "@/components/queries/mutation/user.mutation";
 import { Spin } from "@/components/utility/LoadingSpinner";
 import useToast from "@/components/utility/useToast";
+import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 
 const SIgnUp = ({ setToggle }) => {
@@ -9,6 +10,9 @@ const SIgnUp = ({ setToggle }) => {
   const {mutate:LoginData,isLoading}=useCreteAccount()
   // set toasat showing data
   const { Toast, showToast } = useToast();
+
+  // router 
+  const router = useRouter()
 
   const {
     register,
@@ -23,8 +27,9 @@ const SIgnUp = ({ setToggle }) => {
   
     LoginData(data,{
       onSuccess: (res) => {
-      showToast('crate acount', 'success');
+      showToast('crate account', 'success');
       reset()
+      router.push('/auth/user-verify')
       
    
    

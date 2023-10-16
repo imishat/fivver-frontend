@@ -1,5 +1,6 @@
+import Image from "next/image";
 import Link from "next/link";
-import { useState,useEffect } from "react";
+import { useEffect, useState } from "react";
 const ProjectCard = ({project}) => {
 
 
@@ -39,12 +40,14 @@ const ProjectCard = ({project}) => {
   project?.status==='COMPLETED' && 'text-[#14591a]'
   ||
   project?.status==='Active' && 'text-[#DA560A]'
+
+  console.log(project)
     return (
         <div className="border p-3 w-full ">
           <Link href={`/message/project/${project?.projectId}`}>
           
           <div className="flex gap-2">
-                <img src={project.design} className="h-14 bg-rose-200 w-20" alt="" />
+                <Image height={56} width={56} src={`${process.env.NEXT_PUBLIC_DOWNLOAD}/${project?.imageIds[0]}`} className="h-14 bg-rose-200 w-20" alt="" />
               <div className="flex flex-col w-full">
               <p className="text-base">{project.title}</p>
                 <p className="text-xl font-bold">${project.category?.at(0).price}</p>
