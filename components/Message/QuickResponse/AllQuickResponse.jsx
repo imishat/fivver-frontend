@@ -1,139 +1,198 @@
+import { updateState } from "@/components/redux/features/update/updateSlice";
+import moment from "moment";
 import { useState } from "react";
-import {
-  BsPen,
-  BsTrash
-} from "react-icons/bs";
-import { FiChevronDown } from "react-icons/fi";
+import { BsPen, BsTrash } from "react-icons/bs";
+import { CiMenuKebab } from "react-icons/ci";
+import { useDispatch, useSelector } from "react-redux";
 import { useGetQuickResponse } from "../../queries/query/getQuickResponse.query";
 import DeleteModal from "../EditModal/DeleteModal";
 import EditModal from "../EditModal/EditModal";
 import CreateQuick from "./CreateQuick";
 
+const AllQuickResponse = ({ setValue, value, lastMessage }) => {
+  // const url = "ws://103.49.169.89:30912";
+  // const socket = io(url, {
+  //   path: "/realtime-messaging",
+  // });
 
-const AllQuickResponse = ({setValue,value})=> {
+  const [online, setOnline] = useState(false);
+  // useEffect(() => {
+  //   //  socket
+  //   socket.on("connect", () => {
+  //     console.log("Connected to server1");
+  //     setOnline(true);
+  //   });
 
+  //   socket.on("disconnect", () => {
+  //     console.log("Disconnected from server");
+  //   });
 
- // get quick response
- const { data: quickResponseData } = useGetQuickResponse({
+  //   // To detect when the user's internet goes offline or comes back online
+  //   window.addEventListener("offline", () => {
+  //     console.log("You are offline");
+  //   });
+
+  //   window.addEventListener("online", () => {
+  //     console.log("You are back online");
+  //     // You can choose to re-establish the socket connection if required
+  //     socket.connect();
+  //   });
+  // }, []);
+
+  // selector update
+  const messageUpdate = useSelector((state) => state.update);
+
+  // get quick response
+  const { data: quickResponseData } = useGetQuickResponse({
     quickResponseId: "",
+    update: messageUpdate?.update,
   });
 
-   // action mode
-   const [editMode, setEditMode] = useState(false);
-   const [deleteMode, setDeleteMode] = useState(false);
+  // action mode
+  const [editMode, setEditMode] = useState(false);
+  const [deleteMode, setDeleteMode] = useState(false);
 
-   // quick id 
-   const [quickId, setQuickId] = useState('')
-   
+  // quick id
+  const [quickId, setQuickId] = useState("");
+console.log(quickId)
   // toast
-//   const { Toast, showToast } = useToast();
+  //   const { Toast, showToast } = useToast();
   // console.log(quickResponseData);
+
+  const dispatch = useDispatch()
+
 
   const quickResponses = quickResponseData?.data?.quickResponses;
 
-      // modal id
+  // modal id
   const [editId, setEditId] = useState("");
 
   // get quick response by id
   const { data: quickResponseDataId } = useGetQuickResponse({
     quickResponseId: editId,
+    update: messageUpdate?.update
   });
   const quickResponse = quickResponseDataId?.data?.quickResponse;
   //  console.log(quickResponseDataId)
 
-
-    return (
-        <div className="p-2 m-2 h-24 overflow-y-auto">
-        {/* Quick Response */}
-        {/* <Toast /> */}
-        <div className=" flex  justify-between p-2">
-          <h2>Quick Response</h2>
+  return (
+    <div className="p-2 m-2 h-28 overflow-y-auto">
+      {/* Quick Response */}
+      {/* <Toast /> */}
+      <div className=" flex items-center justify-between px-2">
+        <h2>Quick Response</h2>
+        <div className="flex items-center  gap-2">
           <div>
-            {editMode ? (
-              <button
-                onClick={() => setEditMode(false)}
-                className="px-1 py-0 text-teal-400  font-bold"
-              >
-                Done
-              </button>
-            ) : (
-              <button
-                onClick={() => setEditMode(true)}
-                className="px-1 py-0 text-blue-500 font-bold"
-              >
-                Edit
-              </button>
-            )}
-            {deleteMode ? (
-              <button
-                onClick={() => setDeleteMode(false)}
-                className="px-1 py-0 text-teal-400  font-bold"
-              >
-                Done
-              </button>
-            ) : (
-              <button
-                onClick={() => setDeleteMode(true)}
-                className="px-1 py-0 text-rose-400  font-bold"
-              >
-                Delete
-              </button>
-            )}
+            <p className="text-xs">
+              {online
+                ? "Online"
+                : ("Last seen ", moment(lastMessage?.createdAt).fromNow())}{" "}
+              | Local Time: {moment(new Date()).format("LL")}
+            </p>
           </div>
+          <div className="dropdown dropdown-left">
+            <label
+              tabIndex={0}
+              className="hover:bg-base-300 rounded-md px-2 inline-block py-2"
+            >
+              <CiMenuKebab />
+            </label>
+            <ul className="dropdown-content rounded-none z-[1] tabIndex={0} menu shadow bg-base-100 border p-1">
+              <div>
+                {editMode ? (
+                  <button
+                    onClick={() => setEditMode(false)}
+                    className="px-2 py-1 hover:bg-base-300 w-full text-teal-400  font-bold"
+                  >
+                    Done
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => setEditMode(true)}
+                    className="px-2 py-1 hover:bg-base-300 w-full text-blue-500 font-bold"
+                  >
+                    Edit
+                  </button>
+                )}
+                {deleteMode ? (
+                  <button
+                    onClick={() => setDeleteMode(false)}
+                    className="px-2 py-1 hover:bg-base-300 w-full text-teal-400  font-bold"
+                  >
+                    Done
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => setDeleteMode(true)}
+                    className="px-2 py-1 hover:bg-base-300 w-full text-rose-400  font-bold"
+                  >
+                    Delete
+                  </button>
+                )}
+              </div>
+            </ul>
+          </div>{" "}
         </div>
-        <div className="flex ">
-          <div className="flex gap-2 text-[13px] flex-wrap">
-            {quickResponses?.map((quick,i) => (
-                <><button key={i}
-                onClick={(e) => setValue(value + " " + e.target.value)}
+      </div>
+      <div className="flex ">
+        <div className="flex gap-2 text-[13px] flex-wrap">
+          {quickResponses?.map((quick, i) => (
+            <>
+              <button
+                key={i}
+                onClick={(e) => setValue(e.target.value)}
                 className="px-1 flex cursor-pointer items-center gap-1 py-0 border border-gray-500"
                 value={quick.label}
               >
                 {quick.label}
-                <span>
-                  <FiChevronDown />
-                </span>
-              
               </button>
               {deleteMode ? (
-                  <span onClickCapture={()=>setQuickId(quick?.quickResponseId)} onClick={()=>document.getElementById('delete_modal').showModal()}className="px-1 py-1 cursor-pointer rounded-full bg-rose-500 text-white">
-                    <BsTrash />
-                  </span>
-                ) : (
-                  ""
-                )}
-                {editMode ? (
-                  <span
-                    onClickCapture={() =>
-                      setEditId(quick?.quickResponseId)
-                    }
-                    className="px-1 py-1 cursor-pointer rounded-full bg-blue-500 text-white"
-                    onClick={() =>
-                      document.getElementById("edit_modal").showModal()
-                    }
-                  >
-                    <BsPen />
-                  </span>
-                ) : (
-                  ""
-                )}
-                </>
-              
-              
-            ))}
+                <span
+                  onClickCapture={() => setQuickId(quick?.quickResponseId)}
+                  onClick={() =>
+                    document.getElementById("delete_modal").showModal()
+                  }
+                  className="px-1 py-1 cursor-pointer rounded-full bg-rose-500 text-white"
+                >
+                  <BsTrash />
+                </span>
+              ) : (
+                ""
+              )}
+              {editMode ? (
+                <span
+                  className="px-1 py-1 cursor-pointer rounded-full bg-blue-500 text-white"
+                  onClick={() =>{
+                    setEditId(quick?.quickResponseId)
+                    document.getElementById("edit_modal").showModal()
+                    dispatch(updateState(!messageUpdate?.update))
+                  }
+                  }
+                >
+                  <BsPen />
+                </span>
+              ) : (
+                ""
+              )}
+            </>
+          ))}
 
-            {/* Add NEw */}
-            <button onClick={()=>document.getElementById('create_new_quick').showModal()} className="border border-gray-500 px-1 py-0 bg-white">
-              + Add New
-            </button>
-          </div>
-          
+          {/* Add NEw */}
+          <button
+            onClick={() =>
+              document.getElementById("create_new_quick").showModal()
+            }
+            className="border border-gray-500 px-1 py-0 bg-white"
+          >
+            + Add New
+          </button>
         </div>
-        <EditModal quickResponse={quickResponse} />
-        <CreateQuick />
-        <DeleteModal quickId={quickId} />
       </div>
-    );
-}
+      <EditModal quickId={editId} />
+      <CreateQuick />
+      <DeleteModal quickId={quickId} />
+    </div>
+  );
+};
 
 export default AllQuickResponse;

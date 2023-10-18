@@ -102,7 +102,7 @@ useEffect(()=>{
       imageIds: singleDesign.imageIds,
       quantity: parseInt(data.quantity),
       isExtraFastDeliveryEnabled: data.extraFast,
-      totalPrice: extraFast ?
+      totalCost: extraFast ?
          ((parseInt(subcategory?.price) + 10 )  * quantity)
         
         :
@@ -135,7 +135,7 @@ useEffect(()=>{
 
 
   // get all price
- const totalPrice = projectData?.length && projectData?.reduce((prev,current) =>  prev + current.totalPrice, 0);
+ const totalPrice = projectData?.length && projectData?.reduce((prev,current) =>  prev + current.totalCost, 0);
   return (
     <div className="w-full ">
       {/* warinig */}

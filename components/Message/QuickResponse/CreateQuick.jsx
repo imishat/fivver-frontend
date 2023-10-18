@@ -1,7 +1,9 @@
 import { useQuickResponse } from "@/components/queries/mutation/quickResponse.mutation";
+import { updateState } from "@/components/redux/features/update/updateSlice";
 import useToast from "@/components/utility/useToast";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
 
 function CreateQuick() {
 
@@ -12,6 +14,11 @@ function CreateQuick() {
     reset,
     formState: { errors },
   } = useForm()
+
+  const dispatch = useDispatch()
+
+  // selector update
+  const messageUpdate = useSelector((state)=>state.update)
 
 // create new quick response
 const {mutate:createQuick}= useQuickResponse()
@@ -33,6 +40,7 @@ const {mutate:createQuick}= useQuickResponse()
           createQuick(quickData,{
             onSuccess: (res) => {
               showToast("New Response Created", "success");
+              dispatch(updateState(!messageUpdate?.update))
               reset()
             },
             onError: (err) => {

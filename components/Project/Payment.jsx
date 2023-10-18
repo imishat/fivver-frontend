@@ -12,19 +12,21 @@ const router = useRouter()
 const {mutate:sendProjectData} = useCreateManyProject()
     // get project data from localstorage
     const [projectData,setProjectData] = useState([])
+
     useEffect(()=>{
        setProjectData(JSON.parse(typeof window!== 'undefined' && localStorage.getItem('projectData')))
     },[router])
-    const totalPrice = projectData?.length && projectData?.reduce((prev,current) =>  prev + current.totalPrice, 0);
+    const totalPrice = projectData?.length && projectData?.reduce((prev,current) =>  prev + current.totalCost, 0);
 
     // handle payment
     const handlePayment = () =>{
         setProjectLoading(true)
         sendProjectData( {"projects":projectData}, {
             onSuccess: (res) => {
+                console.log(res)
             //   showToast(res.message, "success");
             handleSetProjectInLocal(res?.data)
-              const savedProject = projectData?.length>1 ? res?.data?.projects:res?.data?.project
+              const savedProject = projectData?.length>1 ? res?.data?.projects:res?.data?.projects
               if(savedProject || savedProject?.length){
                 typeof window !== "undefined" && window.localStorage.setItem('savedProjects',JSON.stringify(savedProject))
                 router.push('/project/requirement/')

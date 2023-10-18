@@ -4,8 +4,6 @@ import { useGetProject } from "@/components/queries/query/project.query";
 import { messageData } from "@/components/redux/features/message/messageSlice";
 import { updateState } from "@/components/redux/features/update/updateSlice";
 import useToast from "@/components/utility/useToast";
-import { saveAs } from "file-saver";
-import JSZip from "jszip";
 import moment from "moment";
 import Link from "next/link";
 import { useState } from "react";
@@ -13,8 +11,10 @@ import { BsReply } from "react-icons/bs";
 import { CgCheck } from "react-icons/cg";
 import { useDispatch, useSelector } from "react-redux";
 import ImageModal from "../MessageImage/ImageModal";
+import ImageDownloader from "./ImageDownloader";
 
 function MessageDelivery({ message, setReply, update, setUpdate }) {
+  console.log(message?.sourceFiles)
   // get user
   const { user } = useSelector((state) => state.user);
 
@@ -59,36 +59,8 @@ function MessageDelivery({ message, setReply, update, setUpdate }) {
   const [loading, setLoading] = useState(false);
 
  
-  const downloadResourcesOnClick = async () => {
-    setLoading(true);
-    try {
-      const zip = new JSZip();
-      const remoteZips = message?.sourceFiles?.map(async (file) => {
-        const response = await fetch(
-          `http://103.49.169.89:30912/api/v1.0/files/download/public/${file?.fileId}`
-        );
-        const data = await response.blob();
-        zip.file(`${file?.originalFileName}.${file?.fileExtension}`, data);
-
-        return data;
-      });
-
-      Promise.all(remoteZips)
-        .then(() => {
-          zip.generateAsync({ type: "blob" }).then((content) => {
-            // give the zip file a name
-            saveAs(content, `${project?.title}.zip`);
-          });
-          setLoading(false);
-        })
-        .catch(() => {
-          setLoading(false);
-        });
-
-      setLoading(false);
-    } catch (error) {
-      setLoading(false);
-    }
+  const downloadResourcesOnClick = () => {
+   
   };
 
   // image id
@@ -289,11 +261,9 @@ function MessageDelivery({ message, setReply, update, setUpdate }) {
                       
                       {message?.delivery === "accept" ? (
                         <div className="flex justify-center mt-6 gap-6">
-                          <button
-                            onClick={downloadResourcesOnClick}
-                            className="px-6 py-1 rounded-full bg-blue-400 text-white font-bold"
-                          >
-                            Download All Files
+                          <button>
+                            <ImageDownloader images={message?.sourceFiles} />
+                            
                           </button>
                         </div>
                       ) : (

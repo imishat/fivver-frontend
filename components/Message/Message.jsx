@@ -97,6 +97,10 @@ const Message = () => {
   // input value
   const [value, setValue] = useState("");
 
+  const handleTextareaClick = (e) => {
+    setValue(prevText => prevText + e);
+  };
+
   const [loading,setLoading] = useState(false)
 
 
@@ -421,7 +425,7 @@ const localDate = new Date()
             <div className="w-full">
               {/* Quick Response */}
               {user?.role === "ADMIN" ? (
-                <AllQuickResponse value={value} setValue={setValue} />
+                <AllQuickResponse value={value} setValue={handleTextareaClick} />
               ) : (
                 ""
               )}
@@ -483,7 +487,7 @@ const localDate = new Date()
                     <div className="w-full">
                       <textarea
                         {...register("messageData", { required: true })}
-                        defaultValue={value}
+                        value={value}
                         id="sendbox"
                         className="w-full textarea textarea-bordered rounded-none"
                       ></textarea>

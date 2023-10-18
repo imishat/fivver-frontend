@@ -3,6 +3,7 @@ import { useThisMonthStatistics } from "@/components/queries/query/getStatistics
 import { useGetProject } from "@/components/queries/query/project.query";
 import { useGetVisitors } from "@/components/queries/query/visitors.query";
 import dynamic from "next/dynamic";
+import Pagination from "rc-pagination";
 import { useState } from "react";
 import { BsSearch } from "react-icons/bs";
 const ClientCard = dynamic(() => import("../ClientCard"), { ssr: false });
@@ -21,7 +22,11 @@ function Projects() {
   // sort
   const [status, setStatus] = useState("");
 
-  const { data: projectData } = useGetProject({ search: search, status: status,projectId:'' });
+   // pagination
+   const [currentPage,setCurrentPage] = useState(1)
+  
+
+  const { data: projectData,isLoading } = useGetProject({ search: search, status: status,projectId:'',page:currentPage,limit:10 });
 
   const projects = projectData?.data?.projects;
  
@@ -29,27 +34,32 @@ function Projects() {
   const { data: statusActive } = useGetProject({
     search: search,
     status: "",
-    projectId:''
+    projectId:'',
+    page:'',limit:''
   });
   const { data: statusWaiting } = useGetProject({
     search: search,
     status: "pending",
     projectId:'',
+    page:'',limit:''
   });
   const { data: statusRevision } = useGetProject({
     search: search,
     status: "revision",
     projectId:'',
+    page:'',limit:''
   });
   const { data: statusProcess } = useGetProject({
     search: search,
     status: "progress",
     projectId:'',
+    page:'',limit:''
   });
   const { data: statusDelivered } = useGetProject({
     search: search,
     projectId:'',
     status: "COMPLETED",
+    page:'',limit:''
   });
 
   // active
@@ -99,13 +109,19 @@ function Projects() {
   // all time statistics
   const {data:allTimeStatistics} = useAllStatistics({date:statisticsState})
   const allStatistics = allTimeStatistics?.data
+  console.log(allStatistics)
 
   /// visitors
   const [visitorsState,setVisitorsState] = useState('days7')
 
   const {data:getAllVisitors} = useGetVisitors({short:visitorsState})
 
-  const visitors = getAllVisitors?.data?.visitorCount
+  const visitors = getAllVisitors?.data?.visitorCount 
+
+
+
+  // Count
+  const count = Math.ceil((projectData?.data?.totalCount || 10 )/ 10)
   
   return (
     <div className="md:flex gap-3">
@@ -161,12 +177,19 @@ function Projects() {
           </div>
           {/* Client card */}
           <div className="py-3 space-y-3">
-            {projects?.length
+            {isLoading ? <div className="flex justify-center items-center h-96">
+              Loading..
+            </div>
+            :
+            projects?.length
               ? projects?.map((project, i) => {
                   return <ClientCard project={project} key={i} />;
                 })
               : "No Projects"}
           </div>
+          <div className="flex justify-center my-6">
+      <Pagination onChange={(e)=>setCurrentPage(e)} className="flex cursor-pointer select-none gap-2 px-3 py-1 " total={count} defaultPageSize={1} />
+      </div>
         </div>
       </div>
       <div className="md:w-1/3 space-y-6">

@@ -48,6 +48,7 @@ const {user} = useSelector(state => state.user)
             
            </div>
           <span className="cursor-pointer p-1" onClick={()=>setReply({reply:message?.content,messageId:message?.messageId})}><BsReply /></span>
+          
           </p>
         </div>
         </div>
