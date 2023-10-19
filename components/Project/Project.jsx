@@ -97,6 +97,7 @@ useEffect(()=>{
       description: singleDesign.description,
       size: singleDesign.size,
       fileFormat: singleDesign.fileFormat,
+      featuredImageId:singleDesign?.featuredImageId,
       categoryId: singleDesign.categoryId,
       subcategoryId: subCat,
       imageIds: singleDesign.imageIds,

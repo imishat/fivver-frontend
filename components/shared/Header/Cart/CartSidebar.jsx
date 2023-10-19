@@ -85,7 +85,7 @@ const CartSidebar = ({ cartShow, setCartShow }) => {
                     <div className="w-20 h-16">
                       <img
                         className="w-full h-full object-cover"
-                        src={`http://103.49.169.89:30912/api/v1.0/files/download/public/${cart.imageIds[0]}`}
+                        src={`http://103.49.169.89:30912/api/v1.0/files/download/public/${cart?.featuredImageId ? cart?.featuredImageId : cart?.imageIds[0]}`}
                         alt=""
                       />
                     </div>

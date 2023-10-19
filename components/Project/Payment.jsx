@@ -1,11 +1,15 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useCreateManyProject } from "../queries/mutation/manyProject.mutation";
+import { useGetProject } from "../queries/query/project.query";
 import PaymentProjectCard from "./PaymentProjectCard";
 
 const Payment = () => {
 // router
 const router = useRouter()
+
+const {data:allProjects} = useGetProject({status:'',search:'',projectId:'',page:'',limit:''})
+console.log(allProjects)
   // project create loading
   const [projectLoading, setProjectLoading] = useState(false);
 // Create Project 

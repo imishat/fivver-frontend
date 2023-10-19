@@ -14,7 +14,7 @@ console.log(selectedDesign)
         {selectedOption ? (
           <div className='flex justify-between items-center w-full mr-6'>
             <div className='flex p-1 items-center gap-2'>
-            <img className="w-12 h-12" src={`http://103.49.169.89:30912/api/v1.0/files/download/public/${selectedOption?.imageIds[0]}`} alt="" />
+            <img className="w-12 h-12" src={`http://103.49.169.89:30912/api/v1.0/files/download/public/${selectedOption?.featuredImageId ? selectedOption?.featuredImageId : selectedOption?.imageIds[0]}`} alt="" />
             <span className='text-lg font-bold'>{selectedOption.title}</span>
           </div>
           <span className='text-xl'>⮟</span>
@@ -40,7 +40,7 @@ console.log(selectedDesign)
               setSingleDesign(option)
               setIsOpen(false);
             }}>
-               <img className="w-12 h-12" src={`http://103.49.169.89:30912/api/v1.0/files/download/public/${option?.imageIds[0]}`} alt="" />
+               <img className="w-12 h-12" src={`http://103.49.169.89:30912/api/v1.0/files/download/public/${option?.featuredImageId ? option?.featuredImageId : option?.imageIds[0]}`} alt="" />
               <span>{option?.title}</span>
             </div>
           ))}
