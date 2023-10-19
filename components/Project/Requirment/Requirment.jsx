@@ -199,12 +199,14 @@ const Requirement = ({ project }) => {
       },
     });
   };
+
   const nowUTC = new Date(Date.now());
 
-     // Add 6 hours
-     nowUTC.setUTCHours(nowUTC.getUTCHours() + 6);   
-     const deadline = nowUTC.toISOString();
+  const hoursToAdd = 24 * parseInt(project?.isExtraFastDeliveryEnabled ? 1:2);
 
+  // Add 6 hours
+  nowUTC.setUTCHours((nowUTC.getUTCHours()* hoursToAdd) + 6 );   
+  const deadline = nowUTC?.toISOString();
  
 
   /// handle submit requirement

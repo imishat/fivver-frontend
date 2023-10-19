@@ -312,6 +312,7 @@ const Activity = () => {
                             {/* // Normal Message */}
                             {message?.type === "offer" && (
                               <OfferMessageCard
+                              project={project}
                                 setReply={setReply}
                                 key={message.messageId}
                                 message={message}

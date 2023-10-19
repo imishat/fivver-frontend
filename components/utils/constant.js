@@ -17,9 +17,9 @@ export const SING_UP="users/login";
 export const USER_SEND_OTP='/users/otp'
 //user verify 
 
-export const GET_USER_VERIFY='/users/verify'
+export const GET_USER_VERIFY='users/verify'
 //get admin status
-export const GET_ADMIN_STATS ='/users/admin/stats'
+export const GET_ADMIN_STATS ='users/admin/stats'
 // Create project
 export const CREATE_DESIGN="designs"
 // inquiries

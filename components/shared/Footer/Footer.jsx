@@ -1,5 +1,5 @@
     import SocialIcons from "@/components/CustomarProfile/SocialIcons";
-import { useCreateInquiries } from "@/components/queries/mutation/inquiries.mutation";
+import { useCreateMessage } from "@/components/queries/mutation/message.mutation";
 import useToast from "@/components/utility/useToast";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -14,22 +14,26 @@ import { useSelector } from "react-redux";
 
         const router = useRouter()
         const {user} = useSelector((state)=>state.user)
-
+console.log(user)
         const {showToast,Toast} = useToast()
 
         // create useCreateInquiries
-        const {mutate:createInquiry} = useCreateInquiries()
+        const {mutate:createMessage} = useCreateMessage()
 
         /// handle send message
         const handleSendMessage = (data) =>{
             const messageData = {
+                type:'start',
                 "name": data?.name,
                 "email": data?.email,
                 "website": data?.website,
                 "favoriteDesign": data?.design,
-                "message": data?.message
+                "projectId": "",
+                "receiverId": user?.userId,
+                sender:{senderId:user?.userId,name:user?.fullName,profilePicture:user?.profilePicture},
+                "content": data?.message
             }
-            createInquiry(data,{
+            createMessage(messageData,{
                 onSuccess: (res) => {
                   showToast('Message send to Admin', "success");
                   reset()

@@ -1,7 +1,9 @@
 import { useCreteAccount } from "@/components/queries/mutation/user.mutation";
+import { useGetOtp } from "@/components/queries/query/sendOtp.query";
 import { Spin } from "@/components/utility/LoadingSpinner";
 import useToast from "@/components/utility/useToast";
 import { useRouter } from "next/router";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 const SIgnUp = ({ setToggle }) => {
@@ -21,12 +23,28 @@ const SIgnUp = ({ setToggle }) => {
     reset,
     formState: { errors },
   } = useForm();
+  
+
+  const [email,setEmail] = useState('')
+
+  const {data:sendMail} = useGetOtp({email:email})
+
+  const sendData = sendMail?.data
+  console.log(sendData)
+
+
+  // handle send verification mail
+  const handleSendMail = (email) =>{
+    setEmail(email)
+
+  }
 
   //   handle signup
   const handleSignUp = (data) => {
   
     LoginData(data,{
       onSuccess: (res) => {
+        handleSendMail(data?.email)
       showToast('crate account', 'success');
       reset()
       router.push('/auth/user-verify')

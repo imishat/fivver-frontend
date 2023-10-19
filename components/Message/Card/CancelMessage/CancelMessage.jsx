@@ -9,7 +9,9 @@ import useToast from "@/components/utility/useToast";
 import moment from "moment";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import { BsReply } from "react-icons/bs";
+import { MdOutlineDelete } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 
 function CancelMessage({message,setReply}) {
@@ -57,8 +59,48 @@ const handleDeleteExtendDate = (id) =>{
 
 
 
+  // This is the specific date from which you want to start the timer
+  const specificDate = new Date(message?.createdAt); // Example date - replace with your desired date
+
+  // State to hold whether data is visible
+  const [isVisible, setIsVisible] = useState(true);
 
 
+  useEffect(() => {
+    // Function to check if 5 minutes have passed
+    const checkTime = () => {
+      const currentTime = new Date();
+      const timeDifference = currentTime - specificDate;
+      if (timeDifference > 5 * 60 * 1000) {  // 5 minutes in milliseconds
+        setIsVisible(false);
+      }
+    };
+
+
+
+    const interval = setInterval(checkTime, 1000);  // Check every second
+
+    // Cleanup: clear the interval when the component is unmounted
+    return () => clearInterval(interval);
+  }, [specificDate]);
+
+  // handle delete 
+  const handleDelete = (id) =>{
+
+    const deleteData = {
+      id:id,
+      type:'messages'
+    }
+    deleteMessage(deleteData,{
+      onSuccess: (res) => {
+        showToast(`Message Deleted' }`, "success");
+        dispatch(updateState(!messageUpdate?.update))
+      },
+      onError: (err) => {
+        showToast(err?.message);
+      },
+    })
+  }
 
 
 
@@ -228,7 +270,9 @@ return (
         <p id={message?.messageId} className={`text-sm bg-base-100  flex items-center gap-2 ${message?.reply? 'mt-0':''}`}>
            {/* {message?.message} */}
           <span className="cursor-pointer p-1" onClick={()=>setReply({reply:message?.message,messageId:message?.messageId})}><BsReply /></span>
+          {(isVisible && message?.sender?.senderId === user?.userId) && message?.createdAt ? <span className="cursor-pointer p-2" onClick={()=>handleDelete(message?.messageId)}><MdOutlineDelete size={16} /></span>:''}
           </p>
+          
         </div>
         </div>
      

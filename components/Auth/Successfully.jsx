@@ -22,8 +22,8 @@ const Successfully=()=>{
         <h3 className="text-[#F47458] text-center  text-base sm:text-lg md:text-xl lg:text-2xl font-semibold ">
         User account is verified
         </h3>
-    <Link href={`/join`}>
-    <button type="submit" className="px-4 py-2  w-full text-[#1B8CDC]">Login</button>
+    <Link href={`/join`} className="flex justify-center">
+    <button type="submit" className="px-4 py-2 bg-blue-100 my-12 w-24 rounded-md text-[#1B8CDC]">Login</button>
     </Link>
       </div>
 

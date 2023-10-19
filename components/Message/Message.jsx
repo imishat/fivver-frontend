@@ -405,7 +405,7 @@ const localDate = new Date()
                     />
                   )}
                   {/* // Like Message */}
-                  {message?.type === "like" && (
+                  {message?.type === "start" && (
                     <MessageLike
                       setReply={setReply}
                       key={message.messageId}

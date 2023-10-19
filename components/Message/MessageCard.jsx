@@ -100,7 +100,7 @@ const messageUpdate = useSelector((state)=>state.update)
            {message?.content}
           <span className="cursor-pointer p-1" onClick={()=>setReply({reply:message?.content,messageId:message?.messageId})}><BsReply /></span>
           {/* delete message */}
-          {isVisible && message?.createdAt ? <span className="cursor-pointer p-2" onClick={()=>handleDelete(message?.messageId)}><MdOutlineDelete size={16} /></span>:''}
+          {(isVisible && message?.sender?.senderId === user?.userId )&& message?.createdAt ? <span className="cursor-pointer p-2" onClick={()=>handleDelete(message?.messageId)}><MdOutlineDelete size={16} /></span>:''}
           </p>
         </div>
         </div>
