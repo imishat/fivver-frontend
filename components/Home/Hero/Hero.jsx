@@ -2,7 +2,7 @@ const Hero = () => {
   return (
     <div>
       <div>
-        <img src="./images/hero.png" className="w-full " alt="" />
+        <img src="./images/hero.jpg" className="w-full " alt="" />
       </div>
       <div className="bg-rose-100 flex justify-center text-center py-4">
         <div className="md:text-2xl font-semibold">

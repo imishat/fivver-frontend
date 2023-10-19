@@ -1,8 +1,11 @@
 import { useQuickResponse } from "@/components/queries/mutation/quickResponse.mutation";
+import { useGetQuickResponse } from "@/components/queries/query/getQuickResponse.query";
+import { updateState } from "@/components/redux/features/update/updateSlice";
 import useToast from "@/components/utility/useToast";
 import { useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
 
-function EditModal({quickResponse}) {
+function EditModal({quickId}) {
     // react hook form custom offer
   const {
     register:editRegister,
@@ -11,11 +14,24 @@ function EditModal({quickResponse}) {
     formState: { errors:editErrors },
   } = useForm()
 
+  const dispatch = useDispatch()
+
+  const messageUpdate = useSelector((state)=>state.update)
+
 
     // toast
     const { Toast, showToast } = useToast();
   // update quick response
   const {mutate:editQuick} = useQuickResponse()
+
+
+  const { data: quickResponseData } = useGetQuickResponse({
+    quickResponseId: quickId,
+    update: messageUpdate?.update,
+  });
+
+  const quickResponse = quickResponseData?.data?.quickResponse
+  console.log(quickResponse,quickId)
 
     // handle handleEditQuick
     const handleEditQuick = data =>{
@@ -28,7 +44,7 @@ function EditModal({quickResponse}) {
       editQuick(editData,{
         onSuccess: (res) => {
           showToast("Quick Response Update", "success");
-          editReset()
+          dispatch(updateState(!messageUpdate?.update))
           // router.reload();
         },
         onError: (err) => {

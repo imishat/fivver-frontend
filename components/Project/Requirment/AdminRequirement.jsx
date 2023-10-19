@@ -1,23 +1,70 @@
+import { useUpdateProject } from "@/components/queries/mutation/updateProject.mutation";
+import useToast from "@/components/utility/useToast";
 import Link from "next/link";
 import { FiDownloadCloud } from "react-icons/fi";
 
 function AdminRequirement({project}) {
     const requirement = project?.requirement
-    console.log(requirement)
+     // handle skip requirement
+  // update project
+
+    // toast
+    const { showToast, Toast } = useToast();
+
+  const { mutate: updateProject, isLoading } = useUpdateProject();
+
+     const nowUTC = new Date(Date.now());
+
+     const hoursToAdd = 24 * parseInt(requirement?.days || 2);
+
+     // Add 6 hours
+     nowUTC.setUTCHours((nowUTC.getUTCHours()* hoursToAdd) + 6 );   
+     const deadline = nowUTC?.toISOString();
+
+  const handleSkip = (projectId) => {
+    if (projectId) {
+      const requirementData = {
+        id: projectId,
+        deadline: deadline,
+        categoryId: project?.categoryId,
+        subcategoryId: project?.subcategoryId,
+        track: 2,
+        status: "Progress",
+        requirement: {},
+      };
+
+      updateProject(requirementData, {
+        onSuccess: (res) => {
+          if (res?.data) {
+            showToast("Project Start", "success");
+            console.log(res?.data, "Project Update");
+            // reset()
+          } else {
+            showToast("Requirement Send Failed");
+          }
+        },
+        onError: (err) => {
+          showToast(err?.response?.data?.message);
+        },
+      });
+    }
+  };
     return (
         <div>
             {/* Which industry do you work in */}
+            <Toast />
           <div>
                 <h2 className="font-bold text-xl text-left list-inside list-item list-disc">Which industry do you work in?</h2>
                 <p>{requirement?.industry}</p>
                 <div>
-                   {
-                   requirement?.industryFile.map((file,i)=>{
+                   { requirement?.industryFile?.length ?
+                   requirement?.industryFile?.map((file,i)=>{
                         return  <Link target="_blank" href={`${process.env.NEXT_PUBLIC_DOWNLOAD}/${file?.fileId}`} key={i} className="flex items-center gap-3">
+                           <img className="w-20 h-44 rounded" src={`${process.env.NEXT_PUBLIC_DOWNLOAD}/${file?.fileId}`} alt="" />
                             <p className="font-bold text-lg">Attachments {i+1}</p> 
                             <button><FiDownloadCloud size={23} /></button>
                         </Link>
-                    })
+                    }):''
                       }  
                 </div>
             </div>
@@ -26,13 +73,14 @@ function AdminRequirement({project}) {
                 <h2 className="font-bold text-xl text-left list-inside list-item list-disc">Do you have your own/company logo?</h2>
                 <p>{requirement?.companyLogo}</p>
                 <div>
-                   {
-                    requirement?.logoFile.map((file,i)=>{
-                        return  <Link href={`${process.env.NEXT_PUBLIC_DOWNLOAD}/${file?.fileId}`} key={i} className="flex items-center gap-3">
+                   {requirement?.logoFile?.length ?
+                    requirement?.logoFile?.map((file,i)=>{
+                        return  <Link target="_blank" href={`${process.env.NEXT_PUBLIC_DOWNLOAD}/${file?.fileId}`} key={i} className="flex items-center gap-3">
+                           <img className="w-20 h-44 rounded" src={`${process.env.NEXT_PUBLIC_DOWNLOAD}/${file?.fileId}`} alt="" />
                             <p className="font-bold text-lg">Attachments {i+1}</p> 
                             <button><FiDownloadCloud size={23} /></button>
                         </Link>
-                    })
+                    }):''
                       }  
                 </div>
             </div>
@@ -41,13 +89,14 @@ function AdminRequirement({project}) {
                 <h2 className="font-bold text-xl text-left list-inside list-item list-disc">Do you have own/company website?</h2>
                 <p>{requirement?.website}</p>
                 <div>
-                   {
-                   requirement?.websiteFile.map((file,i)=>{
-                        return  <Link href={`${process.env.NEXT_PUBLIC_DOWNLOAD}/${file?.fileId}`} key={i} className="flex items-center gap-3">
+                   {requirement?.websiteFile?.length ?
+                   requirement?.websiteFile?.map((file,i)=>{
+                        return  <Link target="_blank" href={`${process.env.NEXT_PUBLIC_DOWNLOAD}/${file?.fileId}`} key={i} className="flex items-center gap-3">
+                           <img className="w-20 h-44 rounded" src={`${process.env.NEXT_PUBLIC_DOWNLOAD}/${file?.fileId}`} alt="" />
                             <p className="font-bold text-lg">Attachments {i+1}</p> 
                             <button><FiDownloadCloud size={23} /></button>
                         </Link>
-                    })
+                    }):''
                       }  
                 </div>
             </div>
@@ -56,13 +105,14 @@ function AdminRequirement({project}) {
                 <h2 className="font-bold text-xl text-left list-inside list-item list-disc">Do you have any imaginary or specific design idea?</h2>
                 <p>{requirement?.designIdea}</p>
                 <div>
-                   {
-                   requirement?.ideaFile.map((file,i)=>{
-                        return  <Link href={`${process.env.NEXT_PUBLIC_DOWNLOAD}/${file?.fileId}`} key={i} className="flex items-center gap-3">
+                   {requirement?.ideaFile?.length ?
+                   requirement?.ideaFile?.map((file,i)=>{
+                        return  <Link target="_blank" href={`${process.env.NEXT_PUBLIC_DOWNLOAD}/${file?.fileId}`} key={i} className="flex items-center gap-3">
+                           <img className="w-20 h-44 rounded" src={`${process.env.NEXT_PUBLIC_DOWNLOAD}/${file?.fileId}`} alt="" />
                             <p className="font-bold text-lg">Attachments {i+1}</p> 
                             <button><FiDownloadCloud size={23} /></button>
                         </Link>
-                    })
+                    }):''
                       }  
                 </div>
             </div>
@@ -71,13 +121,14 @@ function AdminRequirement({project}) {
                 <h2 className="font-bold text-xl text-left list-inside list-item list-disc">Do you have your specific design size?</h2>
                 <p>{requirement?.designSize}</p>
                 <div>
-                   {
-                    requirement?.sizeFile.map((file,i)=>{
-                        return  <Link href={`${process.env.NEXT_PUBLIC_DOWNLOAD}/${file}`} key={i} className="flex items-center gap-3">
+                   {requirement?.sizeFile?.length ?
+                    requirement?.sizeFile?.map((file,i)=>{
+                        return  <a href={`${process.env.NEXT_PUBLIC_DOWNLOAD}/${file?.fileId}`} key={i} target="_blank" className="flex items-center gap-3">
+                          <img className="w-20 h-44 rounded" src={`${process.env.NEXT_PUBLIC_DOWNLOAD}/${file?.fileId}`} alt="" />
                             <p className="font-bold text-lg">Attachments {i+1}</p> 
                             <button><FiDownloadCloud size={23} /></button>
-                        </Link>
-                    })
+                        </a>
+                    }):''
                       }  
                 </div>
             </div>
@@ -86,16 +137,28 @@ function AdminRequirement({project}) {
                 <h2 className="font-bold text-xl text-left list-inside list-item list-disc">You have to give clear information that you need in the design?</h2>
                 <p>{requirement?.designInfo}</p>
                 <div>
-                   {
-                    requirement?.informationFile.map((file,i)=>{
-                        return  <Link href={`${process.env.NEXT_PUBLIC_DOWNLOAD}/${file?.fileId}`} key={i} className="flex items-center gap-3">
+                   {requirement?.informationFile?.length ?
+                    requirement?.informationFile?.map((file,i)=>{
+                        return  <Link target="_blank" href={`${process.env.NEXT_PUBLIC_DOWNLOAD}/${file?.fileId}`} key={i} className="flex items-center gap-3">
+                           <img className="w-20 h-20 rounded" src={`${process.env.NEXT_PUBLIC_DOWNLOAD}/${file?.fileId}`} alt="" />
                             <p className="font-bold text-lg">Attachments {i+1}</p> 
                             <button><FiDownloadCloud size={23} /></button>
                         </Link>
-                    })
+                    }):''
                       }  
                 </div>
             </div>
+            {/* Skip */}
+{ !requirement?.companyLogo?.length ?
+     <div className="flex justify-center items-center">
+     <div className="py-2">
+             <button onClick={()=>handleSkip(project?.projectId)} className="btn btn-sm px-4 py-1 rounded-full">
+               Skip
+             </button>
+           </div>
+</div>:''
+}
+           
         </div>
     );
 }

@@ -102,12 +102,12 @@ useEffect(()=>{
       imageIds: singleDesign.imageIds,
       quantity: parseInt(data.quantity),
       isExtraFastDeliveryEnabled: data.extraFast,
-      totalPrice: extraFast ?
-         ((subcategory?.price + 10 )  * quantity)
+      totalCost: extraFast ?
+         ((parseInt(subcategory?.price) + 10 )  * quantity)
         
         :
         
-        ( subcategory?.price * quantity)
+        ( parseInt(subcategory?.price) * quantity)
         }
     
 
@@ -135,7 +135,7 @@ useEffect(()=>{
 
 
   // get all price
- const totalPrice = projectData?.length && projectData?.reduce((prev,current) =>  prev + current.totalPrice, 0);
+ const totalPrice = projectData?.length && projectData?.reduce((prev,current) =>  prev + current.totalCost, 0);
   return (
     <div className="w-full ">
       {/* warinig */}
@@ -269,13 +269,13 @@ useEffect(()=>{
                 {
                
                 extraFast ?
-                 ((subcategory?.price + 10 )  * quantity
+                 ((parseInt(subcategory?.price) + 10 )  * quantity
                  ||
                  subCatPrice)
                 
                 :
                 
-                ( subcategory?.price * quantity 
+                ( parseInt(subcategory?.price) * quantity 
                 ||
                 subCatPrice)}</h1>
               </div>

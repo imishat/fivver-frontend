@@ -1,10 +1,7 @@
+import EmojiPicker from 'emoji-picker-react';
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import {
-  BsArrowDownCircle,
-  BsCheckLg,
-  BsThreeDotsVertical,
-} from "react-icons/bs";
+import { BsArrowDownCircle, BsCheckLg } from "react-icons/bs";
 import { IoCloseCircleOutline } from "react-icons/io5";
 import { MdAttachment } from "react-icons/md";
 import useToast from "../utility/useToast";
@@ -24,14 +21,20 @@ import { useGetProject } from "../queries/query/project.query";
 import { messagesState } from "../redux/features/message/allMessagesSlice";
 import { updateState } from "../redux/features/update/updateSlice";
 import CancelModal from "./CancelModal/CancelModal";
+import CancelMessage from './Card/CancelMessage/CancelMessage';
 import ExtendMessage from "./Card/ExtendMessage/ExtendMessage";
 import ExtendDeliveryModal from "./ExtendDelivery/ExtendDeliveryModal";
 import MessageCard from "./MessageCard";
 import MessageDelivery from "./MessageDelivery/MessageDelivery";
 import MessageFiles from "./MessageFiles/MessageFiles";
-import MessageLike from "./MessageLike/MessageLike";
-import OfferMessageCard from "./OfferMessageCard";
-import ProjectCountDown from "./ProjectCountDown";
+
+const OfferMessageCard = dynamic(() => import("./OfferMessageCard"), {
+  ssr: false,
+});
+const ProjectCountDown = dynamic(() => import("./ProjectCountDown"), {
+  ssr: false,
+});
+
 const CustomOfferModal = dynamic(() => import("./CustomOfferModal"), {
   ssr: false,
 });
@@ -63,8 +66,7 @@ const Activity = () => {
   const router = useRouter();
   const { projectId } = router.query;
   // socket hook
-  const {  sendMessage, returnMessage } = useSocketChat();
-
+  const { sendMessage, returnMessage } = useSocketChat();
 
   // get project b y id
   const { data: projectData } = useGetProject({
@@ -87,14 +89,14 @@ const Activity = () => {
   const [images, setImages] = useState([]);
 
   // image upload call
-  const { mutate: sendFileData } = useUploadFile({ watermark: false });
+  const { mutate: sendFileData } = useUploadFile({ watermark: true });
 
   // get all message with redux
   const messagesRedux = useSelector((state) => state.messages);
   // get update with redux
   const messageUpdate = useSelector((state) => state.update);
 
-    // get update with redux
+  // get update with redux
   // get message by projectId
   const {
     data: messageData,
@@ -121,6 +123,20 @@ const Activity = () => {
   // input value
   const [value, setValue] = useState("");
 
+  const handleTextareaClick = (e) => {
+    setValue((prevText) => prevText + e);
+  };
+
+   // show and hide emoji
+   const [showEmoji,setShowEmoji]= useState(false)
+
+
+// set emoji in textarea
+ const handleEmojiSelect = (event, emojiObject) => {
+  setValue((prevText) => prevText + event?.emoji);
+  setShowEmoji(!showEmoji)
+  };
+
   // toast
   const { Toast, showToast } = useToast();
   // console.log(quickResponseData);
@@ -137,24 +153,8 @@ const Activity = () => {
   // Reply
   const [reply, setReply] = useState({});
 
-  // handle send like
-  const handleSendLike = () => {
-    const sendLike = {
-      type: "like",
-      content: "👍",
-      projectId: project?.projectId,
-      reply: reply,
-      userId: userInfo?.userId,
-      receiverId: userInfo?.userId,
-      userName: userInfo?.fullName,
-    };
-    // send
-    sendMessage(sendLike);
-    dispatch(updateState(!messageUpdate?.update))
-    setReply({});
-    showToast("Liked", "success");
-  };
 
+  
   // blob images for preview images
   let imagesBlobs = [];
 
@@ -190,6 +190,7 @@ const Activity = () => {
             projectId: project?.projectId,
             content: data?.messageData,
             reply: reply,
+            messageType: "unread",
             files: imageIds,
             userId: project?.startedBy,
             receiverId: project?.startedBy,
@@ -198,7 +199,7 @@ const Activity = () => {
 
           // send
           sendMessage(sendMessageData);
-          dispatch(updateState(!messageUpdate?.update))
+          dispatch(updateState(!messageUpdate?.update));
           reset();
           setReply({});
           setImages([]);
@@ -218,12 +219,13 @@ const Activity = () => {
         projectId: project?.projectId,
         content: data?.messageData,
         reply: reply,
+        messageType: "unread",
         receiverId: project?.startedBy,
         userId: project?.startedBy,
       };
       // send
       sendMessage(sendMessageData);
-      dispatch(updateState(!messageUpdate?.update))
+      dispatch(updateState(!messageUpdate?.update));
       showToast("Message Send", "success");
       reset();
       setReply({});
@@ -234,10 +236,13 @@ const Activity = () => {
 
   useEffect(() => {
     handleClick();
-    dispatch(updateState(!messageUpdate?.update))
+    dispatch(updateState(!messageUpdate?.update));
     dispatch(messagesState([...messagesRedux?.messages, returnMessage]));
   }, [returnMessage]);
-
+  const getOppositeUserMessage = messages?.filter(
+    (message) => message?.sender?.senderId !== user?.userId
+  );
+  const lastMessage = getOppositeUserMessage?.at(-1);
 
   return (
     <>
@@ -270,138 +275,98 @@ const Activity = () => {
           {/* Body */}
           {toggle === "activity" ? (
             <div className="w-full">
-              <div className="h-14 w-full bg-[#EFEFEF] pl-4 flex items-center">
-                {/* Top bar */}
-                <div className="flex items-center justify-between w-full">
-                  <div className="flex justify-between w-full items-center leading-4">
-                    <div>
-                      <strong>{userInfo?.fullName}</strong>
-                      <p className="text-xs">
-                        Last seen 1 min ago | Local Time:{" "}
-                        {moment(new Date()).format("LLL")}
-                      </p>
-                    </div>
-                    <div>
-                      {user?.role === "ADMIN" ? (
-                        <details className="dropdown dropdown-left md:dropdown-open md:dropdown-bottom">
-                          <summary className="m-1 btn">
-                            <BsThreeDotsVertical />
-                          </summary>
-                          <ul className="p-2 shadow dropdown-content z-[1] bg-base-100 rounded w-28">
-                            <li className="w-20">
-                              <a className="px-3 cursor-pointer py-2 inline-block hover:bg-gray-400 w-24">
-                                Star
-                              </a>
-                            </li>
-                            <li className="w-20">
-                              <a className="px-3 cursor-pointer py-2 inline-block hover:bg-gray-400 w-24">
-                                Block
-                              </a>
-                            </li>
-                            <li className="w-20">
-                              <a className="px-3 cursor-pointer py-2 inline-block hover:bg-gray-400 w-24">
-                                Unblock
-                              </a>
-                            </li>
-                          </ul>
-                        </details>
-                      ) : (
-                        ""
-                      )}
-                      {/* <button><BsThreeDotsVertical /></button> */}
-                    </div>
-                  </div>
-                </div>
-              </div>
               {/* Message body */}
-              {
-                isLoading ? 
+              {isLoading ? (
                 <div className="space-y-3">
-                 {
-                   [...Array(5).keys()].map((item,i)=>{
-                    return <div key={i}>
-                      <div className="flex items-center gap-2">
-                        <span className="h-12 w-12 bg-base-300 animate-pulse rounded-full"></span>
-                        <span className="h-4 w-44 bg-base-300 animate-pulse rounded-lg"></span>
-                      </div>
-                      <div>
-                        <div className="h-24 bg-base-300 animate-pulse rounded-md w-96 ml-12"></div>
-                      </div>
-                    </div>
-                   })
-                 }
-                </div>
-                : 
-                <div className="overflow-y-auto h-auto max-h-[600px]">
-                {/* Client */}
-                {messages?.length &&
-                  messages?.map((message,i) => {
+                  {[...Array(5).keys()].map((item, i) => {
                     return (
-                      <>
-                        <div key={i}>
-                          <div ref={ref}></div>
-                          {/* // offer message */}
-                          {message?.type === "normal" && (
-                            <MessageCard
-                              setReply={setReply}
-                              key={message.messageId}
-                              message={message}
-                            />
-                          )}
-                          {/* // Normal Message */}
-                          {message?.type === "offer" && (
-                            <OfferMessageCard
-                              setReply={setReply}
-                              key={message.messageId}
-                              message={message}
-                            />
-                          )}
-                          {/* // like Message */}
-                          {message?.type === "like" && (
-                            <MessageLike
-                              setReply={setReply}
-                              key={message.messageId}
-                              message={message}
-                            />
-                          )}
-                          {/* Files Message */}
-                          {message?.type === "file" && (
-                            <MessageFiles
-                              setReply={setReply}
-                              key={message.messageId}
-                              message={message}
-                            />
-                          )}
-                          {/* Delivery Message */}
-                          {message?.type === "delivery" && (
-                            <MessageDelivery
-                              update={update}
-                              setUpdate={setUpdate}
-                              setReply={setReply}
-                              key={message.messageId}
-                              message={message}
-                            />
-                          )}
-                          {/* Extend Delivery */}
-                          {message?.type === "extend" && (
-                            <ExtendMessage
-                              update={update}
-                              
-                              setUpdate={setUpdate}
-                              setReply={setReply}
-                              key={message.messageId}
-                              message={message}
-                            />
-                          )}
+                      <div key={i}>
+                        <div className="flex items-center gap-2">
+                          <span className="h-12 w-12 bg-base-300 animate-pulse rounded-full"></span>
+                          <span className="h-4 w-44 bg-base-300 animate-pulse rounded-lg"></span>
                         </div>
-                      </>
+                        <div>
+                          <div className="h-24 bg-base-300 animate-pulse rounded-md w-96 ml-12"></div>
+                        </div>
+                      </div>
                     );
                   })}
-                {/* Redux */}
-              
-              </div>
-              }
-             
+                </div>
+              ) : (
+                <div className="overflow-y-auto h-auto max-h-[600px]">
+                  {/* Client */}
+                  {messages?.length ? (
+                    messages?.map((message, i) => {
+                      return (
+                        <>
+                          <div key={i}>
+                            <div ref={ref}></div>
+                            {/* // offer message */}
+                            {message?.type === "normal" && (
+                              <MessageCard
+                                setReply={setReply}
+                                key={message.messageId}
+                                message={message}
+                              />
+                            )}
+                            {/* // Normal Message */}
+                            {message?.type === "offer" && (
+                              <OfferMessageCard
+                              project={project}
+                                setReply={setReply}
+                                key={message.messageId}
+                                message={message}
+                              />
+                            )}
+                            {/* // like Message */}
+                            {message?.type === "cancel" && (
+                              <CancelMessage
+                                setReply={setReply}
+                                key={message.messageId}
+                                message={message}
+                              />
+                            )}
+                            {/* Files Message */}
+                            {message?.type === "file" && (
+                              <MessageFiles
+                                setReply={setReply}
+                                key={message.messageId}
+                                message={message}
+                              />
+                            )}
+                            {/* Delivery Message */}
+                            {message?.type === "delivery" && (
+                              <MessageDelivery
+                                update={update}
+                                setUpdate={setUpdate}
+                                setReply={setReply}
+                                key={message.messageId}
+                                message={message}
+                              />
+                            )}
+                            {/* Extend Delivery */}
+                            {message?.type === "extend" && (
+                              <ExtendMessage
+                                update={update}
+                                setUpdate={setUpdate}
+                                setReply={setReply}
+                                key={message.messageId}
+                                message={message}
+                              />
+                            )}
+                          </div>
+                        </>
+                      );
+                    })
+                  ) : (
+                    <div className="flex items-center justify-center h-96">
+                      <p>No Message</p>
+                    </div>
+                  )}
+                  {/* Redux */}
+                </div>
+              )}
+
               {/* send box */}
               <div className="border border-gray-500 m-2 relative">
                 {/* Scroll Down */}
@@ -414,7 +379,12 @@ const Activity = () => {
                 <div>
                   <div>
                     {/* Quick Response */}
-                    <AllQuickResponse setValue={setValue} value={value} />
+
+                    <AllQuickResponse
+                      lastMessage={lastMessage}
+                      setValue={handleTextareaClick}
+                      value={value}
+                    />
                   </div>
                   <div className="my-2 relative">
                     {/* If Reply Message */}
@@ -468,18 +438,28 @@ const Activity = () => {
                       <div className="w-full">
                         <textarea
                           {...register("messageData", { required: true })}
-                          defaultValue={value}
+                          value={value}
                           id="sendbox"
+                          onChange={(e) => setValue(e.target.value)}
                           className="w-full textarea textarea-bordered rounded-none"
                         ></textarea>
                       </div>
-                      <div className="flex items-center ">
+                      <div className="flex items-center relative">
                         {/* Like */}
+                        <div  className="w-14 relative text-xl cursor-pointer right-0 flex justify-center">
+                          {
+                            showEmoji ? <span className='w-full h-full fixed left-0 top-0 ' onClick={()=>setShowEmoji(!showEmoji)}></span>:''
+                          }
+                          <span onClick={()=>setShowEmoji(!showEmoji)}>👍</span>
+                          {
+                            showEmoji ? <div className='absolute left-0 -top-96'><EmojiPicker onEmojiClick={handleEmojiSelect} /></div>:''
+                          }
+                        </div>
                         <span
-                          onClick={() => handleSendLike()}
-                          className="w-14 text-xl cursor-pointer flex justify-center"
+                          // onClick={() => handleSendLike()}
+                        
                         >
-                          👍
+                       
                         </span>
                         <span className="pr-5 pl-3">|</span>
                         <span className="flex w-full gap-6 items-center">
@@ -544,29 +524,33 @@ const Activity = () => {
             {" "}
             01 <span>Seconds</span> 
            </p> */}
-              <ProjectCountDown deadline={project?.deadline} />
+              <ProjectCountDown
+                project={project}
+                deadline={project?.deadline}
+              />
             </div>
-            {
-              user?.role==='ADMIN' ? 
+            {user?.role === "ADMIN" ? (
               <>
-              <button
-              onClick={() =>
-                document.getElementById("modal_delivery").showModal()
-              }
-              className="bg-blue-500 w-full text-center py-1 font-bold text-lg text-white"
-            >
-              Deliver Now
-            </button>
-            <button
-              onClick={() =>
-                document.getElementById("extend_modal").showModal()
-              }
-              className="text-center py-3 flex justify-center w-full"
-            >
-              Extend delivery date
-            </button>
-            </>:''
-            }
+                <button
+                  onClick={() =>
+                    document.getElementById("modal_delivery").showModal()
+                  }
+                  className="bg-blue-500 w-full text-center py-1 font-bold text-lg text-white"
+                >
+                  Deliver Now
+                </button>
+                <button
+                  onClick={() =>
+                    document.getElementById("extend_modal").showModal()
+                  }
+                  className="text-center py-3 flex justify-center w-full"
+                >
+                  Extend delivery date
+                </button>
+              </>
+            ) : (
+              ""
+            )}
           </div>
           {/* Project Details */}
           <div className="bg-blue-50 p-2 px-4">
@@ -658,7 +642,9 @@ const Activity = () => {
                   className={`absolute ${
                     project?.track >= 1
                       ? "bg-blue-500"
-                      : ` ${project?.track >= 0 ? 'bg-blue-500':'bg-white'} border border-gray-500`
+                      : ` ${
+                          project?.track >= 0 ? "bg-blue-500" : "bg-white"
+                        } border border-gray-500`
                   } p-2 h-5 w-5 rounded-full -left-2.5`}
                 >
                   {project?.track >= 1 && (
@@ -676,7 +662,9 @@ const Activity = () => {
                   className={`absolute ${
                     project?.track >= 2
                       ? "bg-blue-500"
-                      : ` ${project?.track >= 1 ? 'bg-blue-500':'bg-white'} border border-gray-500`
+                      : ` ${
+                          project?.track >= 1 ? "bg-blue-500" : "bg-white"
+                        } border border-gray-500`
                   } p-2 h-5 w-5 rounded-full -left-2.5`}
                 >
                   {project?.track >= 2 && (
@@ -694,7 +682,9 @@ const Activity = () => {
                   className={`absolute ${
                     project?.track >= 3
                       ? "bg-blue-500"
-                      : ` ${project?.track >= 2 ? 'bg-blue-500':'bg-white'} border border-gray-500`
+                      : ` ${
+                          project?.track >= 2 ? "bg-blue-500" : "bg-white"
+                        } border border-gray-500`
                   } p-2 h-5 w-5 rounded-full -left-2.5`}
                 >
                   {project?.track >= 3 && (
@@ -712,7 +702,9 @@ const Activity = () => {
                   className={`absolute ${
                     project?.track >= 4
                       ? "bg-blue-500"
-                      : ` ${project?.track >= 3 ? 'bg-blue-500':'bg-white'} border border-gray-500`
+                      : ` ${
+                          project?.track >= 3 ? "bg-blue-500" : "bg-white"
+                        } border border-gray-500`
                   } p-2 h-5 w-5 rounded-full -left-2.5`}
                 >
                   {project?.track >= 4 && (
@@ -730,7 +722,9 @@ const Activity = () => {
                   className={`absolute ${
                     project?.track >= 5
                       ? "bg-blue-500"
-                      : ` ${project?.track >= 4 ? 'bg-blue-500':'bg-white'} border border-gray-500`
+                      : ` ${
+                          project?.track >= 4 ? "bg-blue-500" : "bg-white"
+                        } border border-gray-500`
                   } p-2 h-5 w-5 rounded-full -left-2.5`}
                 >
                   {project?.track >= 5 && (
@@ -766,7 +760,10 @@ const Activity = () => {
           reply={reply}
           setReply={setReply}
         />
-        <CancelModal />
+        <CancelModal setReply={setReply}
+          reply={reply}
+          project={project}
+          userInfo={userInfo} />
         <CustomOfferModal
           update={update}
           setUpdate={setUpdate}

@@ -1,7 +1,6 @@
 import Image from "next/image";
-import success from "/public/images/Vector.png";
 import Link from "next/link";
-import { useSelector } from "react-redux";
+import success from "/public/images/Vector.png";
 
 
 
@@ -9,9 +8,6 @@ import { useSelector } from "react-redux";
 
 
 const Successfully=()=>{
-    const { user } = useSelector((state) => state.user);
-
-
 
     return(
 
@@ -26,9 +22,8 @@ const Successfully=()=>{
         <h3 className="text-[#F47458] text-center  text-base sm:text-lg md:text-xl lg:text-2xl font-semibold ">
         User account is verified
         </h3>
-    <Link href={`/user/account${user?.userId
-}`}>
-    <button   type="submit" className="px-4 py-2  w-full text-[#1B8CDC]">Profile</button>
+    <Link href={`/join`} className="flex justify-center">
+    <button type="submit" className="px-4 py-2 bg-blue-100 my-12 w-24 rounded-md text-[#1B8CDC]">Login</button>
     </Link>
       </div>
 

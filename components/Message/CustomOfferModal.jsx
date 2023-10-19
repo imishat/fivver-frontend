@@ -9,7 +9,7 @@ import { updateState } from "../redux/features/update/updateSlice";
 import useToast from "../utility/useToast";
 import CustomDropdown from "./CustomDropdown/CustomDropdown";
 
-function CustomOfferModal({project,reply,setReply,update,setUpdate}) {
+function CustomOfferModal({project,reply,setReply}) {
 
     // react hook form
     const {

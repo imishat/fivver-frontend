@@ -1,35 +1,25 @@
+import EmojiPicker from 'emoji-picker-react';
+import { useState } from "react";
 
-// components/ChatComponent.js
 
-import { useState } from 'react';
-import { useSocketChat } from '../hooks/useSocketChat';
-
-const ChatComponent = () => {
-  const { sendMessage,returnMessage } = useSocketChat();
-const [message,setMessage] = useState('')
+const HomePage = () => {
+  const [text, setText] = useState("");
+  const handleEmojiSelect = (event, emojiObject) => {
+    console.log(event?.emoji)
+    const { emoji } = emojiObject;
+    setText(emoji);
+  };
+  function handleOnEnter(text) {
+    console.log("enter", text);
+  }
   return (
-    <div className='w-screen h-screen flex items-center justify-center'>
-        
     <div>
-    <h2>{returnMessage?.content}</h2>
-    <input className='input input-bordered'
-        type="text"
-        placeholder="Type your message..."
-        onChange={(e) => setMessage({
-          type: "file",
-          projectId: '',
-          content: e.target.value,
-          reply: {},
-          files: [],
-          userId: '',
-          receiverId: '',
-          userName: '',
-        })}
-      />
-      <button className='btn btn-success' onClick={() => sendMessage(message)}>Send</button>
-    </div>
+      <h1>Emoji Picker for Next.js</h1>
+      <textarea onChange={e=>setText(e.target.value)} value={text}></textarea>
+      <EmojiPicker onEmojiClick={handleEmojiSelect} />
+      { <p>You selected: {text}</p>}
     </div>
   );
 };
 
-export default ChatComponent;
+export default HomePage;

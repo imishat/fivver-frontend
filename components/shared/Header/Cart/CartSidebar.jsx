@@ -4,13 +4,13 @@ import useToast from "@/components/utility/useToast";
 import Link from "next/link";
 import { useState } from "react";
 import { RiCloseLine } from "react-icons/ri";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 const CartSidebar = ({ cartShow, setCartShow }) => {
   const dispatch = useDispatch();
   //get data from reduc store
   // const {products,isAdded}=useSelector((state)=>state.cart)
   // const {products:selectedDesign} = useSelector((state)=>state.checkoutCart)
-
+  const { user } = useSelector((state) => state.user);
   // toast
   const { Toast, showToast } = useToast();
 
@@ -111,30 +111,56 @@ const CartSidebar = ({ cartShow, setCartShow }) => {
           })}
       </div>
       {/* Bottom buttons */}
-      <div className="w-full flex items-center sticky bottom-0">
+     {
+      user?.email ?  <div className="w-full flex items-center sticky bottom-0">
+      <button
+        onClick={() => setCartShow(!cartShow)}
+        className="w-1/2 bg-red-500 py-2 border-r"
+      >
+        Close
+      </button>
+      {!selectedDesign.length ? (
         <button
-          onClick={() => setCartShow(!cartShow)}
-          className="w-1/2 bg-red-500 py-2 border-r"
+          onClick={() => showToast("Select a design", "error")}
+          className="w-1/2 inline-block text-center bg-[#3B82F6] py-2 "
         >
-          Close
+          Select design
         </button>
-        {!selectedDesign.length ? (
-          <button
-            onClick={() => showToast("Select a design", "error")}
-            className="w-1/2 inline-block text-center bg-[#3B82F6] py-2 "
-          >
-            Checkout
-          </button>
-        ) : (
-          <Link
-            onClick={() => handlecheckoutProduct(selectedDesign)}
-            href={"/project"}
-            className="w-1/2 inline-block text-center bg-[#3B82F6] py-2"
-          >
-            Checkout
-          </Link>
-        )}
-      </div>
+      ) : (
+        <Link
+          onClick={() => handlecheckoutProduct(selectedDesign)}
+          href={"/project"}
+          className="w-1/2 inline-block text-center bg-[#3B82F6] py-2"
+        >
+          Checkout
+        </Link>
+      )}
+    </div>
+    :
+    <div className="w-full flex items-center sticky bottom-0">
+    <button
+      onClick={() => setCartShow(!cartShow)}
+      className="w-1/2 bg-red-500 py-2 border-r"
+    >
+      Close
+    </button>
+    {!selectedDesign.length ? (
+      <button
+        onClick={() => showToast("Select a design", "error")}
+        className="w-1/2 inline-block text-center bg-[#3B82F6] py-2 "
+      >
+        Select Design
+      </button>
+    ) : (
+      <Link
+        href={"/join"}
+        className="w-1/2 inline-block text-center bg-[#3B82F6] py-2"
+      >
+        Login to Checkout
+      </Link>
+    )}
+  </div>
+     }
     </div>
   );
 };

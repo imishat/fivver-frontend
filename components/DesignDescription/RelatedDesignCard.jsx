@@ -1,9 +1,17 @@
 import Link from "next/link";
+import { useState } from "react";
+import { CgRemoveR } from "react-icons/cg";
 
 const RelatedDesignCard = ({data}) => {
-    
+    const [showCart,setShowCart] = useState(false)
     return (
-        <div className="border border-gray-300">
+        <div onMouseEnter={()=>setShowCart(true)} onMouseLeave={()=>setShowCart(false)} className="border border-gray-300">
+            {
+                showCart ? <div className="absolute right-0 top-0 flex justify-center items-center p-2 rounded-md bg-base-200">
+                    {/* <button><BiCartAdd size={28} /></button> */}
+                    <button className="text-rose-500"><CgRemoveR size={28} /></button>
+                </div>:''
+            }
             <div className="bg-rose-100 h-40 w-full">
                 <img className="w-full h-40" src={`http://103.49.169.89:30912/api/v1.0/files/download/public/${data?.featuredImageId ? data?.featuredImageId : data?.imageIds[0]}`} alt="" />
             </div>

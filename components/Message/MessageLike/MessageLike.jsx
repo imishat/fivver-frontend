@@ -22,7 +22,7 @@ const userInfo = userData?.data?.user
         <div className="w-full">
           <strong>
           {/* (message?.userId===user.userId ? 'Me':userInfo?.fullName) */}
-          <Link href={`/user/${message?.sender?.userId}`}>
+          <Link href={`/user/${message?.sender?.senderId}`}>
             {
               (message?.sender?.userId===user?.userId ? 'Me': message?.sender?.fullName)
             }
@@ -38,9 +38,21 @@ const userInfo = userData?.data?.user
             message?.reply?.messageId ? <a href={`#${message?.reply?.messageId}`} className="p-1 px-3 bg-base-200 top-0 z-0 text-xs relative rounded-full">{message?.reply?.reply?.slice(0,55)} <span>{message?.reply?.reply?.length > 55 ? '...':''}</span>  </a>:''
           }
            
-        <p id={message?.messageId} className={`text-sm bg-base-100  flex items-center gap-2 ${message?.reply? 'mt-0':''}`}>
-            <span className="text-2xl">
-           {message?.content}
+        <p id={message?.messageId} className={`text-sm bg-base-100  flex flex-col gap-2 ${message?.reply? 'mt-0':''}`}>
+            <span className="text-">
+          <span className="font-bold">Name</span>: {message?.name}
+            </span>
+            <span className="text-">
+          <span className="font-bold">Email</span>: {message?.email}
+            </span>
+            <span className="text-">
+          <span className="font-bold">Website</span>: {message?.website}
+            </span>
+            <span className="text-">
+          <span className="font-bold">Favorite Design</span>: {message?.favoriteDesign}
+            </span>
+            <span className="text-">
+          <span className="font-bold">Message</span>: {message?.content}
             </span>
                 
           <span className="cursor-pointer p-1" onClick={()=>setReply({reply:message?.content,messageId:message?.messageId})}><BsReply /></span>

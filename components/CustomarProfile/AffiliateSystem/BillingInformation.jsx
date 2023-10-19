@@ -1,5 +1,4 @@
 
-import React, { useState } from 'react'
 
 
 import useToast from "@/components/utility/useToast";
@@ -9,9 +8,8 @@ import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 
 import { useUpdatePassword } from '@/components/queries/mutation/chengePass.mutation';
-import { useUpdateUser } from '@/components/queries/mutation/updateUser.mutation';
 import { useUploadFile } from '@/components/queries/mutation/fileUpload.mutation';
-import { Container } from 'postcss';
+import { useUpdateUser } from '@/components/queries/mutation/updateUser.mutation';
 
 
 
@@ -46,7 +44,7 @@ function BillingInformation() {
    // update user
    const { mutate: updateUser } = useUpdateUser();
    // image upload call
-   const { mutate: sendFileData } = useUploadFile();
+   const { mutate: sendFileData } = useUploadFile({watermark:false});
  
    // update password
    const {mutate: chengePassword} = useUpdatePassword()

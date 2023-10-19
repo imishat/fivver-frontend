@@ -1,12 +1,12 @@
+
 import axios from "@/components/lib/axiosFetch";
 import { GET_USER_VERIFY } from "@/components/utils/constant";
 import { useQuery } from "@tanstack/react-query";
 
 
-export function useGetUserVerify({email,OTP}){
-   console.log(email,"email",OTP,"otp")
-   return useQuery([GET_USER_VERIFY,email,OTP], async()=>{
-    const {data,isLoading} = await axios("GET",`${GET_USER_VERIFY}/${email}/${OTP}`);
+export function useVerifyUser({email,otp}){
+   return useQuery([GET_USER_VERIFY,email,otp], async()=>{
+    const {data} = await axios("GET",`${GET_USER_VERIFY}/${email}/${otp}`);
     return data
    })
   }

@@ -1,10 +1,10 @@
-import { useForm } from "react-hook-form";
 import { useRouter } from 'next/router';
+import { useForm } from "react-hook-form";
 
-import { useState, useEffect } from "react";
 import { useGetOtp } from "@/components/queries/query/sendOtp.query";
 import { Spin } from "@/components/utility/LoadingSpinner";
 import useToast from "@/components/utility/useToast";
+import { useEffect, useState } from "react";
 const UserVerify = () => {
    
     const [email,setEmail]=useState('')
@@ -14,12 +14,12 @@ const UserVerify = () => {
     const message=data?.data.message
 
 
-    console.log(data,"emailldata")
+    console.log(data,"emaildata")
     console.log(message,"message")
    useEffect(()=>{
     if(data){
-        router.push('/auth/user-verify')
         showToast('An OTP has been sent via email. message','success')
+        router.push('/auth/user-verify')
       }
    },[data])
     const {
@@ -46,6 +46,9 @@ const UserVerify = () => {
                   
                     <button  disabled={isLoading}className="px-4 py-2 border w-full text-[#1B8CDC]"> {isLoading? <Spin/> :"Verify"}</button>
                 </form>
+                <div>
+                    <p>Check your email inbox/spam</p>
+                </div>
             </div>
         </div></>
     );

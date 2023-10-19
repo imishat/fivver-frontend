@@ -1,13 +1,19 @@
 import moment from "moment";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { BsCheckCircleFill, BsReply } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import { useDeleteAction } from "../queries/mutation/delete.mutation";
+import { useUpdateMessage } from "../queries/mutation/updateMessage.mutation";
+import { useUpdateProject } from "../queries/mutation/updateProject.mutation";
 import { updateState } from "../redux/features/update/updateSlice";
 import useToast from "../utility/useToast";
 
-function OfferMessageCard({message,setReply}) {
+function OfferMessageCard({message,setReply,project}) {
+
+  const router = useRouter()
+  const {projectId} = router?.query
 
   const dispatch = useDispatch()
   // get update with redux
@@ -20,6 +26,7 @@ const {user} = useSelector(state => state.user)
 // Toast 
 const {Toast,showToast} = useToast()
 
+  
 
 
 const handleWithdraw = (id) =>{
@@ -39,6 +46,68 @@ const handleWithdraw = (id) =>{
   })
 }
 
+// update project
+const {mutate:updateProject} = useUpdateProject()
+const {mutate:updateMessage} = useUpdateMessage()
+
+// deadline get 
+const nowUTC = new Date();
+
+const hoursToAdd = 24 * parseInt(message?.delivered);
+
+// Add 6 hours
+nowUTC.setUTCHours((nowUTC.getUTCHours()* hoursToAdd) );   
+const deadline = nowUTC?.toISOString();
+console.log(nowUTC)
+// update project
+const handleUpdateProject = (id) =>{
+  const projectData = {
+    id: id,
+    status:'Progress',
+    track:1,
+    title:message?.categoryName,
+    categoryId: project?.categoryId,
+    subcategoryId: project?.subcategoryId,
+    deadline:deadline,
+    totalCost:message?.price,
+    imageIds:[message?.imageId,...project?.imageIds]
+  }
+  updateProject(projectData,{
+    onSuccess:(res)=>{
+      console.log(res)
+      dispatch(updateState(!messageUpdate?.update))
+      router.reload()
+    },
+    onError:(err)=>{
+      console.error(err);
+    }
+  })
+}
+
+
+// handle accept custom offer
+const handleCustomOfferAccept  = (id)=>{
+  const messageData = {
+    id:id,
+    action:'accept'
+  }
+  updateMessage(messageData,{
+    onSuccess:(res)=>{
+      showToast(`Offer Accepted' }`, "success");
+      handleUpdateProject(projectId)
+        dispatch(updateState(!messageUpdate?.update))
+    },
+    onError:(err)=>{
+      showToast(err?.message);
+    }
+  })
+}
+
+// handle reject custom offer
+const handleCustomOfferReject  = (id)=>{
+  console.log(id)
+}
+
 return (
         <div className="flex w-full px-2  gap-2 py-3">
             <Toast />
@@ -52,7 +121,7 @@ return (
         <div className="w-full">
           <strong>
           {/* (message?.userId===user.userId ? 'Me':userInfo?.fullName) */}
-           <Link href={`/user/${message?.sender?.userId}`}> {
+           <Link href={`/user/${message?.sender?.senderId}`}> {
               (message?.sender?.userId===user?.userId ? 'Me': message?.sender?.fullName)
             }</Link>
            
@@ -86,13 +155,47 @@ return (
             {/* Offer Button */}
             <div className=" w-full mt-4">
                {
-                user?.role ==='ADMIN'?
+                 user?.role ==='ADMIN'?
+                 <>{
+
+                   message?.action ==='accept' || message?.action ==='cancelled' ?'':
                 <button onClick={()=>handleWithdraw(message?.messageId)} className={`w-full bg-blue-500 text-white font-bold py-2  ${isLoading && 'animate-pulse'}`}>Withdraw Offer </button>
+              }
+               {
+                  message?.action ==='accept'&& <div className="w-full flex justify-center px-5 pb-3">
+                    <button o className="bg-blue-500 text-white px-5 font-bold py-2">Accepted</button>
+                    </div>
+                }
+                {
+                  message?.action ==='cancelled'&& 
+                  <div className="flex justify-center w-full">
+                    <button className="bg-gray-400 text-white px-5 font-bold py-2">Cancelled</button>
+                  </div>
+                }
+                </>
                 :
-                <div className="w-full flex justify-between px-5 pb-3">
+                <>
+                {
+                  message?.action ==='accept'&& <div className="w-full flex justify-center px-5 pb-3">
+                    <button o className="bg-blue-500 text-white px-5 font-bold py-2">Accepted</button>
+                    </div>
+                }
+                {
+                  message?.action ==='cancelled'&& 
+                  <div className="flex justify-center w-full">
+                    <button className="bg-gray-400 text-white px-5 font-bold py-2">Cancelled</button>
+                  </div>
+                }
+                {
+                  message?.action ==='accept' || message?.action ==='cancelled' ?'':
+                  <div className="w-full flex justify-between px-5 pb-3">
                 <button className="bg-gray-400 text-white px-5 font-bold py-2">Cancel</button>
-                <button className="bg-blue-500 text-white px-5 font-bold py-2">Accept</button>
+                <button onClick={()=>handleCustomOfferAccept(message?.messageId)} className="bg-blue-500 text-white px-5 font-bold py-2">Accept</button>
                 </div>
+                }
+                
+
+                </>
                }
                 
             </div>

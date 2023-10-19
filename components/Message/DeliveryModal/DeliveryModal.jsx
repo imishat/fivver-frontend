@@ -1,6 +1,7 @@
 import { useDeleteAction } from "@/components/queries/mutation/delete.mutation";
 import { useUploadFile } from "@/components/queries/mutation/fileUpload.mutation";
 import { useUpdateProject } from "@/components/queries/mutation/updateProject.mutation";
+import { useUploadSourceFile } from "@/components/queries/mutation/uploadSource.mutation";
 import { updateState } from "@/components/redux/features/update/updateSlice";
 import useToast from "@/components/utility/useToast";
 import { useSocketChat } from "@/hooks/useSocketChat";
@@ -17,6 +18,10 @@ function DeliveryModal({ update, setUpdate, reply, setReply, project }) {
   const { mutate: sendFileData, isLoading } = useUploadFile({
     watermark: true,
   });
+  // image upload call
+  const { mutate: sendSourceFileData, isLoading:sourceIsLoading } = useUploadSourceFile({
+    watermark: true,
+  });
 
   const dispatch = useDispatch();
   // update 
@@ -27,6 +32,11 @@ function DeliveryModal({ update, setUpdate, reply, setReply, project }) {
 
   // quick response value
   const [value, setValue] = useState("");
+
+  const handleTextareaClick = (e) => {
+    setValue(prevText => prevText + e);
+  };
+
 
   const [updateValue, setUpdateValue] = useState(false);
   // ============== socket options =================
@@ -94,7 +104,7 @@ function DeliveryModal({ update, setUpdate, reply, setReply, project }) {
     for (const p in thumbnail) {
       photoData.append("files", thumbnail[p]);
     }
-    sendFileData(photoData, {
+    sendSourceFileData(photoData, {
       onSuccess: (res) => {
         const images = res?.data?.files;
         showToast("Image Uploaded", "success");
@@ -275,7 +285,7 @@ function DeliveryModal({ update, setUpdate, reply, setReply, project }) {
           </div>
           <div className="border">
             {/* Quick Response */}
-            <AllQuickResponse setValue={setValue} value={value} />
+            <AllQuickResponse setValue={handleTextareaClick} value={value} />
           </div>
           {/* Message Body */}
           <div>
@@ -300,7 +310,7 @@ function DeliveryModal({ update, setUpdate, reply, setReply, project }) {
             </div>
             <textarea
               className="w-full p-2 textarea textarea-lg textarea-bordered rounded-none"
-              defaultValue={draftData?.content ? draftData?.content : value}
+              value={value}
               onChange={(e) => setValue(e.target.value)}
             ></textarea>
           </div>
@@ -320,12 +330,12 @@ function DeliveryModal({ update, setUpdate, reply, setReply, project }) {
                           >
                             <IoClose size={20} />
                           </span>
-                          {isLoading ? (
+                          {sourceIsLoading ? (
                             <div className="w-28 bg-rose-100 h-24 border overflow-hidden object-cover flex items-center justify-center">
                               <span className="h-8 rounded-full w-8 border-2 border-dashed animate-spin border-rose-600"></span>
                             </div>
                           ) : (
-                            image?.contentType === "image/jpeg" && (
+                            (image?.contentType === "image/jpeg" || image?.contentType === "image/png"|| image?.contentType === "image/jpg") && (
                               <img
                                 className="w-28 bg-rose-100 h-24 border overflow-hidden object-cover"
                                 src={`http://103.49.169.89:30912/api/v1.0/files/download/public/${image?.fileId}`}
@@ -348,10 +358,10 @@ function DeliveryModal({ update, setUpdate, reply, setReply, project }) {
                             />
                           )}
 
-                          <div className=" flex text-sm">
-                            <p className="w-24 truncate">
+                          <div hidden={sourceIsLoading} className=" flex text-sm">
+                            <p title={image?.originalFileName} className="w-24 truncate">
                               {image?.originalFileName}
-                            </p>
+                            </p>{image?.fileExtension}
                           </div>
                           <p className="text-xs">
                             {formatBytes(image?.fileSize)}
@@ -447,7 +457,7 @@ function DeliveryModal({ update, setUpdate, reply, setReply, project }) {
                 onClick={() => handleDraft()}
                 className="px-6 py-2 rounded bg-gray-400 text-white font-bold"
               >
-                Draft
+               Save Draft
               </button>
               <button
                 onClick={() => handleSendMessage()}
