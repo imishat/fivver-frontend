@@ -14,7 +14,7 @@ function OfferMessageCard({message,setReply,project}) {
 
   const router = useRouter()
   const {projectId} = router?.query
-
+console.log(message,"message")
   const dispatch = useDispatch()
   // get update with redux
   const messageUpdate = useSelector((state) => state.update);
@@ -149,7 +149,7 @@ return (
                 <p className="p-3">{message?.message}</p>
                     <ul className="mt-6 mx-3">
                         <li className="font-bold flex items-center gap-1"><BsCheckCircleFill className="text-blue-500" /> {message?.delivered} Day Delivery</li>
-                        <li className="font-bold flex items-center gap-1"><BsCheckCircleFill className="text-blue-500" /> {message?.categoryName}</li>
+                        <li className="font-bold flex items-center gap-1"><BsCheckCircleFill className="text-blue-500" /> {message?.selectSubCategory}</li>
                     </ul>
             </div>
             {/* Offer Button */}

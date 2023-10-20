@@ -23,7 +23,7 @@ const DesignDescription = ({ data: designData }) => {
   const { Toast, showToast } = useToast();
  
   const {products}= useSelector(state => state.cart);
-  // const design = designData?.data?.design
+  const design = designData?.data?.design
 
 // router
 const router = useRouter()

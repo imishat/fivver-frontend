@@ -16,7 +16,7 @@ const AllQuickResponse = ({ setValue, value, lastMessage }) => {
   //   path: "/realtime-messaging",
   // });
   const router = useRouter();
-  console.log(router.asPath,"sds")
+  console.log(router,"sds")
 const [show, setShow] = useState(false)
   // Define a function to check if the current URL is "/login".
   
@@ -66,7 +66,7 @@ const [show, setShow] = useState(false)
         <h2 onClick={handleClick}>Quick Response</h2>
         <div className="flex items-center  gap-2">
         <div>
-      {router.asPath=== '/message' ? (
+      {router.pathname=== '/message/[messageId]' ? (
        ''
       ) : (
         <p className="text-xs">

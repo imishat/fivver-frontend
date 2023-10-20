@@ -47,7 +47,7 @@ const SIgnUp = ({ setToggle }) => {
         handleSendMail(data?.email)
       showToast('crate account', 'success');
       reset()
-      router.push('/auth/user-verify')
+      router.push('/auth/send-otp')
       
    
    
