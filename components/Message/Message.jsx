@@ -333,6 +333,8 @@ const localDate = new Date()
                 <div>
                   <strong>{userInfo?.fullName}</strong>
                   <p className="text-xs">
+
+                    
                     Last seen {moment(lastMessage?.createdAt).fromNow()} | Local Time:{moment(localDate).format('lll')}
                   </p>
                 </div>

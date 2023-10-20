@@ -58,7 +58,7 @@ const hoursToAdd = 24 * parseInt(message?.delivered);
 // Add 6 hours
 nowUTC.setUTCHours((nowUTC.getUTCHours()* hoursToAdd) );   
 const deadline = nowUTC?.toISOString();
-console.log(nowUTC)
+
 // update project
 const handleUpdateProject = (id) =>{
   const projectData = {
