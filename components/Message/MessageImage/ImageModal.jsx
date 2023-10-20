@@ -230,7 +230,7 @@ const {messageUpdate} = useSelector(state=>state.update)
                     left: position.x + 40 + "px",
                     top: position.y + 40 + "px",
                   }}
-                  className="bg-emerald-500 absolute h-4 w-4 border-2 border-white rounded-full"
+                  className="bg-blue-500 absolute h-4 w-4 border-2 border-white rounded-full"
                 ></div>
                 {highLightComment?.comment ? (
                   <div
@@ -254,7 +254,7 @@ const {messageUpdate} = useSelector(state=>state.update)
               <div className="px-4 py-2 border-b">
                 <p className="font-bold">Comments</p>
               </div>
-              <div className="bg-green-50 border-b px-3 my-2">
+              <div className="bg-blue-500 border-b px-3 my-2">
                 <h2 className="text-sm font-bold truncate">
                   {image?.originalFileName}
                 </h2>
@@ -349,7 +349,7 @@ const {messageUpdate} = useSelector(state=>state.update)
                         </div>
                         <div className="my-2 ml-9  text-sm">
                         {comment?.reply?.id ? (
-                            <span className="bg-base-300 opacity-40 rounded-full px-2 py-0">
+                            <span className="bg-bule-500 opacity-40 rounded-full px-2 py-0">
                               {comment?.reply
                                 ? comment?.reply?.reply?.slice(0, 15)
                                 : ""}
@@ -383,7 +383,7 @@ const {messageUpdate} = useSelector(state=>state.update)
                 </div>
               </div>
               {/* Comment Box */}
-              <div className="border border-emerald-800 m-4">
+              <div className="border border-blue-500 m-4">
                 <div className="p-2">
                   <div className="flex items-center overflow-hidden gap-1">
                   {
@@ -408,14 +408,14 @@ const {messageUpdate} = useSelector(state=>state.update)
                   <form onSubmit={handleSubmit(handleComment)}>
                     <textarea
                       {...register("message", { required: true })}
-                      className="textarea w-full rounded border-b border-t-0 border-l-0 border-r-0 focus-within:outline-none textarea-bordered"
+                      className="textarea w-full rounded border-b border-t-0 border-l-0 border-r-0 focus-within:outline-none textarea-bordered "
                     ></textarea>
                     <div className="flex items-center justify-end">
-                      <label  htmlFor="image_modal" className="px-2 cursor-pointer font-bold text-gray-500">
+                      <label  htmlFor="image_modal" className="px-2 cursor-pointer font-bold text-bule-500 ">
                         Cancel
                       </label>
 
-                      <button className="px-2 font-bold cursor-pointer text-emerald-600">
+                      <button className="px-2 font-bold cursor-pointer bg-blue-500">
                         Add
                       </button>
                     </div>
@@ -426,7 +426,7 @@ const {messageUpdate} = useSelector(state=>state.update)
               <div className="absolute mb-4  -bottom-1 w-full flex items-center">
                 <button disabled={!commentStore?.length||isLoading}
                   onClick={() => handleSendComment()}
-                  className={`py-2 text-center w-full rounded-md mx-4 text-white bg-emerald-500 font-bold text-lg ${isLoadingUpdate ? 'animate-pulse':''}`}
+                  className={`py-2 text-center w-full rounded-md mx-4 text-white bg-blue-500 font-bold text-lg ${isLoadingUpdate ? 'animate-pulse':''}`}
                 >
                   Submit {commentStore?.length} Comments
                 </button>

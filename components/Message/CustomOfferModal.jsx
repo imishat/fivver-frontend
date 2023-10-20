@@ -58,7 +58,7 @@ const handleSelectChange=e=>{
   const { data: subCategoryData } = useGetSubCategoryById({ subcategoryId:subCategoryId });
     // categories
     const selectSubCategory = subCategoryData?.data?.subcategory;
-    // console.log(selectSubCategory)
+ console.log(selectSubCategory,"as")
 
     // category
     const [singleDesign,setSingleDesign] = useState({})
@@ -69,13 +69,15 @@ const handleSelectChange=e=>{
       // ================= Custom Offer ===================
   // category
   // const [selectCategory,setSelectCategory] = useState({})
+  console.log(singleDesign,"singel")
   const handleCustomOffer = data =>{
-    // console.log(data,singleDesign)
+    console.log(data,"singel")
     const messageData = {
       type:'offer',...data,
         categoryName: singleDesign?.name,
         categoryId:singleDesign?.categoryId,
         price: selectSubCategory?.price,
+        selectSubCategory:selectSubCategory?.name,
         imageId: singleDesign?.imageIds[0],
         userId: project?.startedBy,
         receiverId: project?.startedBy,

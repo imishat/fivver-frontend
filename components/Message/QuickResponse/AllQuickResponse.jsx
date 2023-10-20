@@ -8,38 +8,21 @@ import { useGetQuickResponse } from "../../queries/query/getQuickResponse.query"
 import DeleteModal from "../EditModal/DeleteModal";
 import EditModal from "../EditModal/EditModal";
 import CreateQuick from "./CreateQuick";
+import { useRouter } from "next/router";
 
 const AllQuickResponse = ({ setValue, value, lastMessage }) => {
   // const url = "ws://103.49.169.89:30912";
   // const socket = io(url, {
   //   path: "/realtime-messaging",
   // });
-
+  const router = useRouter();
+  console.log(router,"sds")
+const [show, setShow] = useState(false)
+  // Define a function to check if the current URL is "/login".
+  
   const [online, setOnline] = useState(false);
-  // useEffect(() => {
-  //   //  socket
-  //   socket.on("connect", () => {
-  //     console.log("Connected to server1");
-  //     setOnline(true);
-  //   });
+ 
 
-  //   socket.on("disconnect", () => {
-  //     console.log("Disconnected from server");
-  //   });
-
-  //   // To detect when the user's internet goes offline or comes back online
-  //   window.addEventListener("offline", () => {
-  //     console.log("You are offline");
-  //   });
-
-  //   window.addEventListener("online", () => {
-  //     console.log("You are back online");
-  //     // You can choose to re-establish the socket connection if required
-  //     socket.connect();
-  //   });
-  // }, []);
-
-  // selector update
   const messageUpdate = useSelector((state) => state.update);
 
   // get quick response
@@ -54,14 +37,14 @@ const AllQuickResponse = ({ setValue, value, lastMessage }) => {
 
   // quick id
   const [quickId, setQuickId] = useState("");
-console.log(quickId)
-  // toast
-  //   const { Toast, showToast } = useToast();
-  // console.log(quickResponseData);
+
+ 
 
   const dispatch = useDispatch()
 
-
+  const handleClick = () => {
+    setShow(!show); // Toggle the state value
+  };
   const quickResponses = quickResponseData?.data?.quickResponses;
 
   // modal id
@@ -79,17 +62,24 @@ console.log(quickId)
     <div className="p-2 m-2 h-28 overflow-y-auto">
       {/* Quick Response */}
       {/* <Toast /> */}
-      <div className=" flex items-center justify-between px-2">
-        <h2>Quick Response</h2>
+      <div className=" flex items-center justify-between px-2  cursor-pointer">
+        <h2 onClick={handleClick}>Quick Response</h2>
         <div className="flex items-center  gap-2">
-          <div>
-            <p className="text-xs">
-              {online
-                ? "Online"
-                : ("Last seen ", moment(lastMessage?.createdAt).fromNow())}{" "}
-              | Local Time: {moment(new Date()).format("LL")}
-            </p>
-          </div>
+        <div>
+      {router.pathname=== '/message/[messageId]' ? (
+       ''
+      ) : (
+        <p className="text-xs">
+          {online ? (
+            'Online'
+          ) : (
+            <span>
+              Last seen {moment(lastMessage?.createdAt).fromNow()} | Local Time: {moment(new Date()).format('LL')}
+            </span>
+          )}
+        </p>
+      )}
+    </div>
           <div className="dropdown dropdown-left">
             <label
               tabIndex={0}
@@ -136,16 +126,19 @@ console.log(quickId)
       </div>
       <div className="flex ">
         <div className="flex gap-2 text-[13px] flex-wrap">
-          {quickResponses?.map((quick, i) => (
+          {show && quickResponses?.map((quick, i) => (
             <>
-              <button
-                key={i}
-                onClick={(e) => setValue(e.target.value)}
-                className="px-1 flex cursor-pointer items-center gap-1 py-0 border border-gray-500"
-                value={quick.label}
-              >
-                {quick.label}
-              </button>
+             <button
+  key={i}
+  onClick={(e) => {
+    setValue(e.target.value);
+    setShow(false); 
+  }}
+  className="px-1 flex cursor-pointer items-center gap-1 py-0 border border-gray-500"
+  value={quick.label}
+>
+  {quick.label}
+</button>
               {deleteMode ? (
                 <span
                   onClickCapture={() => setQuickId(quick?.quickResponseId)}
@@ -178,15 +171,17 @@ console.log(quickId)
           ))}
 
           {/* Add NEw */}
-          <button
-            onClick={() =>
-              document.getElementById("create_new_quick").showModal()
-            }
-            className="border border-gray-500 px-1 py-0 bg-white"
-          >
-            + Add New
-          </button>
-        </div>
+         {
+          show&& <button
+          onClick={() =>
+            document.getElementById("create_new_quick").showModal()
+          }
+          className="border border-gray-500 px-1 py-0 bg-white"
+        >
+          + Add New
+        </button>
+         }
+         </div> 
       </div>
       <EditModal quickId={editId} />
       <CreateQuick />
