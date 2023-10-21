@@ -24,7 +24,10 @@ const UserAnalytics = () => {
             </div>
             <div className="text-black">
               <p className="text-sm">Last Project Complete</p>
-            <h3 className="font-bold text-xl">{(AdminData?.lastProjectCompletedMillisecondsAgo / 3600000).toFixed(2)} Hours</h3>
+              <h3 className="font-bold text-xl">
+  {(AdminData?.lastProjectCompletedMillisecondsAgo / 3600000).toString().slice(0, 2)} Hours
+</h3>
+
 
             </div>
             <div className="text-black">
