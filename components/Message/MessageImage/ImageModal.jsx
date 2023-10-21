@@ -194,7 +194,7 @@ const {messageUpdate} = useSelector(state=>state.update)
                   <Image height={500} width={500}
                   draggable={false}
                   className="w-full max-h-fit min-h-full"
-                  src={`http://103.49.169.89:30912/api/v1.0/files/download/public/${singleMessage?.thumbnail?.fileId}`}
+                  src={`${process.env.NEXT_PUBLIC_API}/files/download/public/${singleMessage?.thumbnail?.fileId}`}
                   onClick={(e) => handleImageClick(e)}
                   alt=""
                 />
@@ -274,7 +274,7 @@ const {messageUpdate} = useSelector(state=>state.update)
                         <div className="flex items-center gap-2 relative">
                           <img
                             className="w-6 object-cover h-6 rounded-full"
-                            src={`http://103.49.169.89:30912/api/v1.0/files/download/public/${comment?.sender?.profilePicture}`}
+                            src={`${process.env.NEXT_PUBLIC_API}/files/download/public/${comment?.sender?.profilePicture}`}
                             alt=""
                           />
                           <p className="font-bold text-lg">{comment?.sender?.id ===user?.userId ? 'Me':comment?.sender?.name}</p>
@@ -339,7 +339,7 @@ const {messageUpdate} = useSelector(state=>state.update)
                           ></span>
                           <img
                             className="w-6 object-cover h-6 rounded-full"
-                            src={`http://103.49.169.89:30912/api/v1.0/files/download/public/${comment?.sender?.profilePicture}`}
+                            src={`${process.env.NEXT_PUBLIC_API}/files/download/public/${comment?.sender?.profilePicture}`}
                             alt=""
                           />
                           <p className="font-bold text-lg">{comment?.sender?.id ===user?.userId ? 'Me':comment?.sender?.name}</p>
@@ -389,7 +389,7 @@ const {messageUpdate} = useSelector(state=>state.update)
                   {
                     reply?.id ?  <img
                     className="w-6 object-cover h-6 rounded-full"
-                    src={`http://103.49.169.89:30912/api/v1.0/files/download/public/${reply?.profilePicture}`}
+                    src={`${process.env.NEXT_PUBLIC_API}/files/download/public/${reply?.profilePicture}`}
                     alt=""
                   /> :''
                   } 

@@ -114,7 +114,7 @@ return (
         <div className="w-9">
           <img
             className="w-8 h-8 rounded-full border border-gray-500"
-            src={`http://103.49.169.89:30912/api/v1.0/files/download/public/${message?.sender?.profilePicture}`} 
+            src={`${process.env.NEXT_PUBLIC_API}/files/download/public/${message?.sender?.profilePicture}`} 
             alt=""
           />
         </div>
@@ -138,7 +138,7 @@ return (
            <div className="max-w-md bg-blue-50 h-full">
             {/* Offer image */}
             <div className="flex bg-blue-200 items-center justify-between p-3">
-                <Image height={100} width={100} className="w-14 object-cover h-14 border p-1 border-gray-400" src={`http://103.49.169.89:30912/api/v1.0/files/download/public/${message?.imageId}`} alt="" />
+                <Image height={100} width={100} className="w-14 object-cover h-14 border p-1 border-gray-400" src={`${process.env.NEXT_PUBLIC_API}/files/download/public/${message?.imageId}`} alt="" />
                 {/* Offer title */}
                 <h2 className="text-xl font-bold">{message?.categoryName}</h2>
                 {/* Offer Price */}

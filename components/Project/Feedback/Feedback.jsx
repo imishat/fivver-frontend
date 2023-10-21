@@ -185,7 +185,7 @@ const Feedback = ({ singleProject }) => {
           </div>
           <div className="flex bg-white p-1 px-2">
             <img
-              src={`http://103.49.169.89:30912/api/v1.0/files/download/public/${project?.imageIds[0]}`}
+              src={`${process.env.NEXT_PUBLIC_API}/files/download/public/${project?.imageIds[0]}`}
               className="bg-rose-100 w-20 h-16 m-2"
               alt=""
             />

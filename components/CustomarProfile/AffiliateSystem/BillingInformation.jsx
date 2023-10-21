@@ -151,7 +151,7 @@ function BillingInformation() {
                     width={130}
                     height={130}
                     alt={user?.username}
-                    src={`http://103.49.169.89:30912/api/v1.0/files/download/public/${user?.profilePicture}`}
+                    src={`${process.env.NEXT_PUBLIC_API}/files/download/public/${user?.profilePicture}`}
                   />
                   <div>
                     <label
