@@ -338,7 +338,7 @@ function DeliveryModal({ update, setUpdate, reply, setReply, project }) {
                             (image?.contentType === "image/jpeg" || image?.contentType === "image/png"|| image?.contentType === "image/jpg") && (
                               <img
                                 className="w-28 bg-rose-100 h-24 border overflow-hidden object-cover"
-                                src={`http://103.49.169.89:30912/api/v1.0/files/download/public/${image?.fileId}`}
+                                src={`${process.env.NEXT_PUBLIC_API}/files/download/public/${image?.fileId}`}
                                 alt=""
                               />
                             )
@@ -421,7 +421,7 @@ function DeliveryModal({ update, setUpdate, reply, setReply, project }) {
                 {draftData?.thumbnail?.fileId || thumbnail?.fileId ? (
                   <img
                     className="w-20 border-2 bg-blue-200 object-cover overflow-hidden inline-block rounded h-16"
-                    src={`http://103.49.169.89:30912/api/v1.0/files/download/public/${
+                    src={`${process.env.NEXT_PUBLIC_API}/files/download/public/${
                       draftData?.thumbnail?.fileId || thumbnail?.fileId
                     }`}
                     alt=""

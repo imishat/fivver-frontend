@@ -1,6 +1,7 @@
 import Pagination from "rc-pagination";
 import { useState } from "react";
-import DesignCard from "../Card/DesignCard";
+import Card from "../Card/Card";
+import Related from "../Related/Related";
 import { useAllDesigns } from "../queries/query/designs.query";
 import { useGetCategoryData } from "../queries/query/getCategory.query";
 
@@ -14,11 +15,20 @@ const AllDesignByCatetgory = ({categoryId}) => {
   
   // get category by id
   const {data: categories} = useGetCategoryData({categoryId})
+  const {data: categoriesData} = useGetCategoryData({categoryId:''})
   const category = categories?.data?.categories[0]
+  console.log()
     
     // Count
     const count = Math.ceil((designData?.data?.totalCount || 10 )/ 10)
 
+
+    const positions = categories?.data?.categories.map(element => {
+      return categoriesData?.data?.categories.findIndex(item => item.categoryId === element.categoryId);
+    });
+
+    const getRelatedId = categoriesData?.data?.categories[positions?.[0]+1]?.categoryId
+    console.log(positions)
     // all designs
     const designs = designData?.data?.designs
  
@@ -44,7 +54,7 @@ const AllDesignByCatetgory = ({categoryId}) => {
     {  designs?.length ? 
       <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 px-4 gap-4">
         { designs.map((data, i) => (
-          <DesignCard data={data} key={i} />
+          <Card data={data} key={i} />
         ))
        
       
@@ -60,7 +70,7 @@ const AllDesignByCatetgory = ({categoryId}) => {
       </div>
       
       {/* Related */}
-      {/* <Related /> */}
+      <Related currentItems={getRelatedId} />
     </div>
   );
 };

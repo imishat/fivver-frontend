@@ -9,8 +9,8 @@ function SingleFile({file,message}) {
     // console.log(singleImage)
     return (
         <div>
-             <Link href={`http://103.49.169.89:30912/api/v1.0/files/download/public/${file}`} target="_blank">
-             <img src={`http://103.49.169.89:30912/api/v1.0/files/download/public/${file}`} target="_blank" rel="noopener noreferrer" className="w-full h-44 object-cover"/>
+             <Link href={`${process.env.NEXT_PUBLIC_API}/files/download/public/${file}`} target="_blank">
+             <img src={`${process.env.NEXT_PUBLIC_API}/files/download/public/${file}`} target="_blank" rel="noopener noreferrer" className="w-full h-44 object-cover"/>
              </Link>
         </div>
     );

@@ -559,7 +559,7 @@ const Activity = () => {
               {project?.imageIds?.length ? (
                 <img
                   className="w-20 h-16"
-                  src={`http://103.49.169.89:30912/api/v1.0/files/download/public/${project?.imageIds?.[0]}`}
+                  src={`${process.env.NEXT_PUBLIC_API}/files/download/public/${project?.imageIds?.[0]}`}
                   alt=""
                 />
               ) : (

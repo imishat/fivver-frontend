@@ -60,7 +60,7 @@ const {messageUpdate} = useSelector(state=>state.update)
         <span className="w-12">
           <Image width={96} height={96}
             className="w-9 h-9 object-cover rounded-full"
-            src={`http://103.49.169.89:30912/api/v1.0/files/download/public/${message?.sender?.profilePicture}`}
+            src={`${process.env.NEXT_PUBLIC_API}/files/download/public/${message?.sender?.profilePicture}`}
             alt=""
           />
         </span>

@@ -76,7 +76,7 @@ const [projectId,setProjectId] = useState('')
                       height={380}
                       width={640}
                         className="w-full h-full"
-                        src={`http://103.49.169.89:30912/api/v1.0/files/download/public/${id}`}
+                        src={`${process.env.NEXT_PUBLIC_API}/files/download/public/${id}`}
                         alt=""
                       />
                   </div>
