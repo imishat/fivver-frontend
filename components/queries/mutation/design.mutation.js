@@ -10,3 +10,11 @@ export function useCreateDesign(){
         return data
     })
   }
+  export function useDeleteDEsing() {
+    return useMutation(async (designId) => {
+        console.log(designId,"dsad") 
+      const { data } = await axios('DELETE', `${CREATE_DESIGN}/${designId
+      }`);
+      return data;
+    })
+  };
