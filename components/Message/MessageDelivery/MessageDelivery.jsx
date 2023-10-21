@@ -151,7 +151,7 @@ function MessageDelivery({ message, setReply, update, setUpdate }) {
         
           <img
             className="w-8 h-8 rounded-full border border-gray-500"
-            src={`http://103.49.169.89:30912/api/v1.0/files/download/public/${message?.sender?.profilePicture}`}
+            src={`${process.env.NEXT_PUBLIC_API}/files/download/public/${message?.sender?.profilePicture}`}
             alt=""
           />
         </div>
@@ -211,7 +211,7 @@ function MessageDelivery({ message, setReply, update, setUpdate }) {
                         {" "}
                         <img
                           className="w-full object-cover h-96"
-                          src={`http://103.49.169.89:30912/api/v1.0/files/download/public/${message?.thumbnail?.fileId}`}
+                          src={`${process.env.NEXT_PUBLIC_API}/files/download/public/${message?.thumbnail?.fileId}`}
                           alt=""
                         />
                           <div className="absolute left-0 top-0 px-2 m-1 py-0 backdrop-blur-lg rounded-full border">{message?.comments?.length} Comments</div>
@@ -221,7 +221,7 @@ function MessageDelivery({ message, setReply, update, setUpdate }) {
                       {/* Download Button */}
                       <div className="flex justify-center my-6">
                         <Link
-                          href={`http://103.49.169.89:30912/api/v1.0/files/download/public/${message?.thumbnail?.fileId}`}
+                          href={`${process.env.NEXT_PUBLIC_API}/files/download/public/${message?.thumbnail?.fileId}`}
                           target="_blank"
                           className=" px-8 py-1 rounded-full cursor-pointer border border-gray-500"
                         >

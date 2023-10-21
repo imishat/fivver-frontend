@@ -97,7 +97,7 @@ const CustomarProfile = () => {
                     width={100}
                     className="object-cover w-full"
                     height={100}
-                    src={`http://103.49.169.89:30912/api/v1.0/files/download/public/${dbUser?.profilePicture}`}
+                    src={`${process.env.NEXT_PUBLIC_API}/files/download/public/${dbUser?.profilePicture}`}
                     alt=""
                   />
                 </div>

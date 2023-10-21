@@ -11,6 +11,7 @@ import useToast from "../utility/useToast";
 import CustomOfferModal from "./CustomOfferModal";
 
 import { useSocketChat } from "@/hooks/useSocketChat";
+import EmojiPicker from "emoji-picker-react";
 import moment from "moment";
 import Image from "next/image";
 import Link from "next/link";
@@ -88,7 +89,15 @@ const Message = () => {
   // const userInfo = userData?.data?.user
 
 
+   // show and hide emoji
+   const [showEmoji,setShowEmoji]= useState(false)
 
+
+// set emoji in textarea
+ const handleEmojiSelect = (event, emojiObject) => {
+  setValue((prevText) => prevText + event?.emoji);
+  setShowEmoji(!showEmoji)
+  };
 
 
   // message data
@@ -491,17 +500,21 @@ const localDate = new Date()
                         {...register("messageData", { required: true })}
                         value={value}
                         id="sendbox"
+                        onChange={(e) => setValue(e.target.value)}
                         className="w-full textarea textarea-bordered rounded-none"
                       ></textarea>
                     </div>
                     <div className="flex items-center ">
                       {/* Like */}
-                      <span
-                        onClick={() => handleSendLike()}
-                        className="w-14 text-xl cursor-pointer flex justify-center"
-                      >
-                        👍
-                      </span>
+                      <div  className="w-14 relative text-xl cursor-pointer right-0 flex justify-center">
+                          {
+                            showEmoji ? <span className='w-full h-full fixed left-0 top-0 ' onClick={()=>setShowEmoji(!showEmoji)}></span>:''
+                          }
+                          <span onClick={()=>setShowEmoji(!showEmoji)}>👍</span>
+                          {
+                            showEmoji ? <div className='absolute left-0 -top-96'><EmojiPicker onEmojiClick={handleEmojiSelect} /></div>:''
+                          }
+                        </div>
                       <span className="pr-5 pl-3">|</span>
                       
                       <span className="flex w-full gap-6 items-center">

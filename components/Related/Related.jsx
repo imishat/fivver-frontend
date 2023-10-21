@@ -1,7 +1,10 @@
 
 import Card from "../Card/Card";
+import { useGetRelated } from "../queries/query/related.query";
 const Related = ({ currentItems }) => {
-    const items = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
+   const {data:relatedData} = useGetRelated({related:currentItems,limit:4})
+   const related = relatedData?.data?.designs
+   console.log(related)
     return (
         <div className="bg-[#F2F9FF] md:p-8 h-full">
             <div className="flex justify-center">
@@ -9,7 +12,9 @@ const Related = ({ currentItems }) => {
             </div>
             <div className="grid sm:grid-cols-2 p-4 grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-3">
                 {
-                    [...Array(4).keys()].map((item,i)=><Card key={i} />)
+                    related?.map((item,i)=>{
+                        return <Card data={item} key={i}></Card>
+                    })
                 }
             </div>
         </div>

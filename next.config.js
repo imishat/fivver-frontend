@@ -11,6 +11,12 @@ const nextConfig = {
         port: '30912',
         pathname: '/api/v1.0/files/download/public/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'api.bluefiverr.bengaltroopsbd.com',
+        port: '',
+        pathname: '/api/v1.0/files/download/public/**',
+      },
     ],
   },
  

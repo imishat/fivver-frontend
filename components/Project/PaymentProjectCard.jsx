@@ -13,7 +13,7 @@ const PaymentProjectCard = ({project}) => {
         <div className="sm:flex justify-between items-center">
             <div className="flex items-center gap-4">
             <div className="w-24 h-16 bg-rose-200">
-            <Image height={160} width={224} className="w-24 h-16 object-cover" src={`http://103.49.169.89:30912/api/v1.0/files/download/public/${project?.featuredImageId ? project?.featuredImageId : project?.imageIds[0]}`} alt="" />
+            <Image height={160} width={224} className="w-24 h-16 object-cover" src={`${process.env.NEXT_PUBLIC_API}/files/download/public/${project?.featuredImageId ? project?.featuredImageId : project?.imageIds[0]}`} alt="" />
             </div>
             <div>
                 <h3 className="text-xl font-semibold">{project.title}</h3>

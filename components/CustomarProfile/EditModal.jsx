@@ -145,7 +145,7 @@ const EditModal = ({userId}) => {
                     width={130}
                     height={130}
                     alt={userInfo?.username}
-                    src={`http://103.49.169.89:30912/api/v1.0/files/download/public/${userInfo?.profilePicture}`}
+                    src={`${process.env.NEXT_PUBLIC_API}/files/download/public/${userInfo?.profilePicture}`}
                   />
                   <div>
                     <label
