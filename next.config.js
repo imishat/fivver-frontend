@@ -22,6 +22,4 @@ const nextConfig = {
  
 }
 
-module.exports = module.exports = {
-  useFileSystemPublicRoutes: false,
-},nextConfig
+module.exports =nextConfig
