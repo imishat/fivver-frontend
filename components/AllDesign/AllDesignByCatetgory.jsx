@@ -1,7 +1,7 @@
 import Pagination from "rc-pagination";
 import { useState } from "react";
 import Card from "../Card/Card";
-import Related from "../Related/Related";
+import CategoryRelated from "../Related/CategoryRelated";
 import { useAllDesigns } from "../queries/query/designs.query";
 import { useGetCategoryData } from "../queries/query/getCategory.query";
 
@@ -17,7 +17,8 @@ const AllDesignByCatetgory = ({categoryId}) => {
   const {data: categories} = useGetCategoryData({categoryId})
   const {data: categoriesData} = useGetCategoryData({categoryId:''})
   const category = categories?.data?.categories[0]
-  console.log()
+
+
     
     // Count
     const count = Math.ceil((designData?.data?.totalCount || 10 )/ 10)
@@ -70,7 +71,7 @@ const AllDesignByCatetgory = ({categoryId}) => {
       </div>
       
       {/* Related */}
-      <Related currentItems={getRelatedId} />
+      <CategoryRelated currentItems={getRelatedId} />
     </div>
   );
 };

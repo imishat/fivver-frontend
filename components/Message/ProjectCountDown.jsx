@@ -2,16 +2,34 @@ import { useState } from "react";
 
 
 function ProjectCountDown({deadline,project}) {
+
+
+
+  const date = new Date(deadline);
  
-  
+  const deadline2 = date.setTime(date.getTime() - 6 * 60 * 60 * 1000)
+// const deadline3 = deadline2.toISOString()
+
+
 // Set the date we're counting down to
-var countDownDate = new Date(convertDateFormat(deadline)).getTime();
+var countDownDate = new Date(date).getTime();
 
 // moment(deadline).format('LLL') || "Dec 5, 2023 15:37:25"
          // Get today's date and time
-var now = new Date().getTime();
+
+
+
+// Convert the ISO date string to a Date object
+let dateObj = new Date();
+
+// Get the timestamp in milliseconds since the epoch
+let timestamp = dateObj.getTime();
+
+
+
+
          // Find the distance between now and the count down date
-var distance = countDownDate - now;
+var distance = countDownDate - timestamp;
 // days
 const [days,setDays] = useState('')
 const [hours,setHours] = useState('')
@@ -26,8 +44,8 @@ const [seconds,setSeconds] = useState('')
          var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
          var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
          var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-         setDays(days+1)
-         setHours(hours)
+         setDays(days)
+         setHours(hours+6)
          setMinutes(minutes)
          setSeconds(seconds)    
        },1000)  

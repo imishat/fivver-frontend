@@ -2,7 +2,7 @@
 import Card from "../Card/Card";
 import { useGetRelated } from "../queries/query/related.query";
 const Related = ({ currentItems }) => {
-   const {data:relatedData} = useGetRelated({related:currentItems,limit:4})
+   const {data:relatedData} = useGetRelated({related:currentItems,limit:''})
    const related = relatedData?.data?.designs
    console.log(related)
     return (
