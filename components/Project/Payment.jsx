@@ -27,7 +27,6 @@ const {mutate:sendProjectData} = useCreateManyProject()
         setProjectLoading(true)
         sendProjectData( {"projects":projectData}, {
             onSuccess: (res) => {
-                console.log(res)
             //   showToast(res.message, "success");
             handleSetProjectInLocal(res?.data)
               const savedProject = projectData?.length>1 ? res?.data?.projects:res?.data?.projects
