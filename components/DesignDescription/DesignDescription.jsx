@@ -19,9 +19,11 @@ import { addToCart } from "../redux/features/cart/cart";
 import useToast from "../utility/useToast";
 import RelatedDesignCard from "./RelatedDesignCard";
 
+import { removeFromCart } from '@/components/redux/features/cart/cart';
+
 const DesignDescription = ({ data: designData }) => {
   const { Toast, showToast } = useToast();
- 
+
   const {products}= useSelector(state => state.cart);
   const design = designData?.data?.design
 
@@ -30,6 +32,8 @@ const router = useRouter()
 
   const [isAdded, setIsAdded] = useState(false);
 console.log(isAdded)
+
+const [producr,setPproducr]=useState()
   // send data in redux cart store
   const dispatch = useDispatch();
 
@@ -38,8 +42,9 @@ console.log(isAdded)
       // Check if the product is already in the cart
       const isProductInCart =products.find(item => item.designId=== product
         .designId);
+        setPproducr(isProductInCart)
       
-      if (!isProductInCart) {
+      if (!producr) {
         dispatch(addToCart(product)); // Assuming you're dispatching an action to add to cart
         showToast('Product Added', 'success');
         setIsAdded(true);
@@ -49,6 +54,13 @@ console.log(isAdded)
       }
   
   };
+  const handleDeletedProduct=(design)=>{
+    dispatch(removeFromCart(design))
+    setPproducr(design)
+    setIsAdded(false)
+  }
+
+
 const [projectId,setProjectId] = useState('')
   const {data:projectData} = useAllDesigns({designId:projectId,page:1,limit:1000})
   // handle project start
@@ -107,9 +119,25 @@ const [projectId,setProjectId] = useState('')
             </ul>
           </div>
           <div className="space-y-3">
-            <button className="py-2 w-full hover:bg-blue-200 duration-300 border-2 rounded-full border-blue-400 text-[#1B8CDC] font-bold text-xl"onClick={() => handleAddProduct(design)} disabled={isAdded}>
-            {isAdded ? 'Product added ' : 'Add to cart'}
-            </button>
+          {
+  !isAdded ? (
+    <button
+      className="py-2 w-full hover:bg-blue-200 duration-300 border-2 rounded-full border-blue-400 text-[#1B8CDC] font-bold text-xl"
+      onClick={() => handleAddProduct(design)}
+    >
+      Add to
+    </button>
+  ) : (
+    <button
+      className="py-2 w-full hover:bg-blue-200 duration-300 border-2 rounded-full border-blue-400 text-[#1B8CDC] font-bold text-xl"
+      onClick={() =>
+        handleDeletedProduct(design)
+        }
+    >
+      Delete
+    </button>
+  )
+}
             <p>{design.isAdded}</p>
             <button onClick={()=>handleProjectStart(design.designId)} className="py-2 w-full hover:bg-blue-600 duration-300 text-white font-bold border bg-[#1B8CDC] rounded-full border-blue-400 text-xl">
               Project Start
