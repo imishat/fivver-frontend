@@ -7,7 +7,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 
 import { Autoplay, Navigation } from "swiper/modules";
-import DesignCard from "../Card/DesignCard";
+import CategoryCard from "./CategoryCard";
 import "./styles.module.css";
 
 
@@ -18,7 +18,7 @@ function CategoryRelated({ currentItems }) {
     return (
         <div className="bg-[#F2F9FF] md:p-8 h-full">
         <div className="flex justify-center">
-            <h2 className="text-3xl font-bold p-3">Related Design</h2>
+            <h2 className="text-3xl font-bold p-3">Related Category</h2>
         </div>
         <div className="">
           {
@@ -33,15 +33,15 @@ function CategoryRelated({ currentItems }) {
               }}
               breakpoints={{
                 440: {
-                  slidesPerView: 2,
+                  slidesPerView: 1,
                   spaceBetween: 3,
                 },
                 768: {
-                  slidesPerView: 2,
+                  slidesPerView: 3,
                   spaceBetween: 3,
                 },
                 1024: {
-                  slidesPerView: 3,
+                  slidesPerView: 4,
                   spaceBetween: 10,
                 },
               }}
@@ -49,11 +49,11 @@ function CategoryRelated({ currentItems }) {
               className="mySwiper"
             >
               <div className="w-full">
-                <div className="grid sm:grid-cols-2 p-4 grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-3" >
+                <div className="grid w-full sm:grid-cols-2 p-4 grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-3" >
                   {
-                     related?.length ? related?.map((data,i)=>{
-                      return<SwiperSlide className="flex !w-72 !gap-2">
-                      <DesignCard category={data} data={data} />
+                     currentItems?.length ? currentItems?.map((data,i)=>{
+                      return<SwiperSlide className="flex !gap-2">
+                      <CategoryCard category={data} data={data} />
                     </SwiperSlide>
                })
                :''
