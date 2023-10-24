@@ -62,7 +62,7 @@ const AllDesignByCompany = ({ companyId }) => {
       </div>
 
       {/* Related */}
-      <Related />
+      <Related  currentItems={query}/>
     </div>
   );
 };

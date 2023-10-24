@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import Pagination from "rc-pagination";
 import { useState } from "react";
 import Card from "../Card/Card";
@@ -9,6 +10,9 @@ const AllDesignByCatetgory = ({categoryId}) => {
 
   // pagination
   const [currentPage,setCurrentPage] = useState(1)
+
+  const router = useRouter()
+  
   
   // get all desings
   const {data:designData} = useAllDesigns({designId:categoryId,page:currentPage,limit:10})
@@ -18,19 +22,14 @@ const AllDesignByCatetgory = ({categoryId}) => {
   const {data: categoriesData} = useGetCategoryData({categoryId:''})
   const category = categories?.data?.categories[0]
 
-
     
     // Count
     const count = Math.ceil((designData?.data?.totalCount || 10 )/ 10)
 
 
-    const positions = categories?.data?.categories.map(element => {
-      return categoriesData?.data?.categories.findIndex(item => item.categoryId === element.categoryId);
-    });
+    const othersCategoryData = categoriesData?.data?.categories?.filter(cat=>cat.categoryId!==categoryId)
 
-    const getRelatedId = categoriesData?.data?.categories[positions?.[0]+1]?.categoryId
-    console.log(positions)
-    // all designs
+    console.log(othersCategoryData)
     const designs = designData?.data?.designs
  
   return (
@@ -71,7 +70,7 @@ const AllDesignByCatetgory = ({categoryId}) => {
       </div>
       
       {/* Related */}
-      <CategoryRelated currentItems={getRelatedId} />
+      <CategoryRelated currentItems={othersCategoryData} />
     </div>
   );
 };
