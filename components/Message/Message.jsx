@@ -59,7 +59,6 @@ const Message = () => {
     userId: messageId,
     update:messageUpdate?.update
   });
-  console.log(messageUpdate?.update)
 
   // update
   const {mutate:updateUser} = useUpdateUser()
@@ -76,7 +75,7 @@ const Message = () => {
   const {data:uniqueMessagesData} = useGetUniqueMessages({update:messageUpdate?.update}) 
   const uniqueMessages = uniqueMessagesData?.data?.messages
 
-
+  console.log(messageData,'messages')
 
     // scroll messages
     const ref = useRef(null);
@@ -102,6 +101,7 @@ const Message = () => {
 
   // message data
   const messages = messageData?.data?.messages;
+
 
   // input value
   const [value, setValue] = useState("");
@@ -140,25 +140,7 @@ const handleStar = () =>{
   // Reply
   const [reply, setReply] = useState({});
 
-  // handle send message
-  // const handleSendMessage = (data) => {
-  //   const sendMessage = {
-  //     type: "normal",
-  //     content: data?.messageData,
-  //     reply: reply,
-  //     userId: userInfo?.userId,
-  //     userName: userInfo?.fullName,
-  //   };
-
-  //   client.send(JSON.stringify(sendMessage));
-  //   setUpdate(!update)
-  //   showToast('Message Send','success')
-  //   reset();
-  //   setReply({})
-  //   setValue('')
-  // };
-
-
+ 
   // blob images for preview images
   let imagesBlobs = [];
 
@@ -241,25 +223,7 @@ const handleStar = () =>{
   };
 
 
-  // handle send like
-  const handleSendLike = () => {
-    const sendLike = {
-      type: "like",
-      content: "👍",
-      reply: reply,
-      messageType:'unread',
-      receiverId: messageId,
-      userId: messageId,
-      userName: userInfo?.fullName,
-    };
 
-     // send
-     sendMessage(sendLike);
-     handleClick()
-     setReply({})
-     showToast('Liked','success')
-     dispatch(updateState(!messageUpdate?.update))
-  };
 
   // get all messages
   const { data: messagesData } = useGetMessagesById({

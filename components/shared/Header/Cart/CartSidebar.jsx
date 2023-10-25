@@ -85,13 +85,13 @@ const CartSidebar = ({ cartShow, setCartShow }) => {
                     <div className="w-20 h-16">
                       <img
                         className="w-full h-full object-cover"
-                        src={`${process.env.NEXT_PUBLIC_API}/files/download/public/${cart?.featuredImageId ? cart?.featuredImageId : cart?.imageIds[0]}`}
+                        src={`${process.env.NEXT_PUBLIC_API}/files/download/public/${cart?.featuredImageId ? cart?.featuredImageId : cart?.imageIds?.[0]}`}
                         alt=""
                       />
                     </div>
                     <div className="w-full">
                       <p className="font-bold leading-5 ">
-                        {cart.title} Quantity: {cart.quantity}
+                        {cart.title}
                       </p>
                       <p className="text-xs">{cart.subcategoryName}</p>
                       <p className="text-xs">Size: {cart.size}</p>

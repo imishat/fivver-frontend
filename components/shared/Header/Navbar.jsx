@@ -217,64 +217,65 @@ const Navbar = () => {
               ""
             )}
           </button>
-
-          <button className=" relative py-2 ">
-            <details className="dropdown">
-              <summary className="btn btn-sm flex px-1.5  items-center rounded-full">
-                <FaUserAlt size={20} />
-              </summary>
-              <ul className="p-2 flex flex-col shadow  text-left rounded-none dropdown-left absolute -left-64  text-black bg-base-100 w-64 z-[1]">
-                <Link
-                  className="py-2 hover:border-b hover:border-white hover:bg-base-300 border-b border-gray-300 duration-300 lg:px-3 inline-block"
-                  href={"/user/affiliate"}
-                >
-                  Affiliate
-                </Link>
-                <Link
-                  className="py-2 hover:border-b hover:border-white hover:bg-base-300 border-b border-gray-300 duration-300 lg:px-3 inline-block"
-                  href={"/user/affiliate/billing-info"}
-                >
-                  Billing Information
-                </Link>
-                <Link
-                  className="py-2 hover:border-b hover:border-white hover:bg-base-300 border-b border-gray-300 duration-300 lg:px-3 inline-block"
-                  href={"/user/affiliate/Configer-info"}
-                >
-                  Payment Method
-                </Link>
-                <Link
-                  className="py-2 hover:border-b hover:border-white hover:bg-base-300 border-b border-gray-300 duration-300 lg:px-3 inline-block"
-                  href={"/user/affiliate/payment-info"}
-                >
-                 Affiliate payment history
-                </Link>
-                <Link
-                  className="py-2 hover:border-b hover:border-white hover:bg-base-300 border-b border-gray-300 duration-300 lg:px-3 inline-block"
-                  href={"/user/affiliate/payment-method"}
-                >
-                withdraw request history
-                </Link>
-
-                <li>
-                  {!user?.email ? (
+          {!user?.email ? (
                     <Link
-                      className="py-2 hover:border-b hover:border-white hover:bg-base-300 border-b border-gray-300 duration-300 lg:px-3 inline-block"
+                      className="py-2 hover:border-b duration-300 lg:px-3 inline-block"
                       href={"/join"}
                     >
                       Join
                     </Link>
                   ) : (
-                    <button
+                    <button className=" relative py-2 ">
+                    <details className="dropdown">
+                      <summary className="btn btn-sm flex px-1.5  items-center rounded-full">
+                        <FaUserAlt size={20} />
+                      </summary>
+                      <ul className="p-2 flex flex-col shadow  text-left rounded-none dropdown-left absolute -left-64  text-black bg-base-100 w-64 z-[1]">
+                        <Link
+                          className="py-2 hover:border-b hover:border-white hover:bg-base-300 border-b border-gray-300 duration-300 lg:px-3 inline-block"
+                          href={"/user/affiliate"}
+                        >
+                          Affiliate
+                        </Link>
+                        <Link
+                          className="py-2 hover:border-b hover:border-white hover:bg-base-300 border-b border-gray-300 duration-300 lg:px-3 inline-block"
+                          href={"/user/affiliate/billing-info"}
+                        >
+                          Billing Information
+                        </Link>
+                        <Link
+                          className="py-2 hover:border-b hover:border-white hover:bg-base-300 border-b border-gray-300 duration-300 lg:px-3 inline-block"
+                          href={"/user/affiliate/Configer-info"}
+                        >
+                          Payment Method
+                        </Link>
+                        <Link
+                          className="py-2 hover:border-b hover:border-white hover:bg-base-300 border-b border-gray-300 duration-300 lg:px-3 inline-block"
+                          href={"/user/affiliate/payment-info"}
+                        >
+                         Affiliate payment history
+                        </Link>
+                        <Link
+                          className="py-2 hover:border-b hover:border-white hover:bg-base-300 border-b border-gray-300 duration-300 lg:px-3 inline-block"
+                          href={"/user/affiliate/payment-method"}
+                        >
+                        withdraw request history
+                        </Link>
+        
+                        <li>
+                        <button
                       onClick={() => handleLogout()}
                       className="py-2 w-full hover:border-b bg-rose-100 text-rose-600 hover:border-white hover:bg-base-300 border-b border-gray-300 duration-300 lg:px-3 "
                     >
                       Logout
                     </button>
+                        </li>
+                      </ul>
+                    </details>
+                  </button>
+                   
                   )}
-                </li>
-              </ul>
-            </details>
-          </button>
+         
         </div>
       </div>
       {/* Cart Sidebar */}

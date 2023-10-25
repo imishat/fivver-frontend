@@ -30,7 +30,7 @@ const SIgnUp = ({ setToggle }) => {
   const {data:sendMail} = useGetOtp({email:email})
 
   const sendData = sendMail?.data
-  console.log(sendData)
+ 
 
 
   // handle send verification mail
@@ -44,13 +44,12 @@ const SIgnUp = ({ setToggle }) => {
   
     LoginData(data,{
       onSuccess: (res) => {
-        handleSendMail(data?.email)
+     if(res){
+      handleSendMail(data?.email)
       showToast('crate account', 'success');
       reset()
       router.push('/auth/user-verify')
-      
-   
-   
+     }   
     },
     onError: err => {
       showToast(err?.response?.data?.message)

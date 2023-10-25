@@ -211,7 +211,7 @@ const Requirement = ({ project }) => {
 let minus18Hours = new Date(now);
 
 // Subtract 18 hours in milliseconds (18 hours * 60 minutes * 60 seconds * 1000 milliseconds)
-minus18Hours.setTime(minus18Hours.getTime() + (24*((project?.isExtraFastDeliveryEnabled||requirementProjects[0]?.isExtraFastDeliveryEnabled)?1:2) * 60 * 60 * 1000));
+minus18Hours.setTime(minus18Hours.getTime() + (24*((project?.isExtraFastDeliveryEnabled||requirementProjects?.[0]?.isExtraFastDeliveryEnabled)?1:2) * 60 * 60 * 1000));
 
 // Format the date as YYYY-MM-DD
 let utcDate1 = minus18Hours.toISOString()
@@ -573,7 +573,7 @@ if(projectId||requirementProjects[0]?.projectId){
                       {isLoading ? "Loading..." : "Start Now"}
                     </button>
                     {
-                    router?.query?.projectId !== projectId ? '' : (
+                    router?.query?.projectId !== projectId && requirementData?.industry?.length ? '' : (
                       <div className="py-2">
                         <Link onClick={()=>handleSkip()} href={"#"}>Skip</Link>
                       </div>

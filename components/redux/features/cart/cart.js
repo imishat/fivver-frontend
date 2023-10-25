@@ -9,12 +9,13 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     addToCart: (state, action) => {
-      const exsting = state.products.find(
+      console.log(action.payload)
+      const existing = state.products?.length && state.products?.find(
         (product) => product.designId === action.payload.designId
       );
-      if (exsting) {
-        exsting.quantity += 1;
-        exsting.isAdded = true;
+      if (existing) {
+        existing.quantity += 1;
+        existing.isAdded = true;
         // Set isAdded to true for exsting products
 
         // state.isAdded=!state.isAdded
@@ -26,18 +27,11 @@ const cartSlice = createSlice({
       }
     },
     removeFromCart: (state, action) => {
-      
-      const existing = state.products.find(
-        (product) => product.designId === action.payload.designId
-      );
-
-      if (existing && existing.quantity >= 1) {
-        existing.quantity = existing.quantity - 1;
-      } else {
+         
         state.products = state.products.filter(
           (product) => product.designId !== action.payload.designId
         );
-      }
+      
       // local storage filter for remove from cart
 
       // get data from local storage

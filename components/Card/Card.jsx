@@ -2,50 +2,60 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { BiCartAdd } from "react-icons/bi";
-import { IoCheckmark } from "react-icons/io5";
+import { CgClose } from "react-icons/cg";
 import { useDispatch, useSelector } from "react-redux";
-import { addToCart } from "../redux/features/cart/cart";
+import { addToCart, removeFromCart } from "../redux/features/cart/cart";
 import useToast from "../utility/useToast";
 
 const Card = ({data,category}) => {
-    const [showCart,setShowCart] = useState(false)
+  
 
     const { Toast, showToast } = useToast();
  
     const {products}= useSelector(state => state.cart);
     const design = data
 
+    const isAddedData = products.find(item=>item.designId===data.designId)
+
+    const [showCart,setShowCart] = useState(isAddedData ? true : false)
+
     const dispatch = useDispatch()
 
-    const [isAdded,setIsAdded] = useState(false)
+    const isAdded =isAddedData ? true : false
 
     const handleAddProduct = (product) => {
   
         // Check if the product is already in the cart
         const isProductInCart =products.find(item => item.designId=== product
           .designId);
-        
-        if (!isProductInCart) {
           dispatch(addToCart(product)); // Assuming you're dispatching an action to add to cart
           showToast('Product Added', 'success');
-          setIsAdded(true);
-        } else {
-          showToast('Product is already in the cart', 'error');
-          setIsAdded(false);
-        }
+          
+       
     
     };
+
+    const handleDeletedProduct = (design) => {
+        dispatch(removeFromCart(design));
+      };
     return (
-        <div onMouseEnter={()=>setShowCart(true)} onMouseLeave={()=>setShowCart(false)} className="border border-gray-300 relative">
+        <div onMouseEnter={()=>setShowCart(true)} onMouseLeave={()=>setShowCart(isAddedData?true:false)} className="border border-gray-300 relative">
             {
                 showCart ? <div className="absolute right-0 top-0 flex justify-center items-center p-2 rounded-md bg-base-200">
                     {/* <button><BiCartAdd size={28} /></button> */}
+                   {isAdded?
+                     <button onClick={() => {
+                        handleDeletedProduct(design) 
+                        }}  className="text-rose-500">
+                           <CgClose size={28} />
+                           </button>
+                           :
                     <button onClick={() => {
                         handleAddProduct(design) 
-                        setIsAdded(!isAdded)
-                        }} disabled={isAdded} className="text-rose-500">
-                            {isAdded?<IoCheckmark size={28} />:<BiCartAdd size={28} />}
+                        }}  className="text-rose-500">
+                            <BiCartAdd size={28} />
                            </button>
+                   }
                 </div>:''
                 
             }

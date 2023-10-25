@@ -19,57 +19,59 @@ import { addToCart } from "../redux/features/cart/cart";
 import useToast from "../utility/useToast";
 import RelatedDesignCard from "./RelatedDesignCard";
 
-import { removeFromCart } from '@/components/redux/features/cart/cart';
+import { removeFromCart } from "@/components/redux/features/cart/cart";
 
-const DesignDescription = ({ data: designData }) => {
+const DesignDescription = ({ data }) => {
   const { Toast, showToast } = useToast();
 
-  const {products}= useSelector(state => state.cart);
-  const design = designData?.data?.design
-
+  const { products } = useSelector((state) => state.cart);
+  const design = data?.data?.designs[0];
+  // console.log(design);
 
 // router
 const router = useRouter()
 
   const [isAdded, setIsAdded] = useState(false);
+console.log(isAdded)
 
 const [producr,setPproducr]=useState()
   // send data in redux cart store
   const dispatch = useDispatch();
 
   const handleAddProduct = (product) => {
-  
-      // Check if the product is already in the cart
-      const isProductInCart =products.find(item => item.designId=== product
-        .designId);
-        setPproducr(isProductInCart)
-      
-      if (!producr) {
-        dispatch(addToCart(product)); // Assuming you're dispatching an action to add to cart
-        showToast('Product Added', 'success');
-        setIsAdded(true);
-      } else {
-        showToast('Product is already in the cart', 'error');
-        setIsAdded(false);
-      }
-  
+    // Check if the product is already in the cart
+    const isProductInCart = products?.length && products.find(
+      (item) => item.designId === product.designId
+    );
+    setPproducr(isProductInCart);
+
+      dispatch(addToCart(product)); // Assuming you're dispatching an action to add to cart
+      showToast("Product Added", "success");
+    
   };
-  const handleDeletedProduct=(design)=>{
-    dispatch(removeFromCart(design))
-    setPproducr(design)
-    setIsAdded(false)
-  }
+  const handleDeletedProduct = (design) => {
+    dispatch(removeFromCart(design));
+    setPproducr(design);
+  };
 
-
-const [projectId,setProjectId] = useState('')
-  const {data:projectData} = useAllDesigns({designId:projectId,page:1,limit:1000})
+  const [projectId, setProjectId] = useState("");
+  const { data: projectData } = useAllDesigns({
+    designId: projectId,
+    page: 1,
+    limit: 1000,
+  });
   // handle project start
-  const handleProjectStart = id =>{
-    setProjectId(id)
-    console.log(id)
-    localStorage.setItem('designs',JSON.stringify([projectData?.data?.designs?.find(project=>project.designId===id)]))
-    router.push('/project')
-  }
+  const handleProjectStart = (id) => {
+    setProjectId(id);
+    console.log(id);
+    localStorage.setItem(
+      "designs",
+      JSON.stringify([
+        projectData?.data?.designs?.find((project) => project.designId === id),
+      ])
+    );
+    router.push("/project");
+  };
   return (
     <div>
       <Toast />
@@ -84,13 +86,13 @@ const [projectId,setProjectId] = useState('')
               {design?.imageIds?.map((id, i) => (
                 <SwiperSlide key={i} className="flex !gap-2">
                   <div className="border">
-                      <Image
+                    <Image
                       height={380}
                       width={640}
-                        className="w-full h-full"
-                        src={`${process.env.NEXT_PUBLIC_API}/files/download/public/${id}`}
-                        alt=""
-                      />
+                      className="w-full h-full"
+                      src={`${process.env.NEXT_PUBLIC_API}/files/download/public/${id}`}
+                      alt=""
+                    />
                   </div>
                 </SwiperSlide>
               ))}
@@ -113,11 +115,7 @@ const [projectId,setProjectId] = useState('')
                 <p className="font-bold">File Format:</p> {design?.fileFormat}
               </li>
               <li className="flex gap-1">
-                <p className="font-bold">Categorie:</p>{" "}
-                {design?.categoryName}
-              </li>
-              <li className="flex gap-1">
-                <p className="font-bold">Sub Categorie:</p>{" "}
+                <p className="font-bold">Design:</p>{" "}
                 {design?.subcategory[0]?.name}
               </li>
             </ul>
@@ -138,11 +136,11 @@ const [projectId,setProjectId] = useState('')
         handleDeletedProduct(design)
         }
     >
-     Remove
+      Delete
     </button>
   )
 }
-            <p>{design.isAdded}</p>
+            {/* <p>{design.isAdded}</p> */}
             <button onClick={()=>handleProjectStart(design.designId)} className="py-2 w-full hover:bg-blue-600 duration-300 text-white font-bold border bg-[#1B8CDC] rounded-full border-blue-400 text-xl">
               Project Start
             </button>
@@ -154,7 +152,7 @@ const [projectId,setProjectId] = useState('')
           {design?.title}
         </h2>
         <div className="my-4 description text-sm">
-          {parse(design?.description)}
+          {design?.description?.length && parse(design?.description)}
         </div>
       </div>
 

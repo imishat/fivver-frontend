@@ -53,21 +53,21 @@ const {messageUpdate} = useSelector(state=>state.update)
   
     return (
       <>
-      <div className={`${(message?.sender?.senderId === user?.userId ) ? 'hidden':''} flex items-center w-full relative  `} >
+      <div className={` flex items-center w-full relative  `} >
         <Link className="w-full" href={`/message/${message?.receiver?.receiverId}`}>
         <Toast />
         <li key={message?.messageId} className="flex pr-9 items-center w-full bg-[#F2F9FF] py-4 border-b border-gray-400 cursor-pointer px-3 gap-2">
         <span className="w-12">
           <Image width={96} height={96}
             className="w-9 h-9 object-cover rounded-full"
-            src={`${process.env.NEXT_PUBLIC_API}/files/download/public/${message?.sender?.profilePicture}`}
+            src={`${process.env.NEXT_PUBLIC_API}/files/download/public/${message?.receiver?.profilePicture}`}
             alt=""
           />
         </span>
         <div className="w-full leading-5">
           <div className="flex justify-between items-center w-full">
             <strong className="flex items-center gap-2">
-              {message?.sender?.fullName}
+              {message?.receiver?.fullName}
               <span>
                 <BsClock />
               </span>
