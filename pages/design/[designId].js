@@ -1,8 +1,17 @@
 import Main from '@/Layout/Main';
 import DesignDescription from '@/components/DesignDescription/DesignDescription';
+import { useAllDesigns } from '@/components/queries/query/designs.query';
+import { useRouter } from 'next/router';
 
 
-const designId = ({data}) => {
+const designId = () => {
+
+  const router = useRouter()
+  const {designId} = router.query
+  
+
+  const {data} = useAllDesigns({designId:designId,page:'',limit:''})
+ console.log(data)
     return (
         <Main title={'Design Description'}>
             <DesignDescription data={data} />      
@@ -10,17 +19,4 @@ const designId = ({data}) => {
     );
 };
 
-// get design by id with ssp
-export async function getServerSideProps({ query }) { 
-    const { designId } = query;
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API}/designs/${designId}`)
-    const data = await response.json();
-  
-    return {
-      props: {
-        data,
-      },
-    };
-  }
-
-export default designId;
+export default designId

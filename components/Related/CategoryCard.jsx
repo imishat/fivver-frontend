@@ -1,32 +1,31 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
 
 const CategoryCard = ({data}) => {
     const [showCart,setShowCart] = useState(false)
 
 
-    const dispatch = useDispatch()
+    // const dispatch = useDispatch()
 
-    const [isAdded,setIsAdded] = useState(false)
+    // const [isAdded,setIsAdded] = useState(false)
 
-    const handleAddProduct = (product) => {
+    // const handleAddProduct = (product) => {
   
-        // Check if the product is already in the cart
-        const isProductInCart =data.find(item => item.designId=== product
-          .designId);
+    //     // Check if the product is already in the cart
+    //     const isProductInCart =data.find(item => item.designId=== product
+    //       .designId);
         
-        if (!isProductInCart) {
-          dispatch(addToCart(product)); // Assuming you're dispatching an action to add to cart
-          showToast('Product Added', 'success');
-          setIsAdded(true);
-        } else {
-          showToast('Product is already in the cart', 'error');
-          setIsAdded(false);
-        }
+    //     if (!isProductInCart) {
+    //       dispatch(addToCart(product)); // Assuming you're dispatching an action to add to cart
+    //       showToast('Product Added', 'success');
+    //       setIsAdded(true);
+    //     } else {
+    //       showToast('Product is already in the cart', 'error');
+    //       setIsAdded(false);
+    //     }
     
-    };
+    // };
     return (
         <div onMouseEnter={()=>setShowCart(true)} onMouseLeave={()=>setShowCart(false)} className="border w-full border-gray-300 relative">
             

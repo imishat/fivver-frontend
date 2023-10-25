@@ -12,7 +12,7 @@ import { Autoplay, Navigation } from "swiper/modules";
 
 
 const Related = ({ currentItems }) => {
-    const query = currentItems?.split(' ').slice(0,2).join(' ')
+    const query = currentItems?.split(' ').slice(0,3).join(' ')
    const {data:relatedData} = useGetRelated({related:query,limit:''})
    const related = relatedData?.data?.designs
     return (
