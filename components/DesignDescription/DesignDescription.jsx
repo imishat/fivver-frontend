@@ -31,8 +31,11 @@ const DesignDescription = ({ data }) => {
   // router
   const router = useRouter();
 
-  const [isAdded, setIsAdded] = useState(false);
-  console.log(isAdded);
+  
+
+
+  const isAddedData = products.find(item=>item.designId===design?.designId)
+  const isAdded =isAddedData ? true : false
 
   const [producr, setPproducr] = useState();
   // send data in redux cart store
@@ -47,13 +50,11 @@ const DesignDescription = ({ data }) => {
 
       dispatch(addToCart(product)); // Assuming you're dispatching an action to add to cart
       showToast("Product Added", "success");
-      setIsAdded(true);
     
   };
   const handleDeletedProduct = (design) => {
     dispatch(removeFromCart(design));
     setPproducr(design);
-    setIsAdded(false);
   };
 
   const [projectId, setProjectId] = useState("");
