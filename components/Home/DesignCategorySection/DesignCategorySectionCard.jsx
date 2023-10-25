@@ -54,7 +54,7 @@ export default function DesignCategorySectionCard({category}) {
           1024: {
             slidesPerView: 3,
             spaceBetween: 10,
-          },
+          }
         }}
         modules={[Navigation,Autoplay]}
         className="mySwiper"

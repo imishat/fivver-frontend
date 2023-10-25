@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 
-function ProjectCountDown({deadline,project}) {
+function CountDown({deadline,project}) {
 
 
 
@@ -50,47 +50,56 @@ const [seconds,setSeconds] = useState('')
          setSeconds(seconds)    
        },1000)  
 
-console.log(deadline)
+
     return (
         <>
         
         {
-            distance < 0 || project?.status==='Completed'? <>
-                <p className="flex flex-col text-center border border-blue-400 px-2 py-2 w-full">
-              <span className="font-bold text-xl">00</span> <span>Days</span>
+            distance < 0 || project?.status==='Completed' || !deadline?.length ? <div className="flex items-center">
+                <p>
+              {" "}
+              <span className="font-bold text-xl">00</span> <span></span>
             </p>
-            <p className="flex flex-col text-center border border-blue-400 px-2 py-2 w-full">
-              <span className="font-bold text-xl">00</span> <span>Hours</span>
+            -
+            <p>
+              {" "}
+              <span className="font-bold text-xl">00</span> <span></span>
             </p>
-            <p className="flex flex-col text-center border border-blue-400 px-2 py-2 w-full">
-              <span className="font-bold text-xl">00</span> <span>Minutes</span>
-            </p>
-            <p className="flex flex-col text-center border border-blue-400 px-2 py-2 w-full">
-              <span className="font-bold text-xl">00</span> <span>Seconds</span> 
-             </p> 
-            </> 
+            </div> 
             :
-            <>
-            <p className="flex flex-col text-center border border-blue-400 px-2 py-2 w-full">
-              <span className="font-bold text-xl">{days||0}</span> <span>Days</span>
+            <div className="flex items-center gap-2">
+            <p className="">
+              {" "}
+              <span className={`${days===0 ? 'hidden':''} font-bold text-xl`}>{days||0}d -
+</span> 
             </p>
-            <p className="flex flex-col text-center border border-blue-400 px-2 py-2 w-full">
-              <span className="font-bold text-xl">{hours||0}</span> <span>Hours</span>
+            
+            <p className={` ${hours<12 && days===0  ? 'text-red-500':''}`}>
+              {" "}
+              <span className={`${hours===0 ? 'hidden':''} font-bold text-xl`}>{hours||0}h 
+</span>
+<span className={`${days!==0 ? 'hidden':''}`}>-</span>
             </p>
-            <p className="flex flex-col text-center border border-blue-400 px-2 py-2 w-full">
-              <span className="font-bold text-xl">{minutes||0}</span> <span>Minutes</span>
+            
+            <p className={` ${hours<12 ? 'text-red-500':''}`}>
+              {" "}
+              <span className={`${minutes===0 || days!==0 ? 'hidden':''} font-bold text-xl`}>{minutes||0}m 
+</span>
             </p>
-            <p className="flex flex-col text-center border border-blue-400 px-2 py-2 w-full">
-              <span className="font-bold text-xl">{seconds||0}</span> <span>Seconds</span> 
+            
+            <p className={`${hours<12 ? 'text-red-500':''}`}>
+              {" "}
+              <span className={`${seconds===0 || hours!==0? 'hidden':''} font-bold text-xl`}>-{seconds||0}s 
+</span>
              </p> 
-          </>
+          </div>
         }
         </>
        
     );
 }
 
-export default ProjectCountDown;
+export default CountDown;
 
 function convertDateFormat(dateStr) {
   const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
