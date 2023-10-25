@@ -27,11 +27,11 @@ const DesignDescription = ({ data: designData }) => {
   const {products}= useSelector(state => state.cart);
   const design = designData?.data?.design
 
+
 // router
 const router = useRouter()
 
   const [isAdded, setIsAdded] = useState(false);
-console.log(isAdded)
 
 const [producr,setPproducr]=useState()
   // send data in redux cart store
@@ -113,7 +113,11 @@ const [projectId,setProjectId] = useState('')
                 <p className="font-bold">File Format:</p> {design?.fileFormat}
               </li>
               <li className="flex gap-1">
-                <p className="font-bold">Design:</p>{" "}
+                <p className="font-bold">Categorie:</p>{" "}
+                {design?.categoryName}
+              </li>
+              <li className="flex gap-1">
+                <p className="font-bold">Sub Categorie:</p>{" "}
                 {design?.subcategory[0]?.name}
               </li>
             </ul>
@@ -134,7 +138,7 @@ const [projectId,setProjectId] = useState('')
         handleDeletedProduct(design)
         }
     >
-      Delete
+     Remove
     </button>
   )
 }
