@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useGetUserData } from "../queries/query/getUserProfile.query";
+import CountDown from "./CountDown";
 
 const ClientCard = ({project}) => {
 
@@ -45,7 +46,9 @@ const ClientCard = ({project}) => {
                   </li>
                   <li className="text-center">
                       <p>Time</p>
-                      <span className="font-bold text-lg">1 day late</span>
+                      <span className="font-bold text-lg">
+                        <CountDown project={project} deadline={project?.deadline} />
+                      </span>
                   </li>
                   <li className="text-center">
                       <p>Status</p>

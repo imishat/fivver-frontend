@@ -1,8 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { BiCartAdd } from "react-icons/bi";
-import { CgClose } from "react-icons/cg";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart, removeFromCart } from "../redux/features/cart/cart";
 import useToast from "../utility/useToast";
@@ -39,31 +37,12 @@ const Card = ({data,category}) => {
         dispatch(removeFromCart(design));
       };
     return (
-        <div onMouseEnter={()=>setShowCart(true)} onMouseLeave={()=>setShowCart(isAddedData?true:false)} className="border border-gray-300 relative">
-            {
-                showCart ? <div className="absolute right-0 top-0 flex justify-center items-center p-2 rounded-md bg-base-200">
-                    {/* <button><BiCartAdd size={28} /></button> */}
-                   {isAdded?
-                     <button onClick={() => {
-                        handleDeletedProduct(design) 
-                        }}  className="text-rose-500">
-                           <CgClose size={28} />
-                           </button>
-                           :
-                    <button onClick={() => {
-                        handleAddProduct(design) 
-                        }}  className="text-rose-500">
-                            <BiCartAdd size={28} />
-                           </button>
-                   }
-                </div>:''
-                
-            }
-
-            <div className="bg-rose-100 h-56 w-full">
-                <Image height={160} width={224} className="w-full h-56 object-cover" src={`${process.env.NEXT_PUBLIC_API}/files/download/public/${data?.featuredImageId ? data?.featuredImageId : data?.imageIds[0]}`} alt="" />
+        <div className="border w-[320px] md:w-[420px] border-gray-300">
+             <Link href={`/designs/company/${data?.title}`} className="px-2 inline-block py-1 text-sm">
+            <div className="bg-rose-100 w-[300px] md:w-[355px] h-56 md:h-72">
+                <Image height={160} width={224} className="h-56 md:h-72 w-full object-cover" src={`${process.env.NEXT_PUBLIC_API}/files/download/public/${data?.featuredImageId ? data?.featuredImageId : data?.imageIds[0]}`} alt="" />
             </div>
-            <Link href={`/designs/company/${data?.title}`} className="px-2 inline-block py-1 text-sm">
+           
                 <h3>{data?.title}</h3>
             </Link>
         </div>

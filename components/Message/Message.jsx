@@ -60,7 +60,7 @@ const Message = () => {
     update:messageUpdate?.update
   });
 
-  // update
+  // update user
   const {mutate:updateUser} = useUpdateUser()
 
   // message type 
@@ -75,7 +75,10 @@ const Message = () => {
   const {data:uniqueMessagesData} = useGetUniqueMessages({update:messageUpdate?.update}) 
   const uniqueMessages = uniqueMessagesData?.data?.messages
 
-  console.log(messageData,'messages')
+
+
+
+  console.log(userInfo,'messages')
 
     // scroll messages
     const ref = useRef(null);
@@ -253,6 +256,20 @@ const lastMessage = messages?.at(-1)
 
 const localDate = new Date()
 
+// block unblock
+const handleBlockUser = () =>{
+  const blockData = {
+    id:userInfo?.userId,
+    action:'block'
+  }
+}
+const handleUnBlockUser = () =>{
+  const blockData = {
+    id:userInfo?.userId,
+    action:'unblock'
+  }
+}
+
   return (
     <div className="md:w-[90%] mx-auto my-12 gap-2 md:flex">
       <Toast />
@@ -328,16 +345,19 @@ const localDate = new Date()
                         
                         
                       </li>
-                      <li className="w-20">
-                        <a className="px-3 cursor-pointer py-2 inline-block hover:bg-gray-400 w-24">
-                          Block
-                        </a>
-                      </li>
-                      <li className="w-20">
-                        <a className="px-3 cursor-pointer py-2 inline-block hover:bg-gray-400 w-24">
-                          Unblock
-                        </a>
-                      </li>
+                    
+                     {
+                      userInfo?.action==='block' ?   <li className="w-20">
+                      <button onClick={()=>handleUnBlockUser()} className="px-3 cursor-pointer py-2 inline-block hover:bg-gray-400 w-24">
+                        Unblock
+                      </button>
+                    </li>:<li className="w-20">
+                      <button onClick={()=>handleBlockUser()} className="px-3 cursor-pointer py-2 inline-block hover:bg-gray-400 w-24">
+                        Block
+                      </button>
+                    </li>
+                     }
+                    
                     </ul>
                   </details>
                   {/* <button><BsThreeDotsVertical /></button> */}
