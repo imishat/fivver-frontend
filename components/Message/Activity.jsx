@@ -396,7 +396,8 @@ const Activity = () => {
                   <BsArrowDownCircle size={20} />
                 </button>
                 <div>
-                  <div>
+                  {
+                    user?.role === 'ADMIN' ? <div>
                     {/* Quick Response */}
 
                     <AllQuickResponse
@@ -404,7 +405,8 @@ const Activity = () => {
                       setValue={handleTextareaClick}
                       value={value}
                     />
-                  </div>
+                  </div>:''
+                  }
                   <div className="my-2 relative">
                     {/* If Reply Message */}
                     <div className="">
@@ -435,7 +437,7 @@ const Activity = () => {
                       ) : (
                         ""
                       )}
-                      <div className="flex items-center flex-wrap gap-1 mx-1 my-3">
+                      <div className={`flex items-center flex-wrap gap-1 mx-1 ${user?.role==='ADMIN' ? 'my-3':''}`}>
                         {imagesBlobs?.length > 0
                           ? imagesBlobs?.map((image, i) => {
                               return (

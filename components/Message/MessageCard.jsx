@@ -71,11 +71,14 @@ const messageUpdate = useSelector((state)=>state.update)
         <div className="flex w-full px-2 gap-2 py-3">
           <Toast />
         <div className="w-9">
-          <img
+        {
+            message?.sender?.profilePicture ?  <img
             className="w-8 h-8 rounded-full border border-gray-500"
             src={`${process.env.NEXT_PUBLIC_API}/files/download/public/${message?.sender?.profilePicture}`} 
             alt=""
-          />
+          />:<div className="bg-rose-100 w-9 h-9 object-cover rounded-full flex justify-center items-center font-bold">{message?.sender?.fullName?.slice(0,1)}</div>
+          }
+         
         </div>
         <div className="w-full">
           <strong>

@@ -21,7 +21,7 @@ import { useGetUniqueMessages } from "../queries/query/getAllUniqueMessages.quer
 import { updateState } from "../redux/features/update/updateSlice";
 import MessageCard from "./MessageCard";
 import MessageFiles from "./MessageFiles/MessageFiles";
-import MessageLike from "./MessageLike/MessageLike";
+import MessageStart from "./MessageLike/MessageStart";
 import MessageUserCard from "./MessageUserCard";
 import OfferMessageCard from "./OfferMessageCard";
 import AllQuickResponse from "./QuickResponse/AllQuickResponse";
@@ -401,7 +401,7 @@ const handleUnBlockUser = () =>{
                   )}
                   {/* // Like Message */}
                   {message?.type === "start" && (
-                    <MessageLike
+                    <MessageStart
                       setReply={setReply}
                       key={message.messageId}
                       message={message}

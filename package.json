@@ -18,6 +18,7 @@
     "2checkout-node": "^0.0.1",
     "autoprefixer": "10.4.14",
     "axios": "^1.4.0",
+    "country-list-js": "^3.1.7",
     "daisyui": "^3.3.1",
     "emoji-mart": "^5.5.2",
     "emoji-picker-react": "^4.5.3",

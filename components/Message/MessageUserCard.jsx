@@ -18,6 +18,14 @@ const {messageUpdate} = useSelector(state=>state.update)
   // dispatch 
   const dispatch = useDispatch()
 
+  // const { data: messageData } = useGetMessagesById({
+  //   projectId: "",
+  //   userId: messageId,
+  //   update:messageUpdate?.update
+  // });
+
+
+
      // get user by id
   const { data: userData } = useGetUserData({ token: "", userId: message?.userId,update:messageUpdate?.update });
   // user info
@@ -53,16 +61,19 @@ const {messageUpdate} = useSelector(state=>state.update)
   
     return (
       <>
-      <div className={` flex items-center w-full relative  `} >
+      <div className={` flex items-center w-full relative`} >
         <Link className="w-full" href={`/message/${message?.receiver?.receiverId}`}>
         <Toast />
         <li key={message?.messageId} className="flex pr-9 items-center w-full bg-[#F2F9FF] py-4 border-b border-gray-400 cursor-pointer px-3 gap-2">
         <span className="w-12">
-          <Image width={96} height={96}
+          {
+            message?.receiver?.profilePicture ? <Image width={96} height={96}
             className="w-9 h-9 object-cover rounded-full"
             src={`${process.env.NEXT_PUBLIC_API}/files/download/public/${message?.receiver?.profilePicture}`}
             alt=""
-          />
+          />:<div className="bg-rose-100 w-9 h-9 object-cover rounded-full flex justify-center items-center font-bold">{message?.receiver?.fullName?.slice(0,1)}</div>
+          }
+          
         </span>
         <div className="w-full leading-5">
           <div className="flex justify-between items-center w-full">
