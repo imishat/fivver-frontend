@@ -15,6 +15,8 @@ import EmojiPicker from "emoji-picker-react";
 import moment from "moment";
 import Image from "next/image";
 import Link from "next/link";
+import { BiSearchAlt2 } from "react-icons/bi";
+import { CgClose } from "react-icons/cg";
 import { useUploadFile } from "../queries/mutation/fileUpload.mutation";
 import { useUpdateUser } from "../queries/mutation/updateUser.mutation";
 import { useGetUniqueMessages } from "../queries/query/getAllUniqueMessages.query";
@@ -73,7 +75,7 @@ const Message = () => {
    
   // get all unique messages
   const {data:uniqueMessagesData} = useGetUniqueMessages({update:messageUpdate?.update}) 
-  const uniqueMessages = uniqueMessagesData?.data?.messages
+  let uniqueMessages = uniqueMessagesData?.data?.messages
 
 
 
@@ -269,6 +271,21 @@ const handleUnBlockUser = () =>{
     action:'unblock'
   }
 }
+console.log(uniqueMessages)
+// search 
+const [showSearch,setShowSearch] = useState(false)
+// search input
+const [search,setSearch] = useState('')
+
+// after filter
+const [uniqueNewData,setUniqueData] = useState(uniqueMessages)
+
+// handleSearch
+const handleSearch = () =>{
+  const regex = new RegExp(search)
+  const afterFilter = uniqueMessages?.filter(message=>regex.test(message?.receiver?.fullName.toLowerCase()))
+  setUniqueData(afterFilter)
+}
 
   return (
     <div className="md:w-[90%] mx-auto my-12 gap-2 md:flex">
@@ -277,11 +294,22 @@ const handleUnBlockUser = () =>{
         <div className="h-14 w-full bg-[#CCE5FB] px-4 flex items-center">
           {/* filter */}
           <div className="flex items-center justify-between w-full">
-            <span>
-              <BsSearch />
-            </span>
-         {
+          {
           user?.role ==='ADMIN' ?
+          <div>
+            {
+              !showSearch? <button onClick={()=>setShowSearch(!showSearch)} className="flex items-center "> <BsSearch /></button>:<button onClick={()=>{
+                setShowSearch(!showSearch)
+                setUniqueData(uniqueMessages)
+              }} className="flex items-center "> <CgClose size={22} /></button>
+            }
+            
+             
+            </div>:''
+        }
+            
+         {
+          user?.role ==='ADMIN' && !showSearch ?
           <select onChange={e=>setMessageType(e.target.value)} className="bg-white border border-gray-400 px-2 py-1">
           <option value="">All Conversations</option>
           <option value="unread">Unread</option>
@@ -290,15 +318,17 @@ const handleUnBlockUser = () =>{
           <option value="custom">Custom Offers</option>
         </select>
           :
-          ''
+          <div className="flex items-center">
+            <input type="search" onChange={(e)=>setSearch(e.target.value)} className="px-4 py-2" placeholder="search" name="search" id="" /><button onClick={()=>handleSearch()} className="px-4 py-3 bg-blue-400 flex text-white items-center"><BiSearchAlt2 /></button>
+          </div>
          }
           </div>
         </div>
         {/* Result */}
         <div className="overflow-y-auto h-auto max-h-[600px]">
           <ul>
-            {uniqueMessages?.length
-              ? uniqueMessages?.map((message) => (
+            {uniqueNewData?.length
+              ? uniqueNewData?.map((message) => (
                   <MessageUserCard  messageId={messageId} key={message?.messageId} lastMessage={lastMessage} message={message} />
                 ))
               : "No Message"}
