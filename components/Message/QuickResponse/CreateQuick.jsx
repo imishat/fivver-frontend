@@ -34,7 +34,7 @@ const {mutate:createQuick}= useQuickResponse()
         const quickData ={
             type:'POST',
             "label": data?.quick,
-            "value": data?.quick?.split(' ').join('-').toLowerCase(),
+            "value": data?.description?.split(' ').join('-').toLowerCase(),
             id:''
           }
           createQuick(quickData,{
@@ -58,6 +58,10 @@ const {mutate:createQuick}= useQuickResponse()
             <div className="flex flex-col mt-4">
               <label htmlFor="create">Title</label>
               <input  {...register("quick", { required: true })}  onChange={(e)=>setValue(e.target.value)} type="text" className="input input-bordered rounded-none" id="create" />
+            </div>
+            <div className="flex flex-col mt-4">
+              <label htmlFor="">Description</label>
+              <input  {...register("description", { required: true })}  type="text" className="input input-bordered rounded-none h-[150px]" id="create" />
             </div>
             <button className="btn rounded-none bg-blue-400 hover:bg-blue-500 duration-300 text-white">
               Create

@@ -31,14 +31,14 @@ function EditModal({quickId}) {
   });
 
   const quickResponse = quickResponseData?.data?.quickResponse
-  console.log(quickResponse,quickId)
+  console.log(quickResponse,quickId,"da")
 
     // handle handleEditQuick
     const handleEditQuick = data =>{
       const editData ={
         type:'PUT',
         "label": data?.editData,
-        "value": data?.editData.split(' ').join('-').toLowerCase(),
+        "value": data?.description.split(' ').join('-').toLowerCase(),
         "id": quickResponse?.quickResponseId
       }
       editQuick(editData,{
@@ -61,8 +61,14 @@ function EditModal({quickId}) {
             <input
             {...editRegister("editData", { required: true })} 
               type="text"
-              className="px-4 w-full py-2 border border-gray-300 rounded-r-none rounded"
+              className="px-4 w-full py-2 border border-gray-300 rounded-r-none rounded mb-2"
               defaultValue={quickResponse?.label}
+            />
+            <input
+            {...editRegister("description", { required: true })} 
+              type="text"
+              className="px-4 w-full py-2 border border-gray-300 rounded-r-none rounded h-[150px]"
+              defaultValue={quickResponse?.value}
             />
 
             <div className="modal-action">
