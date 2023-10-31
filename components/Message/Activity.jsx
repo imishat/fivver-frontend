@@ -13,21 +13,40 @@ import moment from "moment";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
-import Requirement from "../Project/Requirment/Requirment";
+
 import { useUploadFile } from "../queries/mutation/fileUpload.mutation";
 import { useGetMessagesById } from "../queries/query/getMessagesById.query";
 import { useGetUserData } from "../queries/query/getUserProfile.query";
 import { useGetProject } from "../queries/query/project.query";
 import { messagesState } from "../redux/features/message/allMessagesSlice";
 import { updateState } from "../redux/features/update/updateSlice";
-import CancelModal from "./CancelModal/CancelModal";
-import CancelMessage from './Card/CancelMessage/CancelMessage';
-import ExtendMessage from "./Card/ExtendMessage/ExtendMessage";
-import ExtendDeliveryModal from "./ExtendDelivery/ExtendDeliveryModal";
-import MessageCard from "./MessageCard";
-import MessageDelivery from "./MessageDelivery/MessageDelivery";
-import MessageFiles from "./MessageFiles/MessageFiles";
 
+
+
+const Requirement = dynamic(() => import("../Project/Requirment/Requirment"), {
+  ssr: false,
+});
+const CancelModal = dynamic(() => import("./CancelModal/CancelModal"), {
+  ssr: false,
+});
+const CancelMessage = dynamic(() => import("./Card/CancelMessage/CancelMessage"), {
+  ssr: false,
+});
+const ExtendMessage = dynamic(() => import("./Card/ExtendMessage/ExtendMessage"), {
+  ssr: false,
+});
+const ExtendDeliveryModal = dynamic(() => import("./ExtendDelivery/ExtendDeliveryModal"), {
+  ssr: false,
+});
+const MessageCard = dynamic(() => import("./MessageCard"), {
+  ssr: false,
+});
+const MessageDelivery = dynamic(() => import("./MessageDelivery/MessageDelivery"), {
+  ssr: false,
+});
+const MessageFiles = dynamic(() => import("./MessageFiles/MessageFiles"), {
+  ssr: false,
+});
 const OfferMessageCard = dynamic(() => import("./OfferMessageCard"), {
   ssr: false,
 });
@@ -462,7 +481,7 @@ const Activity = () => {
                        
                         </span>
                         <span className="pr-5 pl-3">|</span>
-                        <span className="flex w-full gap-6 items-center">
+                        <div className="flex w-full gap-6 items-center">
                           {/* Files */}
                           <label className="cursor-pointer">
                             <MdAttachment size={24} />
@@ -485,7 +504,7 @@ const Activity = () => {
                             {" "}
                             Create an offer
                           </span>
-                        </span>
+                        </div>
                         {/* send */}
                         <button className="w-20 px-4 font-bold text-blue-400">
                           Send
@@ -589,17 +608,17 @@ const Activity = () => {
                 <li className="flex items-center justify-between">
                   <p>Duration</p>
                   {dateDiffInDays(project?.updatedAt, project?.deadline) ? (
-                    <strong>
+                    <span className='font-bold'>
                       {dateDiffInDays(project?.updatedAt, project?.deadline)}{" "}
                       Days
-                    </strong>
+                    </span>
                   ) : (
-                    <strong>Not Determined</strong>
+                    <span className='font-bold'>Not Determined</span>
                   )}
                 </li>
                 <li className="flex items-center justify-between">
                   <p>Project Started</p>
-                  <strong>
+                  <span className='font-bold'>
                     {moment(project?.updatedAt)
                       .format("ll")
                       .split(" ")
@@ -607,11 +626,11 @@ const Activity = () => {
                       .join(" ") +
                       " " +
                       moment(project?.updatedAt).format("LT")}
-                  </strong>
+                  </span>
                 </li>
                 <li className="flex items-center justify-between">
                   <p>Project Delivery</p>
-                  <strong>
+                  <span className='font-bold'>
                     {moment(project?.deadline)
                       .format("ll")
                       .split(" ")
@@ -619,15 +638,15 @@ const Activity = () => {
                       .join(" ") +
                       " " +
                       moment(project?.updatedAt).format("LT")}
-                  </strong>
+                  </span>
                 </li>
                 <li className="flex items-center justify-between">
                   <p>Total Price</p>
-                  <strong>${project?.totalCost}</strong>
+                  <span className='font-bold'>${project?.totalCost}</span>
                 </li>
                 <li className="flex items-center justify-between">
                   <p>Project Number</p>
-                  <strong>#{project?.projectId}</strong>
+                  <span className='font-bold'>#{project?.projectId}</span>
                 </li>
               </ul>
               <hr className="py-3 border-blue-400 my-3" />

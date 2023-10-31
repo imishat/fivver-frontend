@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import CountDown from "../Dashboard/CountDown";
 const ProjectCard = ({project}) => {
 
 
@@ -54,8 +55,7 @@ const ProjectCard = ({project}) => {
               </div>
             </div>
             <div className="flex justify-between pt-2 items-center">
-                <p>{time
-}</p>
+                <p><CountDown deadline={project?.deadline} project={project} /></p>
                 <p className={`font-bold ${color}`}>{project.status}</p>
             </div>
           

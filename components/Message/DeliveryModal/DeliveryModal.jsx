@@ -16,7 +16,8 @@ function DeliveryModal({ update, setUpdate, reply, setReply, project }) {
 
   // image upload call
   const { mutate: sendFileData, isLoading } = useUploadFile({
-    watermark: true,
+
+        watermark: true,
   });
   // image upload call
   const { mutate: sendSourceFileData, isLoading:sourceIsLoading } = useUploadSourceFile({
@@ -71,25 +72,43 @@ function DeliveryModal({ update, setUpdate, reply, setReply, project }) {
   // ============= Thumbnail area start ===============
 
   const [thumbnail, setThumbnail] = useState({});
-
+const[uplode,setUplode]=useState(0)
+console.log(uplode,"uplode")
   // handle upload thumbnail
-  const handleUploadThumbnail = (e) => {
+  const handleUploadThumbnail = async (e) => {
     e.preventDefault();
-    const thumbnail = e.target.files;
+    const thumbnail = e.target.files[0]; // Assuming only one file is selected
+  
     const photoData = new FormData();
-    photoData.append("files", thumbnail[0]);
-    sendFileData(photoData, {
-      onSuccess: (res) => {
-        const images = res?.data?.files;
-        showToast("Photo Uploaded", "success");
-        setThumbnail(images[0]);
-      },
-      onError: (err) => {
-        showToast(err?.response?.data?.message);
-        // loading stop
-      },
-    });
+    photoData.append("files", thumbnail);
+  
+    try {
+      const response = await sendFileData(photoData, {
+        onUploadProgress: (event) => {
+          if (event.lengthComputable) {
+            const percentCompleted = Math.round((event.loaded * 100) / event.total);
+            console.log('onUploadProgress', percentCompleted);
+            setUplode(percentCompleted)
+          }
+        },
+        onSuccess: (res) => {
+          const images = res?.data?.files;
+          showToast("Photo Uploaded", "success");
+          setThumbnail(images[0]);
+        },
+        onError: (err) => {
+          showToast(err?.response?.data?.message);
+          // Handle error as needed
+        },
+      });
+  
+      // Handle response here if necessary
+    } catch (error) {
+      console.error("Error during file upload:", error);
+      // Handle the error here
+    }
   };
+  
   // ============= Thumbnail area end ===============
 
   // ============= Source Files area start ===============

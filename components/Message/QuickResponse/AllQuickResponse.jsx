@@ -16,7 +16,7 @@ const AllQuickResponse = ({ setValue, value, lastMessage }) => {
   //   path: "/realtime-messaging",
   // });
   const router = useRouter();
-  console.log(router,"sds")
+ 
 const [show, setShow] = useState(false)
   // Define a function to check if the current URL is "/login".
   
@@ -135,7 +135,7 @@ const [show, setShow] = useState(false)
     setShow(false); 
   }}
   className="px-1 flex cursor-pointer items-center gap-1 py-0 border border-gray-500"
-  value={quick.label}
+  value={quick.value}
 >
   {quick.label}
 </button>

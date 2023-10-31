@@ -1,7 +1,8 @@
+import { useRouter } from "next/router";
 import Pagination from "rc-pagination";
 import { useState } from "react";
 import Card from "../Card/Card";
-import Related from "../Related/Related";
+import CategoryRelated from "../Related/CategoryRelated";
 import { useAllDesigns } from "../queries/query/designs.query";
 import { useGetCategoryData } from "../queries/query/getCategory.query";
 
@@ -9,6 +10,9 @@ const AllDesignByCatetgory = ({categoryId}) => {
 
   // pagination
   const [currentPage,setCurrentPage] = useState(1)
+
+  const router = useRouter()
+  
   
   // get all desings
   const {data:designData} = useAllDesigns({designId:categoryId,page:currentPage,limit:10})
@@ -17,19 +21,15 @@ const AllDesignByCatetgory = ({categoryId}) => {
   const {data: categories} = useGetCategoryData({categoryId})
   const {data: categoriesData} = useGetCategoryData({categoryId:''})
   const category = categories?.data?.categories[0]
-  console.log()
+
     
     // Count
     const count = Math.ceil((designData?.data?.totalCount || 10 )/ 10)
 
 
-    const positions = categories?.data?.categories.map(element => {
-      return categoriesData?.data?.categories.findIndex(item => item.categoryId === element.categoryId);
-    });
+    const othersCategoryData = categoriesData?.data?.categories?.filter(cat=>cat.categoryId!==categoryId)
 
-    const getRelatedId = categoriesData?.data?.categories[positions?.[0]+1]?.categoryId
-    console.log(positions)
-    // all designs
+    console.log(othersCategoryData)
     const designs = designData?.data?.designs
  
   return (
@@ -52,7 +52,7 @@ const AllDesignByCatetgory = ({categoryId}) => {
         </div>
       </div>
     {  designs?.length ? 
-      <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 px-4 gap-4">
+      <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 px-4 gap-4 md:gap-14">
         { designs.map((data, i) => (
           <Card data={data} key={i} />
         ))
@@ -70,7 +70,7 @@ const AllDesignByCatetgory = ({categoryId}) => {
       </div>
       
       {/* Related */}
-      <Related currentItems={getRelatedId} />
+      <CategoryRelated currentItems={othersCategoryData} />
     </div>
   );
 };

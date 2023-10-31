@@ -11,6 +11,7 @@ import { MdOutlineAttachment } from "react-icons/md";
 import { useSelector } from "react-redux";
 import AdminRequirement from "./AdminRequirement";
 const Requirement = ({ project }) => {
+ console.log(project)
   // react hook form
   const {
     register,
@@ -26,7 +27,11 @@ const Requirement = ({ project }) => {
   const requirementProject = JSON.parse(
     typeof window !== "undefined" && localStorage.getItem("projectRequirement")
   );
-  console.log(requirementProject);
+  // get project for requirement
+  const requirementProjects = JSON.parse(
+    typeof window !== "undefined" && localStorage.getItem("savedProjects")
+  );
+  console.log(requirementProjects);
 
   // get user
   const { user } = useSelector((state) => state.user);
@@ -200,23 +205,33 @@ const Requirement = ({ project }) => {
     });
   };
 
-  const nowUTC = new Date(Date.now());
+ 
 
-  const hoursToAdd = 24 * parseInt(project?.isExtraFastDeliveryEnabled ? 1:2);
+  let now = new Date();
+let minus18Hours = new Date(now);
 
-  // Add 6 hours
-  nowUTC.setUTCHours((nowUTC.getUTCHours()* hoursToAdd) + 6 );   
-  const deadline = nowUTC?.toISOString();
+// Subtract 18 hours in milliseconds (18 hours * 60 minutes * 60 seconds * 1000 milliseconds)
+minus18Hours.setTime(minus18Hours.getTime() + (24*((project?.isExtraFastDeliveryEnabled||requirementProjects?.[0]?.isExtraFastDeliveryEnabled)?1:2) * 60 * 60 * 1000));
+
+// Format the date as YYYY-MM-DD
+let utcDate1 = minus18Hours.toISOString()
+
+console.log(utcDate1);  // This will print the UTC date that is 18 hours before the current time.
+
+
+
+   
+  const deadline = utcDate1
  
 
   /// handle submit requirement
   const handleRequirement = (data) => {
-    if (projectId) {
+if(projectId||requirementProjects[0]?.projectId){
       const requirementData = {
-        id: projectId,
+        id: projectId||requirementProjects[0]?.projectId,
         deadline: deadline,
-        categoryId: project?.categoryId,
-        subcategoryId: project?.subcategoryId,
+        categoryId: project?.categoryId || requirementProjects[0]?.categoryId,
+        subcategoryId: project?.subcategoryId || requirementProjects[0]?.subcategoryId,
         track: 2,
         status: "Progress",
         requirement: {
@@ -234,6 +249,38 @@ const Requirement = ({ project }) => {
         onSuccess: (res) => {
           if (res?.data) {
             showToast("Requirement Send", "success");
+            router.push(`/message/project/${res?.data?.project?.projectId}`)
+            console.log(res?.data, "Project Update");
+            // reset()
+          } else {
+            showToast("Requirement Send Failed");
+          }
+        },
+        onError: (err) => {
+          showToast(err?.response?.data?.message);
+        },
+      });
+    
+    }
+    // console.log(localProject[0])
+    // router.push('/message/activity')
+  };
+  const handleSkip = () => {
+    if (projectId || requirementProjects[0]?.projectId) {
+      const requirementData = {
+        id: projectId || requirementProjects[0]?.projectId,
+        deadline: deadline,
+        categoryId: project?.categoryId || requirementProjects[0]?.categoryId,
+        subcategoryId: project?.subcategoryId || requirementProjects[0]?.subcategoryId,
+        track: 2,
+        status: "Progress",
+        requirement: {},
+      };
+
+      updateProject(requirementData, {
+        onSuccess: (res) => {
+          if (res?.data) {
+            showToast("Project Start", "success");
             console.log(res?.data, "Project Update");
             // reset()
           } else {
@@ -245,11 +292,7 @@ const Requirement = ({ project }) => {
         },
       });
     }
-
-    // console.log(localProject[0])
-    // router.push('/message/activity')
   };
-  console.log(industryFile);
 
  
   return (
@@ -530,9 +573,9 @@ const Requirement = ({ project }) => {
                       {isLoading ? "Loading..." : "Start Now"}
                     </button>
                     {
-                    router?.query?.projectId !== projectId ? '' : (
+                    router?.query?.projectId !== projectId && requirementData?.industry?.length ? '' : (
                       <div className="py-2">
-                        <Link href={"#"}>Skip</Link>
+                        <Link onClick={()=>handleSkip()} href={"#"}>Skip</Link>
                       </div>
                     )}
                   </div>

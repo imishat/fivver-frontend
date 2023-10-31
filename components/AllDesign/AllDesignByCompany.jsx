@@ -1,6 +1,7 @@
 import Pagination from "rc-pagination";
 import { useState } from "react";
 import CompanyCard from "../Card/CompanyCard";
+import Related from "../Related/Related";
 import { useAllDesigns } from "../queries/query/designs.query";
 const AllDesignByCompany = ({ companyId }) => {
   // pagination
@@ -61,7 +62,7 @@ const AllDesignByCompany = ({ companyId }) => {
       </div>
 
       {/* Related */}
-      {/* <Related /> */}
+      <Related  currentItems={query}/>
     </div>
   );
 };

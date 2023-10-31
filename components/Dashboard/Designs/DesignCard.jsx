@@ -17,7 +17,7 @@ const DesignCard = ({project}) => {
         mutate(id, {
           onSuccess:() => {
             queryClient.invalidateQueries([CREATE_DESIGN ])
-            showToast('Delete Desing Successfully', 'success');
+            showToast('Delete Design Successfully', 'success');
           },
           onError: (err) => {
             showToast(err?.response?.data?.message,"Error");
