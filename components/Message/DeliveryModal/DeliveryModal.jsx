@@ -83,7 +83,7 @@ console.log(uplode,"uplode")
     photoData.append("files", thumbnail);
   
     try {
-      const response = await sendFileData(photoData, {
+      const response = await sendFileData(photoData,{
         onUploadProgress: (event) => {
           if (event.lengthComputable) {
             const percentCompleted = Math.round((event.loaded * 100) / event.total);
