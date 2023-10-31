@@ -1,25 +1,35 @@
-import EmojiPicker from 'emoji-picker-react';
-import { useState } from "react";
-
-
-const HomePage = () => {
-  const [text, setText] = useState("");
-  const handleEmojiSelect = (event, emojiObject) => {
-    console.log(event?.emoji)
-    const { emoji } = emojiObject;
-    setText(emoji);
-  };
-  function handleOnEnter(text) {
-    console.log("enter", text);
-  }
+import { BiLogoFacebook, BiLogoLinkedin, BiLogoPinterestAlt, BiLogoTwitter } from 'react-icons/bi';
+import '../public/textstyle.module.css';
+function text() {
   return (
-    <div>
-      <h1>Emoji Picker for Next.js</h1>
-      <textarea onChange={e=>setText(e.target.value)} value={text}></textarea>
-      <EmojiPicker onEmojiClick={handleEmojiSelect} />
-      { <p>You selected: {text}</p>}
+    <div className="flex items-center justify-center">
+      {/* design */}
+      <div>
+        {/* Logo */}
+        <div>
+          <img src="" alt="" />
+          <h2>Mahfujurrahman535</h2>
+          <p>Graphic designer</p>
+        </div>
+        <div>
+          <h3>You've receive message from Client12</h3>
+        </div>
+        <hr />
+        <div>
+          <p>Hello world</p>
+        </div>
+        <div>
+          <button>
+          <BiLogoFacebook />
+          <BiLogoTwitter />
+          <BiLogoPinterestAlt />
+          <BiLogoLinkedin />
+          <BiLogoLinkedin />
+          </button>
+        </div>
+      </div>
     </div>
   );
-};
+}
 
-export default HomePage;
+export default text;

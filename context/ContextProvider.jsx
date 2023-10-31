@@ -24,7 +24,7 @@ const ContextProvider = ({ children }) => {
  
   useEffect(() => {
     dispatch(userData(userdata));
-    dataParse.map((data,i)=>{
+    dataParse?.map((data,i)=>{
       dispatch(addToCart(data));
     })
   }, [userInfo, token,cartData]);
