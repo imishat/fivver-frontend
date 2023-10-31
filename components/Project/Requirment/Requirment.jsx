@@ -269,11 +269,8 @@ if(projectId||requirementProjects[0]?.projectId){
     if (projectId || requirementProjects[0]?.projectId) {
       const requirementData = {
         id: projectId || requirementProjects[0]?.projectId,
-        deadline: deadline,
         categoryId: project?.categoryId || requirementProjects[0]?.categoryId,
         subcategoryId: project?.subcategoryId || requirementProjects[0]?.subcategoryId,
-        track: 2,
-        status: "Progress",
         requirement: {},
       };
 
@@ -282,6 +279,7 @@ if(projectId||requirementProjects[0]?.projectId){
           if (res?.data) {
             showToast("Project Start", "success");
             console.log(res?.data, "Project Update");
+            router.push(`/message/project/${projectId || requirementProjects[0]?.projectId}`)
             // reset()
           } else {
             showToast("Requirement Send Failed");

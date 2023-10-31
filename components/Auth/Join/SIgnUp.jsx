@@ -2,11 +2,17 @@ import { useCreteAccount } from "@/components/queries/mutation/user.mutation";
 import { useGetOtp } from "@/components/queries/query/sendOtp.query";
 import { Spin } from "@/components/utility/LoadingSpinner";
 import useToast from "@/components/utility/useToast";
+import country from 'country-list-js';
+
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 const SIgnUp = ({ setToggle }) => {
+
+  const [countyInput,setCountryInput] = useState('Bangladesh')
+  var found = country.findByName(countyInput);
+
   // react hook form
   // import send login data function 
   const {mutate:LoginData,isLoading}=useCreteAccount()
@@ -39,10 +45,21 @@ const SIgnUp = ({ setToggle }) => {
 
   }
 
+
+
+
   //   handle signup
   const handleSignUp = (data) => {
-  
-    LoginData(data,{
+    const signUpData = {
+      "country": countyInput,
+      "fullName": data.fullName,
+      "username": data.username,
+      "phoneNumber": found?.dialing_code +''+ data.phoneNumber,
+      "email": data.email,
+      "password": data.password,
+      "confirmPassword": data.confirmPassword,
+    }
+    LoginData(signUpData,{
       onSuccess: (res) => {
      if(res){
       handleSendMail(data?.email)
@@ -55,11 +72,8 @@ const SIgnUp = ({ setToggle }) => {
       showToast(err?.response?.data?.message)
     }
   })
-
-
-
-
   }
+
   return (
     <div>
       <Toast/>
@@ -72,10 +86,10 @@ const SIgnUp = ({ setToggle }) => {
           <label htmlFor="country" className="px-2">
             Country
           </label>
-          <input
-            {...register("country", { required: true })}
+          <input  {...register("country", { required: true })}
             className="px-4 py-2 bg-white border border-gray-300 text-black w-full"
             type="text"
+            onChange={(e)=>setCountryInput(e.target.value)}
             id="country"
           />
           {/* Handle input error */}
@@ -120,12 +134,16 @@ const SIgnUp = ({ setToggle }) => {
           <label htmlFor="phoneNumber" className="px-2">
             Phone Number
           </label>
-          <input
+          <div className="relative">
+          <span className="absolute left-2 top-[9px] text-base">{found?.dialing_code}</span>
+            <input
             {...register("phoneNumber", { required: true })}
-            className="px-4 py-2 bg-white border border-gray-300 text-black w-full"
+            className="px-4 py-2 bg-white border pl-10 border-gray-300 text-black w-full"
             type="text"
             id="phoneNumber"
           />
+          </div>
+        
           {/* Handle input error */}
           {errors.phoneNumber && (
             <span className="text-error">This field is required</span>
