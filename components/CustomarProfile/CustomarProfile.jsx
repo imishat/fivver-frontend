@@ -109,7 +109,7 @@ const CustomarProfile = () => {
               )}
             </div>
             <h2 className="text-xl font-bold py-4 truncate">
-              {dbUser?.username}
+              {dbUser?.fullName}
             </h2>
           </div>
           {/* User status */}

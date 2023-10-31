@@ -1,3 +1,4 @@
+import Notification from "@/components/Notification/Notification";
 import { useAllDesigns } from "@/components/queries/query/designs.query";
 import dynamic from "next/dynamic";
 import Link from "next/link";
@@ -176,14 +177,15 @@ const Navbar = () => {
                 Messages
               </Link>
             </li>
-            <li>
-              <Link
-                className="py-2 hover:border-b hover:border-white border-b border-transparent duration-300 lg:px-3 inline-block"
-                href={"#"}
-              >
-                Notifications
-              </Link>
-            </li>
+            <div className="dropdown">
+  <label tabIndex={0} className="py-2 hover:border-b border-b border-transparent duration-300 lg:px-3 inline-block">
+                Notifications</label>
+  <ul tabIndex={0} className="dropdown-content dropdown-left dropdown-bottom -left-56 text-black rounded-none border z-[1] bg-base-100 menu p-2 shadow w-96">
+    <Notification />
+  </ul>
+</div>
+              
+            
             <li>
               <Link
                 className="py-2 hover:border-b hover:border-white border-b border-transparent duration-300 lg:px-3 inline-block"

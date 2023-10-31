@@ -62,7 +62,7 @@ export default function DesignCategorySectionCard({category}) {
         <div>
           <div>
             {designs?.length ? designs?.map((data, i) => (
-              <SwiperSlide key={i} className="flex !gap-2">
+              <SwiperSlide key={i} className="flex !gap-2 !w-[300px] !h-[300px]">
                 <Card category={category} data={data} />
               </SwiperSlide>
             ))
