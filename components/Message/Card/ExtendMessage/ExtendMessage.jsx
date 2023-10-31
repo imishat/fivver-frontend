@@ -65,7 +65,7 @@ const dateObj = new Date(dateStr);
 dateObj.setUTCDate(dateObj.getUTCDate() + parseInt(message?.days));
 
 // Display the updated date
-const futureDate = dateStr.length && dateObj?.toISOString()
+const futureDate = dateStr?.length && dateObj?.toISOString()
 
 
 

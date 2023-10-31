@@ -100,7 +100,7 @@ const EditModal = ({userId}) => {
       if (userData) {
         updateUser(userData, {
           onSuccess: (res) => {
-            console.log(res);
+           
             showToast("Update Profile", "success");
             router.reload();
           },

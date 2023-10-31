@@ -28,16 +28,13 @@ const DesignDescription = ({ data }) => {
   const design = data?.data?.designs[0];
   // console.log(design);
 
-  // router
-  const router = useRouter();
+// router
+const router = useRouter()
 
-  
+  const [isAdded, setIsAdded] = useState(false);
+console.log(isAdded)
 
-
-  const isAddedData = products.find(item=>item.designId===design?.designId)
-  const isAdded =isAddedData ? true : false
-
-  const [producr, setPproducr] = useState();
+const [producr,setPproducr]=useState()
   // send data in redux cart store
   const dispatch = useDispatch();
 
@@ -119,31 +116,32 @@ const DesignDescription = ({ data }) => {
               </li>
               <li className="flex gap-1">
                 <p className="font-bold">Design:</p>{" "}
-                {design?.subcategory?.[0]?.name}
+                {design?.subcategory[0]?.name}
               </li>
             </ul>
           </div>
           <div className="space-y-3">
-            {!isAdded ? (
-              <button
-                className="py-2 w-full hover:bg-blue-200 duration-300 border-2 rounded-full border-blue-400 text-[#1B8CDC] font-bold text-xl"
-                onClick={() => handleAddProduct(design)}
-              >
-                Add to
-              </button>
-            ) : (
-              <button
-                className="py-2 w-full hover:bg-blue-200 duration-300 border-2 rounded-full border-blue-400 text-[#1B8CDC] font-bold text-xl"
-                onClick={() => handleDeletedProduct(design)}
-              >
-                Delete
-              </button>
-            )}
-            <p>{design?.isAdded}</p>
-            <button
-              onClick={() => handleProjectStart(design?.designId)}
-              className="py-2 w-full hover:bg-blue-600 duration-300 text-white font-bold border bg-[#1B8CDC] rounded-full border-blue-400 text-xl"
-            >
+          {
+  !isAdded ? (
+    <button
+      className="py-2 w-full hover:bg-blue-200 duration-300 border-2 rounded-full border-blue-400 text-[#1B8CDC] font-bold text-xl"
+      onClick={() => handleAddProduct(design)}
+    >
+      Add to
+    </button>
+  ) : (
+    <button
+      className="py-2 w-full hover:bg-blue-200 duration-300 border-2 rounded-full border-blue-400 text-[#1B8CDC] font-bold text-xl"
+      onClick={() =>
+        handleDeletedProduct(design)
+        }
+    >
+      Delete
+    </button>
+  )
+}
+            {/* <p>{design.isAdded}</p> */}
+            <button onClick={()=>handleProjectStart(design.designId)} className="py-2 w-full hover:bg-blue-600 duration-300 text-white font-bold border bg-[#1B8CDC] rounded-full border-blue-400 text-xl">
               Project Start
             </button>
           </div>

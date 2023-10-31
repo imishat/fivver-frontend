@@ -50,7 +50,7 @@ const [seconds,setSeconds] = useState('')
          setSeconds(seconds)    
        },1000)  
 
-console.log(deadline)
+
     return (
         <>
         
