@@ -31,7 +31,7 @@ function EditModal({quickId}) {
   });
 
   const quickResponse = quickResponseData?.data?.quickResponse
-  console.log(quickResponse,quickId,"da")
+
 
     // handle handleEditQuick
     const handleEditQuick = data =>{
