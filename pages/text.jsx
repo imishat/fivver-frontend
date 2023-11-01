@@ -1,35 +1,49 @@
-import { BiLogoFacebook, BiLogoLinkedin, BiLogoPinterestAlt, BiLogoTwitter } from 'react-icons/bi';
-import '../public/textstyle.module.css';
-function text() {
+import axios from 'axios';
+import { useState } from 'react';
+
+function FileUploadComponent() {
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [progress, setProgress] = useState(0);
+
+  const handleFileChange = (event) => {
+    setSelectedFile(event.target.files[0]);
+  };
+
+  const handleUpload = () => {
+    const accessToken = typeof window !== 'undefined' && localStorage.getItem('accessToken');
+    const photoData = new FormData();
+
+    if (selectedFile) {
+      photoData.append('files', selectedFile);
+
+      axios
+        .post('http://103.49.169.89:30912/api/v1.0/files', photoData, {
+          headers: {
+            'Authorization': `Bearer ${accessToken}`,
+            'Content-Type': 'multipart/form-data',
+          },
+          onUploadProgress: (progressEvent) => {
+            const progress = Math.round((progressEvent.loaded / progressEvent.total) * 100);
+            setProgress(progress);
+          },
+        })
+        .then((response) => {
+          // Handle the response from the server here
+          console.log(response.data);
+        })
+        .catch((error) => {
+          // Handle errors here
+        });
+    }
+  };
+
   return (
-    <div className="flex items-center justify-center">
-      {/* design */}
-      <div>
-        {/* Logo */}
-        <div>
-          <img src="" alt="" />
-          <h2>Mahfujurrahman535</h2>
-          <p>Graphic designer</p>
-        </div>
-        <div>
-          <h3>You've receive message from Client12</h3>
-        </div>
-        <hr />
-        <div>
-          <p>Hello world</p>
-        </div>
-        <div>
-          <button>
-          <BiLogoFacebook />
-          <BiLogoTwitter />
-          <BiLogoPinterestAlt />
-          <BiLogoLinkedin />
-          <BiLogoLinkedin />
-          </button>
-        </div>
-      </div>
+    <div>
+      <input type="file" onChange={handleFileChange} />
+      <button onClick={handleUpload}>Upload</button>
+      <div>Upload Progress: {progress}%</div>
     </div>
   );
 }
 
-export default text;
+export default FileUploadComponent;

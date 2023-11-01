@@ -1,5 +1,6 @@
 import { useDeleteAction } from "@/components/queries/mutation/delete.mutation";
 import { useUploadFile } from "@/components/queries/mutation/fileUpload.mutation";
+import { useCreateNotifications } from "@/components/queries/mutation/notifications.mutation";
 import { useUpdateProject } from "@/components/queries/mutation/updateProject.mutation";
 import { useUploadSourceFile } from "@/components/queries/mutation/uploadSource.mutation";
 import { updateState } from "@/components/redux/features/update/updateSlice";
@@ -23,6 +24,8 @@ function DeliveryModal({ update, setUpdate, reply, setReply, project }) {
   const { mutate: sendSourceFileData, isLoading:sourceIsLoading } = useUploadSourceFile({
     watermark: true,
   });
+  // create notification
+  const {mutate: createNotification} = useCreateNotifications()
 
   const dispatch = useDispatch();
   // update 
@@ -38,7 +41,7 @@ function DeliveryModal({ update, setUpdate, reply, setReply, project }) {
     setValue(prevText => prevText + e);
   };
 
-
+  const [progress, setProgress] = useState(0);
   const [updateValue, setUpdateValue] = useState(false);
   // ============== socket options =================
 
@@ -123,14 +126,20 @@ console.log(uplode,"uplode")
     for (const p in thumbnail) {
       photoData.append("files", thumbnail[p]);
     }
-    sendSourceFileData(photoData, {
+    sendSourceFileData(photoData,
+       {
+        onUploadProgress: (progressEvent) => {
+          const progress = Math.round((progressEvent.loaded / progressEvent.total) * 100);
+          setProgress(progress);
+          console.log(process);
+        },
       onSuccess: (res) => {
         const images = res?.data?.files;
         showToast("Image Uploaded", "success");
         setSourceFiles(images);
       },
       onError: (err) => {
-        // error 
+        // error
         showToast(err?.response?.data?.message);
         // loading stop
       },
@@ -164,6 +173,28 @@ console.log(uplode,"uplode")
     })
   }
 
+  // handle create notifications
+  const handleCreateNotifications  = () =>{
+    const notificationData = {
+      "type": "project",
+      "model":"delivery",
+      "message": value || draftData?.content,
+      "image":thumbnail?.fileId ? thumbnail : draftData?.thumbnail,
+      "isForAdmin":false,
+      "isRead":false,
+      "userId": project?.startedBy,
+      "projectId": project?.projectId
+  }
+  createNotification(notificationData,{
+    onSuccess: (res) => {
+      console.log(res.data);
+    },
+    onError: (err) => {
+      showToast(err?.response?.data?.message);
+    },
+  })
+  }
+
   
 
   // ============== Input Area start =============
@@ -188,6 +219,7 @@ console.log(uplode,"uplode")
     dispatch(updateState(!messageUpdate?.update))
     handleUpdateProject()
     showToast("Project Delivered", "success");
+    handleCreateNotifications()
     setReply({});
     setValue("");
   };
@@ -328,6 +360,9 @@ console.log(uplode,"uplode")
                 ""
               )}
             </div>
+            {
+              progress
+            }&
             <textarea
               className="w-full p-2 textarea textarea-lg textarea-bordered rounded-none"
               value={value}
