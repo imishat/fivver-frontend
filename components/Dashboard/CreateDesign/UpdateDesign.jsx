@@ -280,7 +280,7 @@ const UpdateDesign = () => {
         <Toast />
         <div className=" mx-auto my-4">
           <h2 className="text-2xl font-bold uppercase bg-[#3B82F6] text-white px-4 py-2">
-            Create Design
+            Edite Design
           </h2>
         </div>
         <div className="flex flex-col sm:flex-row gap-2 justify-center">

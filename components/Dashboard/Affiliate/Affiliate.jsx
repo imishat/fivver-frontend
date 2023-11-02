@@ -1,10 +1,9 @@
-import Link from "next/link";
-import React, { useState } from 'react'
+import { useState } from 'react';
 
-import {CiViewList} from "react-icons/ci"
-import {CgMathPlus, CgProfile} from "react-icons/cg"
-import {RiSubtractFill} from "react-icons/ri"
 import Container from "@/components/CustomarProfile/AffiliateSystem/Container";
+import { CgMathPlus, CgProfile } from "react-icons/cg";
+import { CiViewList } from "react-icons/ci";
+import { RiSubtractFill } from "react-icons/ri";
 
 function Affiliate() {
     const [open,setOpen] = useState(false)
@@ -57,9 +56,9 @@ function Affiliate() {
                 <li className=' w-[190px] font-roboto font-normal text-sm cursor-pointer text-[#111111] md:block hidden'> <button>Veiw</button></li>
                 
                 <li className='py-2 font-roboto font-normal text-sm cursor-pointer text-[#111111] '>
-                <label class="relative inline-flex items-center cursor-pointer">
-                <input type="checkbox" value="" class="sr-only peer  outline-none"/>
-                 <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none    rounded-full peer  peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-[#0ABB75]  after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-white border border-gray-400"></div>
+                <label className="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" value="" className="sr-only peer  outline-none"/>
+                 <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none    rounded-full peer  peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-[#0ABB75]  after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-white border border-gray-400"></div>
                 </label>
                 </li>
 

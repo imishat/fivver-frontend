@@ -162,7 +162,7 @@ const handleStar = () =>{
   // handle send message
   const handleSendMessage = async (data) => {
     // upload images
-    console.log(data);
+   
     const photo = images.target?.files;
     if (photo?.length) {
       const photoData = new FormData();
@@ -271,7 +271,7 @@ const handleUnBlockUser = () =>{
     action:'unblock'
   }
 }
-console.log(uniqueMessages)
+
 // search 
 const [showSearch,setShowSearch] = useState(false)
 // search input

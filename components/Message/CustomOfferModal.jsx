@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { useCreateMessage } from "../queries/mutation/message.mutation";
+import { useCreateNotifications } from "../queries/mutation/notifications.mutation";
 import { useGetDesignCategoriesData } from "../queries/query/designCategories.queries";
 import { useGetSubCategoryById } from "../queries/query/getSubcategory.query";
 import { updateState } from "../redux/features/update/updateSlice";
@@ -91,10 +92,33 @@ const handleSelectChange=e=>{
        dispatch(updateState(!messageUpdate?.update))
       //  setReply({})
        showToast('Offer Send','success')
+       handleCreateNotifications(data)
      
     reset()
   }
-
+  // create notification
+  const {mutate: createNotification} = useCreateNotifications()
+    // handle create notifications
+    const handleCreateNotifications  = (data) =>{
+      const notificationData = {
+        "type": "project",
+        "model":"custom",
+        "message": data?.message,
+        "image": {fileId:project?.featuredImageId||project?.imageIds[0]},
+        "isForAdmin":false,
+        "userId": project?.startedBy,
+        "isRead":false,
+        "projectId": project?.projectId
+    }
+    createNotification(notificationData,{
+      onSuccess: (res) => {
+        console.log(res.data);
+      },
+      onError: (err) => {
+        showToast(err?.response?.data?.message);
+      },
+    })
+    }
 
 
 

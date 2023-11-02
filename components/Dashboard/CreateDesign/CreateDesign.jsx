@@ -72,8 +72,8 @@ const CreateDesign = () => {
   const { data: tagsData } = useGetTags({tagId:''});
   const tagsOptions = tagsData?.data?.tags;
   // tags
-  const [selectedTags, setSelectedTags] = useState([]);
-
+  const [selectedTags, setSelectedTags] = useState('');
+console.log(selectedTags,"selectedTags")
   // ====================== Category ======================== //
   // categories
   const categories = getCategories?.data?.categories;
@@ -380,12 +380,8 @@ const CreateDesign = () => {
               >
                 Tags
               </label>
-              <CreatableSelect
-                onChange={(e) => setSelectedTags(e)}
-                isMulti
-                isClearable
-                options={tagsOptions}
-              />
+            
+              <input  onChange={(e) => setSelectedTags(e)} {...register("description", { required: true })}  type="text" className=" px-3 py-2" id="create" />
             </div>
             {/* Thumbnail */}
             <div className="border">

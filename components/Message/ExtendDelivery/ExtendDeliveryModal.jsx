@@ -1,3 +1,4 @@
+import { useCreateNotifications } from "@/components/queries/mutation/notifications.mutation";
 import { updateState } from "@/components/redux/features/update/updateSlice";
 import useToast from "@/components/utility/useToast";
 import { useSocketChat } from "@/hooks/useSocketChat";
@@ -48,9 +49,36 @@ function ExtendDeliveryModal({ project, reply, setReply, update, setUpdate }) {
     dispatch(updateState(!messageUpdate?.update))
     setReply({});
     showToast("Offer Send", "success");
+    handleCreateNotifications(data)
 
     // reset()
   };
+
+  // create notification
+  const {mutate: createNotification} = useCreateNotifications()
+    // handle create notifications
+    const handleCreateNotifications  = (data) =>{
+      const notificationData = {
+        "type": "project",
+        "model":"extend",
+        "message": data?.message,
+        "image": {fileId:project?.featuredImageId||project?.imageIds[0]},
+        "isForAdmin":false,
+        "isRead":false,
+        "userId": project?.startedBy,
+        "projectId": project?.projectId
+        
+    }
+    createNotification(notificationData,{
+      onSuccess: (res) => {
+        console.log(res.data);
+      },
+      onError: (err) => {
+        showToast(err?.response?.data?.message);
+      },
+    })
+    }
+  
 
   return (
     <div>
