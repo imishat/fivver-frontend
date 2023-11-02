@@ -1,3 +1,4 @@
+import { useCreateNotifications } from "@/components/queries/mutation/notifications.mutation";
 import { updateState } from "@/components/redux/features/update/updateSlice";
 import useToast from "@/components/utility/useToast";
 import { useSocketChat } from "@/hooks/useSocketChat";
@@ -29,10 +30,35 @@ const {showToast,Toast} = useToast()
     // send
     sendMessage(sendLike);
     dispatch(updateState(!messageUpdate?.update));
+    handleCreateNotifications()
     setReply({});
     showToast("Cancelation Send", "success");
     setCancelValue('')
   };
+
+    // create notification
+    const {mutate: createNotification} = useCreateNotifications()
+    // handle create notifications
+    const handleCreateNotifications  = () =>{
+      const notificationData = {
+        "type": "project",
+        "model":"cancel",
+        "message": cancelValue,
+        "image": {fileId:project?.featuredImageId||project?.imageIds[0]},
+        "isForAdmin":false,
+        "isRead":false,
+        "userId": project?.startedBy,
+        "projectId": project?.projectId
+    }
+    createNotification(notificationData,{
+      onSuccess: (res) => {
+        console.log(res.data);
+      },
+      onError: (err) => {
+        showToast(err?.response?.data?.message);
+      },
+    })
+    }
 
 
     return (

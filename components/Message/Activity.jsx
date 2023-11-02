@@ -15,6 +15,7 @@ import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 
 import { useUploadFile } from "../queries/mutation/fileUpload.mutation";
+import { useCreateNotifications } from '../queries/mutation/notifications.mutation';
 import { useGetMessagesById } from "../queries/query/getMessagesById.query";
 import { useGetUserData } from "../queries/query/getUserProfile.query";
 import { useGetProject } from "../queries/query/project.query";
@@ -247,11 +248,36 @@ const Activity = () => {
       dispatch(updateState(!messageUpdate?.update));
       showToast("Message Send", "success");
       reset();
+      handleCreateNotifications(data)
       setReply({});
       setValue("");
       handleClick();
     }
   };
+
+   // create notification
+   const {mutate: createNotification} = useCreateNotifications()
+   // handle create notifications
+   const handleCreateNotifications  = () =>{
+     const notificationData = {
+       "type": "project",
+       "model":"message",
+       "message": value,
+       "image": {fileId:project?.featuredImageId||project?.imageIds[0]},
+       "isForAdmin":false,
+       "userId": project?.startedBy,
+       "isRead":false,
+       "projectId": project?.projectId
+   }
+   createNotification(notificationData,{
+     onSuccess: (res) => {
+       console.log(res.data);
+     },
+     onError: (err) => {
+       showToast(err?.response?.data?.message);
+     },
+   })
+   }
 
   useEffect(() => {
     handleClick();

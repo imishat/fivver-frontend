@@ -1,26 +1,110 @@
+import moment from "moment";
+import Image from "next/image";
+import Link from "next/link";
+import { useState } from "react";
+import { useGetNotifications } from "../queries/query/notifications.query";
+
 function Notification() {
+    const [page,setPage] = useState(1)
+    const [limit,setLimit] = useState(10)
+
+    const {data:notificationData} = useGetNotifications({page})
+
+    const notifications = notificationData?.data?.inquiries
+    console.log(notifications);
+
+      // Count
+  const count = Math.ceil((notificationData?.data?.totalCount || 10 )/ 10)
     return (
-        <div>
-<div class="w-full h-auto relative">
-    <div class="bg-white py-3.5  max-w-sm mx-auto  ease-linear">
-        <div class="w-full flex items-center justify-between">
-            <span class="font-medium text-sm text-slate-400">New Notification</span>
-          
+        <div className="w-96">
+<div className=" h-auto relative">
+    <div className="bg-white py-3.5  max-w-sm mx-auto  ease-linear">
+        <div className="w-full flex items-center justify-between">
+            <span className="font-medium text-sm text-slate-400">New Notification</span>
         </div>
         {
-            [...Array(5).keys()].map((item,i)=>{
-                return  <div key={i} class="flex px-5 items-center hover:shadow-xl border-b mt-2 rounded-lg py-1 cursor-pointer">
-            <div class="relative flex flex-shrink-0 items-end">
-                <img class="h-16 w-16 rounded-full" src="https://i.pravatar.cc/300"/>    
-                <span class="absolute h-4 w-4 bg-green-400 rounded-full bottom-0 right-0 border-2 border-white"></span>
-            </div>
-            <div class="ml-3">
-                <span class="font-semibold tracking-tight text-sm">John Doe </span>
-                <span class="text-sm leading-none opacity-50"> reacted to your comment:</span>
-                <p class="text-sm leading-4 pt-2 italic opacity-70">"This is the comment..."</p>
-                <span class="text-[10px] text-blue-500 font-medium leading-4 opacity-75">a few seconds ago</span>
-            </div>
-        </div>
+           notifications?.map((notification,i)=>{
+            console.log(notification);
+                return notification?.type === 'project' && <>
+                {/* Delivery */}
+                {
+                     ( notification?.model === 'delivery') && <Link href={`/message/project/${notification?.projectId}`} key={i} className={`flex px-5 items-center hover:shadow border-b border-gray-400 rounded-lg py-1 cursor-pointer ${notification?.isRead ? '':'bg-base-300'}`}>
+                     <div className="relative flex flex-shrink-0 items-end">
+                         <Image height={66} width={66} className="h-12 w-12 border-2 border-blue-400 object-cover rounded-full" src={`${process.env.NEXT_PUBLIC_DOWNLOAD}/${notification?.image?.fileId}`}/>    
+                        
+                     </div>
+                     <div className="ml-3 ">
+                         <span className="font-semibold tracking-tight text-sm">Admin </span>
+                         <span className="leading-none">send your delivery</span>
+                         <p className=" leading-4 italic ">{notification?.message ? `"${notification?.message?.split(' ').slice(0,6).join(' ')}"`:''}</p>
+                         <span className="text-[10px] text-blue-500 font-medium leading-4 opacity-75">{moment(notification?.createdAt).fromNow()}</span>
+                     </div>
+                 </Link>
+                  
+                }
+                {/* Extend */}
+                { ( notification?.model === 'extend') && <Link href={`/message/project/${notification?.projectId}`} key={i} className={`flex px-5 items-center hover:shadow border-b border-gray-400 rounded-lg py-1 cursor-pointer ${notification?.isRead ? '':'bg-base-300'}`}>
+                    <div className="relative flex flex-shrink-0 items-end">
+                        <Image height={66} width={66} className="h-12 w-12 border-2 border-blue-400 object-cover rounded-full" src={`${process.env.NEXT_PUBLIC_DOWNLOAD}/${notification?.image?.fileId}`}/>    
+                        {/* <span className="h-12 w-12 border-2 flex items-center justify-center border-blue-400 object-cover rounded-full">D</span> */}
+                       
+                    </div>
+                    <div className="ml-3">
+                        <span className="font-semibold tracking-tight text-sm">Admin </span>
+                        <span className="leading-none">Want to extend delivery date</span>
+                        <p className=" leading-4 italic">{notification?.message ? `"${notification?.message?.split(' ').slice(0,6).join(' ')}"`:''}</p> 
+                        <span className="text-[10px] text-blue-500 font-medium leading-4 opacity-75">{moment(notification?.createdAt).fromNow()}</span>
+                    </div>
+                </Link>
+                }
+                {/* Cancel */}
+                { ( notification?.model === 'cancel') && <Link href={`/message/project/${notification?.projectId}`} key={i} className={`flex px-5 items-center hover:shadow border-b border-gray-400 rounded-lg py-1 cursor-pointer ${notification?.isRead ? '':'bg-base-300'}`}>
+                    <div className="relative flex flex-shrink-0 items-end">
+                        <Image height={66} width={66} className="h-12 w-12 border-2 border-blue-400 object-cover rounded-full" src={`${process.env.NEXT_PUBLIC_DOWNLOAD}/${notification?.image?.fileId}`}/>    
+                        {/* <span className="h-12 w-12 border-2 flex items-center justify-center border-blue-400 object-cover rounded-full">D</span> */}
+                       
+                    </div>
+                    <div className="ml-3">
+                        <span className="font-semibold tracking-tight text-sm">Admin </span>
+                        <span className="leading-none">Want to cancel this project</span>
+                        <p className=" leading-4 italic  ">{notification?.message ? `"${notification?.message?.split(' ').slice(0,6).join(' ')}"`:''}</p> 
+                        <span className="text-[10px] text-blue-500 font-medium leading-4 opacity-75">{moment(notification?.createdAt).fromNow()}</span>
+                    </div>
+                </Link>
+                }
+                {/* custom */}
+                { ( notification?.model === 'custom') && <Link href={`/message/project/${notification?.projectId}`} key={i} className={`flex px-5 items-center hover:shadow border-b border-gray-400 rounded-lg py-1 cursor-pointer ${notification?.isRead ? '':'bg-base-300'}`}>
+                    <div className="relative flex flex-shrink-0 items-end">
+                        <Image height={66} width={66} className="h-12 w-12 border-2 border-blue-400 object-cover rounded-full" src={`${process.env.NEXT_PUBLIC_DOWNLOAD}/${notification?.image?.fileId}`}/>    
+                        {/* <span className="h-12 w-12 border-2 flex items-center justify-center border-blue-400 object-cover rounded-full">D</span> */}
+                       
+                    </div>
+                    <div className="ml-3">
+                        <span className="font-semibold tracking-tight text-sm">Admin </span>
+                        <span className="leading-none">Created a custom offer</span>
+                        <p className=" leading-4 italic  ">{notification?.message ? `"${notification?.message?.split(' ').slice(0,6).join(' ')}"`:''}</p> 
+                        <span className="text-[10px] text-blue-500 font-medium leading-4 opacity-75">{moment(notification?.createdAt).fromNow()}</span>
+                    </div>
+                </Link>
+                }
+                {/* message */}
+                { ( notification?.model === 'message') && <Link href={`/message/project/${notification?.projectId}`} key={i} className={`flex px-5 items-center hover:shadow border-b border-gray-400 rounded-lg py-1 cursor-pointer ${notification?.isRead ? '':'bg-base-300'}`}>
+                    <div className="relative flex flex-shrink-0 items-end">
+                        <Image height={66} width={66} className="h-12 w-12 border-2 border-blue-400 object-cover rounded-full" src={`${process.env.NEXT_PUBLIC_DOWNLOAD}/${notification?.image?.fileId}`}/>    
+                        {/* <span className="h-12 w-12 border-2 flex items-center justify-center border-blue-400 object-cover rounded-full">D</span> */}
+                       
+                    </div>
+                    <div className="ml-3">
+                        <span className="font-semibold tracking-tight text-sm">Admin </span>
+                        <span className="leading-none">send a message</span>
+                        <p className=" leading-4 italic  ">{notification?.message ? `"${notification?.message?.split(' ').slice(0,6).join(' ')}"`:''}</p> 
+                        <span className="text-[10px] text-blue-500 font-medium leading-4 opacity-75">{moment(notification?.createdAt).fromNow()}</span>
+                    </div>
+                </Link>
+                }
+                
+                </>
+            
             })
         }
       
