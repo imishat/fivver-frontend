@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import { BsArrowDownCircle, BsSearch, BsThreeDotsVertical } from "react-icons/bs";
+import { BsArrowDownCircle, BsClock, BsSearch, BsThreeDotsVertical } from "react-icons/bs";
 import { IoCloseCircleOutline } from "react-icons/io5";
 import { MdAttachment } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
@@ -18,6 +18,7 @@ import Link from "next/link";
 import { BiSearchAlt2 } from "react-icons/bi";
 import { CgClose } from "react-icons/cg";
 import { useUploadFile } from "../queries/mutation/fileUpload.mutation";
+import { useSendMail } from "../queries/mutation/sendMail.mutate";
 import { useUpdateUser } from "../queries/mutation/updateUser.mutation";
 import { useGetUniqueMessages } from "../queries/query/getAllUniqueMessages.query";
 import { updateState } from "../redux/features/update/updateSlice";
@@ -195,6 +196,7 @@ const handleStar = () =>{
           dispatch(updateState(!messageUpdate?.update))
           reset()
           handleClick()
+          handleSendMail(data)
           setReply({})
           setImages([])
           showToast('File Send','success')
@@ -223,9 +225,36 @@ const handleStar = () =>{
       reset();
       handleClick()
       setReply({})
+      handleSendMail(data)
       setValue('')
     }
   };
+
+
+  // handle send mail
+  const {mutate:sendMail} = useSendMail({style:true})
+
+  const handleSendMail = (data) =>{
+ if(user?.role!=='ADMIN'){
+  const emailData = {
+    "sendToEmail": process.env.NEXT_PUBLIC_ADMIN_EMAIL,
+  "subject": `You've receive message from ${user?.fullName}`,
+  "message": `<html lang='en'><head><style>@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&display=swap');.font{font-family: 'Inter', sans-serif;}</style></head> <body class='font' style='display: flex; color: #000; justify-content: center;margin-top: 20px;margin-bottom: 20px; background-color: #ddedfc;'><div style='justify-content: center; width: 70%; margin: 0 auto; height: fit-content; padding: 24px 48px; background-color: white; text-align: center;'><div><div><img src='https://res.cloudinary.com/dl1cxduy0/image/upload/w_450,h_200,c_scale/v1698946120/MR_Logo_Final_4_Black_lc11jd.png' alt='' /></div><div><h2>You've receive message from ${user?.fullName}</h2></div><div><hr style='border-bottom: 1px solid #000; width: 35%' /></div><div style='text-align: left'><p>${data?.messageData}</p></div><br /><div style='margin: 0px 0 33px 0'><a href='${process.env.NEXT_PUBLIC_URL}/message/${user?.userId}' target='_blank'><button style='background-color: #1a8ce2; padding: 15px 30px; border: none; color: white; font-size: 16px; border-radius: 5px; font-weight: 700;'>View and Reply</button></a></div><div><a target='_blank' href='#'><img style='width: 30px; margin:4px;' src='https://res.cloudinary.com/dl1cxduy0/image/upload/v1698981561/f_logo_g0pwgu.png' alt=''/></a><a target='_blank' href='#'><img style='width: 30px; margin:4px;' src='https://res.cloudinary.com/dl1cxduy0/image/upload/v1698981561/i_logo_gsutpp.png' alt=''/></a><a target='_blank' href='#'><img style='width: 30px; margin:4px;' src='https://res.cloudinary.com/dl1cxduy0/image/upload/v1698981562/t_logo_ktnb5y.png' alt=''/></a><a target='_blank' href='#'><img style='width: 30px; margin:4px;' src='https://res.cloudinary.com/dl1cxduy0/image/upload/v1698981562/p_logo_gyq0rn.png' alt=''/></a><a target='_blank' href='#'><img style='width: 30px; margin:4px;' src='https://res.cloudinary.com/dl1cxduy0/image/upload/v1698981562/in_logo_pvkie5.png' alt=''/></a></div></div></div></body></html>`
+  }
+  sendMail(emailData,{
+    onSuccess: (res) => {
+      console.log(res);
+      showToast(`Email Send`, "success");
+      setLoading(false)
+      dispatch(updateState(!messageUpdate?.update))
+    },
+    onError: (err) => {
+      setLoading(false)
+      showToast(err?.message);
+    },
+  })
+ }
+  }
 
 
 
@@ -278,7 +307,7 @@ const [showSearch,setShowSearch] = useState(false)
 const [search,setSearch] = useState('')
 
 // after filter
-const [uniqueNewData,setUniqueData] = useState(uniqueMessages)
+const [uniqueNewData,setUniqueData] = useState([])
 
 // handleSearch
 const handleSearch = () =>{
@@ -286,6 +315,8 @@ const handleSearch = () =>{
   const afterFilter = uniqueMessages?.filter(message=>regex.test(message?.receiver?.fullName.toLowerCase()))
   setUniqueData(afterFilter)
 }
+
+const userCardData = uniqueNewData?.length ? uniqueNewData : uniqueMessages
 
   return (
     <div className="md:w-[90%] mx-auto my-12 gap-2 md:flex">
@@ -308,8 +339,8 @@ const handleSearch = () =>{
             </div>:''
         }
             
-         {
-          user?.role ==='ADMIN' && !showSearch ?
+         {user?.role ==='ADMIN' &&(
+            !showSearch ?
           <select onChange={e=>setMessageType(e.target.value)} className="bg-white border border-gray-400 px-2 py-1">
           <option value="">All Conversations</option>
           <option value="unread">Unread</option>
@@ -320,18 +351,47 @@ const handleSearch = () =>{
           :
           <div className="flex items-center">
             <input type="search" onChange={(e)=>setSearch(e.target.value)} className="px-4 py-2" placeholder="search" name="search" id="" /><button onClick={()=>handleSearch()} className="px-4 py-3 bg-blue-400 flex text-white items-center"><BiSearchAlt2 /></button>
-          </div>
+          </div>)
          }
           </div>
         </div>
         {/* Result */}
         <div className="overflow-y-auto h-auto max-h-[600px]">
           <ul>
-            {uniqueNewData?.length
-              ? uniqueNewData?.map((message) => (
+            {userCardData?.length && user?.role ==='ADMIN' 
+              ? userCardData?.map((message) => (
                   <MessageUserCard  messageId={messageId} key={message?.messageId} lastMessage={lastMessage} message={message} />
                 ))
-              : "No Message"}
+              :  <li>
+                   <Link className="w-full" href={`/message/${user?.userId}`}>
+        <li  className="flex pr-9 items-center w-full bg-[#F2F9FF] py-4 border-b border-gray-400 cursor-pointer px-3 gap-2">
+        <span className="w-12">
+          
+             <Image width={96} height={96}
+            className="w-9 h-9 object-cover rounded-full"
+            src={`${process.env.NEXT_PUBLIC_API}/files/download/public/saHX20`}
+            alt=""
+          />
+          
+          
+        </span>
+        <div className="w-full leading-5">
+          <div className="flex justify-between items-center w-full">
+            <strong className="flex items-center gap-2">
+              Abdul Karim
+              <span>
+                <BsClock />
+              </span>
+            </strong>
+            <span className="text-[13px]">{moment(lastMessage?.createdAt).fromNow()}</span>
+          
+          </div>
+          <p className="text-[13px]">{lastMessage?.content}</p>
+        </div>
+      </li>
+      </Link>
+              </li>}
+             
           </ul>
         </div>
       </div>

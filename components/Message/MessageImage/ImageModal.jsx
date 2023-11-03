@@ -1,3 +1,4 @@
+import { useCreateNotifications } from "@/components/queries/mutation/notifications.mutation";
 import { useUpdateMessage } from "@/components/queries/mutation/updateMessage.mutation";
 import { useGetFile } from "@/components/queries/query/getFiles.queries";
 import { useGetSingleMessage } from "@/components/queries/query/getSignleMessage.query";
@@ -12,7 +13,7 @@ import { IoClose } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 
-function ImageModal({ messageId,messageIdClick }) {
+function ImageModal({ messageId,messageIdClick,project }) {
 
   /// dispatch
   const dispatch = useDispatch()
@@ -105,6 +106,7 @@ const {messageUpdate} = useSelector(state=>state.update)
     };
     setCommentStore([...commentStore, commentData]);
     dispatch(updateState(!messageUpdate?.update))
+   
     reset();
     setReply({});
   };
@@ -124,6 +126,8 @@ const {messageUpdate} = useSelector(state=>state.update)
         setCommentStore([]);
         dispatch(updateState(!messageUpdate?.update))
         setHighLightComment({})
+        handleCreateNotifications(commentStore?.at(-1))
+      
         dispatch(messageData(res?.data?.message))
       },
       onError: (err) => {
@@ -131,6 +135,30 @@ const {messageUpdate} = useSelector(state=>state.update)
       },
     });
   };
+
+    // create notification
+    const {mutate: createNotification} = useCreateNotifications()
+    // handle create notifications
+    const handleCreateNotifications  = (data) =>{
+      const notificationData = {
+        "type": "project",
+        "model":"comment",
+        "message": data?.message,
+        "image": {fileId:project?.featuredImageId||project?.imageIds[0]},
+        "isForAdmin":false,
+        "userId": project?.startedBy,
+        "isRead":false,
+        "projectId": project?.projectId
+    }
+    createNotification(notificationData,{
+      onSuccess: (res) => {
+        console.log(res.data);
+      },
+      onError: (err) => {
+        showToast(err?.response?.data?.message);
+      },
+    })
+    }
 
   // handle delete message
   const handleDeleteMessage = id =>{

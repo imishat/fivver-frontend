@@ -62,6 +62,7 @@ const {messageUpdate} = useSelector(state=>state.update)
     return (
       <>
       <div className={` flex items-center w-full relative`} >
+       
         <Link className="w-full" href={`/message/${message?.receiver?.receiverId}`}>
         <Toast />
         <li key={message?.messageId} className="flex pr-9 items-center w-full bg-[#F2F9FF] py-4 border-b border-gray-400 cursor-pointer px-3 gap-2">

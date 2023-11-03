@@ -2,9 +2,12 @@ import moment from "moment";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import { useGetNotifications } from "../queries/query/notifications.query";
 
 function Notification() {
+    // user 
+    const {user} = useSelector((state)=>state.user)
     const [page,setPage] = useState(1)
     const [limit,setLimit] = useState(10)
 
@@ -25,13 +28,12 @@ function Notification() {
         {
            notifications?.map((notification,i)=>{
             console.log(notification);
-                return notification?.type === 'project' && <>
+                return user?.role === 'ADMIN' &&  <>
                 {/* Delivery */}
                 {
                      ( notification?.model === 'delivery') && <Link href={`/message/project/${notification?.projectId}`} key={i} className={`flex px-5 items-center hover:shadow border-b border-gray-400 rounded-lg py-1 cursor-pointer ${notification?.isRead ? '':'bg-base-300'}`}>
                      <div className="relative flex flex-shrink-0 items-end">
                          <Image height={66} width={66} className="h-12 w-12 border-2 border-blue-400 object-cover rounded-full" src={`${process.env.NEXT_PUBLIC_DOWNLOAD}/${notification?.image?.fileId}`}/>    
-                        
                      </div>
                      <div className="ml-3 ">
                          <span className="font-semibold tracking-tight text-sm">Admin </span>
@@ -97,6 +99,21 @@ function Notification() {
                     <div className="ml-3">
                         <span className="font-semibold tracking-tight text-sm">Admin </span>
                         <span className="leading-none">send a message</span>
+                        <p className=" leading-4 italic  ">{notification?.message ? `"${notification?.message?.split(' ').slice(0,6).join(' ')}"`:''}</p> 
+                        <span className="text-[10px] text-blue-500 font-medium leading-4 opacity-75">{moment(notification?.createdAt).fromNow()}</span>
+                    </div>
+                </Link>
+                }
+                {/* comment */}
+                { ( notification?.model === 'comment') && <Link href={`/message/project/${notification?.projectId}`} key={i} className={`flex px-5 items-center hover:shadow border-b border-gray-400 rounded-lg py-1 cursor-pointer ${notification?.isRead ? '':'bg-base-300'}`}>
+                    <div className="relative flex flex-shrink-0 items-end">
+                        <Image height={66} width={66} className="h-12 w-12 border-2 border-blue-400 object-cover rounded-full" src={`${process.env.NEXT_PUBLIC_DOWNLOAD}/${notification?.image?.fileId}`}/>    
+                        {/* <span className="h-12 w-12 border-2 flex items-center justify-center border-blue-400 object-cover rounded-full">D</span> */}
+                       
+                    </div>
+                    <div className="ml-3">
+                        <span className="font-semibold tracking-tight text-sm">Admin </span>
+                        <span className="leading-none">comment on image</span>
                         <p className=" leading-4 italic  ">{notification?.message ? `"${notification?.message?.split(' ').slice(0,6).join(' ')}"`:''}</p> 
                         <span className="text-[10px] text-blue-500 font-medium leading-4 opacity-75">{moment(notification?.createdAt).fromNow()}</span>
                     </div>

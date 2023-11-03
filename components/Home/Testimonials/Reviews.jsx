@@ -1,4 +1,6 @@
 // Import Swiper React components
+import { PhotoProvider, PhotoView } from 'react-photo-view';
+import 'react-photo-view/dist/react-photo-view.css';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 // Import Swiper styles
@@ -8,9 +10,9 @@ import 'swiper/css/navigation';
 import './styles.module.css';
 
 // import required modules
+import { useEffect, useState } from "react";
 import { BsStarFill } from 'react-icons/bs';
 import { Navigation } from 'swiper/modules';
-import { useEffect, useState } from "react";
 
 export default function Reviews({filteredReviews}) {
     console.log(filteredReviews?.createdAt)
@@ -43,17 +45,22 @@ export default function Reviews({filteredReviews}) {
             {filteredReviews?.length
                   ?filteredReviews?.map((review, i) => (
               <SwiperSlide key={i} className='!h-44'>
-                <div className='my-4'>
-                  <div className='flex w-full gap-4 text-sm md:text-base text-center justify-between items-center'>
+                <div className='my-4 '>
+                  <div className='flex w-full px-20 gap-4 text-sm md:text-base text-center justify-between items-center'>
                     <p className='mx-2'>
                       {  review?.description
 }
                     </p>
-                    <div className='w-64 md:w-44 border h-16 bg-white flex justify-center items-center text-xs'>
-                      Design
+                    <div className='w-64 md:w-28 border h-20 bg-white flex justify-center items-center text-xs'>
+                    <PhotoProvider>
+      <PhotoView src="http://localhost:3000/_next/image?url=http%3A%2F%2F103.49.169.89%3A30912%2Fapi%2Fv1.0%2Ffiles%2Fdownload%2Fpublic%2Fsa9P7&w=256&q=75">
+        <img src="http://localhost:3000/_next/image?url=http%3A%2F%2F103.49.169.89%3A30912%2Fapi%2Fv1.0%2Ffiles%2Fdownload%2Fpublic%2Fsa9P7&w=256&q=75" alt="" />
+      </PhotoView>
+    </PhotoProvider>
+                     
                     </div>
                   </div>
-                  <div className='flex justify-between items-center md:my-6 px-4'>
+                  <div className='flex px-20 justify-between items-center md:my-6'>
                     <div className='flex justify-between md:gap-8 gap-2 items-center'>
                       <div className='bg-[#1781CB] p-2 rounded-full w-8 flex justify-center items-center text-white h-8'>
                         M

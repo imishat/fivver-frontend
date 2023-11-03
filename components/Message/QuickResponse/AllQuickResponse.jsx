@@ -1,5 +1,6 @@
 import { updateState } from "@/components/redux/features/update/updateSlice";
 import moment from "moment";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import { BsPen, BsTrash } from "react-icons/bs";
 import { CiMenuKebab } from "react-icons/ci";
@@ -8,7 +9,6 @@ import { useGetQuickResponse } from "../../queries/query/getQuickResponse.query"
 import DeleteModal from "../EditModal/DeleteModal";
 import EditModal from "../EditModal/EditModal";
 import CreateQuick from "./CreateQuick";
-import { useRouter } from "next/router";
 
 const AllQuickResponse = ({ setValue, value, lastMessage }) => {
   // const url = "ws://103.49.169.89:30912";
@@ -59,7 +59,7 @@ const [show, setShow] = useState(false)
   //  console.log(quickResponseDataId)
 
   return (
-    <div className="p-2 m-2 h-28 overflow-y-auto">
+    <div className={`p-2 pb-0 m-2 ${show? 'h-28 overflow-y-auto':''} `}>
       {/* Quick Response */}
       {/* <Toast /> */}
       <div className=" flex items-center justify-between px-2  cursor-pointer">
@@ -80,48 +80,50 @@ const [show, setShow] = useState(false)
         </p>
       )}
     </div>
-          <div className="dropdown dropdown-left">
-            <label
-              tabIndex={0}
-              className="hover:bg-base-300 rounded-md px-2 inline-block py-2"
-            >
-              <CiMenuKebab />
-            </label>
-            <ul className="dropdown-content rounded-none z-[1] tabIndex={0} menu shadow bg-base-100 border p-1">
-              <div>
-                {editMode ? (
-                  <button
-                    onClick={() => setEditMode(false)}
-                    className="px-2 py-1 hover:bg-base-300 w-full text-teal-400  font-bold"
-                  >
-                    Done
-                  </button>
-                ) : (
-                  <button
-                    onClick={() => setEditMode(true)}
-                    className="px-2 py-1 hover:bg-base-300 w-full text-blue-500 font-bold"
-                  >
-                    Edit
-                  </button>
-                )}
-                {deleteMode ? (
-                  <button
-                    onClick={() => setDeleteMode(false)}
-                    className="px-2 py-1 hover:bg-base-300 w-full text-teal-400  font-bold"
-                  >
-                    Done
-                  </button>
-                ) : (
-                  <button
-                    onClick={() => setDeleteMode(true)}
-                    className="px-2 py-1 hover:bg-base-300 w-full text-rose-400  font-bold"
-                  >
-                    Delete
-                  </button>
-                )}
-              </div>
-            </ul>
-          </div>{" "}
+        {
+          show ?   <div className="dropdown dropdown-left">
+          <label
+            tabIndex={0}
+            className="hover:bg-base-300 rounded-md px-2 inline-block py-2"
+          >
+            <CiMenuKebab />
+          </label>
+          <ul className="dropdown-content rounded-none z-[1] tabIndex={0} menu shadow bg-base-100 border p-1">
+            <div>
+              {editMode ? (
+                <button
+                  onClick={() => setEditMode(false)}
+                  className="px-2 py-1 hover:bg-base-300 w-full text-teal-400  font-bold"
+                >
+                  Done
+                </button>
+              ) : (
+                <button
+                  onClick={() => setEditMode(true)}
+                  className="px-2 py-1 hover:bg-base-300 w-full text-blue-500 font-bold"
+                >
+                  Edit
+                </button>
+              )}
+              {deleteMode ? (
+                <button
+                  onClick={() => setDeleteMode(false)}
+                  className="px-2 py-1 hover:bg-base-300 w-full text-teal-400  font-bold"
+                >
+                  Done
+                </button>
+              ) : (
+                <button
+                  onClick={() => setDeleteMode(true)}
+                  className="px-2 py-1 hover:bg-base-300 w-full text-rose-400  font-bold"
+                >
+                  Delete
+                </button>
+              )}
+            </div>
+          </ul>
+        </div>:''
+        }
         </div>
       </div>
       <div className="flex ">

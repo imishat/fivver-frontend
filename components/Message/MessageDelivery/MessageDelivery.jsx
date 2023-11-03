@@ -346,7 +346,7 @@ function MessageDelivery({ message, setReply, update, setUpdate }) {
           </div>
         </div>
       </div>
-      <ImageModal update={update} setUpdate={setUpdate}
+      <ImageModal project={project} update={update} setUpdate={setUpdate}
         messageId={message?.messageId}
         messageIdClick={messageIdClick}
       />

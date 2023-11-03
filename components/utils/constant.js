@@ -59,3 +59,5 @@ export const VISITORS = 'visitors/count'
 export const REVIEWS='reviews'
 // notifications
 export const NOTIFICATIONS = 'inquiries'
+// mail
+export const EMAIL = 'users/mail'
