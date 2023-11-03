@@ -210,7 +210,7 @@ const handleStar = () =>{
     } else {
       // send normal message
       const sendMessageData = {
-        type: "normal",
+        type: "message",
         projectId: '',
         content: data?.messageData,
         reply: reply,
@@ -316,6 +316,10 @@ const handleSearch = () =>{
   setUniqueData(afterFilter)
 }
 
+// get all users 
+
+
+
 const userCardData = uniqueNewData?.length ? uniqueNewData : uniqueMessages
 
   return (
@@ -359,7 +363,7 @@ const userCardData = uniqueNewData?.length ? uniqueNewData : uniqueMessages
         <div className="overflow-y-auto h-auto max-h-[600px]">
           <ul>
             {userCardData?.length && user?.role ==='ADMIN' 
-              ? userCardData?.map((message) => (
+              ? userCardData?.map((message) => ( 
                   <MessageUserCard  messageId={messageId} key={message?.messageId} lastMessage={lastMessage} message={message} />
                 ))
               :  <li>
@@ -465,15 +469,15 @@ const userCardData = uniqueNewData?.length ? uniqueNewData : uniqueMessages
               return (
                 <div>
                   <div  ref={ref}></div>
-                  {/* // offer message */}
-                  {message?.type === "normal" && (
+                  {/* // normal message */}
+                  {message?.type === "message" && (
                     <MessageCard
                       setReply={setReply}
                       key={message.messageId}
                       message={message}
                     />
                   )}
-                  {/* // Normal Message */}
+                  {/* // offer Message */}
                   {message?.type === "offer" && (
                     <OfferMessageCard
                       setReply={setReply}
