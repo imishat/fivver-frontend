@@ -174,6 +174,34 @@ const Activity = () => {
   // Reply
   const [reply, setReply] = useState({});
 
+  // project number 
+  function projectNumber(input) {
+    const mapping = {
+      1: 'A',
+      2: 2,
+      3: 'C',
+      4: 4,
+      5: 'E',
+      6: 6,
+      7: 'G',
+      8: 8,
+      9: 'i',
+      0: 'Z',
+    };
+  
+    const result = [];
+  
+    for (let i = 0; i < input.length; i++) {
+      const digit = input[i];
+      if (mapping[digit] !== undefined) {
+        result.push(mapping[digit]);
+      }
+    }
+  
+    return result.join('');
+  }
+
+  console.log(projectNumber('125'),'number')
 
   
   // blob images for preview images
@@ -707,7 +735,8 @@ const Activity = () => {
                 </li>
                 <li className="flex items-center justify-between">
                   <p>Project Number</p>
-                  <span className='font-bold'>#{project?.projectId}</span>
+                  
+                  <span className='font-bold'>#MR{projectNumber(`${project?.projectNumber}`)}PN</span>
                 </li>
               </ul>
               <hr className="py-3 border-blue-400 my-3" />

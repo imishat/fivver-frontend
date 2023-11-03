@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useCreateManyProject } from "../queries/mutation/manyProject.mutation";
+import { useSendMail } from "../queries/mutation/sendMail.mutate";
 import { useGetProject } from "../queries/query/project.query";
 import PaymentProjectCard from "./PaymentProjectCard";
 
@@ -46,6 +47,32 @@ const {mutate:sendProjectData} = useCreateManyProject()
           });
         
     }
+
+    // project number
+    const projectNumber = ''
+
+        // handle send mail
+        const {mutate:sendMail} = useSendMail({style:true})
+
+        const handleSendMail = (data) =>{
+        //   if(user?.role!=='ADMIN'){
+          const emailData = {
+            "sendToEmail": process.env.NEXT_PUBLIC_ADMIN_EMAIL,
+          "subject": `You've receive a project from ${user?.fullName}`,
+          "message": `<html lang='en'><head><style>@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&display=swap');.font{font-family: 'Inter', sans-serif;}</style></head> <body class='font' style='display: flex; color: #000; justify-content: center;margin-top: 20px;margin-bottom: 20px; background-color: #ddedfc;'><div style='justify-content: center; width: 70%; margin: 0 auto; height: fit-content; padding: 24px 48px; background-color: white; text-align: center;'><div><div><img src='https://res.cloudinary.com/dl1cxduy0/image/upload/w_450,h_200,c_scale/v1698946120/MR_Logo_Final_4_Black_lc11jd.png' alt='' /></div><div><h2>You've receive a project from ${user?.fullName}</h2></div><div><hr style='border-bottom: 1px solid #000; width: 35%' /></div><div style='text-align: left'><p>Project:${projectNumber}</p></div><br /><div style='margin: 0px 0 33px 0'><a href='${process.env.NEXT_PUBLIC_URL}/message/project/${projectData[0]?.projectId}' target='_blank'><button style='background-color: #1a8ce2; padding: 15px 30px; border: none; color: white; font-size: 16px; border-radius: 5px; font-weight: 700;'>View and Reply</button></a></div><div><a target='_blank' href='#'><img style='width: 30px; margin:4px;' src='https://res.cloudinary.com/dl1cxduy0/image/upload/v1698981561/f_logo_g0pwgu.png' alt=''/></a><a target='_blank' href='#'><img style='width: 30px; margin:4px;' src='https://res.cloudinary.com/dl1cxduy0/image/upload/v1698981561/i_logo_gsutpp.png' alt=''/></a><a target='_blank' href='#'><img style='width: 30px; margin:4px;' src='https://res.cloudinary.com/dl1cxduy0/image/upload/v1698981562/t_logo_ktnb5y.png' alt=''/></a><a target='_blank' href='#'><img style='width: 30px; margin:4px;' src='https://res.cloudinary.com/dl1cxduy0/image/upload/v1698981562/p_logo_gyq0rn.png' alt=''/></a><a target='_blank' href='#'><img style='width: 30px; margin:4px;' src='https://res.cloudinary.com/dl1cxduy0/image/upload/v1698981562/in_logo_pvkie5.png' alt=''/></a></div></div></div></body></html>`
+          }
+          sendMail(emailData,{
+            onSuccess: (res) => {
+              console.log(res);
+              showToast(`Email Send`, "success");
+              dispatch(updateState(!messageUpdate?.update))
+            },
+            onError: (err) => {
+              showToast(err?.message);
+            },
+          })
+        // }
+        }
 
 
 const handleSetProjectInLocal = (data) =>{

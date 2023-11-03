@@ -1,10 +1,11 @@
 import moment from "moment";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BsClock, BsStar, BsStarFill } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import { useUpdateUser } from "../queries/mutation/updateUser.mutation";
+import { useGetMessagesById } from "../queries/query/getMessagesById.query";
 import { useGetUserData } from "../queries/query/getUserProfile.query";
 import { updateState } from "../redux/features/update/updateSlice";
 import useToast from "../utility/useToast";
@@ -13,7 +14,7 @@ function MessageUserCard({message,lastMessage,messageId}) {
             // get user 
 const {user} = useSelector(state => state.user)
 
-const {messageUpdate} = useSelector(state=>state.update)
+const messageUpdate = useSelector(state=>state.update)
 
   // dispatch 
   const dispatch = useDispatch()
@@ -24,12 +25,19 @@ const {messageUpdate} = useSelector(state=>state.update)
   //   update:messageUpdate?.update
   // });
 
+  
+const [userArray,setUserArray] = useState([])
 
 
      // get user by id
-  const { data: userData } = useGetUserData({ token: "", userId: message?.userId,update:messageUpdate?.update });
+  const { data: userData } = useGetUserData({ token: "", userId: message?.sender?.senderId,update:messageUpdate?.update });
+  console.log(messageUpdate?.update)
   // user info
   const userInfo = userData?.data?.user;
+ useEffect(()=>{
+  setUserArray([...userArray,userInfo])
+},[userInfo,messageUpdate?.update])
+console.log(userArray)
 
   // toast 
   const {Toast,showToast} = useToast()
@@ -41,12 +49,15 @@ const {messageUpdate} = useSelector(state=>state.update)
   // handle star
   const handleStar = () =>{
     setLoading(true)
+    console.log('userInfo?.userId',message)
     const action={
-      star:!userInfo?.star,
-      action:'aaaa',
+      id:userInfo?.userId,
+      data:{star:!userInfo?.star,
+        action:'start',}
     }
     updateUser(action,{
       onSuccess: (res) => {
+        console.log(res?.data)
         showToast(`${!userInfo?.star ? 'Star Added':'Star Removed' }`, "success");
         setLoading(false)
         dispatch(updateState(!messageUpdate?.update))
@@ -57,7 +68,11 @@ const {messageUpdate} = useSelector(state=>state.update)
       },
     })  
   }
+// get last  message 
+const {data:getAllMessageById} = useGetMessagesById({userId:message?.receiverId,projectId:'',update:messageUpdate?.update})
 
+// get last message data
+const lastMessageData = getAllMessageById?.data?.messages?.length && getAllMessageById?.data?.messages.at(-1)
   
     return (
       <>
@@ -84,10 +99,10 @@ const {messageUpdate} = useSelector(state=>state.update)
                 <BsClock />
               </span>
             </strong>
-            <span className="text-[13px]">{moment(lastMessage?.createdAt).fromNow()}</span>
+            <span className="text-[13px]">{moment(lastMessageData?.createdAt).fromNow()}</span>
           
           </div>
-          <p className="text-[13px]">{lastMessage?.content}</p>
+          <p className="text-[13px]">{lastMessageData?.content||lastMessage?.message}</p>
         </div>
       </li>
       </Link>
