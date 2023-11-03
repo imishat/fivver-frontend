@@ -11,6 +11,7 @@ import { IoClose, IoCloseCircleOutline } from "react-icons/io5";
 import { MdOutlineAttachFile } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import AllQuickResponse from "../QuickResponse/AllQuickResponse";
+import axios from 'axios';
 
 function DeliveryModal({ update, setUpdate, reply, setReply, project }) {
   const { mutate: deleteFile } = useDeleteAction();
@@ -41,7 +42,7 @@ function DeliveryModal({ update, setUpdate, reply, setReply, project }) {
     setValue(prevText => prevText + e);
   };
 
-  const [progress, setProgress] = useState(0);
+ ;
   const [updateValue, setUpdateValue] = useState(false);
   // ============== socket options =================
 
@@ -71,13 +72,22 @@ function DeliveryModal({ update, setUpdate, reply, setReply, project }) {
   }
   // draft state
   const [draftData, setDraftData] = useState({});
-
+  
   // ============= Thumbnail area start ===============
 
   const [thumbnail, setThumbnail] = useState({});
 const[uplode,setUplode]=useState(0)
 console.log(uplode,"uplode")
   // handle upload thumbnail
+  // const handleUploadThumbnail = async (e) => {
+  //   e.preventDefault();
+  //   const thumbnail = e.target.files[0]; // Assuming only one file is selected
+  
+  //   const photoData = new FormData();
+  //   photoData.append("files", thumbnail);
+  
+  // };
+
   const handleUploadThumbnail = async (e) => {
     e.preventDefault();
     const thumbnail = e.target.files[0]; // Assuming only one file is selected
@@ -111,13 +121,21 @@ console.log(uplode,"uplode")
       // Handle the error here
     }
   };
+
+
+
+
+
+
+
+
   
   // ============= Thumbnail area end ===============
 
   // ============= Source Files area start ===============
 
   const [sourceFiles, setSourceFiles] = useState([]);
-
+console.log(sourceFiles)
   // handle upload Source Files
   const handleUploadSourceFiles = (e) => {
     e.preventDefault();
@@ -126,24 +144,44 @@ console.log(uplode,"uplode")
     for (const p in thumbnail) {
       photoData.append("files", thumbnail[p]);
     }
-    sendSourceFileData(photoData,
-       {
-        onUploadProgress: (progressEvent) => {
-          const progress = Math.round((progressEvent.loaded / progressEvent.total) * 100);
-          setProgress(progress);
-          console.log(process);
-        },
-      onSuccess: (res) => {
-        const images = res?.data?.files;
-        showToast("Image Uploaded", "success");
-        setSourceFiles(images);
+    // sendSourceFileData(photoData,
+    //    {
+       
+    //   onSuccess: (res) => {
+    //     const images = res?.data?.files;
+    //     showToast("Image Uploaded", "success");
+    //     setSourceFiles(images);
+    //   },
+    //   onError: (err) => {
+    //     // error
+    //     showToast(err?.response?.data?.message);
+    //     // loading stop
+    //   },
+    // });
+    const accessToken = typeof window !== 'undefined' && localStorage.getItem('accessToken');
+    axios
+    .post(`${process.env.NEXT_PUBLIC_API}/files?shallIncludeWatermark=false`, photoData, {
+      headers: {
+        'Authorization': `Bearer ${accessToken}`,
+        'Content-Type': 'multipart/form-data',
       },
-      onError: (err) => {
-        // error
-        showToast(err?.response?.data?.message);
-        // loading stop
+      onUploadProgress: (progressEvent) => {
+        const progress = Math.round((progressEvent.loaded / progressEvent.total) * 100);
+        setUplode(progress);
       },
+    })
+    .then((res) => {
+      // Handle the response from the server here
+  
+
+      const images = res?.data?.data?.files;
+      console.log( images," images")
+      setSourceFiles(images);
+    })
+    .catch((error) => {
+      // Handle errors here
     });
+
   };
 
   // ============= Source Files area end ===============
@@ -328,6 +366,9 @@ console.log(uplode,"uplode")
             <h2 className="py-4 text-xl font-bold text-blue-400">
               Deliver Work
             </h2>
+            
+  
+
             <form method="dialog">
               {/* if there is a button, it will close the modal */}
               <button className="p-4">
@@ -360,9 +401,7 @@ console.log(uplode,"uplode")
                 ""
               )}
             </div>
-            {
-              progress
-            }&
+           
             <textarea
               className="w-full p-2 textarea textarea-lg textarea-bordered rounded-none"
               value={value}
@@ -463,6 +502,13 @@ console.log(uplode,"uplode")
                 />{" "}
                 Source Files
               </label>
+              
+      
+     {
+             uplode ? <div className="h-4 w-full bg-gray-200">
+               <div className="h-full bg-blue-500" style={{width: `${uplode}%`}}></div>
+           </div>:''
+     }
             </div>
             <p>
               {draftData?.sourceFiles?.length || sourceFiles?.length}{" "}
@@ -478,6 +524,8 @@ console.log(uplode,"uplode")
                     className="w-20 border-2 bg-blue-200 object-cover overflow-hidden inline-block rounded h-16"
                     src={`${process.env.NEXT_PUBLIC_API}/files/download/public/${
                       draftData?.thumbnail?.fileId || thumbnail?.fileId
+                      
+                      
                     }`}
                     alt=""
                   />
