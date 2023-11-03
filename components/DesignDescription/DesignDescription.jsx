@@ -47,11 +47,14 @@ const [producr,setPproducr]=useState()
 
       dispatch(addToCart(product)); // Assuming you're dispatching an action to add to cart
       showToast("Product Added", "success");
+      setIsAdded(true)
     
   };
   const handleDeletedProduct = (design) => {
     dispatch(removeFromCart(design));
     setPproducr(design);
+    showToast("Product Removed", "euccess");
+    setIsAdded(false)
   };
 
   const [projectId, setProjectId] = useState("");
@@ -63,7 +66,7 @@ const [producr,setPproducr]=useState()
   // handle project start
   const handleProjectStart = (id) => {
     setProjectId(id);
-    console.log(id);
+   
     localStorage.setItem(
       "designs",
       JSON.stringify([
@@ -115,7 +118,13 @@ const [producr,setPproducr]=useState()
                 <p className="font-bold">File Format:</p> {design?.fileFormat}
               </li>
               <li className="flex gap-1">
-                <p className="font-bold">Design:</p>{" "}
+                <p className="font-bold">Category
+:</p>{" "}
+                {design?.categoryName
+}
+              </li>
+              <li className="flex gap-1">
+                <p className="font-bold">Subcategory:</p>{" "}
                 {design?.subcategory[0]?.name}
               </li>
             </ul>
@@ -136,7 +145,7 @@ const [producr,setPproducr]=useState()
         handleDeletedProduct(design)
         }
     >
-      Delete
+      Removed
     </button>
   )
 }
