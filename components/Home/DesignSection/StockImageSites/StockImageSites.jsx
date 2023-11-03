@@ -3,31 +3,31 @@ import StockSiteCard from "./StockSiteCard";
 const StockImageSites = () => {
     const stockData = [
         {id:1,
-            image:'/stock/stock1.png',
+            image:'/stock/01 Adobe Stock Logo.svg',
             url:'#'
         },
         {id:2,
-            image:'/stock/stock2.png',
+            image:'/stock/01 Shutterstock_logo.svg',
             url:'#'
         },
         {id:3,
-            image:'/stock/stock3.png',
+            image:'/stock/06 Dreamstime_Logo.png',
             url:'#'
         },
         {id:4,
-            image:'/stock/stock4.png',
+            image:'/stock/03 iStock logo.png',
             url:'#'
         },
         {id:5,
-            image:'/stock/stock5.png',
+            image:'/stock/04 123RF_Logo.png',
             url:'#'
         },
         {id:6,
-            image:'/stock/stock6.png',
+            image:'/stock/06 Dreamstime_Logo.png',
             url:'#'
         },
         {id:7,
-            image:'/stock/stock7.png',
+            image:'/stock/07 Vectezzy logo.png',
             url:'#'
         },
     ]
