@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import { BsArrowDownCircle, BsSearch, BsThreeDotsVertical } from "react-icons/bs";
+import { BsArrowDownCircle, BsClock, BsSearch, BsThreeDotsVertical } from "react-icons/bs";
 import { IoCloseCircleOutline } from "react-icons/io5";
 import { MdAttachment } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
@@ -358,11 +358,40 @@ const userCardData = uniqueNewData?.length ? uniqueNewData : uniqueMessages
         {/* Result */}
         <div className="overflow-y-auto h-auto max-h-[600px]">
           <ul>
-            {userCardData?.length
+            {userCardData?.length && user?.role ==='ADMIN' 
               ? userCardData?.map((message) => (
                   <MessageUserCard  messageId={messageId} key={message?.messageId} lastMessage={lastMessage} message={message} />
                 ))
-              : "No Message"}
+              :  <li>
+                   <Link className="w-full" href={`/message/${user?.userId}`}>
+        <li  className="flex pr-9 items-center w-full bg-[#F2F9FF] py-4 border-b border-gray-400 cursor-pointer px-3 gap-2">
+        <span className="w-12">
+          
+             <Image width={96} height={96}
+            className="w-9 h-9 object-cover rounded-full"
+            src={`${process.env.NEXT_PUBLIC_API}/files/download/public/saHX20`}
+            alt=""
+          />
+          
+          
+        </span>
+        <div className="w-full leading-5">
+          <div className="flex justify-between items-center w-full">
+            <strong className="flex items-center gap-2">
+              Abdul Karim
+              <span>
+                <BsClock />
+              </span>
+            </strong>
+            <span className="text-[13px]">{moment(lastMessage?.createdAt).fromNow()}</span>
+          
+          </div>
+          <p className="text-[13px]">{lastMessage?.content}</p>
+        </div>
+      </li>
+      </Link>
+              </li>}
+             
           </ul>
         </div>
       </div>

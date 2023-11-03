@@ -1,8 +1,8 @@
+import { useGetReviews } from "@/components/queries/query/getReviews.qurey";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import { BsStarFill } from "react-icons/bs";
 import Reviews from "./Reviews";
-import { useGetReviews } from "@/components/queries/query/getReviews.qurey";
-import { useEffect, useState } from "react";
 
 const Testimonials = () => {
   const router = useRouter()
@@ -10,6 +10,7 @@ const Testimonials = () => {
   const reviews = sellerReviews1?.data?.reviews
 
   const [selectedStars, setSelectedStars] = useState(null);
+  const [short,setShort] = useState('relevant')
   const [filteredReviews, setFilteredReviews] = useState(reviews);
   
   const [averageStars, setAverageStars] = useState(0);
@@ -40,6 +41,7 @@ const Testimonials = () => {
     setSelectedStars(stars);
   };
 
+  const allReview = filteredReviews?.length ? reviews:filteredReviews
 
   
   return (
@@ -125,18 +127,27 @@ const Testimonials = () => {
             <div className="flex w-full md:text-xl text-sm sm:text-base items-center border-b md:py-5 py-2 border-[#242627]">
               <p className="font-bold md:w-44 px-1 w-20">Sort By</p>
              <div className="flex items-center md:justify-between w-full px-6">
-             <button onClick={() => handleStarFilter(null)} className="border bg-[#FFEFEF] px-4 py-1 border-[#8B8588]  rounded-md">
+             <button onClick={() => {
+              handleStarFilter(null)
+              setShort('relevant')
+             }} className={`${short==='relevant' ? 'border bg-[#FFEFEF] border-[#8B8588]  rounded-md':''}  px-4 py-1`}>
                 Most Relevant
               </button>
-              <button onClick={() => handleStarFilter(null)} className="px-4 py-1">Most Recent</button>
-              <button className="px-4 py-1">
+              <button onClick={() => {
+                handleStarFilter(null)
+                setShort('recent')
+              }} className={`${short==='recent' ? 'border bg-[#FFEFEF] border-[#8B8588]  rounded-md':''}  px-4 py-1`}>Most Recent</button>
+              <button onClick={()=>{
+                handleStarFilter(null)
+                setShort('image')
+              }} className={`${short==='image' ? 'border bg-[#FFEFEF] border-[#8B8588]  rounded-md':''}  px-4 py-1`}>
                 Delevey Images <span>(23)</span>
               </button>
              </div>
             </div>
             {/* User reviews */}
             <div>
-                <Reviews filteredReviews ={filteredReviews}></Reviews>
+                <Reviews filteredReviews ={allReview}></Reviews>
             </div>
           </div>
         </div>
