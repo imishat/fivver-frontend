@@ -14,7 +14,7 @@ function Notification() {
     const {data:notificationData} = useGetNotifications({page})
 
     const notifications = notificationData?.data?.inquiries
-    console.log(notifications);
+   
 
       // Count
   const count = Math.ceil((notificationData?.data?.totalCount || 10 )/ 10)
@@ -27,8 +27,7 @@ function Notification() {
         </div>
         {
            notifications?.map((notification,i)=>{
-            console.log(notification);
-                return user?.role === 'ADMIN' &&  <>
+                return user?.role !== 'ADMIN' &&  <>
                 {/* Delivery */}
                 {
                      ( notification?.model === 'delivery') && <Link href={`/message/project/${notification?.projectId}`} key={i} className={`flex px-5 items-center hover:shadow border-b border-gray-400 rounded-lg py-1 cursor-pointer ${notification?.isRead ? '':'bg-base-300'}`}>

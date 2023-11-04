@@ -31,7 +31,7 @@ const Requirement = ({ project }) => {
   const requirementProjects = JSON.parse(
     typeof window !== "undefined" && localStorage.getItem("savedProjects")
   );
-  console.log(requirementProjects);
+ 
 
   // get user
   const { user } = useSelector((state) => state.user);

@@ -1,7 +1,7 @@
 import moment from "moment";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { BsClock, BsStar, BsStarFill } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import { useUpdateUser } from "../queries/mutation/updateUser.mutation";
@@ -31,13 +31,9 @@ const [userArray,setUserArray] = useState([])
 
      // get user by id
   const { data: userData } = useGetUserData({ token: "", userId: message?.sender?.senderId,update:messageUpdate?.update });
-  console.log(messageUpdate?.update)
   // user info
   const userInfo = userData?.data?.user;
- useEffect(()=>{
-  setUserArray([...userArray,userInfo])
-},[userInfo,messageUpdate?.update])
-console.log(userArray)
+
 
   // toast 
   const {Toast,showToast} = useToast()
@@ -49,11 +45,11 @@ console.log(userArray)
   // handle star
   const handleStar = () =>{
     setLoading(true)
+    handleUpdateAdminProfile(message?.receiverId)
     console.log('userInfo?.userId',message)
     const action={
       id:userInfo?.userId,
-      data:{star:!userInfo?.star,
-        action:'start',}
+      data:{star:!userInfo?.star}
     }
     updateUser(action,{
       onSuccess: (res) => {
@@ -61,6 +57,7 @@ console.log(userArray)
         showToast(`${!userInfo?.star ? 'Star Added':'Star Removed' }`, "success");
         setLoading(false)
         dispatch(updateState(!messageUpdate?.update))
+        
       },
       onError: (err) => {
         setLoading(false)
@@ -68,6 +65,43 @@ console.log(userArray)
       },
     })  
   }
+
+
+  // update star for filter
+const handleUpdateAdminProfile = (data) =>{
+
+  if(!userInfo?.star){
+    const starredUsers = {
+      id: user?.userId,
+      data: {'starredUsers':[...user?.starredUsers,data]}
+    }
+    updateUser(starredUsers,{
+      onSuccess: (res) => {
+        dispatch(updateState(!messageUpdate?.update))
+      },
+      onError: (err) => {
+        setLoading(false)
+        showToast(err?.message);
+      },
+    })
+  }else{
+    const userData = user?.starredUsers?.filter((id)=>id!==data)
+    const starredUsers = {
+      id: user?.userId,
+      data: {'starredUsers':userData}
+    }
+    updateUser(starredUsers,{
+      onSuccess: (res) => {
+        dispatch(updateState(!messageUpdate?.update))
+      },
+      onError: (err) => {
+        setLoading(false)
+        showToast(err?.message);
+      },
+    })
+  }
+
+}
 // get last  message 
 const {data:getAllMessageById} = useGetMessagesById({userId:message?.receiverId,projectId:'',update:messageUpdate?.update})
 

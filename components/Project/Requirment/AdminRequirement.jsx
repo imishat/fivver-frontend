@@ -76,7 +76,7 @@ function AdminRequirement({project}) {
                    {requirement?.logoFile?.length ?
                     requirement?.logoFile?.map((file,i)=>{
                         return  <Link target="_blank" href={`${process.env.NEXT_PUBLIC_DOWNLOAD}/${file?.fileId}`} key={i} className="flex items-center gap-3">
-                           <img className="w-20 h-44 rounded" src={`${process.env.NEXT_PUBLIC_DOWNLOAD}/${file?.fileId}`} alt="" />
+                           <img className="w-56 h-56 object-cover rounded" src={`${process.env.NEXT_PUBLIC_DOWNLOAD}/${file?.fileId}`} alt="" />
                             <p className="font-bold text-lg">Attachments {i+1}</p> 
                             <button><FiDownloadCloud size={23} /></button>
                         </Link>
