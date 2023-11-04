@@ -81,7 +81,6 @@ const Message = () => {
 
 
 
-  console.log(userInfo,'messages')
 
     // scroll messages
     const ref = useRef(null);
@@ -121,10 +120,11 @@ const Message = () => {
 
 // handle star
 const handleStar = () =>{
+  handleUpdateAdminProfile(messageId)
   setLoading(true)
   const action={
-    star:!userInfo?.star,
-    action:'aaaa',
+   id:messageId,
+   data:{ star:!userInfo?.star}
   }
   updateUser(action,{
     onSuccess: (res) => {
@@ -138,6 +138,25 @@ const handleStar = () =>{
       showToast(err?.message);
     },
   })  
+}
+
+// update star for filter
+const handleUpdateAdminProfile = (data) =>{
+  const userData = user?.starredUsers?.filter((id)=>id!==data)
+  console.log(userData)
+  const starredUsers = {
+    id: user?.userId,
+    data: {'starredUsers':userData?.length? userData:[data]}
+  }
+  updateUser(starredUsers,{
+    onSuccess: (res) => {
+      dispatch(updateState(!messageUpdate?.update))
+    },
+    onError: (err) => {
+      setLoading(false)
+      showToast(err?.message);
+    },
+  })
 }
   // toast
   const { Toast, showToast } = useToast();
@@ -291,14 +310,36 @@ const localDate = new Date()
 const handleBlockUser = () =>{
   const blockData = {
     id:userInfo?.userId,
-    action:'block'
+    data:{action:'block'}
   }
+  updateUser(blockData,{
+    onSuccess: (res) => {
+      showToast(`User blocked`, "success");
+      setLoading(false)
+      dispatch(updateState(!messageUpdate?.update))
+    },
+    onError: (err) => {
+      setLoading(false)
+      showToast(err?.message);
+    },
+  })
 }
 const handleUnBlockUser = () =>{
   const blockData = {
     id:userInfo?.userId,
-    action:'unblock'
+    data:{action:'unblock'}
   }
+  updateUser(blockData,{
+    onSuccess: (res) => {
+      showToast(`User unblocked`, "success");
+      setLoading(false)
+      dispatch(updateState(!messageUpdate?.update))
+    },
+    onError: (err) => {
+      setLoading(false)
+      showToast(err?.message);
+    },
+  })
 }
 
 // search 
@@ -363,9 +404,8 @@ const userCardData = uniqueNewData?.length ? uniqueNewData : uniqueMessages
         <div className="overflow-y-auto h-auto max-h-[600px]">
           <ul>
             {userCardData?.length && user?.role ==='ADMIN' 
-              ? userCardData?.map((message) => ( 
-                  <MessageUserCard  messageId={messageId} key={message?.messageId} lastMessage={lastMessage} message={message} />
-                ))
+              ? userCardData?.sort((a,b)=>new Date(b?.createdAt)-new Date(a?.createdAt))?.map((message,i) =>  <MessageUserCard  key={i} messageId={messageId} lastMessage={lastMessage} message={message} />
+                )
               :  <li>
                    <Link className="w-full" href={`/message/${user?.userId}`}>
         <li  className="flex pr-9 items-center w-full bg-[#F2F9FF] py-4 border-b border-gray-400 cursor-pointer px-3 gap-2">
@@ -429,11 +469,11 @@ const userCardData = uniqueNewData?.length ? uniqueNewData : uniqueMessages
                     <summary className="m-1 btn">
                       <BsThreeDotsVertical />
                     </summary>
-                    <ul className="p-2 shadow dropdown-content z-[1] bg-base-100 rounded w-28">
-                      <li className="w-20">
-                          <button onClick={()=>handleStar()} className={`${loading?'px-3 cursor-pointer py-2 inline-block hover:bg-gray-400 w-24 animate-pulse':'px-3 cursor-pointer py-2 inline-block hover:bg-gray-400 w-24'}`}>
+                    <ul className="p-2 shadow dropdown-content z-[1] bg-base-100 rounded w-32">
+                      <li className="w-32">
+                          <button onClick={()=>handleStar()} className={`${loading?'px-3 cursor-pointer py-2 inline-block hover:bg-gray-400 w-32 animate-pulse':'px-3 cursor-pointer py-2 inline-block hover:bg-gray-400 w-32'}`}>
                           {
-                            userInfo?.star ? 'Stared':'Star'
+                            userInfo?.star ? 'Remove Star':'Star'
                           }
                         </button>
                         

@@ -1,7 +1,7 @@
 import moment from "moment";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { BsClock, BsStar, BsStarFill } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import { useUpdateUser } from "../queries/mutation/updateUser.mutation";
@@ -31,13 +31,9 @@ const [userArray,setUserArray] = useState([])
 
      // get user by id
   const { data: userData } = useGetUserData({ token: "", userId: message?.sender?.senderId,update:messageUpdate?.update });
-  console.log(messageUpdate?.update)
   // user info
   const userInfo = userData?.data?.user;
- useEffect(()=>{
-  setUserArray([...userArray,userInfo])
-},[userInfo,messageUpdate?.update])
-console.log(userArray)
+
 
   // toast 
   const {Toast,showToast} = useToast()
@@ -52,8 +48,7 @@ console.log(userArray)
     console.log('userInfo?.userId',message)
     const action={
       id:userInfo?.userId,
-      data:{star:!userInfo?.star,
-        action:'start',}
+      data:{star:!userInfo?.star}
     }
     updateUser(action,{
       onSuccess: (res) => {

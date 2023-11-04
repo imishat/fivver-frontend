@@ -2,7 +2,7 @@ import { useGetUserData } from "@/components/queries/query/getUser.query";
 import { addToCart } from "@/components/redux/features/cart/cart";
 import { userData } from "@/components/redux/features/user/userSlice";
 import { createContext, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 export const UserContext = createContext();
 const ContextProvider = ({ children }) => {
@@ -10,10 +10,10 @@ const ContextProvider = ({ children }) => {
   // token
   const token =
     typeof window !== "undefined" && localStorage.getItem("accessToken");
-
+    const messageUpdate = useSelector((state) => state.update);
 
   // get user
-  const { data: userInfo } = useGetUserData({token});
+  const { data: userInfo } = useGetUserData({token,update:messageUpdate?.update});
   //  user object
   const userdata = userInfo?.data?.user;
 
