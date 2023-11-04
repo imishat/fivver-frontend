@@ -142,21 +142,39 @@ const handleStar = () =>{
 
 // update star for filter
 const handleUpdateAdminProfile = (data) =>{
-  const userData = user?.starredUsers?.filter((id)=>id!==data)
-  console.log(userData)
-  const starredUsers = {
-    id: user?.userId,
-    data: {'starredUsers':userData?.length? userData:[data]}
+
+  if(!userInfo?.star){
+    const userData = user?.starredUsers?.filter((id)=>id!==data)
+    const starredUsers = {
+      id: user?.userId,
+      data: {'starredUsers':[...user?.starredUsers,data]}
+    }
+    updateUser(starredUsers,{
+      onSuccess: (res) => {
+        dispatch(updateState(!messageUpdate?.update))
+      },
+      onError: (err) => {
+        setLoading(false)
+        showToast(err?.message);
+      },
+    })
+  }else{
+    const userData = user?.starredUsers?.filter((id)=>id!==data)
+    const starredUsers = {
+      id: user?.userId,
+      data: {'starredUsers':userData}
+    }
+    updateUser(starredUsers,{
+      onSuccess: (res) => {
+        dispatch(updateState(!messageUpdate?.update))
+      },
+      onError: (err) => {
+        setLoading(false)
+        showToast(err?.message);
+      },
+    })
   }
-  updateUser(starredUsers,{
-    onSuccess: (res) => {
-      dispatch(updateState(!messageUpdate?.update))
-    },
-    onError: (err) => {
-      setLoading(false)
-      showToast(err?.message);
-    },
-  })
+
 }
   // toast
   const { Toast, showToast } = useToast();
@@ -361,7 +379,13 @@ const handleSearch = () =>{
 
 
 
-const userCardData = uniqueNewData?.length ? uniqueNewData : uniqueMessages
+let userCardData = uniqueNewData?.length ? uniqueNewData : uniqueMessages
+
+if(messageType==='starred'){
+
+  userCardData = userCardData?.filter(item => user?.starredUsers?.includes(item?.receiverId));
+}
+
 
   return (
     <div className="md:w-[90%] mx-auto my-12 gap-2 md:flex">
@@ -406,35 +430,38 @@ const userCardData = uniqueNewData?.length ? uniqueNewData : uniqueMessages
             {userCardData?.length && user?.role ==='ADMIN' 
               ? userCardData?.sort((a,b)=>new Date(b?.createdAt)-new Date(a?.createdAt))?.map((message,i) =>  <MessageUserCard  key={i} messageId={messageId} lastMessage={lastMessage} message={message} />
                 )
-              :  <li>
-                   <Link className="w-full" href={`/message/${user?.userId}`}>
-        <li  className="flex pr-9 items-center w-full bg-[#F2F9FF] py-4 border-b border-gray-400 cursor-pointer px-3 gap-2">
-        <span className="w-12">
-          
-             <Image width={96} height={96}
-            className="w-9 h-9 object-cover rounded-full"
-            src={`${process.env.NEXT_PUBLIC_API}/files/download/public/saHX20`}
-            alt=""
-          />
-          
-          
-        </span>
-        <div className="w-full leading-5">
-          <div className="flex justify-between items-center w-full">
-            <strong className="flex items-center gap-2">
-              Abdul Karim
-              <span>
-                <BsClock />
-              </span>
-            </strong>
-            <span className="text-[13px]">{moment(lastMessage?.createdAt).fromNow()}</span>
-          
-          </div>
-          <p className="text-[13px]">{lastMessage?.content}</p>
-        </div>
-      </li>
-      </Link>
-              </li>}
+              :  
+              
+                user?.role !=='ADMIN' ? <li>
+                <Link className="w-full" href={`/message/${user?.userId}`}>
+     <li  className="flex pr-9 items-center w-full bg-[#F2F9FF] py-4 border-b border-gray-400 cursor-pointer px-3 gap-2">
+     <span className="w-12">
+       
+          <Image width={96} height={96}
+         className="w-9 h-9 object-cover rounded-full"
+         src={`${process.env.NEXT_PUBLIC_API}/files/download/public/saHX20`}
+         alt=""
+       />
+       
+       
+     </span>
+     <div className="w-full leading-5">
+       <div className="flex justify-between items-center w-full">
+         <strong className="flex items-center gap-2">
+           Abdul Karim
+           <span>
+             <BsClock />
+           </span>
+         </strong>
+         <span className="text-[13px]">{moment(lastMessage?.createdAt).fromNow()}</span>
+       
+       </div>
+       <p className="text-[13px]">{lastMessage?.content}</p>
+     </div>
+   </li>
+   </Link>
+           </li>:''
+              }
              
           </ul>
         </div>

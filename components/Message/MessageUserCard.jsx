@@ -45,6 +45,7 @@ const [userArray,setUserArray] = useState([])
   // handle star
   const handleStar = () =>{
     setLoading(true)
+    handleUpdateAdminProfile(message?.receiverId)
     console.log('userInfo?.userId',message)
     const action={
       id:userInfo?.userId,
@@ -56,6 +57,7 @@ const [userArray,setUserArray] = useState([])
         showToast(`${!userInfo?.star ? 'Star Added':'Star Removed' }`, "success");
         setLoading(false)
         dispatch(updateState(!messageUpdate?.update))
+        
       },
       onError: (err) => {
         setLoading(false)
@@ -63,6 +65,43 @@ const [userArray,setUserArray] = useState([])
       },
     })  
   }
+
+
+  // update star for filter
+const handleUpdateAdminProfile = (data) =>{
+
+  if(!userInfo?.star){
+    const starredUsers = {
+      id: user?.userId,
+      data: {'starredUsers':[...user?.starredUsers,data]}
+    }
+    updateUser(starredUsers,{
+      onSuccess: (res) => {
+        dispatch(updateState(!messageUpdate?.update))
+      },
+      onError: (err) => {
+        setLoading(false)
+        showToast(err?.message);
+      },
+    })
+  }else{
+    const userData = user?.starredUsers?.filter((id)=>id!==data)
+    const starredUsers = {
+      id: user?.userId,
+      data: {'starredUsers':userData}
+    }
+    updateUser(starredUsers,{
+      onSuccess: (res) => {
+        dispatch(updateState(!messageUpdate?.update))
+      },
+      onError: (err) => {
+        setLoading(false)
+        showToast(err?.message);
+      },
+    })
+  }
+
+}
 // get last  message 
 const {data:getAllMessageById} = useGetMessagesById({userId:message?.receiverId,projectId:'',update:messageUpdate?.update})
 
