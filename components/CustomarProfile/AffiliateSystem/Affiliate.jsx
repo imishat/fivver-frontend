@@ -8,11 +8,13 @@ import { AiFillSetting,AiOutlineClose} from "react-icons/ai"
 import {IoMdAdd} from "react-icons/io"
 const Affiliate = () => {
   const [modal,setModal] =useState(false)
+
+  const [modal2,setModal2] =useState(false)
   return (
     <>
     <div className={`px-4 xl:px-0 ${modal && "bg-[gray] h-screen blur-[2px]"}`}>
     <section className='mt-5'>
-        {/* <Container> */}
+       
           <h2 className='font-roboto mb-8 font-bold text-3xl text-[#444444]'>Affiliate</h2>
           <div className='flex flex-wrap justify-center md:justify-start gap-5'>
             <div className='w-[400px] bg-[#292933] py-10 flex justify-center items-center'>
@@ -46,10 +48,19 @@ const Affiliate = () => {
                    
                 </div>
             </div>
+            <div onClick={()=>{setModal2(!modal2)}} className='w-[400px] bg-[#DFDFE6] hover:bg-[#292933] group duration-200 py-10 flex justify-center items-center'>
+                <div className='text-center'>
+                    <div className='h-[80px] w-[80px] bg-[#292933] group-hover:bg-white group-hover:text-[#292933] duration-200 rounded-full mx-auto flex items-start justify-center'>
+                      <IoMdAdd className='font-roboto cursor-pointer  font-bold text-5xl h-full text-white group-hover:text-[#292933] duration-200'/>
+                    </div>
+                    <h3 className='font-roboto mt-2 mb-3 font-normal text-xl text-[#292933] group-hover:text-white duration-200'>Affiliate Withdraw Request</h3>
+                   
+                </div>
+            </div>
 
           </div>
 
-        {/* </Container> */}
+       
     </section>
 
   
@@ -74,6 +85,36 @@ const Affiliate = () => {
                 <div className='flex justify-end mr-8'>
                   <button className='bg-[#D00906] py-4 md:px-16 px-8 font-roboto text-white text-lg font-medium'>Confirm</button>  
                 </div>
+              </div>
+         }
+         {
+          modal2 &&
+              <div className={`md:w-[700px] w-[400px] bg-white py-10 px-8 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2  text-xl`}>
+                <h2 className='font-roboto  font-normal text-sm md:text-3xl text-[#111111] flex justify-between items-center'>Affiliate Withdraw Request  <AiOutlineClose onClick={()=>{setModal2(false)}} className='cursor-pointer'/></h2>
+               
+                Mahfujurrahm535 Affiliate Program
+                <ul>
+
+                Join the Mahfujurrahm535 Affiliate Program and earn up to $5 per new customer purchase
+
+<li>
+• You must first create a link to start working as an affiliate, you can create the link with the URL of any page of our website, (try to create the link with the URL of the home page or any design), You will create your affiliate link from this page with that URL.<br/>
+</li>
+
+• You can share this affiliate link with your friends or relatives or bring new clients by sharing this link on your social media or your website.<br/>
+
+• Your friends or relatives or any of your clients should come to our website through the affiliate link you have created, and sign up, then $5 will be added to your profile as soon as the client purchases something from our website.<br/>
+
+• If any client comes through your link, that client must sign up on our website within 30 days of his first click and must purchase something.<br/>
+
+
+
+
+                </ul>
+
+
+
+
               </div>
          }
     
