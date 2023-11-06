@@ -196,11 +196,10 @@ const handleUpdateAdminProfile = (data) =>{
   }
   // uploaded image ids
   const imageIds = [];
-
+  const isRead = user?.role==='ADMIN' ? true:false
   // handle send message
   const handleSendMessage = async (data) => {
     // upload images
-   
     const photo = images.target?.files;
     if (photo?.length) {
       const photoData = new FormData();
@@ -215,14 +214,14 @@ const handleUpdateAdminProfile = (data) =>{
             imageIds.push(images[i].fileId);
           }
           // if upload images
-
+         
           const sendMessageData = {
             type: "file",
             projectId: '',
             content: data?.messageData,
             reply: reply,
             files: imageIds,
-            messageType:'unread',
+            isRead,
             userId: messageId,
             receiverId: messageId,
             userName: userInfo?.fullName,
@@ -251,7 +250,7 @@ const handleUpdateAdminProfile = (data) =>{
         projectId: '',
         content: data?.messageData,
         reply: reply,
-        messageType:'unread',
+        isRead,
         receiverId: messageId,
         userId: messageId,
       };
@@ -320,12 +319,13 @@ const handleUpdateAdminProfile = (data) =>{
   },[returnMessage])
 
 // get last message
-const lastMessage = messages?.at(-1)
+// const lastMessage = messages?.at(-1)
 
 const localDate = new Date()
 
 // block unblock
 const handleBlockUser = () =>{
+  handleUpdateAdminProfileBlockUser(userInfo?.userId)
   const blockData = {
     id:userInfo?.userId,
     data:{action:'block'}
@@ -343,6 +343,7 @@ const handleBlockUser = () =>{
   })
 }
 const handleUnBlockUser = () =>{
+  handleUpdateAdminProfileBlockUser(userInfo?.userId)
   const blockData = {
     id:userInfo?.userId,
     data:{action:'unblock'}
@@ -358,6 +359,40 @@ const handleUnBlockUser = () =>{
       showToast(err?.message);
     },
   })
+}
+
+// handle update admin profile for filter block users
+const handleUpdateAdminProfileBlockUser  = (id) =>{
+  if(userInfo?.action==='unblock'){
+    const blockedUsersId = {
+      id: user?.userId,
+      data: {'blockedUsers':[...user?.blockedUsers,id]}
+    }
+    updateUser(blockedUsersId,{
+      onSuccess: (res) => {
+        dispatch(updateState(!messageUpdate?.update))
+      },
+      onError: (err) => {
+        setLoading(false)
+        showToast(err?.message);
+      },
+    })
+  }else{
+    const userData = user?.blockedUsers?.filter((userId)=>userId!==id)
+    const blockedUsersId = {
+      id: user?.userId,
+      data: {'blockedUsers':userData}
+    }
+    updateUser(blockedUsersId,{
+      onSuccess: (res) => {
+        dispatch(updateState(!messageUpdate?.update))
+      },
+      onError: (err) => {
+        setLoading(false)
+        showToast(err?.message);
+      },
+    })
+  }
 }
 
 // search 
@@ -377,16 +412,26 @@ const handleSearch = () =>{
 
 // get all users 
 
-
+const [lastMessage,setLastMessage] = useState({})
 
 let userCardData = uniqueNewData?.length ? uniqueNewData : uniqueMessages
-
+// filter for starred message
 if(messageType==='starred'){
-
   userCardData = userCardData?.filter(item => user?.starredUsers?.includes(item?.receiverId));
 }
 
+// filter for blocked users
+if(messageType==='block'){
+  userCardData = userCardData?.filter(item => user?.blockedUsers?.includes(item?.receiverId));
+}
 
+
+// filter for unread messages
+if(messageType==='unread'){
+  userCardData = userCardData?.filter(item => lastMessage?.messageId === item?.messageId );
+  console.log(userCardData)
+}
+// console.log(lastMessage,'lastMessage')
   return (
     <div className="md:w-[90%] mx-auto my-12 gap-2 md:flex">
       <Toast />
@@ -428,7 +473,7 @@ if(messageType==='starred'){
         <div className="overflow-y-auto h-auto max-h-[600px]">
           <ul>
             {userCardData?.length && user?.role ==='ADMIN' 
-              ? userCardData?.sort((a,b)=>new Date(b?.createdAt)-new Date(a?.createdAt))?.map((message,i) =>  <MessageUserCard  key={i} messageId={messageId} lastMessage={lastMessage} message={message} />
+              ? userCardData?.sort((a,b)=>new Date(a?.createdAt)-new Date(b?.createdAt))?.map((message,i) =>  <MessageUserCard setLastMessage={setLastMessage} key={i} messageId={messageId} lastMessage={lastMessage} message={message} />
                 )
               :  
               

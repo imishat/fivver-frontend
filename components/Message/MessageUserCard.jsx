@@ -1,16 +1,17 @@
 import moment from "moment";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BsClock, BsStar, BsStarFill } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
+import { useUpdateMessage } from "../queries/mutation/updateMessage.mutation";
 import { useUpdateUser } from "../queries/mutation/updateUser.mutation";
 import { useGetMessagesById } from "../queries/query/getMessagesById.query";
 import { useGetUserData } from "../queries/query/getUserProfile.query";
 import { updateState } from "../redux/features/update/updateSlice";
 import useToast from "../utility/useToast";
 
-function MessageUserCard({message,lastMessage,messageId}) {
+function MessageUserCard({message,lastMessage,messageId,setLastMessage}) {
             // get user 
 const {user} = useSelector(state => state.user)
 
@@ -107,14 +108,41 @@ const {data:getAllMessageById} = useGetMessagesById({userId:message?.receiverId,
 
 // get last message data
 const lastMessageData = getAllMessageById?.data?.messages?.length && getAllMessageById?.data?.messages.at(-1)
+console.log(lastMessageData,'last')
+useEffect(()=>{
+  setLastMessage(lastMessageData)
+},[lastMessageData])
+
+// update message
+const {mutate:updateMessage} = useUpdateMessage()
+
+// handle read message
+const handleReadMessage = () =>{
+ 
+    
+const updateData ={
+  id:lastMessageData?.messageId,
+  isRead:true
+}
+updateMessage(updateData,{
+  onSuccess: (res) => {
+    dispatch(updateState(!messageUpdate?.update))
+  },
+  onError: (err) => {
+    setLoading(false)
+    showToast(err?.message);
+  },
+})
+  
+}
   
     return (
       <>
-      <div className={` flex items-center w-full relative`} >
+      <div onClick={()=>handleReadMessage()} className={`flex items-center w-full relative`} >
        
         <Link className="w-full" href={`/message/${message?.receiver?.receiverId}`}>
         <Toast />
-        <li key={message?.messageId} className="flex pr-9 items-center w-full bg-[#F2F9FF] py-4 border-b border-gray-400 cursor-pointer px-3 gap-2">
+        <li className={`${lastMessageData?.isRead === false && 'bg-blue-400'} flex pr-9 items-center w-full bg-[#F2F9FF] py-4 border-b border-gray-400 cursor-pointer px-3 gap-2`}>
         <span className="w-12">
           {
             message?.receiver?.profilePicture ? <Image width={96} height={96}
