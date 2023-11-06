@@ -1,25 +1,61 @@
-import Link from "next/link";
-import { useState } from "react";
-import { CgRemoveR } from "react-icons/cg";
+// Import Swiper React components
+import { Swiper, SwiperSlide } from "swiper/react";
 
-const RelatedDesignCard = ({data}) => {
-    const [showCart,setShowCart] = useState(false)
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/navigation";
+
+import { Autoplay, Navigation } from "swiper/modules";
+import { useGetRelated } from "../queries/query/related.query";
+import DescRelatedCard from "./DescRelatedCard";
+import "./styles.module.css";
+
+
+function RelatedDesignCard({ data }) {
+    const {data:relatedData} = useGetRelated({related:data,limit:''})
+    const related = relatedData?.data?.designs[0]
     return (
-        <div onMouseEnter={()=>setShowCart(true)} onMouseLeave={()=>setShowCart(false)} className="border border-gray-300">
-            {
-                showCart ? <div className="absolute right-0 top-0 flex justify-center items-center p-2 rounded-md bg-base-200">
-                    {/* <button><BiCartAdd size={28} /></button> */}
-                    <button className="text-rose-500"><CgRemoveR size={28} /></button>
-                </div>:''
-            }
-            <div className="bg-rose-100 h-40 w-full">
-                <img className="w-full h-40" src={`${process.env.NEXT_PUBLIC_API}/files/download/public/${data?.featuredImageId ? data?.featuredImageId : data?.imageIds[0]}`} alt="" />
-            </div>
-            <Link href={`/design/${data?._id}`} className="px-2 inline-block py-1 text-sm">
-                <h3>{data?.title}</h3>
-            </Link>
+        <div className="bg-[#F2F9FF] h-full">
+        <div className="">
+          {
+            <Swiper
+              slidesPerView={1}
+              spaceBetween={10}
+              navigation={true}
+              speed={1200}
+              autoplay={{
+                delay: 2500,
+                disableOnInteraction: false,
+              }}
+              breakpoints={{
+                440: {
+                  slidesPerView: 1,
+                  spaceBetween: 3,
+                },
+                768: {
+                  slidesPerView: 3,
+                  spaceBetween: 3,
+                },
+                1024: {
+                  slidesPerView: 4,
+                  spaceBetween: 10,
+                },
+              }}
+              modules={[Navigation,Autoplay]}
+              className="mySwiper"
+            >
+              <div className="w-full">
+                <div className="grid w-full sm:grid-cols-2 grid-cols-1 md:grid-cols-3 lg:grid-cols-4" >
+                <SwiperSlide className="flex !gap-2 !w-[300px] !h-[250px] !max-h-[300px]">
+                <DescRelatedCard data={related} />
+              </SwiperSlide>
+                </div>
+              </div>
+            </Swiper> 
+          }            
         </div>
+    </div>
     );
-};
+}
 
 export default RelatedDesignCard;

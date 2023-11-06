@@ -164,16 +164,19 @@ const [producr,setPproducr]=useState()
           {design?.description?.length && parse(design?.description)}
         </div>
       </div>
-
       {/* Design Related */}
       <div className="bg-[#F2F9FF] md:p-8 h-full">
         <div className="flex justify-center">
           <h2 className="text-3xl font-bold p-3">Related Design</h2>
         </div>
         <div className="grid sm:grid-cols-2 p-4 grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-3">
-          {design?.relatedDesigns?.map((data, i) => (
-            <RelatedDesignCard data={data} key={i} />
-          ))}
+         {
+          design?.relatedDesignIds?.map((data,i)=>{
+            return  <RelatedDesignCard key={i} data={data} />
+          })
+         }
+           
+          
         </div>
       </div>
     </div>

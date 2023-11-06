@@ -10,7 +10,7 @@ const CategoryCard = ({category}) => {
                     <p className="font-bold">{category?.name}
                     <br />
                     {
-                        category?.subcategories?.map(sub=> <span key={sub._id} className="font-normal text-sm mr-1 bg-blue-50 text-blue-400 px-1">{sub?.name}</span>)
+                        category?.subcategories?.map(sub=> <span key={sub._id} className="font-normal text-sm mr-1 bg-blue-50 text-blue-400 px-1">{sub?.name}({sub?.price})</span>)
                     }
                    
                     </p>

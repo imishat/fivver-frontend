@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addToCart, removeFromCart } from "../redux/features/cart/cart";
 import useToast from "../utility/useToast";
 
-const Card = ({data,category}) => {
+const DescRelatedCard = ({data}) => {
   
 
     const { Toast, showToast } = useToast();
@@ -37,8 +37,8 @@ const Card = ({data,category}) => {
         dispatch(removeFromCart(design));
       };
     return (
-        <div className="border border-gray-300 h-full">
-             <Link href={`/designs/company/${data?.title}`} className="px-2 h-full inline-block py-1 text-sm w-full">
+        <div className="border border-gray-300 !h-[230px]">
+             <Link href={`/design/${data?.designId}`} className="px-2 h-full inline-block py-1 text-sm w-full">
             <div className="bg-rose-100 w-full h-full">
                 <Image height={160} width={224} className=" w-full h-full object-cover" src={`${process.env.NEXT_PUBLIC_API}/files/download/public/${data?.featuredImageId ? data?.featuredImageId : data?.imageIds[0]}`} alt="" />
             </div>
@@ -48,4 +48,4 @@ const Card = ({data,category}) => {
     );
 };
 
-export default Card;
+export default DescRelatedCard;
