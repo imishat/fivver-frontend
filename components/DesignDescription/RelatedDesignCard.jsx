@@ -4,6 +4,7 @@ import { CgRemoveR } from "react-icons/cg";
 
 const RelatedDesignCard = ({data}) => {
     const [showCart,setShowCart] = useState(false)
+    console.log(data,"releted")
     return (
         <div onMouseEnter={()=>setShowCart(true)} onMouseLeave={()=>setShowCart(false)} className="border border-gray-300">
             {

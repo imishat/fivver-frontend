@@ -32,7 +32,7 @@ const DesignDescription = ({ data }) => {
 const router = useRouter()
 
   const [isAdded, setIsAdded] = useState(false);
-console.log(isAdded)
+console.log(design)
 
 const [producr,setPproducr]=useState()
   // send data in redux cart store
