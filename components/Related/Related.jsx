@@ -50,7 +50,7 @@ const Related = ({ currentItems }) => {
               <div className="grid sm:grid-cols-2 p-4 grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-3">
                 {
                     related?.map((item,i)=>{
-                        return <SwiperSlide key={i} className="flex !w-[320px] !h-[260px]">
+                        return <SwiperSlide key={i} className="flex !w-[290px] !h-[260px]">
                            <div className="!h-[260px]">
                            <Card data={item}></Card>
                            </div>
