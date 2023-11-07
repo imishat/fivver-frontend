@@ -72,7 +72,10 @@ const router = useRouter()
           </label>
         </div>
         <div className="flex justify-between items-center gap-6 my-8">
-          <p className="w-full text-right">No Thanks</p>
+        <Link className="text-xl" href={`/message/project/${project?.projectId}`}>
+        <p className="w-full text-right">No Thanks</p>
+          </Link>
+          
           <button onClick={()=>handleSendTip()} className="px-2 rounded py-1 bg-[#a9cfeb] text-white w-72 text-xl font-bold">
             Send Tip
           </button>
@@ -126,7 +129,7 @@ const router = useRouter()
         </div>
         {/* Back btn */}
         <div className="my-12 font-bold flex justify-center">
-          <Link className="text-xl" href={"#"}>
+          <Link className="text-xl" href={`/message/project/${project?.projectId}`}>
             Back to the project page
           </Link>
         </div>
