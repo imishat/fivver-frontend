@@ -354,15 +354,16 @@ function MessageDelivery({ message, setReply, update, setUpdate }) {
                               key={file?.fileId}
                               className="font-semibold text-left text-ellipsis overflow-hidden"
                             >
-                              <div className='flex flex'>
+                              <div className='flex flex p-2'>
                               <p className=' text-blue-400 '>
-                                < AiOutlineCloudDownload/> </p>
+                                < AiOutlineCloudDownload size={23}/> </p>
                                 <p>{file?.originalFileName}</p>
-                              </div>
+                              
                               <span className="font-normal">
                                 {" "}
                                 ({formatBytes(file?.fileSize)})
                               </span>
+                              </div>
                             </p>
                           </div>
                         );
