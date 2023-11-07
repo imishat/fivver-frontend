@@ -12,7 +12,7 @@ import { CgCheck } from "react-icons/cg";
 import { useDispatch, useSelector } from "react-redux";
 import ImageModal from "../MessageImage/ImageModal";
 import ImageDownloader from "./ImageDownloader";
-
+import {AiOutlineCloudDownload } from "react-icons/ai";
 function MessageDelivery({ message, setReply, update, setUpdate }) {
   console.log(message?.sourceFiles)
   // get user
@@ -300,13 +300,17 @@ function MessageDelivery({ message, setReply, update, setUpdate }) {
                       <h2 className="text-lg font-bold ">Final Files</h2>
                     </div>
                     <div className="w-full font-semibold text-left text-ellipsis overflow-hidden">
-                      <p className="font-semibold">
+                   
+                      <div className='flex'>
+                      <p className="font-semibold ">
+                    
                         {message?.thumbnail?.originalFileName}
                         <span className="font-normal">
                           {" "}
                           ({formatBytes(message?.thumbnail?.fileSize)})
                         </span>
                       </p>
+                      </div>
                     </div>
                     <hr className="my-6 border-gray-500 w-12 " />
                     {/* Source files */}
@@ -318,7 +322,11 @@ function MessageDelivery({ message, setReply, update, setUpdate }) {
                               key={file?.fileId}
                               className="font-semibold text-left text-ellipsis overflow-hidden"
                             >
-                              {file?.originalFileName}
+                              <div className='flex flex'>
+                              <p className=' text-blue-400 '>
+                                < AiOutlineCloudDownload/> </p>
+                                <p>{file?.originalFileName}</p>
+                              </div>
                               <span className="font-normal">
                                 {" "}
                                 ({formatBytes(file?.fileSize)})

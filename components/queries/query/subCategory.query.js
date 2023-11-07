@@ -5,8 +5,8 @@ import { useQuery } from "@tanstack/react-query";
 
 
 export function useGetCategoryById({subCategoryId}){
-   return useQuery([GET_CATEGORIES], async()=>{
-    const {data,isLoading} = await axios("GET",`${GET_CATEGORIES}/${subCategoryId}`);
+   return useQuery([GET_CATEGORIES,subCategoryId], async()=>{
+    const {data} = await axios("GET",`${GET_CATEGORIES}/${subCategoryId}`);
     return data
    })
   }

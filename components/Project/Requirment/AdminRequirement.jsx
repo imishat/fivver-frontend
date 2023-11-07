@@ -65,7 +65,7 @@ function AdminRequirement({project}) {
 
                            <PhotoProvider>
       <PhotoView src={`${process.env.NEXT_PUBLIC_DOWNLOAD}/${file?.fileId}`}>
-      <img className="w-56 h-56 rounded" src={`${process.env.NEXT_PUBLIC_DOWNLOAD}/${file?.fileId}`} alt="" />
+      <img className="w-[300px] h-[224px] rounded" src={`${process.env.NEXT_PUBLIC_DOWNLOAD}/${file?.fileId}`} alt="" />
       </PhotoView>
     </PhotoProvider>
 

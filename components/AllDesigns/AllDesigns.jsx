@@ -10,7 +10,7 @@ const AllDesigns = () => {
   
   // get all desings
   const {data:designData} = useAllDesigns({designId:'',page:currentPage,limit:10})
-  console.log(designData)
+
     
     // Count
     const count = Math.ceil((designData?.data?.totalCount || 10 )/ 10)
@@ -22,7 +22,7 @@ const AllDesigns = () => {
     <div>
       {/* Design Title */}
       <div className="h-full w-full relative">
-        <img className="w-full h-full" src="/images/alldesign.png" alt="" />
+        <img className="w-full h-full" src="/images/Web Banner 3.jpg" alt="" />
         <div className="flex justify-center items-center  text-black ">
           <h3 className="absolute text-[#1C8CDD] md:text-4xl sm:text-2xl text-xl top-1/2 font-bold text-center ">
            All Designs

@@ -36,7 +36,7 @@ const AllDesignByCatetgory = ({categoryId}) => {
     <div>
       {/* Design Title */}
       <div className="h-full w-full relative">
-        <img className="w-full h-full" src="/images/alldesign.png" alt="" />
+        <img className="w-full h-full" src="/images/Web Banner 2.jpg" alt="" />
         <div className="flex justify-center items-center  text-black ">
           <h3 className="absolute text-[#1C8CDD] md:text-4xl sm:text-2xl text-xl top-1/2 font-bold text-center ">
             {category?.name}

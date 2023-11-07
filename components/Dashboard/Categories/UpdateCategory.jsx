@@ -17,6 +17,16 @@ const UpdateCategory = () => {
   // router
   const router = useRouter();
 
+   // get query
+   const categoryId = router.query.categoryId;
+
+   // company Data
+   const { data: categoryData } = useGetCategoryById({
+     subCategoryId: categoryId,
+   });
+   const category = categoryData?.data?.category;
+   console.log(category,'cate')
+
   // update category
   const { mutate: updateCategory } = useUpdateCategory();
 
@@ -37,14 +47,7 @@ const UpdateCategory = () => {
   //
   const { mutate: sendThumbnail } = useUploadThumbnail();
 
-  // get query
-  const categoryId = router.query.categoryId;
-
-  // company Data
-  const { data: categoryData } = useGetCategoryById({
-    subCategoryId: categoryId,
-  });
-  const category = categoryData?.data?.category;
+ 
 
     // sub category id
     let subCategoryId = [];
@@ -100,6 +103,9 @@ const UpdateCategory = () => {
    }
   
   };
+ 
+
+  console.log(category)
   return (
     <div className="flex w-96 mx-auto">
       <Toast />
@@ -149,7 +155,7 @@ const UpdateCategory = () => {
           <br />
           {/* Sub Category */}
           <div className="flex flex-col space-y-2 my-2">
-            {subCategories?.map((subCat, i) => {
+            {subCategories?.map((subCat, i) => {              
               return (
                 <div key={i} className="flex items-center gap-2">
                   <input
@@ -162,6 +168,7 @@ const UpdateCategory = () => {
                     }}
                     className="checkbox checkbox-bordered rounded-none checkbox-sm "
                     type="checkbox"
+                    checked={category?.subcategoryIds?.includes(subCat.subcategoryId)}
                     id={subCat?.subcategoryId}
                     value={subCat?.subcategoryId}
                   />
@@ -169,7 +176,7 @@ const UpdateCategory = () => {
                     htmlFor={subCat?.subcategoryId}
                     className="cursor-pointer select-none"
                   >
-                    {subCat?.name}
+                    {subCat?.name} <span className="font-bold">({subCat?.price})</span>
                   </label>
                 </div>
               );
