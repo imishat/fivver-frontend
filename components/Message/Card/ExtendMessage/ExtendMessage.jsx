@@ -1,6 +1,7 @@
 
 
 import { useDeleteAction } from "@/components/queries/mutation/delete.mutation";
+import { useCreateNotifications } from "@/components/queries/mutation/notifications.mutation";
 import { useUpdateMessage } from "@/components/queries/mutation/updateMessage.mutation";
 import { useUpdateProject } from "@/components/queries/mutation/updateProject.mutation";
 import { useGetProject } from "@/components/queries/query/project.query";
@@ -86,6 +87,7 @@ const handleUpdateMessage = () =>{
       console.log(res);
       showToast("Accept Success", "success");
       dispatch(updateState(!messageUpdate?.update))
+      handleCreateNotifications('accept')
     },
     onError: (err) => {
       showToast(err?.message);
@@ -105,6 +107,7 @@ const handleCancelExtendMessage = () =>{
       console.log(res);
       showToast("Cancel Extend", "success");
       dispatch(updateState(!messageUpdate?.update))
+      handleCreateNotifications('cancel')
     },
     onError: (err) => {
       showToast(err?.message);
@@ -140,6 +143,32 @@ const handleExtendDate = () =>{
   },
 })
 }
+
+const isForAdmin = user?.role === 'ADMIN' ? false:true
+// create notification
+const {mutate: createNotification} = useCreateNotifications()
+// handle create notifications
+const handleCreateNotifications  = (data) =>{
+  const notificationData = {
+    "type": "project",
+    "model":"cancel",
+    "message": data,
+    "image": {fileId:project?.featuredImageId||project?.imageIds[0]},
+    "isForAdmin":isForAdmin,
+    "userId": project?.startedBy,
+    "isRead":false,
+    "projectId": project?.projectId
+}
+createNotification(notificationData,{
+  onSuccess: (res) => {
+    console.log(res.data);
+  },
+  onError: (err) => {
+    showToast(err?.response?.data?.message);
+  },
+})
+}
+
 
 return (
         <div className="flex w-full px-2  gap-2 py-3 relative">

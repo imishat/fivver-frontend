@@ -6,16 +6,17 @@ import { useUploadSourceFile } from "@/components/queries/mutation/uploadSource.
 import { updateState } from "@/components/redux/features/update/updateSlice";
 import useToast from "@/components/utility/useToast";
 import { useSocketChat } from "@/hooks/useSocketChat";
+import axios from 'axios';
 import { useEffect, useState } from "react";
 import { IoClose, IoCloseCircleOutline } from "react-icons/io5";
 import { MdOutlineAttachFile } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import AllQuickResponse from "../QuickResponse/AllQuickResponse";
-import axios from 'axios';
 
 function DeliveryModal({ update, setUpdate, reply, setReply, project }) {
   const { mutate: deleteFile } = useDeleteAction();
-
+// get user 
+const {user} = useSelector(state => state.user)
   // image upload call
   const { mutate: sendFileData, isLoading } = useUploadFile({
 
@@ -211,6 +212,7 @@ console.log(sourceFiles)
     })
   }
 
+  const isForAdmin = user?.role === 'ADMIN' ? false:true
   // handle create notifications
   const handleCreateNotifications  = () =>{
     const notificationData = {
@@ -218,7 +220,7 @@ console.log(sourceFiles)
       "model":"delivery",
       "message": value || draftData?.content,
       "image":thumbnail?.fileId ? thumbnail : draftData?.thumbnail,
-      "isForAdmin":false,
+      "isForAdmin":isForAdmin,
       "isRead":false,
       "userId": project?.startedBy,
       "projectId": project?.projectId
