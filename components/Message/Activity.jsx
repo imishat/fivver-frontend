@@ -285,7 +285,7 @@ const Activity = () => {
       handleClick();
     }
   };
-
+  const isForAdmin = user?.role === 'ADMIN' ? false:true
    // create notification
    const {mutate: createNotification} = useCreateNotifications()
    // handle create notifications
@@ -295,7 +295,7 @@ const Activity = () => {
        "model":"message",
        "message": value,
        "image": {fileId:project?.featuredImageId||project?.imageIds[0]},
-       "isForAdmin":false,
+       "isForAdmin":isForAdmin,
        "userId": project?.startedBy,
        "isRead":false,
        "projectId": project?.projectId
@@ -549,7 +549,7 @@ const Activity = () => {
                           value={value}
                           id="sendbox"
                           onChange={(e) => setValue(e.target.value)}
-                          className="w-full textarea textarea-bordered rounded-none"
+                          className="w-full focus-within:border focus-within:outline-none textarea textarea-bordered rounded-none"
                         ></textarea>
                       </div>
                       <div className="flex items-center relative">

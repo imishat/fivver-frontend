@@ -96,6 +96,8 @@ const handleSelectChange=e=>{
      
     reset()
   }
+
+  const isForAdmin = user?.role === 'ADMIN' ? false:true
   // create notification
   const {mutate: createNotification} = useCreateNotifications()
     // handle create notifications
@@ -105,7 +107,7 @@ const handleSelectChange=e=>{
         "model":"custom",
         "message": data?.message,
         "image": {fileId:project?.featuredImageId||project?.imageIds[0]},
-        "isForAdmin":false,
+        "isForAdmin":isForAdmin,
         "userId": project?.startedBy,
         "isRead":false,
         "projectId": project?.projectId

@@ -9,11 +9,18 @@ import { useDispatch, useSelector } from "react-redux";
 function CancelModal({project,reply,userInfo,setReply}) {
 
     const {sendMessage,returnMessage} = useSocketChat()
+    // get user 
+const {user} = useSelector(state => state.user)
+
 const dispatch = useDispatch()
+
 const messageUpdate = useSelector((state)=>state.update)
+
 const {showToast,Toast} = useToast()
      // cancel value
   const [cancelValue,setCancelValue] = useState('')
+
+
 
   // handle send cancel project
   const handleSendCancelation = () => {
@@ -36,6 +43,8 @@ const {showToast,Toast} = useToast()
     setCancelValue('')
   };
 
+
+  const isForAdmin = user?.role === 'ADMIN' ? false:true
     // create notification
     const {mutate: createNotification} = useCreateNotifications()
     // handle create notifications
@@ -45,7 +54,7 @@ const {showToast,Toast} = useToast()
         "model":"cancel",
         "message": cancelValue,
         "image": {fileId:project?.featuredImageId||project?.imageIds[0]},
-        "isForAdmin":false,
+        "isForAdmin":isForAdmin,
         "isRead":false,
         "userId": project?.startedBy,
         "projectId": project?.projectId
