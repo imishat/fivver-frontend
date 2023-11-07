@@ -91,7 +91,7 @@ const About = () => {
           <div className="py-8">
             <p>
               (
-              <Link href={"#"} className="text-blue-400 font-bold">
+              <Link href={"/"} className="text-blue-400 font-bold">
                 Click here
               </Link>{" "}
               to see which businesses we have already created designs for.)

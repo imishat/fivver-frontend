@@ -207,7 +207,7 @@ console.log(user)
         </div>
         <div className=" text-white px-6 py-4">
             <div className="flex gap-4 items-center">
-                <Link href={'#'}>Terms and Conditions</Link>
+                <Link href={'auth/condition'}>Terms and Conditions</Link>
                 |
                 <Link href={'#'}>Privacy Policy</Link>
             </div>

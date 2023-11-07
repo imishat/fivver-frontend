@@ -572,7 +572,7 @@ if(projectId||requirementProjects[0]?.projectId){
                     </button>
                     {
                     router?.query?.projectId !== projectId && requirementData?.industry?.length ? '' : (
-                      <div className="py-2">
+                      <div className="text-accent">
                         <Link onClick={()=>handleSkip()} href={"#"}>Skip</Link>
                       </div>
                     )}

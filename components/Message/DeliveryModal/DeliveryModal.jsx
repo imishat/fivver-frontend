@@ -145,20 +145,7 @@ console.log(sourceFiles)
     for (const p in thumbnail) {
       photoData.append("files", thumbnail[p]);
     }
-    // sendSourceFileData(photoData,
-    //    {
-       
-    //   onSuccess: (res) => {
-    //     const images = res?.data?.files;
-    //     showToast("Image Uploaded", "success");
-    //     setSourceFiles(images);
-    //   },
-    //   onError: (err) => {
-    //     // error
-    //     showToast(err?.response?.data?.message);
-    //     // loading stop
-    //   },
-    // });
+   
     const accessToken = typeof window !== 'undefined' && localStorage.getItem('accessToken');
     axios
     .post(`${process.env.NEXT_PUBLIC_API}/files?shallIncludeWatermark=false`, photoData, {

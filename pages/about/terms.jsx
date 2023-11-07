@@ -1,6 +1,6 @@
 import Main from "@/Layout/Main";
 
-const terms = () => {
+const Terms = () => {
   return (
     <Main title={"Terms & Conditions"}>
       <div className="mx-20">
@@ -88,4 +88,4 @@ After you start a project, we will not provide additional services to you if you
   );
 };
 
-export default terms;
+export default Terms;

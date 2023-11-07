@@ -13,7 +13,7 @@ const DescRelatedCard = ({data}) => {
     const {products}= useSelector(state => state.cart);
     const design = data
 
-    const isAddedData = products.find(item=>item.designId===data.designId)
+    const isAddedData = products.find(item=>item.designId===data?.designId)
 
     const [showCart,setShowCart] = useState(isAddedData ? true : false)
 

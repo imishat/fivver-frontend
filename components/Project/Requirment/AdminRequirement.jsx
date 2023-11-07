@@ -2,7 +2,8 @@ import { useUpdateProject } from "@/components/queries/mutation/updateProject.mu
 import useToast from "@/components/utility/useToast";
 import Link from "next/link";
 import { FiDownloadCloud } from "react-icons/fi";
-
+import { PhotoProvider, PhotoView } from 'react-photo-view';
+import 'react-photo-view/dist/react-photo-view.css';
 function AdminRequirement({project}) {
     const requirement = project?.requirement
      // handle skip requirement
@@ -53,14 +54,33 @@ function AdminRequirement({project}) {
         <div>
             {/* Which industry do you work in */}
             <Toast />
-          <div>
+          <div className="mb-2">
                 <h2 className="font-bold text-xl text-left list-inside list-item list-disc">Which industry do you work in?</h2>
                 <p>{requirement?.industry}</p>
                 <div>
                    { requirement?.industryFile?.length ?
                    requirement?.industryFile?.map((file,i)=>{
                         return  <Link target="_blank" href={`${process.env.NEXT_PUBLIC_DOWNLOAD}/${file?.fileId}`} key={i} className="flex items-center gap-3">
-                           <img className="w-20 h-44 rounded" src={`${process.env.NEXT_PUBLIC_DOWNLOAD}/${file?.fileId}`} alt="" />
+                          
+
+                           <PhotoProvider>
+      <PhotoView src={`${process.env.NEXT_PUBLIC_DOWNLOAD}/${file?.fileId}`}>
+      <img className="w-[300px] h-[224px] rounded" src={`${process.env.NEXT_PUBLIC_DOWNLOAD}/${file?.fileId}`} alt="" />
+      </PhotoView>
+    </PhotoProvider>
+
+
+
+
+
+
+
+
+
+
+
+
+
                             <p className="font-bold text-lg">Attachments {i+1}</p> 
                             <button><FiDownloadCloud size={23} /></button>
                         </Link>
@@ -69,14 +89,21 @@ function AdminRequirement({project}) {
                 </div>
             </div>
             {/* Do you have your own/company logo? */}
-          <div>
+          <div className="mb-2">
                 <h2 className="font-bold text-xl text-left list-inside list-item list-disc">Do you have your own/company logo?</h2>
                 <p>{requirement?.companyLogo}</p>
                 <div>
                    {requirement?.logoFile?.length ?
                     requirement?.logoFile?.map((file,i)=>{
                         return  <Link target="_blank" href={`${process.env.NEXT_PUBLIC_DOWNLOAD}/${file?.fileId}`} key={i} className="flex items-center gap-3">
-                           <img className="w-56 h-56 object-cover rounded" src={`${process.env.NEXT_PUBLIC_DOWNLOAD}/${file?.fileId}`} alt="" />
+                                         
+
+                                         <PhotoProvider>
+      <PhotoView src={`${process.env.NEXT_PUBLIC_DOWNLOAD}/${file?.fileId}`}>
+      <img className="w-56 h-56 rounded" src={`${process.env.NEXT_PUBLIC_DOWNLOAD}/${file?.fileId}`} alt="" />
+      </PhotoView>
+    </PhotoProvider>
+
                             <p className="font-bold text-lg">Attachments {i+1}</p> 
                             <button><FiDownloadCloud size={23} /></button>
                         </Link>
@@ -92,7 +119,7 @@ function AdminRequirement({project}) {
                    {requirement?.websiteFile?.length ?
                    requirement?.websiteFile?.map((file,i)=>{
                         return  <Link target="_blank" href={`${process.env.NEXT_PUBLIC_DOWNLOAD}/${file?.fileId}`} key={i} className="flex items-center gap-3">
-                           <img className="w-20 h-44 rounded" src={`${process.env.NEXT_PUBLIC_DOWNLOAD}/${file?.fileId}`} alt="" />
+                           <img className="w-56 h-56 rounded" src={`${process.env.NEXT_PUBLIC_DOWNLOAD}/${file?.fileId}`} alt="" />
                             <p className="font-bold text-lg">Attachments {i+1}</p> 
                             <button><FiDownloadCloud size={23} /></button>
                         </Link>
@@ -108,7 +135,7 @@ function AdminRequirement({project}) {
                    {requirement?.ideaFile?.length ?
                    requirement?.ideaFile?.map((file,i)=>{
                         return  <Link target="_blank" href={`${process.env.NEXT_PUBLIC_DOWNLOAD}/${file?.fileId}`} key={i} className="flex items-center gap-3">
-                           <img className="w-20 h-44 rounded" src={`${process.env.NEXT_PUBLIC_DOWNLOAD}/${file?.fileId}`} alt="" />
+                           <img className="w-56 h-56rounded" src={`${process.env.NEXT_PUBLIC_DOWNLOAD}/${file?.fileId}`} alt="" />
                             <p className="font-bold text-lg">Attachments {i+1}</p> 
                             <button><FiDownloadCloud size={23} /></button>
                         </Link>
@@ -124,7 +151,7 @@ function AdminRequirement({project}) {
                    {requirement?.sizeFile?.length ?
                     requirement?.sizeFile?.map((file,i)=>{
                         return  <a href={`${process.env.NEXT_PUBLIC_DOWNLOAD}/${file?.fileId}`} key={i} target="_blank" className="flex items-center gap-3">
-                          <img className="w-20 h-44 rounded" src={`${process.env.NEXT_PUBLIC_DOWNLOAD}/${file?.fileId}`} alt="" />
+                          <img className="w-56 h-56 rounded" src={`${process.env.NEXT_PUBLIC_DOWNLOAD}/${file?.fileId}`} alt="" />
                             <p className="font-bold text-lg">Attachments {i+1}</p> 
                             <button><FiDownloadCloud size={23} /></button>
                         </a>
@@ -140,7 +167,7 @@ function AdminRequirement({project}) {
                    {requirement?.informationFile?.length ?
                     requirement?.informationFile?.map((file,i)=>{
                         return  <Link target="_blank" href={`${process.env.NEXT_PUBLIC_DOWNLOAD}/${file?.fileId}`} key={i} className="flex items-center gap-3">
-                           <img className="w-20 h-20 rounded" src={`${process.env.NEXT_PUBLIC_DOWNLOAD}/${file?.fileId}`} alt="" />
+                           <img className="w-56 h-56 rounded" src={`${process.env.NEXT_PUBLIC_DOWNLOAD}/${file?.fileId}`} alt="" />
                             <p className="font-bold text-lg">Attachments {i+1}</p> 
                             <button><FiDownloadCloud size={23} /></button>
                         </Link>
@@ -150,9 +177,9 @@ function AdminRequirement({project}) {
             </div>
             {/* Skip */}
 { !requirement?.companyLogo?.length ?
-     <div className="flex justify-center items-center">
-     <div className="py-2">
-             <button onClick={()=>handleSkip(project?.projectId)} className="btn btn-sm px-4 py-1 rounded-full">
+     <div className="flex ">
+     <div className="py-2 ">
+             <button onClick={()=>handleSkip(project?.projectId)} className="btn btn-sm px-4 py-1 rounded-full bg-blue-600">
                Skip
              </button>
            </div>
