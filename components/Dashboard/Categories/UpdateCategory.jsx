@@ -168,7 +168,7 @@ const UpdateCategory = () => {
                     }}
                     className="checkbox checkbox-bordered rounded-none checkbox-sm "
                     type="checkbox"
-                    checked={category?.subcategoryIds?.includes(subCat.subcategoryId)}
+                    defaultChecked={category?.subcategoryIds?.includes(subCat.subcategoryId)}
                     id={subCat?.subcategoryId}
                     value={subCat?.subcategoryId}
                   />

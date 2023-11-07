@@ -7,6 +7,7 @@ import { updateState } from "@/components/redux/features/update/updateSlice";
 import useToast from "@/components/utility/useToast";
 import moment from "moment";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import { BsReply } from "react-icons/bs";
 import { CgCheck } from "react-icons/cg";
@@ -15,7 +16,7 @@ import ImageModal from "../MessageImage/ImageModal";
 import ImageDownloader from "./ImageDownloader";
 import {AiOutlineCloudDownload } from "react-icons/ai";
 function MessageDelivery({ message, setReply, update, setUpdate }) {
-  console.log(message?.sourceFiles)
+  const router = useRouter()
   // get user
   const { user } = useSelector((state) => state.user);
 
@@ -111,7 +112,7 @@ function MessageDelivery({ message, setReply, update, setUpdate }) {
 
 
 
-  // handle user action
+  // handle user action for accept or reject
   const handleAction = (data) => {
     const acceptData = {
       id: message?.messageId,
@@ -124,6 +125,7 @@ function MessageDelivery({ message, setReply, update, setUpdate }) {
         showToast(`${data==='accept'?'Delivery Accepted':'Revision Send'}`, "success");
          dispatch(updateState(!messageUpdate?.update))
          handleCreateNotifications(data)
+         router.push(`/project/completed/${project?.projectId}`)
       },
       onError: (err) => {
         showToast(err?.response?.data?.message);
