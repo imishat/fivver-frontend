@@ -60,7 +60,7 @@ function AdminRequirement({project}) {
                 <div>
                    { requirement?.industryFile?.length ?
                    requirement?.industryFile?.map((file,i)=>{
-                        return  <Link target="_blank" href={`${process.env.NEXT_PUBLIC_DOWNLOAD}/${file?.fileId}`} key={i} className="flex items-center gap-3">
+                        return  <Link target="_blank" href={`${process.env.NEXT_PUBLIC_DOWNLOAD}/${file?.fileId}`} key={i} className="">
                           
 
                            <PhotoProvider>
@@ -68,21 +68,9 @@ function AdminRequirement({project}) {
       <img className="w-[300px] h-[224px] rounded" src={`${process.env.NEXT_PUBLIC_DOWNLOAD}/${file?.fileId}`} alt="" />
       </PhotoView>
     </PhotoProvider>
-
-
-
-
-
-
-
-
-
-
-
-
-
-                            <p className="font-bold text-lg">Attachments {i+1}</p> 
-                            <button><FiDownloadCloud size={23} /></button>
+    <div className='flex items-center gap-3'>  <p className="font-bold text-lg">            {file.fileName.slice(0, 14)}
+      {[".png", ".jpg", ".svg"].some(extension => file.fileName.endsWith(extension)) ? ` (${file.fileName.slice(-4)})` : ""} {i+1}</p> 
+                            <button><FiDownloadCloud size={23} /></button></div>
                         </Link>
                     }):''
                       }  
@@ -95,17 +83,19 @@ function AdminRequirement({project}) {
                 <div>
                    {requirement?.logoFile?.length ?
                     requirement?.logoFile?.map((file,i)=>{
-                        return  <Link target="_blank" href={`${process.env.NEXT_PUBLIC_DOWNLOAD}/${file?.fileId}`} key={i} className="flex items-center gap-3">
+                      console.log(file)
+                        return  <Link target="_blank" href={`${process.env.NEXT_PUBLIC_DOWNLOAD}/${file?.fileId}`} key={i} className="">
                                          
 
                                          <PhotoProvider>
       <PhotoView src={`${process.env.NEXT_PUBLIC_DOWNLOAD}/${file?.fileId}`}>
-      <img className="w-56 h-56 rounded" src={`${process.env.NEXT_PUBLIC_DOWNLOAD}/${file?.fileId}`} alt="" />
+      <img className="w-[300px] h-[224px rounded" src={`${process.env.NEXT_PUBLIC_DOWNLOAD}/${file?.fileId}`} alt="" />
       </PhotoView>
     </PhotoProvider>
 
-                            <p className="font-bold text-lg">Attachments {i+1}</p> 
-                            <button><FiDownloadCloud size={23} /></button>
+    <div className='flex items-center gap-3'>  <p className="font-bold text-lg">            {file.fileName.slice(0, 14)}
+      {[".png", ".jpg", ".svg"].some(extension => file.fileName.endsWith(extension)) ? ` (${file.fileName.slice(-4)})` : ""} {i+1}</p> 
+                            <button><FiDownloadCloud size={23} /></button></div>
                         </Link>
                     }):''
                       }  
@@ -118,10 +108,11 @@ function AdminRequirement({project}) {
                 <div>
                    {requirement?.websiteFile?.length ?
                    requirement?.websiteFile?.map((file,i)=>{
-                        return  <Link target="_blank" href={`${process.env.NEXT_PUBLIC_DOWNLOAD}/${file?.fileId}`} key={i} className="flex items-center gap-3">
-                           <img className="w-56 h-56 rounded" src={`${process.env.NEXT_PUBLIC_DOWNLOAD}/${file?.fileId}`} alt="" />
-                            <p className="font-bold text-lg">Attachments {i+1}</p> 
-                            <button><FiDownloadCloud size={23} /></button>
+                        return  <Link target="_blank" href={`${process.env.NEXT_PUBLIC_DOWNLOAD}/${file?.fileId}`} key={i} className="">
+                           <img className="w-[300px] h-[224px rounded" src={`${process.env.NEXT_PUBLIC_DOWNLOAD}/${file?.fileId}`} alt="" />
+                           <div className='flex items-center gap-3'>   <p className="font-bold text-lg">            {file.fileName.slice(0, 14)}
+      {[".png", ".jpg", ".svg"].some(extension => file.fileName.endsWith(extension)) ? ` (${file.fileName.slice(-4)})` : ""} {i+1}</p> 
+                            <button><FiDownloadCloud size={23} /></button></div>
                         </Link>
                     }):''
                       }  
@@ -134,10 +125,11 @@ function AdminRequirement({project}) {
                 <div>
                    {requirement?.ideaFile?.length ?
                    requirement?.ideaFile?.map((file,i)=>{
-                        return  <Link target="_blank" href={`${process.env.NEXT_PUBLIC_DOWNLOAD}/${file?.fileId}`} key={i} className="flex items-center gap-3">
-                           <img className="w-56 h-56rounded" src={`${process.env.NEXT_PUBLIC_DOWNLOAD}/${file?.fileId}`} alt="" />
-                            <p className="font-bold text-lg">Attachments {i+1}</p> 
-                            <button><FiDownloadCloud size={23} /></button>
+                        return  <Link target="_blank" href={`${process.env.NEXT_PUBLIC_DOWNLOAD}/${file?.fileId}`} key={i} className="">
+                           <img className="w-[300px] h-[224px rounded" src={`${process.env.NEXT_PUBLIC_DOWNLOAD}/${file?.fileId}`} alt="" />
+                           <div className='flex items-center gap-3'>  <p className="font-bold text-lg">            {file.fileName.slice(0, 14)}
+      {[".png", ".jpg", ".svg"].some(extension => file.fileName.endsWith(extension)) ? ` (${file.fileName.slice(-4)})` : ""} {i+1}</p>  
+                            <button><FiDownloadCloud size={23} /></button></div>
                         </Link>
                     }):''
                       }  
@@ -150,10 +142,11 @@ function AdminRequirement({project}) {
                 <div>
                    {requirement?.sizeFile?.length ?
                     requirement?.sizeFile?.map((file,i)=>{
-                        return  <a href={`${process.env.NEXT_PUBLIC_DOWNLOAD}/${file?.fileId}`} key={i} target="_blank" className="flex items-center gap-3">
-                          <img className="w-56 h-56 rounded" src={`${process.env.NEXT_PUBLIC_DOWNLOAD}/${file?.fileId}`} alt="" />
-                            <p className="font-bold text-lg">Attachments {i+1}</p> 
-                            <button><FiDownloadCloud size={23} /></button>
+                        return  <a href={`${process.env.NEXT_PUBLIC_DOWNLOAD}/${file?.fileId}`} key={i} target="_blank" className="">
+                          <img className="w-[300px] h-[224px rounded" src={`${process.env.NEXT_PUBLIC_DOWNLOAD}/${file?.fileId}`} alt="" />
+                          <div className='flex items-center gap-3'> <p className="font-bold text-lg">            {file.fileName.slice(0, 14)}
+      {[".png", ".jpg", ".svg"].some(extension => file.fileName.endsWith(extension)) ? ` (${file.fileName.slice(-4)})` : ""} {i+1}</p> 
+                            <button><FiDownloadCloud size={23} /></button></div>
                         </a>
                     }):''
                       }  
@@ -166,10 +159,11 @@ function AdminRequirement({project}) {
                 <div>
                    {requirement?.informationFile?.length ?
                     requirement?.informationFile?.map((file,i)=>{
-                        return  <Link target="_blank" href={`${process.env.NEXT_PUBLIC_DOWNLOAD}/${file?.fileId}`} key={i} className="flex items-center gap-3">
-                           <img className="w-56 h-56 rounded" src={`${process.env.NEXT_PUBLIC_DOWNLOAD}/${file?.fileId}`} alt="" />
-                            <p className="font-bold text-lg">Attachments {i+1}</p> 
-                            <button><FiDownloadCloud size={23} /></button>
+                        return  <Link target="_blank" href={`${process.env.NEXT_PUBLIC_DOWNLOAD}/${file?.fileId}`} key={i} className="">
+                           <img className="w-[300px] h-[224px rounded" src={`${process.env.NEXT_PUBLIC_DOWNLOAD}/${file?.fileId}`} alt="" />
+                           <div className='flex items-center gap-3'>     <p className="font-bold text-lg">            {file.fileName.slice(0, 14)}
+      {[".png", ".jpg", ".svg"].some(extension => file.fileName.endsWith(extension)) ? ` (${file.fileName.slice(-4)})` : ""} {i+1}</p> 
+                            <button><FiDownloadCloud size={23} /></button></div>
                         </Link>
                     }):''
                       }  
