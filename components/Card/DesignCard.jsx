@@ -6,7 +6,7 @@ import { CgRemoveR } from "react-icons/cg";
 const DesignCard = ({data}) => {
     const [showCart,setShowCart] = useState(false)
     return (
-        <div onMouseEnter={()=>setShowCart(true)} onMouseLeave={()=>setShowCart(false)} className="border border-gray-300 relative">
+        <div onMouseEnter={()=>setShowCart(true)} onMouseLeave={()=>setShowCart(false)} className="border border-gray-300 w-[160px] h-[120px] md:w-[300px] md:h-[220px] xl:w-[290px] xl:!h-[210px] relative">
               {
                 showCart ? <div className="absolute right-0 top-0 flex justify-center items-center p-2 rounded-md bg-base-200">
                     {/* <button><BiCartAdd size={28} /></button> */}

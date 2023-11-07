@@ -52,8 +52,8 @@ function CategoryRelated({ currentItems }) {
                 <div className="grid w-full  h-full sm:grid-cols-2 p-4 grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-3" >
                   {
                      currentItems?.length ? currentItems?.map((data,i)=>{
-                      return<SwiperSlide className="flex !w-[320px] !h-[250px] !gap-2">
-                        <div className="h-[90%]">
+                      return<SwiperSlide className="flex !w-[320px]  !h-[260px] !mb-[25px]">
+                        <div className="h-[100%]">
                       <CategoryCard category={data} data={data} />
                         </div>
                     </SwiperSlide>

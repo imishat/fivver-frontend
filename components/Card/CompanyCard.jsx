@@ -34,7 +34,7 @@ const CompanyCard = ({ data }) => {
     <div
       onMouseEnter={() => setShowCart(true)}
       onMouseLeave={() => setShowCart(isAddedData ? true : false)}
-      className="border border-gray-300 relative"
+      className=" w-[160px] h-[120px] md:w-[300px] md:h-[220px] xl:w-[300px] xl:!h-[210px]  mb-4"
     >
       {showCart ? (
         <div className="absolute right-0 top-0 flex justify-center items-center p-2 rounded-md bg-base-200">

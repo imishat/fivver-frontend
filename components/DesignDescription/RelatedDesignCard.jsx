@@ -46,8 +46,10 @@ function RelatedDesignCard({ data }) {
             >
               <div className="w-full">
                 <div className="grid w-full sm:grid-cols-2 grid-cols-1 md:grid-cols-3 lg:grid-cols-4" >
-                <SwiperSlide className="flex !gap-2 !w-[300px] !h-[250px] !max-h-[300px]">
-                <DescRelatedCard data={related} />
+                <SwiperSlide className="!gap-2 !w-[300px] !h-[260px] flex !mx-4 !mb-7 ">
+               <div className="w-full">
+               <DescRelatedCard data={related} />
+               </div>
               </SwiperSlide>
                 </div>
               </div>
