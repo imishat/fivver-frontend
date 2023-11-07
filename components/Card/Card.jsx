@@ -37,8 +37,8 @@ const Card = ({data,category}) => {
         dispatch(removeFromCart(design));
       };
     return (
-        <div className="border border-gray-300 h-full">
-             <Link href={`/designs/company/${data?.title}`} className="px-2 h-full inline-block py-1 text-sm w-full">
+        <div className="border border-gray-400 w-[320px] !h-[240px]">
+             <Link href={`/designs/company/${data?.title}`} className="h-full inline-block text-sm w-full">
             <div className="bg-rose-100 w-full h-full">
                 <Image height={160} width={224} className=" w-full h-full object-cover" src={`${process.env.NEXT_PUBLIC_API}/files/download/public/${data?.featuredImageId ? data?.featuredImageId : data?.imageIds[0]}`} alt="" />
             </div>
