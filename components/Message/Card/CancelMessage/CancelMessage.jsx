@@ -1,6 +1,7 @@
 
 
 import { useDeleteAction } from "@/components/queries/mutation/delete.mutation";
+import { useCreateNotifications } from "@/components/queries/mutation/notifications.mutation";
 import { useUpdateMessage } from "@/components/queries/mutation/updateMessage.mutation";
 import { useUpdateProject } from "@/components/queries/mutation/updateProject.mutation";
 import { useGetProject } from "@/components/queries/query/project.query";
@@ -132,17 +133,17 @@ const {mutate: updateMessage} = useUpdateMessage()
    }
 
 const handleUpdateMessage = () =>{
-  console.log(message?.messageId)
   const messageData = {
     id: message?.messageId,
     action:'accepted'
   }
   updateMessage(messageData,{
     onSuccess: (res) => {
-      console.log(res);
       handleUpdateProject()
       showToast("Accept Cancelation", "success");
+      handleCreateNotifications('accept')
       dispatch(updateState(!messageUpdate?.update))
+      
     },
     onError: (err) => {
       showToast(err?.message);
@@ -159,7 +160,7 @@ const handleCancelExtendMessage = () =>{
   }
   updateMessage(messageData,{
     onSuccess: (res) => {
-      console.log(res);
+      handleCreateNotifications('canceled')
       showToast("Cancel Cancelation", "success");
       dispatch(updateState(!messageUpdate?.update))
     },
@@ -169,6 +170,31 @@ const handleCancelExtendMessage = () =>{
   })
 }
 
+
+const isForAdmin = user?.role === 'ADMIN' ? false:true
+// create notification
+const {mutate: createNotification} = useCreateNotifications()
+// handle create notifications
+const handleCreateNotifications  = (data) =>{
+  const notificationData = {
+    "type": "project",
+    "model":"cancel",
+    "message": data,
+    "image": {fileId:project?.featuredImageId||project?.imageIds[0]},
+    "isForAdmin":isForAdmin,
+    "userId": project?.startedBy,
+    "isRead":false,
+    "projectId": project?.projectId
+}
+createNotification(notificationData,{
+  onSuccess: (res) => {
+    console.log(res.data);
+  },
+  onError: (err) => {
+    showToast(err?.response?.data?.message);
+  },
+})
+}
 
 
 return (

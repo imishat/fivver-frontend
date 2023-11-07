@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import { BsCheckCircleFill, BsReply } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import { useDeleteAction } from "../queries/mutation/delete.mutation";
+import { useCreateNotifications } from "../queries/mutation/notifications.mutation";
 import { useUpdateMessage } from "../queries/mutation/updateMessage.mutation";
 import { useUpdateProject } from "../queries/mutation/updateProject.mutation";
 import { updateState } from "../redux/features/update/updateSlice";
@@ -93,9 +94,10 @@ const handleCustomOfferAccept  = (id)=>{
   }
   updateMessage(messageData,{
     onSuccess:(res)=>{
-      showToast(`Offer Accepted' }`, "success");
+      showToast(`Offer Accepted'`, "success");
       handleUpdateProject(projectId)
         dispatch(updateState(!messageUpdate?.update))
+        handleCreateNotifications('accept')
     },
     onError:(err)=>{
       showToast(err?.message);
@@ -105,7 +107,46 @@ const handleCustomOfferAccept  = (id)=>{
 
 // handle reject custom offer
 const handleCustomOfferReject  = (id)=>{
-  console.log(id)
+  const messageData = {
+    id:id,
+    action:'cancelled'
+  }
+  updateMessage(messageData,{
+    onSuccess:(res)=>{
+      showToast(`Offer Cancel' }`, "success");
+      handleUpdateProject(projectId)
+        dispatch(updateState(!messageUpdate?.update))
+        handleCreateNotifications('cancelled')
+    },
+    onError:(err)=>{
+      showToast(err?.message);
+    }
+  })
+}
+
+const isForAdmin = user?.role === 'ADMIN' ? false:true
+// create notification
+const {mutate: createNotification} = useCreateNotifications()
+// handle create notifications
+const handleCreateNotifications  = (data) =>{
+  const notificationData = {
+    "type": "project",
+    "model":"custom",
+    "message": data,
+    "image": {fileId:project?.featuredImageId||project?.imageIds[0]},
+    "isForAdmin":isForAdmin,
+    "userId": project?.startedBy,
+    "isRead":false,
+    "projectId": project?.projectId
+}
+createNotification(notificationData,{
+  onSuccess: (res) => {
+    console.log(res.data);
+  },
+  onError: (err) => {
+    showToast(err?.response?.data?.message);
+  },
+})
 }
 
 return (
@@ -189,7 +230,7 @@ return (
                 {
                   message?.action ==='accept' || message?.action ==='cancelled' ?'':
                   <div className="w-full flex justify-between px-5 pb-3">
-                <button className="bg-gray-400 text-white px-5 font-bold py-2">Cancel</button>
+                <button onClick={()=>handleCustomOfferReject(message?.messageId)} className="bg-gray-400 text-white px-5 font-bold py-2">Cancel</button>
                 <button onClick={()=>handleCustomOfferAccept(message?.messageId)} className="bg-blue-500 text-white px-5 font-bold py-2">Accept</button>
                 </div>
                 }

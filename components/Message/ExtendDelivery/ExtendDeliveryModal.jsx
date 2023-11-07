@@ -14,6 +14,9 @@ function ExtendDeliveryModal({ project, reply, setReply, update, setUpdate }) {
 
   const dispatch = useDispatch()
 
+  // get user 
+const {user} = useSelector(state => state.user)
+
   const messageUpdate = useSelector(state=>state.update)
 
   // react hook form
@@ -53,7 +56,7 @@ function ExtendDeliveryModal({ project, reply, setReply, update, setUpdate }) {
 
     // reset()
   };
-
+  const isForAdmin = user?.role === 'ADMIN' ? false:true
   // create notification
   const {mutate: createNotification} = useCreateNotifications()
     // handle create notifications
@@ -63,7 +66,7 @@ function ExtendDeliveryModal({ project, reply, setReply, update, setUpdate }) {
         "model":"extend",
         "message": data?.message,
         "image": {fileId:project?.featuredImageId||project?.imageIds[0]},
-        "isForAdmin":false,
+        "isForAdmin":isForAdmin,
         "isRead":false,
         "userId": project?.startedBy,
         "projectId": project?.projectId

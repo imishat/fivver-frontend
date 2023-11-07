@@ -18,6 +18,7 @@ import Link from "next/link";
 import { BiSearchAlt2 } from "react-icons/bi";
 import { CgClose } from "react-icons/cg";
 import { useUploadFile } from "../queries/mutation/fileUpload.mutation";
+import { useCreateNotifications } from "../queries/mutation/notifications.mutation";
 import { useSendMail } from "../queries/mutation/sendMail.mutate";
 import { useUpdateUser } from "../queries/mutation/updateUser.mutation";
 import { useGetUniqueMessages } from "../queries/query/getAllUniqueMessages.query";
@@ -233,6 +234,7 @@ const handleUpdateAdminProfile = (data) =>{
           reset()
           handleClick()
           handleSendMail(data)
+          handleCreateNotificationForUser(data)
           setReply({})
           setImages([])
           showToast('File Send','success')
@@ -261,6 +263,7 @@ const handleUpdateAdminProfile = (data) =>{
       reset();
       handleClick()
       setReply({})
+      handleCreateNotificationForUser(data)
       handleSendMail(data)
       setValue('')
     }
@@ -292,7 +295,31 @@ const handleUpdateAdminProfile = (data) =>{
  }
   }
 
-
+ // create notification
+ const userId = user?.role === 'ADMIN' ? userInfo?.userId:user?.userId
+ const isForAdmin = user?.role === 'ADMIN' ? false:true
+ const {mutate: createNotification} = useCreateNotifications()
+  // create notification for user 
+  const handleCreateNotificationForUser = (data) =>{
+    const notificationData = {
+      "type": "message",
+      "model":"message",
+      "message": data?.messageData,
+      "image": {fileId:user?.profilePicture},
+      "isForAdmin":isForAdmin,
+      userId,
+      "isRead":false
+  }
+  // create notification
+  createNotification(notificationData,{
+    onSuccess: (res) => {
+      console.log(res.data);
+    },
+    onError: (err) => {
+      showToast(err?.response?.data?.message);
+    },
+  }) 
+  }
 
 
   // get all messages
@@ -691,7 +718,7 @@ if(messageType==='unread'){
                         value={value}
                         id="sendbox"
                         onChange={(e) => setValue(e.target.value)}
-                        className="w-full textarea textarea-bordered rounded-none"
+                        className="w-full focus-within:border focus-within:outline-none textarea textarea-bordered rounded-none"
                       ></textarea>
                     </div>
                     <div className="flex items-center ">
