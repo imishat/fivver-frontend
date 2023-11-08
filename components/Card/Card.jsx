@@ -37,10 +37,10 @@ const Card = ({data,category}) => {
         dispatch(removeFromCart(design));
       };
     return (
-        <div className="border border-gray-400 w-[160px] h-[120px] md:w-[300px] md:h-[220px] xl:w-[290px] xl:!h-[210px]  mb-4">
+        <div className="border border-gray-400 w-[400px] md:w-[300px] md:h-[220px] xl:w-[290px] xl:!h-[210px]  mb-4 ">
              <Link href={`/designs/company/${data?.title}`} className="h-full inline-block text-sm w-full">
             <div className="bg-rose-100 w-full h-full">
-                <Image height={160} width={224} className=" w-full h-full object-cover" src={`${process.env.NEXT_PUBLIC_API}/files/download/public/${data?.featuredImageId ? data?.featuredImageId : data?.imageIds[0]}`} alt="" />
+                <Image height={160} width={224} className=" w-full h-full  " src={`${process.env.NEXT_PUBLIC_API}/files/download/public/${data?.featuredImageId ? data?.featuredImageId : data?.imageIds[0]}`} alt="" />
             </div>
                 <h3 className="py-1">{data?.title}</h3>
             </Link>

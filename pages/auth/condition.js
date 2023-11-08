@@ -1,4 +1,4 @@
-import Main from "@/Layout/Main";
+
 import Terms from "../about/terms";
 
 

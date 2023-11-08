@@ -24,6 +24,7 @@ import { useUpdateUser } from '@/components/queries/mutation/updateUser.mutation
 function BillingInformation() {
    // get user
    const { user } = useSelector((state) => state.user);
+   console.log(user)
    //  react hook form
    const {
      register,
@@ -180,6 +181,19 @@ function BillingInformation() {
                     placeholder="Name"
                     className="input w-full input-bordered"
                     id="fullName"
+                  />
+                </label>
+                <label htmlFor="email
+">
+                  Email
+
+                  <input
+                    {...register2("email", { required: true })}
+                    defaultValue={user?.email}
+                    type="text"
+                    placeholder="Email"
+                    className="input w-full input-bordered"
+                    id="email"
                   />
                 </label>
                 <label htmlFor="number">

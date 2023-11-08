@@ -33,8 +33,8 @@ const StockImageSites = () => {
     ]
     return (
        <div className="rounded-lg overflow-hidden border border-blue-400">
-        <div className="bg-blue-400 text-white px-3 py-2">
-            <p>I've added links to a few stock image sites below. You can choose images from any of the sites linked below for your design.</p>
+        <div className="bg-blue-400 text-white px-1 py-1 text-center ">
+            <p>I've added links to a few <br/>stock image sites below.<br/> You can choose images<br/> from any of the sites linked<br/> below for your design.</p>
         </div>
         <div className="p-2 space-y-3 grid sm:grid-cols-2 md:grid-cols-1 gap-2">
             {

@@ -52,7 +52,7 @@ const AllDesignByCatetgory = ({categoryId}) => {
         </div>
       </div>
     {  designs?.length ? 
-      <div className="w-full flex gap-3 flex-wrap">
+      <div className="md:w-full flex gap-3 flex-wrap ">
         { designs.map((data, i) => (
           <Card data={data} key={i} />
         ))
