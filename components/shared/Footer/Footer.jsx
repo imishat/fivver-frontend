@@ -84,11 +84,11 @@ console.log(user)
                 <div className="py-3 w-8/12 mx-auto">
                     <ul className="grid grid-cols-2 md:grid-cols-4 w-full justify-between">
                         <li>
-                            <Link href={'#'}>Home</Link>
+                            <Link href={'/'}>Home</Link>
                         </li>
                        
                         <li>
-                            <Link href={'#'}>Designs</Link>
+                            <Link href={'/desing'}>Designs</Link>
                         </li>
                         <li>
                             <Link href={'/price-list'}>Price List</Link>
@@ -100,7 +100,7 @@ console.log(user)
                             <Link href={'/about'}>About</Link>
                         </li>
                         <li>
-                            <Link href={'#'}>Companies</Link>
+                            <Link href={'/desing'}>Companies</Link>
                         </li>
                        
                         <li>
@@ -150,11 +150,11 @@ console.log(user)
             <div className={`${user?.email ? 'py-3 md:w-4/12 w-full text-center':'py-3 md:w-9/12 w-full text-center'}`}>
                 <ul className={`${user?.email ? 'flex flex-wrap sm:flex-col space-y-2 w-full justify-between':'flex md:grid md:flex-wrap grid-cols-2' }`}>
                     <li>
-                        <Link href={'#'}>Home</Link>
+                        <Link href={'/'}>Home</Link>
                     </li>
                    
                     <li>
-                        <Link href={'#'}>Designs</Link>
+                        <Link href={'/desing'}>Designs</Link>
                     </li>
                     <li>
                         <Link href={'/price-list'}>Price List</Link>
@@ -166,7 +166,7 @@ console.log(user)
                         <Link href={'/about'}>About</Link>
                     </li>
                     <li>
-                        <Link href={'#'}>Companies</Link>
+                        <Link href={'/desing'}>Companies</Link>
                     </li>
                    
                     <li>
