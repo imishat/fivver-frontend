@@ -22,11 +22,11 @@ const AllDesignByCompany = ({ companyId }) => {
       <div className="h-full w-full relative">
         <img
           className="w-full h-full bg-[#FEF2F2]"
-          src="/images/alldesign.png"
+          src="https://i.ibb.co/0XcnZkw/Web-Banner-3-3.png"
           alt=""
         />
-        <div className="flex justify-center items-center  text-black ">
-          <h3 className="absolute text-[#1C8CDD] md:text-4xl sm:text-2xl text-xl top-1/2 font-bold text-center w-1/2">
+        <div className="flex justify-center items-center  text-black  ">
+          <h3 className="absolute text-[#1C8CDD] md:text-4xl sm:text-2xl text-xl md:top-1/2 top-5 font-bold text-center w-1/2 left-1/2 -translate-x-1/2">
             {query}
           </h3>
         </div>
@@ -40,7 +40,7 @@ const AllDesignByCompany = ({ companyId }) => {
         </div>
       </div>
       {designs?.length ? (
-        <div className="w-full flex gap-3 flex-wrap">
+        <div className="w-full flex gap-3 flex-wrap ">
           {designs.map((data, i) => (
             <CompanyCard data={data} key={i} />
           ))}

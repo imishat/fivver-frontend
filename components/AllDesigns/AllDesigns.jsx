@@ -22,7 +22,7 @@ const AllDesigns = () => {
     <div>
       {/* Design Title */}
       <div className="h-full w-full relative">
-        <img className="w-full h-full" src="/images/Web Banner 3.jpg" alt="" />
+        <img className="w-full h-full" src="/images/Web Banner 3 3.png" alt="" />
         <div className="flex justify-center items-center  text-black ">
           <h3 className="absolute text-[#1C8CDD] md:text-4xl sm:text-2xl text-xl top-1/2 font-bold text-center ">
            All Designs
