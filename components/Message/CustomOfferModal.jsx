@@ -72,7 +72,7 @@ const handleSelectChange=e=>{
   // const [selectCategory,setSelectCategory] = useState({})
   console.log(singleDesign,"singel")
   const handleCustomOffer = data =>{
-    console.log(data,"singel")
+   
     const messageData = {
       type:'offer',...data,
         categoryName: singleDesign?.name,
@@ -121,7 +121,6 @@ const handleSelectChange=e=>{
       },
     })
     }
-
 
 
     return (

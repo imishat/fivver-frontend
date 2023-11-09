@@ -4,11 +4,15 @@ import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import 'react-autocomplete-input/dist/bundle.css';
 import { useForm } from "react-hook-form";
 import { BsCart4, BsSearch } from "react-icons/bs";
 import { FaUserAlt } from "react-icons/fa";
-import { RiCloseLine, RiMenu4Line } from "react-icons/ri";
+import { RiMenu4Line } from "react-icons/ri";
 import { useSelector } from "react-redux";
+import Search from "./Search";
+
+
 const CartSidebar = dynamic(() => import("./Cart/CartSidebar"), { ssr: false });
 
 const Navbar = () => {
@@ -65,7 +69,7 @@ const Navbar = () => {
   // get user
   const { user } = useSelector((state) => state.user);
   return (
-    <div className="fixed z-10 top-0 bg-black text-white container mx-auto ">
+    <div className="fixed z-10 top-0 bg-black text-white w-full ">
       {/* Navbar */}
       <div className="flex justify-between px-4 w-full items-center relative">
         {/* Hamburgar menu */}
@@ -77,12 +81,13 @@ const Navbar = () => {
           </div>
           {/* Logo */}
 
-          <div className="w-14">
+          <div className="w-14 xl:mr-12">
             <Link href={"/"}>
               <img className="md:w-20" src="/images/logo.png" alt="" />
             </Link>
           </div>
-
+  {/* Search box */}
+  <Search search={search} setSearch={setSearch} showSearch={showSearch} handleSearch={handleSearch} />
           {/* Cart and seart icon in mobile */}
           <div className="flex sm:hidden items-center">
             <button
@@ -100,60 +105,7 @@ const Navbar = () => {
             </button>
           </div>
         </div>
-        {/* Search box */}
-        <form
-          onSubmit={handleSubmit(handleSearch)}
-          className={`top-8 sm:top-0 sm:w-full w-full fixed sm:relative rounded-md ${
-            showSearch
-              ? "top-0 w-full z-[9] sm:static left-0"
-              : "hidden w-full sm:flex"
-          } flex items-center md:w-64 lg:w-80`}
-        >
-          <div
-            className={`absolute left-0 top-10 w-full z-50 rounded-md bg-white ${
-              search.length ? "" : "hidden"
-            }`}
-          >
-            <ul>
-              {designs?.length
-                ? designs?.map((design) => {
-                    return (
-                      <Link
-                        key={design.designId}
-                        href={`/design/${design.designId}`}
-                        className="w-full inline-block text-black py-2 px-3 border-b"
-                      >
-                        {design.title + " " + design.categoryName}
-                      </Link>
-                    );
-                  })
-                : ""}
-            </ul>
-          </div>
-          <input
-            {...register("search", { required: true })}
-            className="px-2 md:w-64 border z-50  lg:w-80 w-full py-1 my-2 sm:rounded-r-none md:rounded-md bg-white text-black rounded-l-md "
-            type="search"
-            onChange={(e) => setSearch(e.target.value)}
-            placeholder="What design are you looking for today?"
-          />
-          <button
-            hidden={!search.length}
-            onClick={() => {
-              reset();
-              setSearch("");
-            }}
-            className={`absolute right-8 z-50 hidden md:block px-2 py-1 rounded-full text-black ${
-              search.length || "hidden"
-            }`}
-          >
-            <RiCloseLine hidden={!search.length} size={24} />
-          </button>
-          {/* Search btn */}
-          <button className="md:absolute  rounded-l-none border-none z-50 sm:border-2 border-white sm:border-none sm:rounded-l-none right-0 px-4 md:px-2 py-1 md:py-1.5 flex items-center h-8 bg-blue-400 rounded-md text-white">
-            <BsSearch />
-          </button>
-        </form>
+      
         {/* Navbar menu */}
         <div className="md:ml-1">
           <ul

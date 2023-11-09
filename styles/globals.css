@@ -154,3 +154,25 @@ li.rc-pagination-options {
   background: rgb(72, 163, 248);
   border-radius: 30px;
 }
+
+.text-black.css-1g6zq87 ul li {
+  background: #fff;
+  border-bottom: 1px solid;
+}
+svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium.css-1m9ymud-MuiSvgIcon-root {
+  display: none;
+}
+.MuiInputBase-root.MuiInput-root.MuiInput-underline.MuiInputBase-colorPrimary.MuiInputBase-fullWidth.MuiInputBase-formControl.MuiInputBase-adornedStart.MuiInputBase-adornedEnd.MuiAutocomplete-inputRoot.css-l4u8b9-MuiInputBase-root-MuiInput-root
+  input {
+  padding: 3px 8px 5px 13px;
+}
+
+.MuiInputBase-root.MuiInput-root.MuiInput-underline.MuiInputBase-colorPrimary.MuiInputBase-fullWidth.MuiInputBase-formControl.MuiInputBase-adornedStart.MuiInputBase-adornedEnd.MuiAutocomplete-inputRoot.css-l4u8b9-MuiInputBase-root-MuiInput-root
+  input:hover {
+  padding: 4px 13px;
+}
+.css-1q60rmi-MuiAutocomplete-endAdornment {
+  position: absolute;
+  right: 13px !important;
+  top: calc(50% - 14px);
+}
