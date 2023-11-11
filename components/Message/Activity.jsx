@@ -191,7 +191,7 @@ const Activity = () => {
   
     const result = [];
   
-    for (let i = 0; i < input.length; i++) {
+    for (let i = 0; i < input?.length; i++) {
       const digit = input[i];
       if (mapping[digit] !== undefined) {
         result.push(mapping[digit]);
@@ -201,7 +201,7 @@ const Activity = () => {
     return result.join('');
   }
 
-  console.log(projectNumber('125'),'number')
+  // console.log(projectNumber('125'),'number')
 
   
   // blob images for preview images

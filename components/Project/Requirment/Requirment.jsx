@@ -1,14 +1,16 @@
 import StockImageSites from "@/components/Home/DesignSection/StockImageSites/StockImageSites";
 import { useUploadFile } from "@/components/queries/mutation/fileUpload.mutation";
+import { useSendMail } from "@/components/queries/mutation/sendMail.mutate";
 import { useUpdateProject } from "@/components/queries/mutation/updateProject.mutation";
 import { useGetProject } from "@/components/queries/query/project.query";
 import useToast from "@/components/utility/useToast";
+import moment from "moment";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { MdOutlineAttachment } from "react-icons/md";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import AdminRequirement from "./AdminRequirement";
 const Requirement = ({ project }) => {
  console.log(project)
@@ -19,6 +21,7 @@ const Requirement = ({ project }) => {
     reset,
     formState: { errors },
   } = useForm();
+  const dispatch = useDispatch()
 
   // update project
   const { mutate: updateProject, isLoading } = useUpdateProject();
@@ -251,13 +254,14 @@ if(projectId||requirementProjects[0]?.projectId){
             showToast("Requirement Send", "success");
             router.push(`/message/project/${res?.data?.project?.projectId}`)
             console.log(res?.data, "Project Update");
+            handleSendMail(data)
             // reset()
           } else {
             showToast("Requirement Send Failed");
           }
         },
         onError: (err) => {
-          showToast(err?.response?.data?.message);
+          showToast(err?.message);
         },
       });
     
@@ -265,6 +269,60 @@ if(projectId||requirementProjects[0]?.projectId){
     // console.log(localProject[0])
     // router.push('/message/activity')
   };
+    // project number 
+    function projectNumberFun(input) {
+      const mapping = {
+        1: 'A',
+        2: 2,
+        3: 'C',
+        4: 4,
+        5: 'E',
+        6: 6,
+        7: 'G',
+        8: 8,
+        9: 'i',
+        0: 'Z',
+      };
+    
+      const result = [];
+    
+      for (let i = 0; i < input?.length; i++) {
+        const digit = input[i];
+        if (mapping[digit] !== undefined) {
+          result.push(mapping[digit]);
+        }
+      }
+    
+      return result.join('');
+    }
+const projectNumber =  projectNumberFun(project?.projectNumber?.toString()||requirementProjects[0]?.projectNumber?.toString())
+
+    // handle send mail
+    const {mutate:sendMail} = useSendMail({style:true})
+
+    const handleSendMail = (data) =>{
+        console.log('email send')
+      if(user?.role!=='ADMIN'){
+      const emailData = {
+        "sendToEmail": process.env.NEXT_PUBLIC_ADMIN_EMAIL,
+      "subject": `${user?.fullName} added project requirements`,
+      "message": `<html lang='en'><head><style>@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&display=swap');.font{font-family: 'Inter', sans-serif;}</style></head> <body class='font' style='display: flex; color: #000; justify-content: center;margin-top: 20px;margin-bottom: 20px; background-color: #ddedfc;'><div style='justify-content: center; width: 70%; margin: 0 auto; height: fit-content; padding: 24px 48px; background-color: white; text-align: center;'><div><div><img src='https://res.cloudinary.com/dl1cxduy0/image/upload/w_450,h_200,c_scale/v1698946120/MR_Logo_Final_4_Black_lc11jd.png' alt='' /></div><div><h2>You just received a project from ${user?.fullName} <br/>Please review the requirements below:</h2></div><div><hr style='border-bottom: 1px solid #000; width: 35%' /></div><div style='text-align: left'><p>Project: #MR${projectNumber}PN is due ${moment(deadline).format('lll')}</p></div><table border='1' style='border-collapse:collapse;width:100%'><tr><th width='230'>Item</th><th>QTY</th><th>DUR</th><th>Price</th></tr><tr><td style='padding:8px;text-align:left'>${project?.title||requirementProjects[0]?.title} <br/><small>${project?.subcategory[0]?.name||requirementProjects[0]?.subcategory[0]?.name}</small></td><td align='center'>${project?.quantity||requirementProjects[0]?.quantity}</td><td align='center'>${project?.isExtraFastDeliveryEnabled||requirementProjects[0]?.isExtraFastDeliveryEnabled?1:2} days</td><td align='center'>$${project?.subcategory[0]?.price||requirementProjects[0]?.subcategory[0]?.price*project||requirementProjects[0]?.quantity}</td></tr><tr><td style='padding:8px;text-align:left; border:none'><p style='padding:0;margin:0;display:flex;align-items:center;gap:2;'><img src='https://res.cloudinary.com/dcckbmhft/image/upload/v1699625247/6928921_ljlana.png' style='width:16px;height:16px;margin-right:5px' />Unlimited revision</p><p style='padding:0;margin:0;display:flex;align-items:center;gap:2;'><img src='https://res.cloudinary.com/dcckbmhft/image/upload/v1699625247/6928921_ljlana.png' style='width:16px;height:16px;margin-right:5px' /> PSD Source File</p><p style='padding:0;margin:0;display:flex;align-items:center;gap:2;'><img src='https://res.cloudinary.com/dcckbmhft/image/upload/v1699625247/6928921_ljlana.png' style='width:16px;height:16px;margin-right:5px' /> Print ready PDF or JPEG</p></td></tr><tr style='border:1px solid'><td style='border:0;padding:8px'>Extra-fast 1 day delivery</td><td></td><td style='border:0;padding:8px'></td><td align='center' style='border:0;padding:8px;'>$${project?.isExtraFastDeliveryEnabled||requirementProjects[0]?.isExtraFastDeliveryEnabled ? 10:0}</td></tr><tr style='border:1px solid'><th style='border:0;padding:0px;text-align:left;padding-left:6px;'>Total</td><td></td><td style='border:0;padding:0px'></th><th align='center' style='border:0;padding:8px;'>$${project?.totalCost||requirementProjects[0]?.totalCost}</th></tr></table><br/><div style='text-align:left'><p>The buyer has provided the following project requirements</p><div><ul><li>Which industry do you work in?</li><p>${data?.industry}</p><p>${industryFile?.length ? `[${industryFile?.length} file attached]`:''}</p><li>Do you have your own/company logo?</li><p>${data?.companyLogo}</p><p>${logoFile?.length ? `[${logoFile?.length} file attached]`:''}</p><li>Do you have own/company website?</li><p>${data?.website}</p><p>${websiteFile?.length?`[${websiteFile?.length} file attached]`:""}</p><li>Do you have any imaginary or specific design idea?</li><p>${data?.designIdea}</p><p>${ideaFile?.length?`[${ideaFile?.length} file attached]`:''}</p><li>Do you have your specific design size?</li><p>${data?.designSize}</p><p>${sizeFile?.length?`[${sizeFile?.length} file attached]`:''}</p><li>You have to give clear information that you need in the design. <br/>(For example, all texts, all photos, logo, contact info, etc.) you work in?</li><p>${data?.designInfo}</p><p>${informationFile?.length?`[${informationFile?.length} file attached]`:''}</p></ul></div></div><div style='margin: 0px 0 33px 0'><a href='${process.env.NEXT_PUBLIC_URL}/message/project/${projectId||requirementProjects[0]?.projectId}' target='_blank'><button style='background-color: #1a8ce2; padding: 15px 30px; border: none; color: white; margin-top:22px; font-size: 16px; border-radius: 5px; font-weight: 700;'>View and Reply</button></a></div><div><a target='_blank' href='#'><img style='width: 30px; margin:4px;' src='https://res.cloudinary.com/dl1cxduy0/image/upload/v1698981561/f_logo_g0pwgu.png' alt=''/></a><a target='_blank' href='#'><img style='width: 30px; margin:4px;' src='https://res.cloudinary.com/dl1cxduy0/image/upload/v1698981561/i_logo_gsutpp.png' alt=''/></a><a target='_blank' href='#'><img style='width: 30px; margin:4px;' src='https://res.cloudinary.com/dl1cxduy0/image/upload/v1698981562/t_logo_ktnb5y.png' alt=''/></a><a target='_blank' href='#'><img style='width: 30px; margin:4px;' src='https://res.cloudinary.com/dl1cxduy0/image/upload/v1698981562/p_logo_gyq0rn.png' alt=''/></a><a target='_blank' href='#'><img style='width: 30px; margin:4px;' src='https://res.cloudinary.com/dl1cxduy0/image/upload/v1698981562/in_logo_pvkie5.png' alt=''/></a></div></div></div></body></html>`
+      }
+      sendMail(emailData,{
+        onSuccess: (res) => {
+          console.log(res);
+          showToast(`Email Send`, "success");
+          dispatch(updateState(!messageUpdate?.update))
+        },
+        onError: (err) => {
+          showToast(err?.message);
+        },
+      })
+    }
+    }
+
+
+
   const handleSkip = () => {
     if (projectId || requirementProjects[0]?.projectId) {
       const requirementData = {

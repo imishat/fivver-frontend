@@ -1,4 +1,5 @@
 import { useCreateNotifications } from "@/components/queries/mutation/notifications.mutation";
+import { useSendMail } from "@/components/queries/mutation/sendMail.mutate";
 import { useUpdateMessage } from "@/components/queries/mutation/updateMessage.mutation";
 import { useGetFile } from "@/components/queries/query/getFiles.queries";
 import { useGetSingleMessage } from "@/components/queries/query/getSignleMessage.query";
@@ -125,6 +126,7 @@ const {messageUpdate} = useSelector(state=>state.update)
         showToast("Comment Submitted", "success");
         setCommentStore([]);
         dispatch(updateState(!messageUpdate?.update))
+        handleSendMail()
         setHighLightComment({})
         handleCreateNotifications(commentStore?.at(-1))
       
@@ -135,6 +137,30 @@ const {messageUpdate} = useSelector(state=>state.update)
       },
     });
   };
+
+
+   // handle send mail
+   const {mutate:sendMail} = useSendMail({style:true})
+
+   const handleSendMail = () =>{
+     if(user?.role!=='ADMIN'){
+     const emailData = {
+       "sendToEmail": process.env.NEXT_PUBLIC_ADMIN_EMAIL,
+     "subject": `You've new comments in your project files`,
+     "message": `<html lang='en'><head><style>@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&display=swap');.font{font-family: 'Inter', sans-serif;}</style></head> <body class='font' style='display: flex; color: #000; justify-content: center;margin-top: 20px;margin-bottom: 20px; background-color: #ddedfc;'><div style='justify-content: center; width: 70%; margin: 0 auto; height: fit-content; padding: 24px 48px; background-color: white; text-align: center;'><div><div><img src='https://res.cloudinary.com/dl1cxduy0/image/upload/w_450,h_200,c_scale/v1698946120/MR_Logo_Final_4_Black_lc11jd.png' alt='' /></div><div><h2>${user?.fullName} left you new comments</h2></div><div><hr style='border-bottom: 1px solid #000; width: 35%' /></div><div style='text-align: left'><p>${user?.fullName} left you ${commentStore?.length} new comments in  your project files. View the conversation to reply</p></div><br /><div style='margin: 0px 0 33px 0'><a href='${process.env.NEXT_PUBLIC_URL}/message/project/${project?.projectId}' target='_blank'><button style='background-color: #1a8ce2; padding: 15px 30px; border: none; color: white; font-size: 16px; border-radius: 5px; font-weight: 700;'>View and Reply</button></a></div><div><a target='_blank' href='#'><img style='width: 30px; margin:4px;' src='https://res.cloudinary.com/dl1cxduy0/image/upload/v1698981561/f_logo_g0pwgu.png' alt=''/></a><a target='_blank' href='#'><img style='width: 30px; margin:4px;' src='https://res.cloudinary.com/dl1cxduy0/image/upload/v1698981561/i_logo_gsutpp.png' alt=''/></a><a target='_blank' href='#'><img style='width: 30px; margin:4px;' src='https://res.cloudinary.com/dl1cxduy0/image/upload/v1698981562/t_logo_ktnb5y.png' alt=''/></a><a target='_blank' href='#'><img style='width: 30px; margin:4px;' src='https://res.cloudinary.com/dl1cxduy0/image/upload/v1698981562/p_logo_gyq0rn.png' alt=''/></a><a target='_blank' href='#'><img style='width: 30px; margin:4px;' src='https://res.cloudinary.com/dl1cxduy0/image/upload/v1698981562/in_logo_pvkie5.png' alt=''/></a></div></div></div></body></html>`
+     }
+     sendMail(emailData,{
+       onSuccess: (res) => {
+         dispatch(updateState(!messageUpdate?.update))
+       },
+       onError: (err) => {
+         showToast(err?.message);
+       },
+     })
+   }
+   }
+
+
   const isForAdmin = user?.role === 'ADMIN' ? false:true
     // create notification
     const {mutate: createNotification} = useCreateNotifications()
