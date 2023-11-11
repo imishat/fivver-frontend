@@ -106,7 +106,7 @@ const handleSelectChange=e=>{
         "type": "project",
         "model":"custom",
         "message": data?.message,
-        "image": {fileId:project?.featuredImageId||project?.imageIds[0]},
+        "image": {fileId:project?.featuredImageId||project?.imageIds?.[0]},
         "isForAdmin":isForAdmin,
         "userId": project?.startedBy,
         "isRead":false,

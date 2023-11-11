@@ -9,7 +9,7 @@ function Search() {
 
     //get all design data
     const {data:allDesignData} = useAllDesigns({designId:searchId,page:'',limit:''})
-    console.log(allDesignData)
+    console.log('allDesignData',allDesignData,searchId)
     const designs = allDesignData?.data?.designs
     return (
         <div className="flex">
