@@ -30,6 +30,10 @@ const Related = ({ currentItems }) => {
                 disableOnInteraction: false,
               }}
               breakpoints={{
+                320:{
+                  slidesPerView:1,
+                  spaceBetween:2,
+                },
                 440: {
                   slidesPerView: 1,
                   spaceBetween: 3,

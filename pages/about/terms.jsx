@@ -27,7 +27,7 @@ const Terms = () => {
     {
       trams &&
       <div>
-        <h2 className="font-dm mt-16  text-xl font-medium text-blue-500 ">Terms & Conditions</h2>
+        {/* <h2 className="font-dm mt-16  text-xl font-medium text-blue-500 ">Terms & Conditions</h2> */}
         <div className='pl-5'>
           
           <ul className='relative after:absolute mt-8 mb-5 after:h-2 after:w-2 after:top-[7px] after:left-[-20px] after:bg-blue-400 after:rounded-full'>
