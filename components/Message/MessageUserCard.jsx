@@ -135,7 +135,12 @@ updateMessage(updateData,{
 })
   
 }
-  
+// get all message by id
+const {data:messagesData} = useGetMessagesById({userId:message?.receiver?.receiverId,projectId:'',update:messageUpdate.update})
+// messages by user
+const userMessage = messagesData?.data?.messages
+
+const filterAdminNotSend = userMessage?.filter(message=>message?.isFromAdmin===true)
     return (
       <>
       <div onClick={()=>handleReadMessage()} className={`flex items-center w-full relative`} >
@@ -158,7 +163,10 @@ updateMessage(updateData,{
             <strong className="flex items-center gap-2">
               {message?.receiver?.fullName}
               <span>
-                <BsClock />
+                {
+                  filterAdminNotSend?.length ?'':<BsClock />
+                }
+               
               </span>
             </strong>
             <span className="text-[13px]">{moment(lastMessageData?.createdAt).fromNow()}</span>

@@ -15,7 +15,7 @@ const SIgnUp = ({ setToggle }) => {
 
   // react hook form
   // import send login data function 
-  const {mutate:LoginData,isLoading}=useCreteAccount()
+  const {mutate:createAccount,isLoading}=useCreteAccount()
   // set toasat showing data
   const { Toast, showToast } = useToast();
 
@@ -37,19 +37,20 @@ const SIgnUp = ({ setToggle }) => {
 
   const sendData = sendMail?.data
  
+  const [loading,setLoading] = useState(false)
 
 
   // handle send verification mail
   const handleSendMail = (email) =>{
     setEmail(email)
-
+    setLoading(false)
   }
-
 
 
 
   //   handle signup
   const handleSignUp = (data) => {
+    setLoading(true)
     const signUpData = {
       "country": countyInput,
       "fullName": data.fullName,
@@ -59,13 +60,14 @@ const SIgnUp = ({ setToggle }) => {
       "password": data.password,
       "confirmPassword": data.confirmPassword,
     }
-    LoginData(signUpData,{
+    createAccount(signUpData,{
       onSuccess: (res) => {
+        console.log(res,'signup') 
      if(res){
-      handleSendMail(data?.email)
+       handleSendMail(data?.email)
+       router.push('/auth/user-verify')
       showToast('crate account', 'success');
       reset()
-      router.push('/auth/user-verify')
      }   
     },
     onError: err => {
@@ -200,8 +202,8 @@ const SIgnUp = ({ setToggle }) => {
         {/* Sign up btn */}
         <div>
          
-          <button disabled={isLoading} type="submit" className="w-full px-4 py-2 font-bold bg-[#1B8CDC] text-white text-xl ">
-                    {isLoading? <Spin/> :"Sign Up"}
+          <button disabled={loading} type="submit" className="w-full px-4 py-2 font-bold bg-[#1B8CDC] text-white text-xl ">
+                    {loading? <Spin/> :"Sign Up"}
                     </button>
         </div>
         {/* already have account */}

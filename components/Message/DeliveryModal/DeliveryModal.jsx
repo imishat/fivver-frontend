@@ -184,6 +184,7 @@ console.log(sourceFiles)
       id:project?.projectId,
       track:track,
       status: status,
+      deadline:'',
       categoryId:project?.categoryId,
       subcategoryId:project?.subcategoryId,
     }

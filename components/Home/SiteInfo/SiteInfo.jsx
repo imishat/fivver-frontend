@@ -1,7 +1,7 @@
 
 const SiteInfo = () => {
     return (
-        <div className="my-8">
+        <div className="my-8  pl-8 pr-20">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                 <div className="bg-[#1B85CF] p-2 rounded-md text-center text-white">
                     <h2 className="text-4xl font-bold">1500+</h2>

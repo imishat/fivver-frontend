@@ -5,7 +5,7 @@ const SubNavbar = () => {
   // get user 
 const {user} = useSelector(state => state.user)
 
-  return <div className="flex lg:mt-5 justify-center bg-blue-500 text-white">
+  return <div className="flex lg:mt-11 justify-center bg-blue-500 text-white">
     <div>
       <ul className="flex flex-wrap md:py-2 items-center">
         {
@@ -22,10 +22,10 @@ const {user} = useSelector(state => state.user)
        
         
         <li>
-          <Link className="sm:py-2 py-1 hover:border-b hover:border-white border-b border-transparent duration-300 px-5 w-full inline-block" href={'/desing'}>Design</Link>
+          <Link className="sm:py-2 py-1 hover:border-b hover:border-white border-b border-transparent duration-300 px-5 w-full inline-block" href={'/all-designs'}>Design</Link>
         </li>
         <li>
-          <Link className="sm:py-2 py-1 hover:border-b hover:border-white border-b border-transparent duration-300 px-5 w-full inline-block" href={'/desing'}>Companies</Link>
+          <Link className="sm:py-2 py-1 hover:border-b hover:border-white border-b border-transparent duration-300 px-5 w-full inline-block" href={'/all-designs'}>Companies</Link>
         </li>
         <li>
           <Link className="sm:py-2 py-1 hover:border-b hover:border-white border-b border-transparent duration-300 px-5 w-full inline-block" href={'/price-list'}>Price List</Link>

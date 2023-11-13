@@ -47,7 +47,7 @@ function Search({handleSearch,search,setSearch,showSearch}) {
             placeholder="What design are you looking for today?"
           /> */}
           {/* Search btn */}
-          <Link  href={`/search/${value}`} className="md:absolute  rounded-l-none border-none z-50 sm:border-2 border-white sm:border-none sm:rounded-l-none right-0 px-4 md:px-2 py-1 md:py-1.5 flex items-center h-8 bg-blue-400 rounded-md text-white">
+          <Link  href={`/all-designs/${value}`} className="md:absolute  rounded-l-none border-none z-50 sm:border-2 border-white sm:border-none sm:rounded-l-none right-0 px-4 md:px-2 py-1 md:py-1.5 flex items-center h-8 bg-blue-400 rounded-md text-white">
             <BsSearch />
           </Link>
         </form>
