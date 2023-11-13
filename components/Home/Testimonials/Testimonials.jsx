@@ -8,6 +8,7 @@ const Testimonials = () => {
   const router = useRouter()
   const {data:sellerReviews1} = useGetReviews({userId:''})
   const reviews = sellerReviews1?.data?.reviews
+  console.log(sellerReviews1,'review')
 
   const [selectedStars, setSelectedStars] = useState(null);
   const [short,setShort] = useState('relevant')
@@ -31,7 +32,7 @@ const Testimonials = () => {
     let filtered = reviews;
 
     if (selectedStars !== null) {
-      filtered = reviews.filter((review) => review.stars === selectedStars);
+      filtered = reviews?.filter((review) => review.stars === selectedStars);
     }
 
     setFilteredReviews(filtered);
@@ -45,7 +46,7 @@ const Testimonials = () => {
 
   
   return (
-    <div className="md:py-12 py-4">
+    <div className="md:py-12 pl-8 pr-20 py-4">
       <div className="relative flex justify-center">
         {/*  Title */}
         <h2 className="md:text-2xl text-lg absolute bg-red-100 -top-6 px-6 py-2 rounded-full font-bold uppercase">
