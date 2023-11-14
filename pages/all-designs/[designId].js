@@ -4,8 +4,7 @@ import Design from "@/components/AllDesigns/Desing";
 
 function index() {
     return (
-        <Main title={'Desing'}>
-           
+        <Main title={'Designs'}>
         <Design/>
         </Main>
     );

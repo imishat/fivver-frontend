@@ -1,10 +1,11 @@
-import About from "../about/About";
+
+import Privicy from "./Privicy";
 
 
 const index = () => {
     return (
        
-          <About/>
+       <Privicy/>
    
     );
 };

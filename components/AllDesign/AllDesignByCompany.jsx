@@ -40,7 +40,7 @@ const AllDesignByCompany = ({ companyId }) => {
         </div>
       </div>
       {designs?.length ? (
-        <div className="w-full flex gap-3 flex-wrap ">
+        <div className="w-full gap-2 px-12  grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 2xl:grid-cols-6 ">
           {designs.map((data, i) => (
             <CompanyCard data={data} key={i} />
           ))}

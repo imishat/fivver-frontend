@@ -1,10 +1,12 @@
 import Main from "@/Layout/Main";
-import Search from "@/components/Search/Search";
+import Design from "@/components/AllDesigns/Desing";
+
 
 function index() {
     return (
-        <Main title={'Search'}>
-            <Search />
+        <Main title={'Desing'}>
+           
+        <Design/>
         </Main>
     );
 }

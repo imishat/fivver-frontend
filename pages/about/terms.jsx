@@ -18,7 +18,7 @@ const Terms = () => {
    
    
   return (
-    <Main title={"Privacy Policy"}>
+    <Main title={"Terms & Conditions"}>
     <div className='max-w-7xl mx-auto mt-5'>
       <div className='flex gap-x-32   relative after:absolute after:h-[1px] after:w-[520px] after:rounded-full after:bg-black/40 after:bottom-[-10px] after:left-0 after:contents-[``]'>
         <h2 onClick={handleTrams} className={`font-dm text-2xl cursor-pointer font-bold  ${trams ?"text-blue-400 border-b border-solid border-blue-600/25" : "text-[#111111]" }`}>Terms & Conditions</h2>
@@ -27,7 +27,7 @@ const Terms = () => {
     {
       trams &&
       <div>
-        {/* <h2 className="font-dm mt-16  text-xl font-medium text-blue-500 ">Terms & Conditions</h2> */}
+        <h2 className="font-dm mt-16  text-xl font-medium text-blue-500 ">Terms & Conditions</h2>
         <div className='pl-5'>
           
           <ul className='relative after:absolute mt-8 mb-5 after:h-2 after:w-2 after:top-[7px] after:left-[-20px] after:bg-blue-400 after:rounded-full'>

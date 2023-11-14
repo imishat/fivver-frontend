@@ -8,7 +8,7 @@ export function useCreteAccount() {
     return useMutation(async (payload) => {
       
       const { data, isLoading} = await axios("POST",USER_CREATE_ACCOUNT,payload);
-      return data,isLoading;
+      return data;
     });
   }
   // singin post function 

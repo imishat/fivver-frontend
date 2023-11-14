@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useCreateManyProject } from "../queries/mutation/manyProject.mutation";
 import { useSendMail } from "../queries/mutation/sendMail.mutate";
 import { useGetSubCategoryById } from "../queries/query/getSubcategory.query";
@@ -10,8 +11,9 @@ const Payment = () => {
 // router
 const router = useRouter()
 
+const {user} = useSelector(state => state.user)
+
 const {data:allProjects} = useGetProject({status:'',search:'',projectId:'',page:'',limit:''})
-console.log(allProjects)
   // project create loading
   const [projectLoading, setProjectLoading] = useState(false);
 // Create Project 
@@ -30,12 +32,13 @@ const {mutate:sendProjectData} = useCreateManyProject()
         sendProjectData( {"projects":projectData}, {
             onSuccess: (res) => {
             //   showToast(res.message, "success");
+            handleSendMail()
             handleSetProjectInLocal(res?.data)
               const savedProject = projectData?.length>1 ? res?.data?.projects:res?.data?.projects
               if(savedProject || savedProject?.length){
                 typeof window !== "undefined" && window.localStorage.setItem('savedProjects',JSON.stringify(savedProject))
                 router.push('/project/requirement/')
-                handleSendMail()
+                
               }
               // loading stop
               setProjectLoading(false);
@@ -49,9 +52,33 @@ const {mutate:sendProjectData} = useCreateManyProject()
           });
         
     }
-
-    // project number
-    const projectNumber = ''
+ // project number 
+ function projectNumberFun(input) {
+    const mapping = {
+      1: 'A',
+      2: 2,
+      3: 'C',
+      4: 4,
+      5: 'E',
+      6: 6,
+      7: 'G',
+      8: 8,
+      9: 'i',
+      0: 'Z',
+    };
+  
+    const result = [];
+  
+    for (let i = 0; i < input?.length; i++) {
+      const digit = input[i];
+      if (mapping[digit] !== undefined) {
+        result.push(mapping[digit]);
+      }
+    }
+  
+    return result.join('');
+  }
+const projectNumber =  projectNumberFun(parseInt(projectData[0]?.projectNumber?.toString()))
 
     // get sub category data by id
     const {data:subData} = useGetSubCategoryById({subcategoryId:projectData[0]?.subcategoryId})
@@ -61,11 +88,12 @@ const {mutate:sendProjectData} = useCreateManyProject()
         const {mutate:sendMail} = useSendMail({style:true})
 
         const handleSendMail = () =>{
-        //   if(user?.role!=='ADMIN'){
+            console.log('email send')
+          if(user?.role!=='ADMIN'){
           const emailData = {
             "sendToEmail": process.env.NEXT_PUBLIC_ADMIN_EMAIL,
           "subject": `You've receive a project from ${user?.fullName}`,
-          "message": `<html lang='en'><head><style>@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&display=swap');.font{font-family: 'Inter', sans-serif;}</style></head> <body class='font' style='display: flex; color: #000; justify-content: center;margin-top: 20px;margin-bottom: 20px; background-color: #ddedfc;'><div style='justify-content: center; width: 70%; margin: 0 auto; height: fit-content; padding: 24px 48px; background-color: white; text-align: center;'><div><div><img src='https://res.cloudinary.com/dl1cxduy0/image/upload/w_450,h_200,c_scale/v1698946120/MR_Logo_Final_4_Black_lc11jd.png' alt='' /></div><div><h2>You've receive a project from ${user?.fullName}</h2></div><div><hr style='border-bottom: 1px solid #000; width: 35%' /></div><div style='text-align: left'><p>Project:${projectNumber}</p></div><br /><table border='1' style='border-collapse:collapse;width:100%'><tr><th width='230'>Item</th><th>QTY</th><th>DUR</th><th>Price</th></tr><tr><td style='padding:8px'>${projectData[0]?.title} <br/><small>${subCategoryInfo?.name}</small></td><td align='center'>${projectData[0]?.quantity}</td><td align='center'>${projectData[0]?.isExtraFastDeliveryEnabled?1:2} days</td><td align='center'>$${subCategoryInfo?.price*projectData[0]?.quantity}</td></tr><tr><td style='padding:8px; border:none'><p style='padding:0;margin:0'><svg stroke="currentColor" fill="#1a8ce2" stroke-width="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm-1.999 14.413-3.713-3.705L7.7 11.292l2.299 2.295 5.294-5.294 1.414 1.414-6.706 6.706z"></path></svg> Unlimited revision</p><p style='padding:0;margin:0'><svg stroke="currentColor" fill="#1a8ce2" stroke-width="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm-1.999 14.413-3.713-3.705L7.7 11.292l2.299 2.295 5.294-5.294 1.414 1.414-6.706 6.706z"></path></svg> PSD Source File</p><p style='padding:0;margin:0'><svg stroke="currentColor" fill="#1a8ce2" stroke-width="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm-1.999 14.413-3.713-3.705L7.7 11.292l2.299 2.295 5.294-5.294 1.414 1.414-6.706 6.706z"></path></svg> Print ready PDF or JPEG</p></td></tr><tr style='border:1px solid'><td style='border:0;padding:8px'>Extra-fast 1 day delivery</td><td></td><td style='border:0;padding:8px'></td><td align='center' style='border:0;padding:8px;'>$${projectData[0]?.isExtraFastDeliveryEnabled ? 10:0}</td></tr><tr style='border:1px solid'><th style='border:0;padding:0px'>Total</td><td></td><td style='border:0;padding:0px'></th><th align='center' style='border:0;padding:8px;'>$${projectData[0]?.totalCost}</th></tr></table><div style='margin: 0px 0 33px 0'><a href='${process.env.NEXT_PUBLIC_URL}/message/project/${projectData[0]?.projectId}' target='_blank'><button style='background-color: #1a8ce2; padding: 15px 30px; border: none; color: white; margin-top:22px; font-size: 16px; border-radius: 5px; font-weight: 700;'>View and Reply</button></a></div><div><a target='_blank' href='#'><img style='width: 30px; margin:4px;' src='https://res.cloudinary.com/dl1cxduy0/image/upload/v1698981561/f_logo_g0pwgu.png' alt=''/></a><a target='_blank' href='#'><img style='width: 30px; margin:4px;' src='https://res.cloudinary.com/dl1cxduy0/image/upload/v1698981561/i_logo_gsutpp.png' alt=''/></a><a target='_blank' href='#'><img style='width: 30px; margin:4px;' src='https://res.cloudinary.com/dl1cxduy0/image/upload/v1698981562/t_logo_ktnb5y.png' alt=''/></a><a target='_blank' href='#'><img style='width: 30px; margin:4px;' src='https://res.cloudinary.com/dl1cxduy0/image/upload/v1698981562/p_logo_gyq0rn.png' alt=''/></a><a target='_blank' href='#'><img style='width: 30px; margin:4px;' src='https://res.cloudinary.com/dl1cxduy0/image/upload/v1698981562/in_logo_pvkie5.png' alt=''/></a></div></div></div></body></html>`
+          "message": `<html lang='en'><head><style>@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&display=swap');.font{font-family: 'Inter', sans-serif;}</style></head> <body class='font' style='display: flex; color: #000; justify-content: center;margin-top: 20px;margin-bottom: 20px; background-color: #ddedfc;'><div style='justify-content: center; width: 70%; margin: 0 auto; height: fit-content; padding: 24px 48px; background-color: white; text-align: center;'><div><div><img src='https://res.cloudinary.com/dl1cxduy0/image/upload/w_450,h_200,c_scale/v1698946120/MR_Logo_Final_4_Black_lc11jd.png' alt='' /></div><div><h2>You've receive a project from ${user?.fullName}</h2></div><div><hr style='border-bottom: 1px solid #000; width: 35%' /></div><div style='text-align: left'><p>Project: #MR${projectNumber}PN</p></div><table border='1' style='border-collapse:collapse;width:100%'><tr><th width='230'>Item</th><th>QTY</th><th>DUR</th><th>Price</th></tr><tr><td style='padding:8px;text-align:left'>${projectData[0]?.title} <br/><small>${subCategoryInfo?.name}</small></td><td align='center'>${projectData[0]?.quantity}</td><td align='center'>${projectData[0]?.isExtraFastDeliveryEnabled?1:2} days</td><td align='center'>$${subCategoryInfo?.price*projectData[0]?.quantity}</td></tr><tr><td style='padding:8px;text-align:left; border:none'><p style='margin:0;display:flex;align-items:center;gap:1;margin-right:5px'><img src='https://res.cloudinary.com/dcckbmhft/image/upload/v1699625247/6928921_ljlana.png' style='width:16px;height:16px;margin-right:6px' />Unlimited revision</p><p style='margin:0;display:flex;align-items:center;gap:1;margin-right:5px'><img src='https://res.cloudinary.com/dcckbmhft/image/upload/v1699625247/6928921_ljlana.png' style='width:16px;height:16px;margin-right:6px' /> PSD Source File</p><p style='margin:0;display:flex;align-items:center;gap:1;margin-right:5px'><img src='https://res.cloudinary.com/dcckbmhft/image/upload/v1699625247/6928921_ljlana.png' style='width:16px;height:16px;margin-right:6px' /> Print ready PDF or JPEG</p></td></tr><tr style='border:1px solid'><td style='border:0;padding:8px'>Extra-fast 1 day delivery</td><td></td><td style='border:0;padding:8px'></td><td align='center' style='border:0;padding:8px;'>$${projectData[0]?.isExtraFastDeliveryEnabled ? 10:0}</td></tr><tr style='border:1px solid'><th style='border:0;padding:0px'>Total</td><td></td><td style='border:0;padding:0px'></th><th align='center' style='border:0;padding:8px;'>$${projectData[0]?.totalCost}</th></tr></table><div style='margin: 0px 0 33px 0'><a href='${process.env.NEXT_PUBLIC_URL}/message/project/${projectData[0]?.projectId}' target='_blank'><button style='background-color: #1a8ce2; padding: 15px 30px; border: none; color: white; margin-top:22px; font-size: 16px; border-radius: 5px; font-weight: 700;'>View and Reply</button></a></div><div><a target='_blank' href='#'><img style='width: 30px; margin:4px;' src='https://res.cloudinary.com/dl1cxduy0/image/upload/v1698981561/f_logo_g0pwgu.png' alt=''/></a><a target='_blank' href='#'><img style='width: 30px; margin:4px;' src='https://res.cloudinary.com/dl1cxduy0/image/upload/v1698981561/i_logo_gsutpp.png' alt=''/></a><a target='_blank' href='#'><img style='width: 30px; margin:4px;' src='https://res.cloudinary.com/dl1cxduy0/image/upload/v1698981562/t_logo_ktnb5y.png' alt=''/></a><a target='_blank' href='#'><img style='width: 30px; margin:4px;' src='https://res.cloudinary.com/dl1cxduy0/image/upload/v1698981562/p_logo_gyq0rn.png' alt=''/></a><a target='_blank' href='#'><img style='width: 30px; margin:4px;' src='https://res.cloudinary.com/dl1cxduy0/image/upload/v1698981562/in_logo_pvkie5.png' alt=''/></a></div></div></div></body></html>`
           }
           sendMail(emailData,{
             onSuccess: (res) => {
@@ -77,7 +105,7 @@ const {mutate:sendProjectData} = useCreateManyProject()
               showToast(err?.message);
             },
           })
-        // }
+        }
         }
 
 
