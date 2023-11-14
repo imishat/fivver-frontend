@@ -32,6 +32,10 @@ function CategoryRelated({ currentItems }) {
                 disableOnInteraction: false,
               }}
               breakpoints={{
+                320:{
+                  slidesPerView:1,
+                  spaceBetween:15,
+                },
                 360: {
                   slidesPerView: 1,
                   spaceBetween:0,

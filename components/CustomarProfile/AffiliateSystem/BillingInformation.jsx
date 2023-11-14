@@ -229,6 +229,55 @@ function BillingInformation() {
                     id="location"
                   />
                 </label>
+                <label htmlFor="Facbook">
+                Facbook
+                  <input
+                    {...register2("  Facbook", { required: true })}
+                    defaultValue={user?.Facbook}
+                    type="text"
+                    placeholder=" Facbook"
+                    className="input w-full input-bordered"
+                    id="  Facbook"
+                  />
+                </label>
+                <label htmlFor="Twitter">
+                Twitter
+                  <input
+                    {...register2("Twitter", { required: true })}
+                    defaultValue={user?.Twitter}
+                    type="text"
+                    placeholder="Twitter"
+                    className="input w-full input-bordered"
+                    id="Twitter"
+                  />
+                </label>
+                <label htmlFor="
+Instagram">
+                
+Instagram
+                  <input
+                    {...register2("location", { required: true })}
+                    defaultValue={user?.
+                      Instagram}
+                    type="text"
+                    placeholder="
+                    Instagram"
+                    className="input w-full input-bordered"
+                    id="
+                    Instagram"
+                  />
+                </label>
+                <label htmlFor="LinkedIn">
+                LinkedIn
+                  <input
+                    {...register2("LinkedIn", { required: true })}
+                    defaultValue={user?.LinkedIn}
+                    type="text"
+                    placeholder="LinkedIn"
+                    className="input w-full input-bordered"
+                    id="LinkedIn"
+                  />
+                </label>
               </div>
             </div>
             <button className="btn btn-block bg-blue-400 text-white flex items-center mx-2 w-44">

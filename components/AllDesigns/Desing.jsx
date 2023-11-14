@@ -51,7 +51,7 @@ const Design =()=>{
     </div>
     <div className="border-b-2 border-blue-400 "/>
     {/* catagory */}
-    <div className="border-b-2 border-blue-500 ">
+    <div className=" ">
             <div className="my-6">
                 {/* Design card */}
                 <ul className='flex sm:px-8 gap-2 flex-wrap'>
@@ -69,7 +69,7 @@ const Design =()=>{
         </div>
         {/* all designs */}
         {  designs?.length ? 
-      <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 px-4 gap-4">
+      <div className="grid 2xl:grid-cols-6 2xl:gap-3 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 px-4 gap-4">
         { designs.map((data, i) => (
           <CompanyCard data={data} key={i} />
         ))
@@ -78,7 +78,7 @@ const Design =()=>{
       }
       </div>
       :
-        ''}
+        'NO DESING'}
       {/* pagination */}
       <div className="flex justify-center my-6">
       <Pagination onChange={(e)=>setCurrentPage(e)} className="flex cursor-pointer select-none gap-2 px-3 py-1 " total={count} defaultPageSize={1} />

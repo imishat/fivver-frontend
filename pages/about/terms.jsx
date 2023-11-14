@@ -18,7 +18,7 @@ const Terms = () => {
    
    
   return (
-    <Main title={"Privacy Policy"}>
+    <Main title={"Terms & Conditions"}>
     <div className='max-w-7xl mx-auto mt-5'>
       <div className='flex gap-x-32   relative after:absolute after:h-[1px] after:w-[520px] after:rounded-full after:bg-black/40 after:bottom-[-10px] after:left-0 after:contents-[``]'>
         <h2 onClick={handleTrams} className={`font-dm text-2xl cursor-pointer font-bold  ${trams ?"text-blue-400 border-b border-solid border-blue-600/25" : "text-[#111111]" }`}>Terms & Conditions</h2>

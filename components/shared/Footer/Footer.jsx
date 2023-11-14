@@ -118,7 +118,7 @@ console.log(user)
                 <div className="flex gap-4 items-center">
                     <Link href={'/auth/condition'}>Terms and Conditions</Link>
                     |
-                    <Link href={'#'}>Privacy Policy</Link>
+                    <Link href={'/privicy'}>Privacy Policy</Link>
                 </div>
             </div>
             </div>
