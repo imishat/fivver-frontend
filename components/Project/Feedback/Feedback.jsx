@@ -39,14 +39,20 @@ const Feedback = ({ singleProject }) => {
   const [star, setStar] = useState(null);
   const [review, setReview] = useState(0);
 
+  const [isSelected,setIsSelected] = useState(false)
+  console.log(isSelected)
+
+  const projectImage = isSelected ? project?.featuredImageId||project?.imageIds?.[0]:''
+
   // create review
   const handleCreateReview = (data) => {
       const reviewData = {
-          projectId: project?.projectId,
-      userId: user.userId,
+      userId: user?.role === 'ADMIN' ? project?.startedBy :user?.userId,
+      projectUserId: project?.startedBy,
       reviewer:{name:user?.fullName,profilePicture:user?.profilePicture,userName:user?.username},
       description: data?.message,
       stars: review,
+      projectImage:projectImage,
       addToReview:data.addHome
     };
     createReview({type:'POST',reviewData},{
@@ -155,12 +161,16 @@ const Feedback = ({ singleProject }) => {
                 htmlFor="item"
                 className="w-full h-32 inline-block relative bg-rose-100 mb-2"
               >
-                <input
-                  {...register("addHome")}
+                <input onChange={()=>setIsSelected(!isSelected)}
                   className="absolute checkbox rounded-none bg-white checkbox-info checkbox-sm right-1 bottom-1"
                   type="checkbox"
                   id="item"
                 />
+                 <img
+              src={`${process.env.NEXT_PUBLIC_API}/files/download/public/${project?.imageIds[0]}`}
+              className="bg-rose-100 w-full h-full"
+              alt=""
+            />
               </label>
             </div>
           </div>

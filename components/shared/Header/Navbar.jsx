@@ -1,3 +1,4 @@
+import MessageNotify from "@/components/Notification/MessageNotification";
 import Notification from "@/components/Notification/Notification";
 import { useAllDesigns } from "@/components/queries/query/designs.query";
 import dynamic from "next/dynamic";
@@ -122,12 +123,18 @@ const Navbar = () => {
               </Link>
             </li>
             <li>
-              <Link
-                className="py-2 hover:border-b hover:border-white border-b border-transparent duration-300 lg:px-3 inline-block"
+            <div className="dropdown">
+  <label tabIndex={0} className="py-2 hover:border-b hover:border-white border-b border-transparent duration-300 lg:px-3 inline-block">Messages</label>
+  <ul tabIndex={0} className="dropdown-content dropdown-left dropdown-bottom -left-56 text-black rounded-none border z-[1] bg-base-100 menu p-2 shadow w-96">
+  <MessageNotify />
+  </ul>
+</div>
+              {/* <Link
+                className=""
                 href={"/message"}
               >
                 Messages
-              </Link>
+              </Link> */}
             </li>
             <div className="dropdown">
   <label tabIndex={0} className="py-2 hover:border-b border-b border-transparent duration-300 lg:px-3 inline-block">

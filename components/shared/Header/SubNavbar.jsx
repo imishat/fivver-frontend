@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { RiArrowDownSLine } from "react-icons/ri";
 import { useSelector } from "react-redux";
 
 const SubNavbar = () => {
@@ -22,10 +23,12 @@ const {user} = useSelector(state => state.user)
        
         
         <li>
-          <Link className="sm:py-2 py-1 hover:border-b hover:border-white border-b border-transparent duration-300 px-5 w-full inline-block" href={'/all-designs'}>Design</Link>
+          <Link className="sm:py-2 flex items-center py-1 hover:border-b hover:border-white border-b border-transparent duration-300 px-5 w-full gap-2" href={'/all-designs'}>Design <span><RiArrowDownSLine />
+</span></Link>
         </li>
         <li>
-          <Link className="sm:py-2 py-1 hover:border-b hover:border-white border-b border-transparent duration-300 px-5 w-full inline-block" href={'/all-designs'}>Companies</Link>
+          <Link className="sm:py-2 flex items-center py-1 hover:border-b hover:border-white border-b border-transparent duration-300 px-5 w-full gap-2" href={'/all-designs'}>Companies <span><RiArrowDownSLine />
+</span></Link>
         </li>
         <li>
           <Link className="sm:py-2 py-1 hover:border-b hover:border-white border-b border-transparent duration-300 px-5 w-full inline-block" href={'/price-list'}>Price List</Link>

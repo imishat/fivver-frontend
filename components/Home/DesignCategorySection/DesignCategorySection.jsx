@@ -23,7 +23,7 @@ export default function DesignCategorySection() {
     }
   }, [limit,categories]);
   return (
-    <div className="relative pl-8">
+    <div className="relative">
       <div className="categories relative space-y-3 ">
         {categories?.length ? (
           categories.map((category, i) => (

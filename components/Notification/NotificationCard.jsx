@@ -132,7 +132,7 @@ function NotificationCard({notification}) {
 
 
         {/* message */}
-        { ( notification?.model === 'message' && user?.role !=='ADMIN') && <Link href={`${notification?.projectId ? '/message/project/':'/message/' }${notification?.projectId||notification?.userId}`} className={`${user?.userId===notification?.userId || 'hidden' } flex px-5 items-center hover:shadow border-b border-gray-400 rounded-lg py-1 cursor-pointer ${notification?.isRead ? '':'bg-base-200'}`}>
+        { ( notification?.model === 'message' && notification?.type === 'project' && user?.role !=='ADMIN') && <Link href={`${notification?.projectId ? '/message/project/':'/message/' }${notification?.projectId||notification?.userId}`} className={`${user?.userId===notification?.userId || 'hidden' } flex px-5 items-center hover:shadow border-b border-gray-400 rounded-lg py-1 cursor-pointer ${notification?.isRead ? '':'bg-base-200'}`}>
             <div className="relative flex flex-shrink-0 items-end">
                 <Image height={66} width={66} className="h-12 w-12 border-2 border-blue-400 object-cover rounded-full" src={`${process.env.NEXT_PUBLIC_DOWNLOAD}/${notification?.image?.fileId}`}/>
                 </div>
@@ -146,7 +146,7 @@ function NotificationCard({notification}) {
         }
 
          {/* message admin */}
-         { ( notification?.model === 'message' && user?.role ==='ADMIN' && notification?.isForAdmin) && <Link href={`${notification?.projectId ? '/message/project/':'/message/' }${notification?.projectId||notification?.userId}`} className={`${user?.userId!==notification?.userId || 'hidden' } flex px-5 items-center hover:shadow border-b border-gray-400 rounded-lg py-1 cursor-pointer ${notification?.isRead ? '':'bg-base-200'}`}>
+         { ( notification?.model === 'message' && notification?.type === 'project' && user?.role ==='ADMIN' && notification?.isForAdmin) && <Link href={`${notification?.projectId ? '/message/project/':'/message/' }${notification?.projectId||notification?.userId}`} className={`${user?.userId!==notification?.userId || 'hidden' } flex px-5 items-center hover:shadow border-b border-gray-400 rounded-lg py-1 cursor-pointer ${notification?.isRead ? '':'bg-base-200'}`}>
             <div className="relative flex flex-shrink-0 items-end">
                 <Image height={66} width={66} className="h-12 w-12 border-2 border-blue-400 object-cover rounded-full" src={`${process.env.NEXT_PUBLIC_DOWNLOAD}/${notification?.image?.fileId}`}/>
             </div>
