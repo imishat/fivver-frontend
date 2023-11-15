@@ -24,7 +24,7 @@ const About = () => {
   ];
   return (
     <Main title={"About"}>
-      <div className="mx-20">
+      <div className="px-3 sm:px-8">
         <div className="px-5 mt-12 py-6">
           <h2 className="text-3xl font-bold text-blue-400">About</h2>
         </div>

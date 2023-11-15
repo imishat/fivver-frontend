@@ -558,64 +558,69 @@ const Activity = () => {
                           : ""}
                       </div>
                     </div>
+                    {
+                      project?.track >= 5 ? <p className='p-3'>Project completed</p>
+                      :
+
                     <form onSubmit={handleSubmit(handleSendMessage)}>
-                      <div className="w-full">
-                        <textarea
-                          {...register("messageData", { required: true })}
-                          value={value}
-                          id="sendbox"
-                          onChange={(e) => setValue(e.target.value)}
-                          className="w-full focus-within:border focus-within:outline-none textarea textarea-bordered rounded-none"
-                        ></textarea>
+                    <div className="w-full">
+                      <textarea
+                        {...register("messageData", { required: true })}
+                        value={value}
+                        id="sendbox"
+                        onChange={(e) => setValue(e.target.value)}
+                        className="w-full focus-within:border focus-within:outline-none textarea textarea-bordered rounded-none"
+                      ></textarea>
+                    </div>
+                    <div className="flex items-center relative">
+                      {/* Like */}
+                      <div  className="w-14 relative text-xl cursor-pointer right-0 flex justify-center">
+                        {
+                          showEmoji ? <span className='w-full h-full fixed left-0 top-0 ' onClick={()=>setShowEmoji(!showEmoji)}></span>:''
+                        }
+                        <span onClick={()=>setShowEmoji(!showEmoji)}>👍</span>
+                        {
+                          showEmoji ? <div className='absolute left-0 -top-96'><EmojiPicker onEmojiClick={handleEmojiSelect} /></div>:''
+                        }
                       </div>
-                      <div className="flex items-center relative">
-                        {/* Like */}
-                        <div  className="w-14 relative text-xl cursor-pointer right-0 flex justify-center">
-                          {
-                            showEmoji ? <span className='w-full h-full fixed left-0 top-0 ' onClick={()=>setShowEmoji(!showEmoji)}></span>:''
-                          }
-                          <span onClick={()=>setShowEmoji(!showEmoji)}>👍</span>
-                          {
-                            showEmoji ? <div className='absolute left-0 -top-96'><EmojiPicker onEmojiClick={handleEmojiSelect} /></div>:''
-                          }
-                        </div>
+                      <span
+                        // onClick={() => handleSendLike()}
+                      
+                      >
+                     
+                      </span>
+                      <span className="pr-5 pl-3">|</span>
+                      <div className="flex w-full gap-6 items-center">
+                        {/* Files */}
+                        <label className="cursor-pointer">
+                          <MdAttachment size={24} />
+                          <input
+                            type="file"
+                            className="hidden"
+                            multiple
+                            onChange={(e) => setImages(e)}
+                          />
+                        </label>
+                        {/* Offer */}
                         <span
-                          // onClick={() => handleSendLike()}
-                        
+                          className="cursor-pointer"
+                          onClick={() =>
+                            document
+                              .getElementById("custom_offer")
+                              .showModal()
+                          }
                         >
-                       
+                          {" "}
+                          Create an offer
                         </span>
-                        <span className="pr-5 pl-3">|</span>
-                        <div className="flex w-full gap-6 items-center">
-                          {/* Files */}
-                          <label className="cursor-pointer">
-                            <MdAttachment size={24} />
-                            <input
-                              type="file"
-                              className="hidden"
-                              multiple
-                              onChange={(e) => setImages(e)}
-                            />
-                          </label>
-                          {/* Offer */}
-                          <span
-                            className="cursor-pointer"
-                            onClick={() =>
-                              document
-                                .getElementById("custom_offer")
-                                .showModal()
-                            }
-                          >
-                            {" "}
-                            Create an offer
-                          </span>
-                        </div>
-                        {/* send */}
-                        <button className="w-20 px-4 font-bold text-blue-400">
-                          Send
-                        </button>
                       </div>
-                    </form>
+                      {/* send */}
+                      <button className="w-20 px-4 font-bold text-blue-400">
+                        Send
+                      </button>
+                    </div>
+                  </form>
+                    }
                   </div>
                 </div>
               </div>
