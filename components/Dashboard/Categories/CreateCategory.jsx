@@ -94,6 +94,22 @@ function CreateCategory() {
         <div className="w-full">
           <label
             className="bg-blue-200 capitalize text-blue-600 inline-block py-2 px-3 font-bold w-full"
+            htmlFor="label"
+          >
+           Extra-fast 1-day delivery
+          </label>
+          <br />
+          <input
+            {...register("Extra-fast", { required: true })}
+            placeholder="Amount"
+            className="input input-bordered rounded-none input-sm w-full inline-block"
+            type="Number"
+            id="label"
+          />
+        </div>
+        <div className="w-full">
+          <label
+            className="bg-blue-200 capitalize text-blue-600 inline-block py-2 px-3 font-bold w-full"
             htmlFor="value"
           >
             image
