@@ -3,14 +3,14 @@ import Main from "@/Layout/Main";
 const Privicy =()=>{
 
     return(
-        <Main title={"privicy"}>
-        <div className='max-w-7xl mx-auto mt-5 px-2 sm:px-8'>
-        <div>
+        <Main title={"Privacy"}>
+        <div className='mt-5 px-5 md:px-16'>
+       
             <h2  className={`font-dm text-3xl cursor-pointer font-semibold  text-blue-500  border-solid border-blue-600/25`}>Privacy Policy</h2>
-            <p className='font-dm text-[#444444] md:w-8/12 font-normal text-base mt-4'>Thank you for joining the 'mahfujurrahman535 family We are dedicated to safeguarding your personal data and ensuring your privacy. If you have any questions or inquiries regarding our privacy policy, please feel free to contact us at https://mahfujurrahm535.com/contact.</p>
+            <p className='font-dm text-[#444444] md:w-7/12 text-justify font-normal text-base mt-4 '>Thank you for joining the 'mahfujurrahman535 family We are dedicated to safeguarding your personal data and ensuring your privacy. If you have any questions or inquiries regarding our privacy policy, please feel free to contact us at https://mahfujurrahm535.com/contact.</p>
             <p className='font-dm text-[#444444] md:w-7/12 font-normal text-base mt-4'>Our belief is that when you use our website or server, you trust us completely with your information and privacy. We place the highest importance on both your personal information and your privacy. Through this policy, we want to make it clear how we collect information, how we use that information, and what rights you have in these matters.</p>
             <p className='font-dm text-[#444444] md:w-7/12 font-normal text-base mt-4'>We hope that you will carefully read this policy because it is crucial for you. If there is any issue or concern with which you disagree or feel uncomfortable, please contact us immediately. We will also request you to carefully read the following policy, as it will provide you with a clear understanding of our practices.</p> 
-        </div>
+        
     
       <h2 className="font-dm mt-16  text-xl font-medium text-blue-500 ">What Information Do We Collect:</h2>
         <div className='border-l-[2px] border-solid border-blue-500 pl-6'>
