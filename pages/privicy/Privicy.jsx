@@ -4,7 +4,7 @@ const Privicy =()=>{
 
     return(
         <Main title={"privicy"}>
-        <div className='max-w-7xl mx-auto mt-5 px-2 xl:px-0'>
+        <div className='max-w-7xl mx-auto mt-5 px-2 sm:px-8'>
         <div>
             <h2  className={`font-dm text-3xl cursor-pointer font-semibold  text-blue-500  border-solid border-blue-600/25`}>Privacy Policy</h2>
             <p className='font-dm text-[#444444] md:w-8/12 font-normal text-base mt-4'>Thank you for joining the 'mahfujurrahman535 family We are dedicated to safeguarding your personal data and ensuring your privacy. If you have any questions or inquiries regarding our privacy policy, please feel free to contact us at https://mahfujurrahm535.com/contact.</p>
