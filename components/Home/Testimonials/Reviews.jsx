@@ -10,34 +10,12 @@ import 'swiper/css/navigation';
 import './styles.module.css';
 
 // import required modules
-import { useEffect, useState } from "react";
+import moment from 'moment';
 import { BsStarFill } from 'react-icons/bs';
 import { Navigation } from 'swiper/modules';
 
 export default function Reviews({filteredReviews}) {
-    console.log(filteredReviews?.createdAt)
-    const [time, setTime] = useState('');
-
-    useEffect(() => {
-      // Original creation time
-      const createTime = new Date(filteredReviews?.createdAt);
-      
-      
-      const currentTime = new Date();
-    
-     
-      const timeDifference = currentTime - createTime;
-    
-    
-      const hoursAgo = Math.floor(timeDifference / (1000 * 60 * 60));
-    
-      if (hoursAgo >= 24) {
-        const daysAgo = Math.floor(hoursAgo / 24);
-        setTime(daysAgo + " day" + (daysAgo > 1 ? "s" : "") + " ago");
-      } else {
-        setTime(hoursAgo + " hour" + (hoursAgo > 1 ? "s" : "") + " ago");
-      }
-    }, []);
+  
     
     return (
         <>
@@ -77,7 +55,7 @@ export default function Reviews({filteredReviews}) {
                       </div>
                     </div>
                     <div>
-                      <p className='text-sm'>{time}</p>
+                      <p className='text-sm'>{moment(review?.createdAt).fromNow()}</p>
                     </div>
                   </div>
                 </div>

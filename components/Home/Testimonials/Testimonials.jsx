@@ -28,21 +28,26 @@ const Testimonials = () => {
       setAverageStars(0);
     }
   }, [reviews]);
+  console.log(reviews,'reviews')
   useEffect(() => {
     let filtered = reviews;
 
     if (selectedStars !== null) {
-      filtered = reviews?.filter((review) => review.stars === selectedStars);
+      filtered = reviews?.filter((review) => review?.stars === selectedStars);
+    }
+    if(short==='relevant'){
+      filtered = reviews?.filter((review) => review?.description?.length >= 150);
     }
 
     setFilteredReviews(filtered);
-  }, [selectedStars]);
+  }, [selectedStars,short]);
 
   const handleStarFilter = (stars) => {
     setSelectedStars(stars);
   };
+  console.log(selectedStars)
 
-  const allReview = filteredReviews?.length ? reviews:filteredReviews
+  const allReview = filteredReviews?.length || selectedStars ? filteredReviews:reviews
 
   
   return (
@@ -72,7 +77,9 @@ const Testimonials = () => {
         </div>
         {/*  Stars */}
         <div className="grid grid-cols-5 md:gap-4 sm:gap-1">
-          <div  onClick={() => handleStarFilter(5)}className="text-center border font-bold space-y-2 bg-white md:py-4 p-1 rounded-md">
+          <div  onClick={() =>{
+            setShort('')
+             handleStarFilter(5)}}className="text-center border font-bold space-y-2 bg-white md:py-4 p-1 rounded-md">
             <h2  className="md:text-xl text-sm sm:text-base font-bold">5 Stars</h2>
             <div className="flex md:gap-2 items-center justify-center text-xl">
               <BsStarFill color="#1781CB" />
@@ -83,7 +90,9 @@ const Testimonials = () => {
             </div>
             <p className="text-xs sm:text-sm">{filteredReviews?.length}</p>
           </div>
-          <div onClick={() => handleStarFilter(4)} className="text-center border font-bold space-y-2 bg-white md:py-4 p-1 rounded-md">
+          <div onClick={() => {
+            setShort('')
+            handleStarFilter(4)}} className="text-center border font-bold space-y-2 bg-white md:py-4 p-1 rounded-md">
             <h2  className="md:text-xl text-sm sm:text-base font-bold">4 Stars</h2>
             <div className="flex md:gap-2 items-center justify-center text-xl">
               <BsStarFill color="#1781CB" />
@@ -94,7 +103,9 @@ const Testimonials = () => {
             </div>
             <p className="sm:text-sm text-xs">{filteredReviews?.length}</p>
           </div>
-          <div onClick={() => handleStarFilter(3)} className="text-center border font-bold space-y-2 bg-white md:py-4 p-1 rounded-md">
+          <div onClick={() => {
+            setShort('')
+            handleStarFilter(3)}} className="text-center border font-bold space-y-2 bg-white md:py-4 p-1 rounded-md">
             <h2  className="md:text-xl text-sm sm:text-base font-bold">3 Stars</h2>
             <div className="flex md:gap-2 items-center justify-center text-xl">
               <BsStarFill color="#1781CB" />
@@ -104,7 +115,9 @@ const Testimonials = () => {
             </div>
             <p className="sm:text-sm text-xs">{filteredReviews?.length}</p>
           </div>
-          <div  onClick={() => handleStarFilter(2)}className="text-center border font-bold space-y-2 bg-white md:py-4 p-1 rounded-md">
+          <div  onClick={() => {
+            setShort('')
+            handleStarFilter(2)}}className="text-center border font-bold space-y-2 bg-white md:py-4 p-1 rounded-md">
             <h2  className="md:text-xl text-sm sm:text-base font-bold">2 Stars</h2>
             <div className="flex md:gap-2 items-center justify-center text-xl">
               <BsStarFill color="#1781CB" />
@@ -113,7 +126,9 @@ const Testimonials = () => {
             </div>
             <p className="sm:text-sm text-xs">{filteredReviews?.length}</p>
           </div>
-          <div onClick={() => handleStarFilter(1)} className="text-center border font-bold space-y-2 bg-white md:py-4 p-1 rounded-md">
+          <div onClick={() => {
+            setShort('')
+            handleStarFilter(1)}} className="text-center border font-bold space-y-2 bg-white md:py-4 p-1 rounded-md">
             <h2  className="md:text-xl text-sm sm:text-base font-bold">1 Stars</h2>
             <div className="flex md:gap-2 items-center justify-center text-xl">
               <BsStarFill color="#1781CB" />
@@ -129,7 +144,7 @@ const Testimonials = () => {
               <p className="font-bold md:w-44 px-1 w-20">Sort By</p>
              <div className="flex items-center md:justify-between w-full px-6">
              <button onClick={() => {
-              handleStarFilter(null)
+              // handleStarFilter(null)
               setShort('relevant')
              }} className={`${short==='relevant' ? 'border bg-[#FFEFEF] border-[#8B8588]  rounded-md':''}  px-4 py-1`}>
                 Most Relevant
@@ -142,9 +157,10 @@ const Testimonials = () => {
                 handleStarFilter(null)
                 setShort('image')
               }} className={`${short==='image' ? 'border bg-[#FFEFEF] border-[#8B8588]  rounded-md':''}  px-4 py-1`}>
-                Delevey Images <span>(23)</span>
+                Delivery Images <span>(23)</span>
               </button>
              </div>
+             
             </div>
             {/* User reviews */}
             <div>

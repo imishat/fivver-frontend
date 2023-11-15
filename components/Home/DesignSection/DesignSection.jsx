@@ -16,12 +16,12 @@ const DesignSection = () => {
         <DesignTags />
       </div>
       {/* Design Category section */}
-      <div className="md:flex gap-4">
+      <div className="md:flex gap-4 px-8">
         <div className="md:w-9/12 w-full">
           <DesignCategorySection />
         </div>
-            {/* User analytis */}
-        <div className="md:w-2/12 w-full space-y-4 ">
+            {/* User analytics */}
+        <div className="md:w-3/12 w-full space-y-4 ">
           <UserAnalytics />
           <StockImageSites />
         </div>

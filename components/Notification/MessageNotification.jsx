@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useGetNotifications } from "../queries/query/notifications.query";
-import NotificationCard from "./NotificationCard";
+import MessageNotifyCard from "./MessageNotifyCard";
 
-function Notification() {
+function MessageNotification() {
     // user 
     const {user} = useSelector((state)=>state.user)
     const [page,setPage] = useState(1)
@@ -21,10 +21,10 @@ function Notification() {
 <div className=" h-auto relative w-full">
     <div className="bg-white py-3.5 max-w-sm mx-auto ease-linear w-full">
         <div className="w-full flex items-center justify-between">
-            <span className="font-medium text-sm text-slate-400 w-full">Notification</span>
+            <span className="font-medium text-sm text-slate-400 w-full">Messages</span>
         </div>
         {
-           notifications?.map((notification,i)=><NotificationCard key={i} notification={notification} />)
+           notifications?.map((notification,i)=><MessageNotifyCard key={i} notification={notification} />)
         }
       
     </div>
@@ -34,4 +34,4 @@ function Notification() {
     );
 }
 
-export default Notification;
+export default MessageNotification;
