@@ -2,6 +2,7 @@ import { useAllStatistics } from "@/components/queries/query/getAllStatistics.qu
 import { useThisMonthStatistics } from "@/components/queries/query/getStatistics.query";
 import { useGetProject } from "@/components/queries/query/project.query";
 import { useGetVisitors } from "@/components/queries/query/visitors.query";
+import { Spin } from "@/components/utility/LoadingSpinner";
 import dynamic from "next/dynamic";
 import Pagination from "rc-pagination";
 import { useState } from "react";
@@ -55,10 +56,23 @@ function Projects() {
     projectId:'',
     page:'',limit:''
   });
+
   const { data: statusDelivered } = useGetProject({
     search: search,
     projectId:'',
+    status: "Delivered",
+    page:'',limit:''
+  });
+  const { data: statusCOMPLETED } = useGetProject({
+    search: search,
+    projectId:'',
     status: "COMPLETED",
+    page:'',limit:''
+  });
+  const { data: statusCancelled } = useGetProject({
+    search: search,
+    projectId:'',
+    status: "Cancelled",
     page:'',limit:''
   });
 
@@ -138,15 +152,23 @@ function Projects() {
                 status==='pending' && `Waiting - (${statusWaiting?.data?.totalCount}) ($
                   ${pendingPrice})`              }
               {
-                status==='revision' && `In Revision - (${statusRevision?.data?.totalCount}) ($
+                status==='revision' && ` Revision - (${statusRevision?.data?.totalCount}) ($
                   ${revisionPrice})`
               }
               {
-                status==='progress' && `In progress - (${statusProcess?.data?.totalCount}) ($
+                status==='progress' && `Ongoing - (${statusProcess?.data?.totalCount}) ($
                   ${progressPrice})`
               }
               {
-                status==='COMPLETED' && `Delivered - (${statusDelivered?.data?.totalCount}) ($
+                status==='COMPLETED' && `COMPLETED - (${statusCOMPLETED ?.data?.totalCount}) ($
+                  ${deliveredPrice})`
+              }
+              {
+                status==='Delivered ' && `Delivered - (${statusDelivered?.data?.totalCount}) ($
+                  ${deliveredPrice})`
+              }
+              {
+                status==='Cancelled' && `Cancelled - (${statusCancelled?.data?.totalCount}) ($
                   ${deliveredPrice})`
               }
               
@@ -162,23 +184,32 @@ function Projects() {
                 Active Projects ({statusActive?.data?.totalCount})
               </option>
               <option value="revision" key="revision">
-                In Revision ({statusRevision?.data?.totalCount})
+                Revision ({statusRevision?.data?.totalCount})
               </option>
               <option value="progress" key="progress">
-                In Progress ({statusProcess?.data?.totalCount})
+Ongoing
+ ({statusProcess?.data?.totalCount})
               </option>
               <option value="pending" key="pending">
                 Waiting ({statusWaiting?.data?.totalCount})
               </option>
-              <option value="COMPLETED" key="delivered">
+              <option value="Delivered " key="delivered">
                 Delivered ({statusDelivered?.data?.totalCount})
+              </option>
+              <option value="COMPLETED" key="COMPLETED">
+              Completed
+ ({statusCOMPLETED?.data?.totalCount})
+              </option>
+              <option value="Cancelled" key="Cancelled">
+              Canceled
+ ({statusCancelled?.data?.totalCount})
               </option>
             </select>
           </div>
           {/* Client card */}
           <div className="py-3 space-y-3">
             {isLoading ? <div className="flex justify-center items-center h-96">
-              Loading..
+              <Spin/>
             </div>
             :
             projects?.length
