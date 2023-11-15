@@ -18,7 +18,7 @@ const ClientCard = ({project}) => {
     || 
     project?.status==='Delivered' && 'text-[#9dcccd]'
     || 
-    project?.status==='COMPLETED' && 'text-[#14591a]'
+    project?.status==='COMPLETED' && 'text-[#2995e2]'
     ||
     project?.status==='Active' && 'text-[#DA560A]'
     return (
