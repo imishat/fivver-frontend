@@ -179,10 +179,10 @@ console.log(user)
                 </ul>
             </div>
             {/* Message send form */}
-            <div className={` ${user?.email ? 'md:w-8/12':''} `}>
+            <div className={` ${user?.email ? 'md:w-4/12':''} `}>
                 {
                     user?.email ? 
-                    <div className=" flex flex-col-reverse flex-col right-10 bottom-12 md:relative h-fit rounded-md  justify-end mr-12">
+                    <div className=" flex flex-col-reverse flex-col right-0 bottom-12 md:relative h-fit rounded-md  justify-end mr-12">
                     <form onSubmit={handleSubmit(handleSendMessage)} className="w-[450px] relative rounded-md bg-rose-100 text-black p-6">
                         <div className="space-y-3">
                             <label htmlFor="name"></label>
