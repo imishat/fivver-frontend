@@ -29,6 +29,7 @@ console.log(user)
                 "website": data?.website,
                 "favoriteDesign": data?.design,
                 "projectId": "",
+                "isRead":false,
                 "receiverId":'sa0',
                 sender:{senderId:user?.userId,name:user?.fullName,profilePicture:user?.profilePicture},
                 "content": data?.message
