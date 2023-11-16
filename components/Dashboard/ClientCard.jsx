@@ -35,7 +35,7 @@ const ClientCard = ({project}) => {
               </div>
               <div className="flex py-3 sm:py-0 items-center gap-2">
                   <Image  height={50} width={50} className="object-cover w-8 h-8 rounded-full" src={`${process.env.NEXT_PUBLIC_API}/files/download/public/${user?.profilePicture}`}  alt="" />
-                  <p className="font-bold">{user?.fullName}</p>
+                  <Link href={`/user/${user?.userId}`} className="font-bold">{user?.fullName}</Link>
               </div>
           </div>
           <div className=" sm:w-6/12">

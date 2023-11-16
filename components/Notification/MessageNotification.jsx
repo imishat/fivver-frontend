@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useGetNotifications } from "../queries/query/notifications.query";
@@ -27,7 +28,7 @@ function MessageNotification() {
            notifications?.map((notification,i)=><MessageNotifyCard key={i} notification={notification} />)
         }
       <div>
-        <button className="px-4 py-2 w-full border">See All Messages</button>
+        <Link href={`/message`} className="px-4 flex justify-center py-2 w-full border">See All Messages</Link>
       </div>
     </div>
 </div>

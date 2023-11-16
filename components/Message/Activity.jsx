@@ -14,6 +14,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 
+import Link from 'next/link';
 import { useUploadFile } from "../queries/mutation/fileUpload.mutation";
 import { useCreateNotifications } from '../queries/mutation/notifications.mutation';
 import { useSendMail } from '../queries/mutation/sendMail.mutate';
@@ -709,7 +710,7 @@ const Activity = () => {
               <ul className="space-y-3">
                 <li className="flex items-center justify-between">
                   <p>Project by</p>
-                  <strong>{userInfo?.fullName}</strong>
+                  <Link className='font-bold' href={`/user/${userInfo?.userId}`}>{userInfo?.fullName}</Link>
                 </li>
                 <li className="flex items-center justify-between">
                   <p>Quantity</p>

@@ -1,5 +1,6 @@
 import moment from "moment";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { FaPencilAlt } from "react-icons/fa";
@@ -108,9 +109,9 @@ const CustomarProfile = () => {
                 </h1>
               )}
             </div>
-            <h2 className="text-xl font-bold py-4 truncate">
+            <Link href={`/user/${dbUser?.userId}`} className="text-xl font-bold py-4 truncate">
               {dbUser?.fullName}
-            </h2>
+            </Link>
           </div>
           {/* User status */}
           <div className="mb-8 border-b pb-8">
