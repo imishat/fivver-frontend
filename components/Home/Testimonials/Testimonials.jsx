@@ -61,7 +61,7 @@ const Testimonials = () => {
       <div className="h-full bg-[#E7F4FC] rounded-md md:px-4">
         {/* Rating counts */}
         <div className="flex flex-col md:flex-row text-center md:justify-around pt-12 text-base md:text-xl py-5 ">
-          <h3 className="font-bold">{reviews?.length} reviews of this site</h3>
+          <h3 className="font-bold">{reviews?.length} reviews</h3>
           <div className="flex md:gap-2 items-center justify-center">
             <h4>Average :{parseInt (averageStars)} </h4>
             <div className="flex gap-1">
@@ -171,7 +171,7 @@ const Testimonials = () => {
        
       </div>
       <div className={`${router.asPath==='/'?'flex justify-start w-full':''}`}>
-      <h2 className="md:text-3xl text-lg text-center">100% Satisfaction Guaranteed</h2>
+      <h2 className="md:text-3xl text-lg text-center">If you have any questions or inquiries about our services,<br/> please feel free to contact us by filling out this form</h2>
         </div>
     </div>
   );

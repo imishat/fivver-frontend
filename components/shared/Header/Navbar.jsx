@@ -148,7 +148,7 @@ const Navbar = () => {
             <li>
               <Link
                 className="py-2 hover:border-b hover:border-white border-b border-transparent duration-300 lg:px-3 inline-block"
-                href={"#"}
+                href={"/contact"}
               >
                 Contact
               </Link>

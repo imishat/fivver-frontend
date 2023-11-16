@@ -66,10 +66,10 @@ console.log(user)
                 <div className="flex flex-col w-4/12 space-y-3">
                     <div className="text-center">
                        <div className="flex justify-center">
-                       <img src="/images/logo.png" className="w-20" alt="" />
+                       <img src="/images/MR Logo Final 4.png" className="w-4/5" alt="" />
                        </div>
-                        <h2 className="text-lg font-bold">mahfujurrahman535</h2>
-                        <p>Graphic Designer</p>
+                        {/* <h2 className="text-lg font-bold">mahfujurrahman535</h2>
+                        <p>Graphic Designer</p> */}
                     </div>
                     {/* Social icons */}
                     <div className="flex justify-center">
@@ -95,7 +95,7 @@ console.log(user)
                             <Link href={'/price-list'}>Price List</Link>
                         </li>
                         <li>
-                            <Link href={'#'}>Contact</Link>
+                            <Link href={'/contact'}>Contact</Link>
                         </li>
                         <li>
                             <Link href={'/about'}>About</Link>
@@ -138,10 +138,10 @@ console.log(user)
             <div className="flex flex-col md:w-6/12 space-y-3">
                 <div className="text-center">
                    <div className="flex justify-center">
-                   <img src="/images/logo.png" className="w-20" alt="" />
+                   <img src="/images/MR Logo Final 4.png" className="w-4/5" alt="" />
                    </div>
-                    <h2 className="text-lg font-bold">mahfujurrahman535</h2>
-                    <p>Graphic Designer</p>
+                    {/* <h2 className="text-lg font-bold">mahfujurrahman535</h2>
+                    <p>Graphic Designer</p> */}
                 </div>
                 {/* Social icons */}
                 <div className="flex justify-center">
@@ -149,7 +149,7 @@ console.log(user)
                 </div>
             </div>
             <div className={`${user?.email ? 'py-3 md:w-4/12 w-full text-center':'py-3 md:w-9/12 w-full text-center'}`}>
-                <ul className={`${user?.email ? 'flex flex-wrap sm:flex-col space-y-2 w-full justify-between':'flex md:grid md:flex-wrap grid-cols-2' }`}>
+                <ul className={`${user?.email ? 'grid grid-cols-2 md:grid-cols-4 w-full  space-y-2 w-full justify-between':'flex md:grid md:flex-wrap grid-cols-2' }`}>
                     <li>
                         <Link href={'/'}>Home</Link>
                     </li>
@@ -161,7 +161,7 @@ console.log(user)
                         <Link href={'/price-list'}>Price List</Link>
                     </li>
                     <li>
-                        <Link href={'#'}>Contact</Link>
+                        <Link href={'/contact'}>Contact</Link>
                     </li>
                     <li>
                         <Link href={'/about'}>About</Link>
@@ -192,7 +192,7 @@ console.log(user)
                             <label htmlFor="website"></label>
                             <input {...register('website',{required:'true'})} placeholder="Website / Facebook" className="input input-bordered rounded-none w-full" type="text" id="website" />
                             <label htmlFor="design"></label>
-                            <input {...register('design',{required:'true'})} placeholder="Favorite Design" className="input input-bordered rounded-none w-full" type="text" id="design" />
+                            <input {...register('design',{required:'true'})} placeholder="Example Design" className="input input-bordered rounded-none w-full" type="text" id="design" />
                             <label htmlFor="message"></label>
                             <textarea {...register('message',{required:'true'})}  placeholder="Message" id="message" className="textarea h-24 textarea-bordered w-full rounded-none"></textarea>
                            <div className="flex justify-center w-full">

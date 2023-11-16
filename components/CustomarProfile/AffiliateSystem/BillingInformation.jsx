@@ -267,6 +267,10 @@ Instagram
                     Instagram"
                   />
                 </label>
+               
+
+
+
                 <label htmlFor="LinkedIn">
                 LinkedIn
                   <input
@@ -278,8 +282,77 @@ Instagram
                     id="LinkedIn"
                   />
                 </label>
+                <label htmlFor="Pinterest">
+                Pinterest
+                  <input
+                    {...register2(" Pinterest", { required: true })}
+                    defaultValue={user?.LinkedIn}
+                    type="text"
+                    placeholder=" Pinterest"
+                    className="input w-full input-bordered"
+                    id=" Pinterest"
+                  />
+                </label>
+                <label htmlFor="Google">
+                Google
+                  <input
+                    {...register2(" Google", { required: true })}
+                    defaultValue={user?.LinkedIn}
+                    type="text"
+                    placeholder=" Google"
+                    className="input w-full input-bordered"
+                    id=" Google"
+                  />
+                </label>
+                <label htmlFor="Youtube">
+                Youtube
+                  <input
+                    {...register2(" Youtube", { required: true })}
+                    defaultValue={user?.LinkedIn}
+                    type="text"
+                    placeholder=" Youtube"
+                    className="input w-full input-bordered"
+                    id=" Youtube"
+                  />
+                </label>
+                <label htmlFor="Yelp">
+                Yelp
+                  <input
+                    {...register2(" Yelp", { required: true })}
+                    defaultValue={user?.LinkedIn}
+                    type="text"
+                    placeholder=" Yelp"
+                    className="input w-full input-bordered"
+                    id=" Yelp"
+                  />
+                </label>
+                <label htmlFor="Tiktok">
+                Tiktok
+                  <input
+                    {...register2(" Tiktok", { required: true })}
+                    defaultValue={user?.LinkedIn}
+                    type="text"
+                    placeholder=" Tiktok"
+                    className="input w-full input-bordered"
+                    id=" Tiktok"
+                  />
+                </label>
+                <label htmlFor="Nextdoor">
+                Nextdoor
+                  <input
+                    {...register2(" Nextdoor", { required: true })}
+                    defaultValue={user?.LinkedIn}
+                    type="text"
+                    placeholder=" Nextdoor"
+                    className="input w-full input-bordered"
+                    id=" Nextdoor"
+                  />
+                </label>
               </div>
             </div>
+            
+
+
             <button className="btn btn-block bg-blue-400 text-white flex items-center mx-2 w-44">
               Update
             </button>
