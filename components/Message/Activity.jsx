@@ -15,10 +15,12 @@ import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 
 import Link from 'next/link';
+import ProjectFeedback from '../Project/Feedback/ProjectFeedback';
 import { useUploadFile } from "../queries/mutation/fileUpload.mutation";
 import { useCreateNotifications } from '../queries/mutation/notifications.mutation';
 import { useSendMail } from '../queries/mutation/sendMail.mutate';
 import { useGetMessagesById } from "../queries/query/getMessagesById.query";
+import { useGetReviews } from '../queries/query/getReviews.qurey';
 import { useGetUserData } from "../queries/query/getUserProfile.query";
 import { useGetProject } from "../queries/query/project.query";
 import { messagesState } from "../redux/features/message/allMessagesSlice";
@@ -76,7 +78,7 @@ const AllQuickResponse = dynamic(
 const Activity = () => {
   // update messages
   const [update, setUpdate] = useState(false);
-
+  const messageUpdate = useSelector((state) => state.update);
   // react hook form
   const {
     register,
@@ -89,6 +91,11 @@ const Activity = () => {
   const { projectId } = router.query;
   // socket hook
   const { sendMessage, returnMessage } = useSocketChat();
+
+      // get project review
+      const {data:projectReviewData} = useGetReviews({userId:'',projectId:projectId,update:messageUpdate})
+      // reviews
+    const projectReview = projectReviewData?.data?.reviews
 
   // get project b y id
   const { data: projectData } = useGetProject({
@@ -116,7 +123,7 @@ const Activity = () => {
   // get all message with redux
   const messagesRedux = useSelector((state) => state.messages);
   // get update with redux
-  const messageUpdate = useSelector((state) => state.update);
+
 
   // get update with redux
   // get message by projectId
@@ -499,6 +506,9 @@ const Activity = () => {
                 >
                   <BsArrowDownCircle size={20} />
                 </button>
+                {
+project?.track === 5 && !projectReview?.length ? <ProjectFeedback project={project} />:
+                
                 <div>
                   {
                     user?.role === 'ADMIN' ? <div>
@@ -559,9 +569,7 @@ const Activity = () => {
                           : ""}
                       </div>
                     </div>
-                    {
-                      project?.track >= 5 ? <p className='p-3'>Project completed</p>
-                      :
+                 
 
                     <form onSubmit={handleSubmit(handleSendMessage)}>
                     <div className="w-full">
@@ -621,9 +629,10 @@ const Activity = () => {
                       </button>
                     </div>
                   </form>
-                    }
+                    
                   </div>
                 </div>
+                }
               </div>
             </div>
           ) : (
