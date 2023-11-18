@@ -138,7 +138,7 @@ useEffect(()=>{
   // get all price
  const totalPrice = projectData?.length && projectData?.reduce((prev,current) =>  prev + current.totalCost, 0);
   return (
-    <div className="w-full ">
+    <div className="w-full pl-8">
       {/* warinig */}
       <div className="md:mb-12 my-7 text-center">
         <h2 className="md:text-3xl sm:text-xl text-base font-bold">

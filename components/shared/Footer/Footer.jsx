@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import { BsFacebook } from "react-icons/bs";
+import { IoIosAttach } from "react-icons/io";
 import { useSelector } from "react-redux";
 
     const Footer = () => {
@@ -16,6 +17,7 @@ import { useSelector } from "react-redux";
         const {user} = useSelector((state)=>state.user)
 console.log(user)
         const {showToast,Toast} = useToast()
+        
 
         // create useCreateInquiries
         const {mutate:createMessage} = useCreateMessage()
@@ -149,7 +151,7 @@ console.log(user)
                 </div>
             </div>
             <div className={`${user?.email ? 'py-3 md:w-4/12 w-full text-center':'py-3 md:w-9/12 w-full text-center'}`}>
-                <ul className={`${user?.email ? 'grid grid-cols-2 md:grid-cols-4 w-full  space-y-2 w-full justify-between':'flex md:grid md:flex-wrap grid-cols-2' }`}>
+                <ul className={`${user?.email ? 'grid grid-cols-2 md:grid-cols-4  space-y-2 w-full justify-between':'flex md:grid md:flex-wrap grid-cols-2' }`}>
                     <li>
                         <Link href={'/'}>Home</Link>
                     </li>
@@ -179,11 +181,11 @@ console.log(user)
                 </ul>
             </div>
             {/* Message send form */}
-            <div className={` ${user?.email ? 'md:w-4/12':''} `}>
+            <div className={` ${user?.email ? 'md:w-3/12':''} `}>
                 {
                     user?.email ? 
-                    <div className=" flex flex-col-reverse flex-col right-0 bottom-12 md:relative h-fit rounded-md  justify-end mr-12">
-                    <form onSubmit={handleSubmit(handleSendMessage)} className="w-[450px] relative rounded-md bg-rose-100 text-black p-6">
+                    <div className=" flex flex-col-reverse flex-col right-0 bottom-12 md:relative h-fit rounded-md  justify-end mr-1">
+                    <form onSubmit={handleSubmit(handleSendMessage)} className="w-[100%] mx-auto relative rounded-md bg-rose-100 text-black p-6">
                         <div className="space-y-3">
                             <label htmlFor="name"></label>
                             <input {...register('name',{required:'true'})} placeholder="Name" className="input input-bordered rounded-none w-full" type="text" id="name" />
@@ -191,8 +193,11 @@ console.log(user)
                             <input {...register('email',{required:'true'})} placeholder="Email" className="input input-bordered rounded-none w-full" type="email" id="email" />
                             <label htmlFor="website"></label>
                             <input {...register('website',{required:'true'})} placeholder="Website / Facebook" className="input input-bordered rounded-none w-full" type="text" id="website" />
-                            <label htmlFor="design"></label>
-                            <input {...register('design',{required:'true'})} placeholder="Example Design" className="input input-bordered rounded-none w-full" type="text" id="design" />
+                            <label htmlFor="design" className='relative'>
+                                 <input {...register('design',{required:'true'})} placeholder="Example Design" className="input input-bordered rounded-none w-full" type="text" id="design" />
+                                 <span className='absolute right-3 -top-1'><IoIosAttach size={32} /></span>
+                            </label>
+                           
                             <label htmlFor="message"></label>
                             <textarea {...register('message',{required:'true'})}  placeholder="Message" id="message" className="textarea h-24 textarea-bordered w-full rounded-none"></textarea>
                            <div className="flex justify-center w-full">

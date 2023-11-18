@@ -1,5 +1,4 @@
 import Main from "@/Layout/Main";
-import Link from "next/link";
 import { useState } from "react";
 
 const Terms = () => {
@@ -20,13 +19,15 @@ const Terms = () => {
   return (
     <Main title={"Terms & Conditions"}>
     <div className='max-w-7xl mx-auto mt-5'>
-      <div className='flex gap-x-32   relative after:absolute after:h-[1px] after:w-[520px] after:rounded-full after:bg-black/40 after:bottom-[-10px] after:left-0 after:contents-[``]'>
-        <h2 onClick={handleTrams} className={`font-dm text-2xl cursor-pointer font-bold  ${trams ?"text-blue-400 border-b border-solid border-blue-600/25" : "text-[#111111]" }`}>Terms & Conditions</h2>
-        <h2 onClick={handleRefund} className={`font-dm text-2xl cursor-pointer font-bold gap-x-32 ${refan ?"text-blue-400 border-b border-solid border-blue-600/25" : "text-[#111111]" }`}>Refund Policy</h2>
+      <div className='flex border-b pb-12 max-w-7xl justify-around w-9/12 mx-auto gap-12   relative after:absolute'>
+        <h2 onClick={handleTrams} className={`font-dm text-4xl cursor-pointer font-bold  ${trams ?"text-blue-400 border-b border-solid border-blue-600/25" : "text-[#111111]" }`}>Terms & Conditions</h2>
+        <h2 onClick={handleRefund} className={`font-dm text-4xl cursor-pointer font-bold gap-x-32 ${refan ?"text-blue-400 border-b border-solid border-blue-600/25" : "text-[#111111]" }`}>Refund Policy</h2>
       </div>
     {
       trams &&
-      <div>
+      <div className=" flex justify-center text-left">
+        
+      <div className="pl-20  max-w-7xl w-9/12">
         <h2 className="font-dm mt-16  text-xl font-medium text-blue-500 ">Terms & Conditions</h2>
         <div className='pl-5'>
           
@@ -98,6 +99,7 @@ const Terms = () => {
           <ul className='relative after:absolute mb-5 after:h-2 after:w-2 after:top-[7px] after:left-[-20px] after:bg-blue-400 after:rounded-full'>
             <li className='font-dm text-[#444444] font-normal text-base'>You can't resell our designs.</li>
           </ul>
+     
 
     
           <ul className='relative after:absolute mb-5 after:h-2 after:w-2 after:top-[7px] after:left-[-20px] after:bg-blue-400 after:rounded-full'>
@@ -125,11 +127,13 @@ const Terms = () => {
     
         </div>
       </div>
+      </div>
     }
     {
       refan &&
-      <div>
-      <h2 className="mt-16 font-dm text-xl font-medium text-blue-500  ">Refund Policy</h2>
+      <div className="flex justify-center text-left">
+      <div className="pl-20  max-w-7xl w-9/12">
+      <h2 className="mt-16  font-dm text-xl font-medium text-blue-500  ">Refund Policy</h2>
         <div className=' pl-5'>
           
           <ul className='relative after:absolute mb-5 mt-8 after:h-2 after:w-2 after:top-[7px] after:left-[-20px] after:bg-blue-400 after:rounded-full'>
@@ -144,6 +148,7 @@ const Terms = () => {
             <li className='font-dm text-[#444444] font-normal text-base'>After you start a project, we will not provide additional services to you if you ask us for additional services beyond the package of the project. You will not be eligible for a refund based on this issue.</li>
           </ul>
         </div>
+      </div>
 
       </div>
     }
