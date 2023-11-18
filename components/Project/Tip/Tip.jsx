@@ -97,7 +97,7 @@ const router = useRouter()
 
   return (
     <div className="mt-6 lg:mx-20 md:flex gap-12 justify-between">
-      <div className="md:w-7/12">
+      <div className={`${tipId?'md:w-7/12':'w-full'}`}>
         <div className="pb-5 mx-4 md:mx-0">
           <h2 className="text-3xl font-bold">Thanks for your review</h2>
           <p className="py-2">
@@ -124,17 +124,17 @@ const router = useRouter()
           </label>
         </div>
         <div className="flex justify-between items-center gap-6 my-8">
-        <Link className="text-xl" href={`/message/project/${project?.projectId}`}>
+        <Link className="text-xl" href={`${tipId?`/message/project/${project?.projectId}`:'/'}`}>
         <p className="w-full text-right">No Thanks</p>
           </Link>
           
-          <button onClick={()=>handleSendTip()} className="px-2 rounded py-1 bg-[#a9cfeb] text-white w-72 text-xl font-bold">
+          <button onClick={()=>handleSendTip()} className="px-2 rounded py-1 bg-[#329eeb] text-white w-72 text-xl font-bold">
             Send Tip
           </button>
         </div>
       </div>
       {/* Project details */}
-      <div className="h-full md:w-80">
+      <div hidden={!tipId} className="h-full md:w-80">
         <div className="bg-blue-50 p-4">
           <div>
             <h2 className="text-xl font-bold py-2">Project Details</h2>
