@@ -11,7 +11,7 @@ const SellerReviews = () => {
     // get all reviews
   
 
-    const {data:sellerReviews1} = useGetReviews({userId:user?.userId})
+    const {data:sellerReviews1} = useGetReviews({userId:user?.userId,projectId:'',update:''})
 const reviews = sellerReviews1?.data?.reviews
    
   

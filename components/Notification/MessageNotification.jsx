@@ -5,12 +5,13 @@ import { useGetNotifications } from "../queries/query/notifications.query";
 import MessageNotifyCard from "./MessageNotifyCard";
 
 function MessageNotification() {
+  const messageUpdate = useSelector(state=>state.update)
     // user 
     const {user} = useSelector((state)=>state.user)
     const [page,setPage] = useState(1)
     const [limit,setLimit] = useState(10)
 
-    const {data:notificationData} = useGetNotifications({page})
+    const {data:notificationData} = useGetNotifications({page,update:messageUpdate})
 
     const notifications = notificationData?.data?.inquiries
    

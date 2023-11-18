@@ -51,6 +51,7 @@ const Feedback = ({ singleProject }) => {
       projectUserId: project?.startedBy,
       reviewer:{name:user?.fullName,profilePicture:user?.profilePicture,userName:user?.username},
       description: data?.message,
+      projectId:project?.projectId,
       stars: review,
       projectImage:projectImage,
       addToReview:data.addHome

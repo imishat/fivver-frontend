@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useSendMail } from "../queries/mutation/sendMail.mutate";
 
 
 function CountDown({deadline,project}) {
 
 console.log(project,'countdown')
-
+const messageUpdate = useSelector((state) => state.update);
   const date = new Date(deadline);
  
   const deadline2 = date.setTime(date.getTime() - 6 * 60 * 60 * 1000)

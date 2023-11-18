@@ -6,7 +6,7 @@ import Reviews from "./Reviews";
 
 const Testimonials = () => {
   const router = useRouter()
-  const {data:sellerReviews1} = useGetReviews({userId:''})
+  const {data:sellerReviews1} = useGetReviews({userId:'',projectId:'',update:''})
   const reviews = sellerReviews1?.data?.reviews
   console.log(sellerReviews1,'review')
 
