@@ -498,7 +498,7 @@ const Activity = () => {
               )}
 
               {/* send box */}
-              <div className="border border-gray-500 m-2 relative">
+              <div className=" m-2 relative">
                 {/* Scroll Down */}
                 <button
                   className="absolute right-5 -top-12"
@@ -569,8 +569,6 @@ project?.track === 5 && !projectReview?.length ? <ProjectFeedback project={proje
                           : ""}
                       </div>
                     </div>
-                 
-
                     <form onSubmit={handleSubmit(handleSendMessage)}>
                     <div className="w-full">
                       <textarea

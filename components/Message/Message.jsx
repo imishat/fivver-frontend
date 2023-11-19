@@ -571,6 +571,7 @@ if(messageType==='unread'){
             <div className="flex items-center justify-between w-full">
               <div className="flex justify-between w-full items-center leading-4">
                 <div>
+                <Link href={`/${user?.username}/${user?.userId}`}></Link>
                   <strong>{userInfo?.fullName}</strong>
                   <p className="text-xs">
 

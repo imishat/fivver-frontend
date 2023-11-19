@@ -6,7 +6,6 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { BsFacebook } from "react-icons/bs";
 import { IoIosAttach } from "react-icons/io";
 import { useSelector } from "react-redux";
 
@@ -87,12 +86,12 @@ const Footer = () => {
           {/* Main Footer */}
           <div className="bg-black">
             <div className="flex text-white justify-between items-center border-b pb-3 md:px-6 md:mx-5">
-              <div className="flex flex-col w-44 space-y-3">
+              <div className="flex flex-col w-96 space-y-3">
                 <div className="text-center">
-                  <div className="flex justify-center">
+                  <div className="flex w-96 justify-center">
                     <img
                       src="/images/MR Logo Final 4.png"
-                      className="w-full lg:w-4/5 h-full"
+                      className="w-full lg:w-96 h-full"
                       alt=""
                     />
                   </div>
@@ -100,50 +99,9 @@ const Footer = () => {
                         <p>Graphic Designer</p> */}
                 </div>
                 {/* Social icons */}
-                {/* <div className="flex justify-center">
-                  <ul className="md:flex grid grid-cols-3 md:gap-2 gap-1 items-center">
-                    <li>
-                      <a
-                        className="border-2 rounded-full p-2 border-blue-300 bg-white text-blue-600 inline-block"
-                        href="#"
-                      >
-                        <BsFacebook />
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        className="border-2 rounded-full p-2 border-blue-300 bg-white text-blue-600 inline-block"
-                        href="#"
-                      >
-                        <BsFacebook />
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        className="border-2 rounded-full p-2 border-blue-300 bg-white text-blue-600 inline-block"
-                        href="#"
-                      >
-                        <BsFacebook />
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        className="border-2 rounded-full p-2 border-blue-300 bg-white text-blue-600 inline-block"
-                        href="#"
-                      >
-                        <BsFacebook />
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        className="border-2 rounded-full p-2 border-blue-300 bg-white text-blue-600 inline-block"
-                        href="#"
-                      >
-                        <BsFacebook />
-                      </a>
-                    </li>
-                  </ul>
-                </div> */}
+                <div className="flex justify-center">
+                <SocialIcons size={20}/>
+                </div>
               </div>
               <div className="py-3 w-full mx-auto">
                 <ul className="grid grid-cols-2 md:grid-cols-4 w-full justify-between">
@@ -257,7 +215,7 @@ const Footer = () => {
               {/* Message send form */}
               <div className={` flex justify-center w-full sm:w-6/12 `}>
                 {user?.email ? (
-                  <div className="flex mx-auto sm:w-96 flex-col right-0 bottom-12 md:relative h-fit rounded-md md:justify-end mr-1">
+                  <div className="flex mx-auto sm:w-96 flex-col right-24 bottom-12 md:relative h-fit rounded-md md:justify-end mr-1">
                     <form
                       onSubmit={handleSubmit(handleSendMessage)}
                       className="w-[100%] mx-auto relative rounded-md bg-rose-100 text-black p-6"

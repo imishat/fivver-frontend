@@ -80,10 +80,11 @@ const CustomarProfile = () => {
   }, []);
 
   return (
-    <div className="my-8 sm:flex gap-6 w-full">
-      <div className="sm:w-[43%] md:w-4/12 ">
+    <div className="my-8 sm:flex gap-6 justify-center w-full">
+     <div className="sm:flex justify-center gap-6">
+     <div className="sm:w-[43%] w-full md:w-4/12 ">
         {/* User info */}
-        <div className=" bg-[#F2F9FF] border px-4 relative">
+        <div className=" bg-[#F2F9FF] border min-w-[300px] max-w-2xl px-4 relative">
           <button
             className="p-3 absolute right-0"
             onClick={() => document.getElementById("editModal").showModal()}
@@ -109,7 +110,7 @@ const CustomarProfile = () => {
                 </h1>
               )}
             </div>
-            <Link href={`/user/${dbUser?.userId}`} className="text-xl font-bold py-4 truncate">
+            <Link href={`/${dbUser?.username}/${dbUser?.userId}`} className="text-xl font-bold py-4 truncate">
               {dbUser?.fullName}
             </Link>
           </div>
@@ -181,7 +182,7 @@ const CustomarProfile = () => {
               <button
                 onClick={() => setToggle("")}
                 className={`flex justify-center ${
-                  toggle === "active" && "border-black border-b"
+                  toggle === "" && "border-black border-b"
                 }`}
               >
                 Active Projects
@@ -196,7 +197,7 @@ const CustomarProfile = () => {
               </button>
             </div>
             {toggle === "" ? (
-              <div className="grid sm:grid-cols-2 gap-2 w-full">
+              <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-2 w-full">
                 {/* active Projects */}
                 {completedProjects?.length
                   ? completedProjects?.map((project, i) => (
@@ -205,7 +206,7 @@ const CustomarProfile = () => {
                   : "No Projects"}
               </div>
             ) : (
-              <div className="grid sm:grid-cols-2 gap-2 w-full">
+              <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-2 w-full">
                 {/* Completed Projects */}
                 {completedProjects?.length
                   ? completedProjects?.map((project, i) => (
@@ -222,6 +223,7 @@ const CustomarProfile = () => {
           </div>
         </div>
       )}
+     </div>
       <EditModal userId={userId} />
     </div>
   );
