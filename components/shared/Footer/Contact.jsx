@@ -119,7 +119,7 @@ const Contact=()=>{
                           type="text"
                           id="website"
                         />
-                        <label htmlFor="design" className="relative">
+                        <label htmlFor="design" className="relative flex flex-col gap-3"> 
                           <input
                             {...register("design", { required: "true" })}
                             placeholder="Example Design"
@@ -127,11 +127,11 @@ const Contact=()=>{
                             type="text"
                             id="design"
                           />
-                          <label htmlFor="designFile" className="absolute right-3 z-30 cursor-pointer  -top-1">
+                          <label htmlFor="designFile" className="absolute right-3 z-30 cursor-pointer  bottom-2">
                             <input onChange={(e) => handleUploadDesignFile(e)} hidden type="file" id="designFile" />
                             <IoIosAttach size={30} />
                           </label>
-                        </label>
+                          </label>
 
                         <label htmlFor="message"></label>
                         <textarea
