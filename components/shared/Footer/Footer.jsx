@@ -14,17 +14,17 @@ const Footer = () => {
   // react hook form
   const { handleSubmit, register, reset } = useForm();
 
-    // image upload call
-    const { mutate: sendFileData } = useUploadFile({watermark:false});
+  // image upload call
+  const { mutate: sendFileData } = useUploadFile({ watermark: false });
 
   const router = useRouter();
   const { user } = useSelector((state) => state.user);
   console.log(user);
   const { showToast, Toast } = useToast();
 
-  const [fileId,setFileId] = useState('')
+  const [fileId, setFileId] = useState('')
   // upload design
-  const handleUploadDesignFile = (e) =>{
+  const handleUploadDesignFile = (e) => {
     const photo = e.target.files
     const photoData = new FormData();
 
@@ -53,7 +53,7 @@ const Footer = () => {
       email: data?.email,
       website: data?.website,
       favoriteDesign: data?.design,
-      designFile:fileId,
+      designFile: fileId,
       projectId: "",
       isRead: false,
       receiverId: "sa0",
@@ -92,7 +92,7 @@ const Footer = () => {
                   <div className="flex justify-center">
                     <img
                       src="/images/MR Logo Final 4.png"
-                      className="w-3/5"
+                      className="w-full lg:w-4/5 h-full"
                       alt=""
                     />
                   </div>
@@ -100,7 +100,7 @@ const Footer = () => {
                         <p>Graphic Designer</p> */}
                 </div>
                 {/* Social icons */}
-                <div className="flex justify-center">
+                {/* <div className="flex justify-center">
                   <ul className="md:flex grid grid-cols-3 md:gap-2 gap-1 items-center">
                     <li>
                       <a
@@ -143,7 +143,7 @@ const Footer = () => {
                       </a>
                     </li>
                   </ul>
-                </div>
+                </div> */}
               </div>
               <div className="py-3 w-full mx-auto">
                 <ul className="grid grid-cols-2 md:grid-cols-4 w-full justify-between">
@@ -211,22 +211,20 @@ const Footer = () => {
                 </div>
                 {/* Social icons */}
                 <div className="flex justify-center">
-                  <SocialIcons />
+                  <SocialIcons size={20}/>
                 </div>
               </div>
               <div
-                className={`${
-                  user?.email
+                className={`${user?.email
                     ? "py-3 md:w-6/12 w-full text-center"
                     : "py-3 md:w-9/12 w-full text-center"
-                }`}
+                  }`}
               >
                 <ul
-                  className={`${
-                    user?.email
+                  className={`${user?.email
                       ? "lg:grid grid-cols-2 md:grid-cols-4 mt-20 flex items-center flex-wrap px-12 gap-3 sm:flex sm:flex-col  space-y-2 w-full justify-between"
                       : "flex md:grid md:flex-wrap grid-cols-2"
-                  }`}
+                    }`}
                 >
                   <li>
                     <Link href={"/"}>Home</Link>
@@ -298,8 +296,8 @@ const Footer = () => {
                             id="design"
                           />
                           <label htmlFor="designFile" className="absolute right-3 z-30 cursor-pointer  -top-1">
-                            <input  onChange={(e)=>handleUploadDesignFile(e)} hidden type="file" id="designFile" />
-                            <IoIosAttach size={32} />
+                            <input onChange={(e) => handleUploadDesignFile(e)} hidden type="file" id="designFile" />
+                            <IoIosAttach size={30} />
                           </label>
                         </label>
 

@@ -65,13 +65,13 @@ const Terms = () => {
           </ul>
 
           <div className='px-2 mt-4'>
-              <h4 className='font-dm font-bold text-[#111111] text-lg'>Start Work</h4> 
+              <h4 className='font-dm font-semibold text-[#111111] text-lg'>Start Work</h4> 
               <p className='font-dm text-[#444444] font-normal text-base mb-5'>After completing the customer requirement page we will start the design work.</p>
               
-              <h4 className='font-dm font-bold text-[#111111] text-lg'>First Concept</h4> 
+              <h4 className='font-dm font-semibold text-[#111111] text-lg'>First Concept</h4> 
               <p className='font-dm text-[#444444] font-normal mb-5 text-base'>The customer gives us the time to create his design, we will create it and show it to him within that time. (Then, if the customer feels the need to change something in this design, then we will correct the changes if the customer informs us about the changes.)</p>
             
-              <h4 className='font-dm font-bold text-[#111111] text-lg'>Final Dalevary</h4> 
+              <h4 className='font-dm font-semibold text-[#111111] text-lg'>Final Dalevary</h4> 
               <p className='font-dm text-[#444444] font-normal text-base mb-5'>After the design work is completed we will deliver the final file according to the package selected by the customer.</p>
               
           </div>
