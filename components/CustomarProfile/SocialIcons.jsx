@@ -12,7 +12,7 @@ function SocialIcons() {
                       className="border-[#4B68AE] text-[#4B68AE] p-1 inline-block bg-white rounded-full border-4"
                       href="#"
                     >
-                      <RiFacebookFill className="w-2 md:w-[32px] h-2 md:h-[32px]" />
+                      <RiFacebookFill className="w-2 md:w-[20px] h-2 md:h-[20px]"  size={20} />
                     </a>
                   </li>
                   <li>
@@ -22,7 +22,7 @@ function SocialIcons() {
                     >
                       <span className="flex h-full w-full items-center justify-center bg-white rounded-full back">
                         <svg
-                          className="w-4 h-4 md:w-10 md:h-10"
+                          className="w-4 h-4 md:w-[27px] md:h-[27px]"
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 512 512"
                           id="instagram"
@@ -81,7 +81,7 @@ function SocialIcons() {
                       className="border-[#37B1E2] text-[#37B1E2] p-1 inline-block bg-white rounded-full border-4"
                       href="#"
                     >
-                      <BsTwitter className="w-2 md:w-[32px] h-2 md:h-[32px]" />
+                      <BsTwitter className="w-2 md:w-[20px] h-2 md:h-[20px]"  size={20} />
                     </a>
                   </li>
                   <li>
@@ -89,7 +89,7 @@ function SocialIcons() {
                       className="border-[#E23D38] text-[#E23D38] p-1 inline-block bg-white rounded-full border-4"
                       href="#"
                     >
-                      <FaPinterestP className="w-2 md:w-[32px] h-2 md:h-[32px]" />
+                      <FaPinterestP className="w-2 md:w-[20px] h-2 md:h-[20px]"  size={20} />
                     </a>
                   </li>
                   <li>
@@ -97,7 +97,7 @@ function SocialIcons() {
                       className="border-[#0476B4] text-[#0476B4] p-1 inline-block bg-white rounded-full border-4"
                       href="#"
                     >
-                      <RiLinkedinFill className="w-2 md:w-[32px] h-2 md:h-[32px]" />
+                      <RiLinkedinFill className="w-[15px] md:w-[20px] h-[15px] md:h-[20px]"  size={10} />
                     </a>
                   </li>
                 </ul>

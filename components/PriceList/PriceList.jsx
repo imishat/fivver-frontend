@@ -22,7 +22,7 @@ const PriceList = () => {
                     }
                 </div>
                 <div className="p-8">
-                    <p className="text-[#1B8CDC] font-bold text-xl whitespace-pre-wrap">If you would like to take a template/source file of any design we have created, please contact us, and show us the design you like. We will give you the template/source file.
+                    <p className="text-[#1B8CDC] font-semibold text-xl whitespace-pre-wrap">If you would like to take a template/source file of any design we have created, please contact us, and show us the design you like. We will give you the template/source file.
                     </p>
                 </div>
             </div>

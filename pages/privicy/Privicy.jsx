@@ -16,7 +16,7 @@ const Privicy =()=>{
 
  <h2 className="font-dm mt-12   text-xl font-medium text-blue-500 ">What Information Do We Collect:</h2>
    <div className='border-l border-blue-500 pl-6'>
-     <p className='font-dm text-[#444444]  font-normal text-base mt-4'>To know more about us, to actively participate in our online forum, and for various activities, you are required to provide some personal information voluntarily. We collect all such information.</p>
+
      <p className='font-dm text-[#444444]  font-normal text-base mt-4'>Our connection with your privacy depends on the nature of your product and service use. We collect various information based on your product or service use. The information we collect may include:</p>
      <div className='md:pl-10 my-8'>
        
@@ -28,9 +28,7 @@ const Privicy =()=>{
          <li className='font-dm  text-[#444444] font-normal text-base'>Information related to financial transactions. We collect the necessary information for your purchased products or transactions. For example, credit card numbers and passwords connected to financial transactions.</li>
        </ul>
 
-       <ul className='relative after:absolute mb-5 after:h-2 after:w-2 after:top-[7px] after:left-[-20px] after:bg-blue-400 after:rounded-full'>
-         <li className='font-dm  text-[#444444] font-normal text-base'>Information related to social media accounts. If you wish to register on our website using your social media account (such as Facebook, Twitter, or others), you can do so.</li>
-       </ul>
+     
      </div>
      <p className='font-dm text-[#444444]  font-normal text-base mt-4'>All the information provided by you must be true, complete, and accurate. If there is any change in this information, you must inform us immediately. Automated Data Collection:</p>
    </div>

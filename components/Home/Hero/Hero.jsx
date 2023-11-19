@@ -9,8 +9,8 @@ const Hero = () => {
           <p className="text-red-800">
           We do not own the images used in our designs.
           </p>
-          <p className="text-black">We used those images from Google/Stock. </p>
-          <p className="text-black">You must give us the images to use in your design.</p>
+          <p className="text-black text-2xl">We used those images from Google/Stock. </p>
+          <p className="text-black text-2xl">You must give us the images to use in your design.</p>
         </div>
       </div>
     </div>
