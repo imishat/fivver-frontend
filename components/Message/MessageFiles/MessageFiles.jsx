@@ -69,7 +69,7 @@ const {user} = useSelector(state => state.user)
             className="w-8 h-8 rounded-full border border-gray-500"
             src={`${process.env.NEXT_PUBLIC_API}/files/download/public/${message?.sender?.profilePicture}`} 
             alt=""
-          />:<div className="bg-rose-100 w-9 h-9 object-cover rounded-full flex justify-center items-center font-bold">{message?.sender?.fullName?.slice(0,1)}</div>
+          />:<div className="bg-rose-100 w-9 h-9 object-cover rounded-full flex justify-center items-center font-bold">{message?.sender?.username?.slice(0,1)}</div>
           }
         </div>
         <div className="w-full">
@@ -77,7 +77,7 @@ const {user} = useSelector(state => state.user)
           {/* (message?.userId===user.userId ? 'Me':userInfo?.fullName) */}
           <Link href={`/user/${message?.sender?.senderId}`}>
             {
-              (message?.sender?.userId===user?.userId ? 'Me': message?.sender?.fullName)
+              (message?.sender?.userId===user?.userId ? 'Me': message?.sender?.username)
             }
             </Link>
            

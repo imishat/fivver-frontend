@@ -171,7 +171,7 @@ const Testimonials = () => {
        
       </div>
       <div className={`${router.asPath==='/'?'flex justify-start w-full':''}`}>
-      <h2 className="md:text-3xl text-lg text-center">If you have any questions or inquiries about our services,<br/> please feel free to contact us by filling out this form</h2>
+      <h2 className="md:text-3xl text-lg text-left">If you have any questions or inquiries about our services,<br/> please feel free to contact us by filling out this form</h2>
         </div>
     </div>
   );

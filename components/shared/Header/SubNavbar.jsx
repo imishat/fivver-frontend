@@ -77,7 +77,7 @@ const [showCompanies,setShowCompanies] = useState(false)
           <Link className="sm:py-2 py-1 hover:border-b hover:border-white border-b border-transparent duration-300 px-5 w-full inline-block" href={'/about'}>About</Link>
         </li>
         <li>
-          <Link className="sm:py-2 py-1 hover:border-b hover:border-white border-b border-transparent duration-300 px-5 w-full inline-block" href={`/user/${user?.userId
+          <Link className="sm:py-2 py-1 hover:border-b hover:border-white border-b border-transparent duration-300 px-5 w-full inline-block" href={`/${user?.username}/${user?.userId
 }`}>Profile</Link>
         </li>
       </ul>

@@ -85,7 +85,7 @@ function ProjectFeedback({project}) {
             <div>
               {
                 projectReview?.map((review,i)=>{
-                  return <div>
+                  return <div className="border border-gray-500 mb-8">
                     <div className="bg-blue-50 text-2xl text-black px-4 py-2">
                       <h2>{review?.reviewer?.name}'s Review</h2>
                     </div>
