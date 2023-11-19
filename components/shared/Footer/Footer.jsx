@@ -110,7 +110,7 @@ const Footer = () => {
                   </li>
 
                   <li>
-                    <Link href={"/desing"}>Designs</Link>
+                    <Link href={"/all-designs"}>Designs</Link>
                   </li>
                   <li>
                     <Link href={"/price-list"}>Price List</Link>
@@ -122,7 +122,7 @@ const Footer = () => {
                     <Link href={"/about"}>About</Link>
                   </li>
                   <li>
-                    <Link href={"/desing"}>Companies</Link>
+                    <Link href={"/all-designs"}>Companies</Link>
                   </li>
 
                   <li>
@@ -149,7 +149,7 @@ const Footer = () => {
       ) : (
         <div>
           {/* Email */}
-          <div className="bg-[#1781CB] py-2 md:text-2xl text-white flex gap-4 px-6">
+          <div className="bg-[#1781CB] py-2 md:text-2xl text-white flex gap-4 px-11">
             <p>Email: </p> <p>mahfujurrahman535@gmail.com</p>
           </div>
           {/* Main Footer */}
@@ -189,7 +189,7 @@ const Footer = () => {
                   </li>
 
                   <li>
-                    <Link href={"/design"}>Designs</Link>
+                    <Link href={"/all-designs"}>Designs</Link>
                   </li>
                   <li>
                     <Link href={"/price-list"}>Price List</Link>
@@ -201,7 +201,7 @@ const Footer = () => {
                     <Link href={"/about"}>About</Link>
                   </li>
                   <li>
-                    <Link href={"/desing"}>Companies</Link>
+                    <Link href={"/all-designs"}>Companies</Link>
                   </li>
 
                   <li>
