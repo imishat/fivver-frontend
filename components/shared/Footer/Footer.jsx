@@ -215,7 +215,7 @@ const Footer = () => {
               {/* Message send form */}
               <div className={` flex justify-center w-full sm:w-6/12 `}>
                 {user?.email ? (
-                  <div className="flex mx-auto sm:w-96 flex-col right-24 bottom-12 md:relative h-fit rounded-md md:justify-end mr-1">
+                  <div className="flex mx-auto sm:w-96 flex-col right-14 bottom-12 md:relative h-fit rounded-md md:justify-end mr-1">
                     <form
                       onSubmit={handleSubmit(handleSendMessage)}
                       className="w-[100%] mx-auto relative rounded-md bg-rose-100 text-black p-6"

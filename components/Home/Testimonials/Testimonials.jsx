@@ -51,7 +51,7 @@ const Testimonials = () => {
 
   
   return (
-    <div className="md:py-12 pl-8 pr-20 py-4">
+    <div className="md:py-12 pl-8 pr-[37px] py-4">
       <div className="relative flex justify-center">
         {/*  Title */}
         <h2 className="md:text-2xl text-lg absolute bg-red-100 -top-6 px-6 py-2 rounded-full font-bold uppercase">
