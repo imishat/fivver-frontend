@@ -5,7 +5,7 @@ import { useSendMail } from "../queries/mutation/sendMail.mutate";
 
 function CountDown({deadline,project}) {
 
-console.log(project,'countdown')
+
 const messageUpdate = useSelector((state) => state.update);
   const date = new Date(deadline);
  
