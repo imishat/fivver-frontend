@@ -2,12 +2,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  output: 'export',
   images: {
-    loader: 'custom',
-    loaderFile: './my-loader.ts',
-  },
-  images: {
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: 'http',
