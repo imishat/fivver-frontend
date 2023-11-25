@@ -24,7 +24,7 @@ export default function Reviews({filteredReviews}) {
                   ?filteredReviews?.map((review, i) => (
               <SwiperSlide key={i} className='!h-44'>
                 <div className='my-4 '>
-                  <div className='flex w-full px-20 gap-4 text-sm md:text-base text-center justify-between items-center '>
+                  <div className='flex w-full px-20 gap-4 text-sm md:text-base  justify-between items-center '>
                     <p className='mx-2 text-xl text-black '>
                       {  review?.description
 }
