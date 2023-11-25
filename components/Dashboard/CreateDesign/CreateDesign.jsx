@@ -145,7 +145,6 @@ console.log(selectedTags,"selectedTags")
                 categoryId: data.category,
                 subcategoryId: selectedSubCategories,
                 imageIds: imageIds,
-                priority:data.priority,
                 companies: selectedCompanies,
                 relatedDesignIds: relatedIds.split(","),
                 tags: selectedTags,
@@ -185,7 +184,7 @@ console.log(selectedTags,"selectedTags")
   };
 
   //    react select
-
+  console.log(selectSubCategories,'sub')
   // error handle
 
   const [mounted, setMounted] = useState(false);
@@ -323,8 +322,9 @@ console.log(selectedTags,"selectedTags")
                 Sub Categories
               </label>
               {selectSubCategories?.map((sub) => {
+                
                 return (
-                  <div className="py-2 px-2">
+                  <div key={sub?._id} className="py-2 px-2">
                     <label
                       className="flex items-center gap-1"
                       htmlFor={sub._id}
@@ -430,22 +430,22 @@ console.log(selectedTags,"selectedTags")
             </div>
            
             {/* Priority */}
-            <div className="flex flex-col border">
+            {/* <div className="flex flex-col border">
               <label
                 className="px-3 py-2 inline-block bg-base-200 w-full"
                 htmlFor="Priority"
               >
                 Project Priority
-              </label>
+              </label> */}
               {/* priority select */}
-             <select  {...register("priority", { required: true })} id="Priority" className="select select-bordered rounded-none">
-              {
-                allDesigns.map((design,i)=>{
+             {/* <select  {...register("priority", { required: false })} id="Priority" className="select select-bordered rounded-none">
+              {allDesigns?.length &&
+                allDesigns?.map((design,i)=>{
                   return <option value={i+1}>{i+1}</option>
                 })
               }
              </select>
-            </div>
+            </div> */}
 
             <div className="flex justify-center my-2">
               {/* Submit */}

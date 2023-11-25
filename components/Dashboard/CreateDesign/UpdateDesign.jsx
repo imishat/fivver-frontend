@@ -91,14 +91,16 @@ const UpdateDesign = () => {
   const categories = getCategories?.data?.categories;
 
   // get category id when select
-  const [categoryId, setCategoryId] = useState(designData?.categoryId);
+  const [categoryId, setCategoryId] = useState('');
+  const catId =categoryId || designData?.categoryId
 
   //  category
-  const { data: category } = useGetCategoryData({ categoryId });
+  const { data: category } = useGetCategoryData({ categoryId:catId });
 
   // ====================== Sub category ======================== //
   // categories
   const selectSubCategories = category?.data?.categories[0]?.subcategories;
+  console.log(designData?.categoryId,'selectSubCategories')
   // selected sub category
   const [selectedSubCategories, setSelectedSubCategories] = useState(
     designData?.subcategoryId
@@ -327,6 +329,7 @@ const UpdateDesign = () => {
               >
                 Related
               </label>
+              {console.log(designData?.relatedDesignIds,'designData?.relatedDesignIds')}
               <textarea
                 defaultValue={designData?.relatedDesignIds?.join(',')}
                 onChange={(e) => setRelatedIds(e.target.value)}
@@ -446,10 +449,11 @@ const UpdateDesign = () => {
                         className="radio radio-bordered radio-sm"
                         type="radio"
                         name="sub"
+                        defaultChecked={sub._id}
                         id={sub._id}
                         value={sub._id}
                       />
-                      {sub.name}
+                      {sub.name}({sub?.price})
                     </label>
                   </div>
                 );
