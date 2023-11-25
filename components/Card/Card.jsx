@@ -42,7 +42,7 @@ const Card = ({data,category}) => {
             <div className="bg-rose-100 w-full h-full">
                 <Image height={160} width={224} className=" w-full h-full  " src={`${process.env.NEXT_PUBLIC_API}/files/download/public/${data?.featuredImageId ? data?.featuredImageId : data?.imageIds[0]}`} alt="" />
             </div>
-                <h3 className="py-1">{data?.title}</h3>
+                <h3 className="py-1 pl-2">{data?.title}</h3>
             </Link>
         </div>
     );

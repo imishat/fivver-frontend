@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "export": "next build && next export && next-image-export-optimizer"
+    "export": "next build && next export"
   },
   "dependencies": {
     "@emoji-mart/data": "^1.1.2",
