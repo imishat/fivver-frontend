@@ -11,7 +11,7 @@ function NotificationCard({notification}) {
      // get user by id
      const {data:userData} = useGetUserData({userId:notification?.userId})
      const userInfo = userData?.data?.user
-     console.log(userInfo)
+
     return (   <>
         {/* Delivery */}
         {

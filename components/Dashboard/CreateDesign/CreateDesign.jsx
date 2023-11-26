@@ -381,7 +381,7 @@ console.log(selectedTags,"selectedTags")
                 Tags
               </label>
             
-              <input  onChange={(e) => setSelectedTags(e)} {...register("description", { required: true })}  type="text" className=" px-3 py-2" id="create" />
+              <textarea  onChange={(e) => setSelectedTags(e)} {...register("description", { required: true })}  type="text" className=" px-3 py-2" id="create" />
             </div>
             {/* Thumbnail */}
             <div className="border">

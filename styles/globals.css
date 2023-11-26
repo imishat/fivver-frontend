@@ -95,7 +95,7 @@ li.rc-pagination-options {
   );
 }
 .ql-editor {
-  height: 300px !important;
+  min-height: 300px !important;
 }
 
 .description > ol {

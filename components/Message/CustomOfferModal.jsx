@@ -42,8 +42,7 @@ const messageUpdate = useSelector((state) => state.update);
     const {  sendMessage, returnMessage } = useSocketChat();
   
 
-
-
+const [price,setPrice] = useState('')
 
 
     // categories
@@ -77,7 +76,7 @@ const handleSelectChange=e=>{
       type:'offer',...data,
         categoryName: singleDesign?.name,
         categoryId:singleDesign?.categoryId,
-        price: selectSubCategory?.price,
+        price: price,
         selectSubCategory:selectSubCategory?.name,
         imageId: singleDesign?.imageIds[0],
         userId: project?.startedBy,
@@ -166,8 +165,8 @@ const handleSelectChange=e=>{
       
         <div className="flex items-center gap-2">
         <h2>Price</h2>
-          <div className="px-6 bg-base-100 outline-none border border-gray-400 select-sm rounded-none">
-          {selectSubCategory?.price} $
+          <div className="border border-gray-400 px-1">
+          <input onChange={(e)=>setPrice(e.target.value)} type="text" className="bg-base-100 outline-none  select-sm rounded-none w-20" /> $
           </div>
         </div>
       </div>
