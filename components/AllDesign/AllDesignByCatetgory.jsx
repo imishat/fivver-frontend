@@ -35,7 +35,7 @@ const AllDesignByCatetgory = ({categoryId}) => {
   return (
     <div>
       {/* Design Title */}
-      <div className="h-full w-full relative">
+      <div className="h-full w-full relative xl:w-9/12 xl:mx-auto ">
         <img className="w-full h-full" src="/images/Web Banner 2.jpg" alt="" />
         <div className="flex justify-center items-center  text-black ">
           <h3 className="absolute text-[#1C8CDD] md:text-4xl sm:text-2xl text-xl top-1/2 font-bold text-center ">
@@ -52,7 +52,7 @@ const AllDesignByCatetgory = ({categoryId}) => {
         </div>
       </div>
     {  designs?.length ? 
-      <div className="md:w-full gap-3 px-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 2xl:grid-cols-5">
+      <div className="md:w-full xl:max-w-7xl lg:max-w-max mx-auto 2xl:w-[80%] xl:mx-auto  gap-3 lg:px-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
         { designs.map((data, i) => (
           <Card data={data} key={i} />
         ))

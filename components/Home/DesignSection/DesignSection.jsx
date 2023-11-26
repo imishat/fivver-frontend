@@ -21,7 +21,7 @@ const DesignSection = () => {
           <DesignCategorySection />
         </div>
             {/* User analytics */}
-        <div className="md:w-3/12 w-full space-y-4 ">
+        <div className="md:w-3/12 max-w-sm w-full space-y-4 ">
           <UserAnalytics />
           <StockImageSites />
         </div>
