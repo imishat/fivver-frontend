@@ -82,9 +82,7 @@ const DesignDescription = ({ data }) => {
         <Swiper
           navigation={true}
           modules={[Navigation]}
-          className="mySwiper sm:!w-[640px] sm:!h-[500px] md:!w-[750px]"
-        >
-
+          className="mySwiper sm:!w-[640px] sm:!h-[500px] md:!w-[750px] !mx-0">
           {design?.imageIds?.map((id, i) => (
             <SwiperSlide key={i} className="flex !gap-2 sm:!w-[640px] sm:!h-[500px] md:!w-[750px]">
               <div className="border h-full w-full sm:!w-[640px] sm:!h-[100%] md:!w-[750px]">
