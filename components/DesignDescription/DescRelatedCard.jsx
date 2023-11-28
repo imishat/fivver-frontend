@@ -38,7 +38,7 @@ const DescRelatedCard = ({data}) => {
       };
     return (
         <div className="border border-gray-300 h-[260px]">
-             <Link href={`/design/${data?.designId}`} className="px-2 h-full inline-block py-1 text-sm w-full">
+             <Link href={`/design/${data?.designId}`} className="h-full inline-block text-sm w-full">
             <div className="bg-rose-100 w-full h-full">
                 <Image height={160} width={224} className=" w-full h-full object-cover" src={`${process.env.NEXT_PUBLIC_API}/files/download/public/${data?.featuredImageId ? data?.featuredImageId : data?.imageIds[0]}`} alt="" />
             </div>

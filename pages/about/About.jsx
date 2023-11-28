@@ -57,7 +57,7 @@ const About = () => {
               {designCat.map((design, i) => {
                 return (
                   <li
-                    className="before:content-['✓'] before:relative before:-left-2 before:text-blue-400 ml-6"
+                    className="before:content-['✓'] before:relative before:-left-2 before:text-blue-400 ml-2"
                     key={i}
                   >
                     {design}
