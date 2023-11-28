@@ -48,18 +48,18 @@ export default function DesignCategorySectionCard({category}) {
             spaceBetween: 3,
           },
           768: {
-            slidesPerView: 2,
+            slidesPerView: 3,
             spaceBetween: 3,
           },
           1024: {
-            slidesPerView: 3,
+            slidesPerView: 4,
             spaceBetween: 10,
           }
         }}
         modules={[Navigation,Autoplay]}
         className="mySwiper"
       >
-        <div>
+        <div className="">
           <div>
             {designs?.length ? designs?.map((data, i) => (
               <SwiperSlide key={i} className="flex !-mx-2 mb-6 !w-[320px]">

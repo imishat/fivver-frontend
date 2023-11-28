@@ -36,6 +36,32 @@ const CreateDesign = () => {
     limit: 100,
   });
 
+  // images 
+  const [images,setImages] = useState(null)
+  // thumbnail
+  const [thumb,setThumb] = useState(null)
+
+  const [thumbBlob, setThumbBlob] = useState('');
+// create image blob
+  const handleThumbUpload = (event) => {
+    const file = event.target.files?.[0];
+
+    if (file) {
+      const blobUrl = URL.createObjectURL(file);
+      setThumbBlob(blobUrl);
+    }
+  };
+  const [imageBlob,setImageBlob] = useState([])
+// create image blob
+const handleImageChange = (event) => {
+  const uploadedImages = event.target.files;
+
+  // Creating Blob URLs for each uploaded image
+  const blobUrls = Array.from(uploadedImages).map((image) => URL.createObjectURL(image));
+
+  setImageBlob(blobUrls);
+};
+ 
   // react hook form
   const {
     register,
@@ -381,15 +407,17 @@ console.log(selectedTags,"selectedTags")
                 Tags
               </label>
             
-              <input  onChange={(e) => setSelectedTags(e)} {...register("description", { required: true })}  type="text" className=" px-3 py-2" id="create" />
+              <textarea  onChange={(e) => setSelectedTags(e)} {...register("description", { required: true })}  type="text" className=" px-3 py-2" id="create" />
             </div>
             {/* Thumbnail */}
             <div className="border">
               <p className="px-3 py-2 bg-base-200 ">
-                {" "}
                 Thumbnail <span className="text-rose-400">*</span>
               </p>
-
+              {/* Image  */}
+              <div>
+              {thumbBlob && <img src={thumbBlob} className="w-24 m-3 object-cover h-24" alt="Uploaded Image" />}
+              </div>
               <div>
                 <input
                   className="file-input file-input-md file-input-bordered w-full rounded-none m-1"
@@ -397,6 +425,7 @@ console.log(selectedTags,"selectedTags")
                   onClick={() => setWatermark(false)}
                   type="file"
                   accept="image/*"
+                  onChange={(e)=>handleThumbUpload(e)}
                   id="thumb"
                 />
               </div>
@@ -412,14 +441,21 @@ console.log(selectedTags,"selectedTags")
                 <span className="text-xs">(Multiple Select)</span>{" "}
                 <span className="text-rose-400">*</span>
               </p>
-
+<div className="">
+{imageBlob?.length && <div className="flex items-center flex-wrap">
+  {
+   imageBlob?.map((image,i)=><img key={i} src={image} className="w-24 m-1 object-cover h-24" alt="Uploaded Image" />) 
+  }
+  </div>}
+</div>
               <div>
                 <input
                   className="file-input file-input-md file-input-bordered w-full rounded-none m-1"
                   {...register("image", { required: true })}
-                  onChange={() => setWatermark(true)}
+                  onClick={() => setWatermark(true)}
                   type="file"
                   accept="image/*"
+                  onChange={(e)=>handleImageChange(e)}
                   id="images"
                   multiple={true}
                 />
@@ -430,22 +466,7 @@ console.log(selectedTags,"selectedTags")
             </div>
            
             {/* Priority */}
-            {/* <div className="flex flex-col border">
-              <label
-                className="px-3 py-2 inline-block bg-base-200 w-full"
-                htmlFor="Priority"
-              >
-                Project Priority
-              </label> */}
-              {/* priority select */}
-             {/* <select  {...register("priority", { required: false })} id="Priority" className="select select-bordered rounded-none">
-              {allDesigns?.length &&
-                allDesigns?.map((design,i)=>{
-                  return <option value={i+1}>{i+1}</option>
-                })
-              }
-             </select>
-            </div> */}
+          
 
             <div className="flex justify-center my-2">
               {/* Submit */}

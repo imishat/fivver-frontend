@@ -17,9 +17,9 @@ const AllDesignByCompany = ({ companyId }) => {
   const designs = designData?.data?.designs
  
   return (
-    <div>
+    <div className="w-full ">
       {/* Design Title */}
-      <div className="h-full w-full relative">
+      <div className="h-full w-full relative  ">
         <img
           className="w-full h-full bg-[#FEF2F2]"
           src="https://i.ibb.co/0XcnZkw/Web-Banner-3-3.png"
@@ -40,7 +40,7 @@ const AllDesignByCompany = ({ companyId }) => {
         </div>
       </div>
       {designs?.length ? (
-        <div className="w-full gap-2 px-12  grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 2xl:grid-cols-6 ">
+        <div className="md:w-full xl:max-w-7xl lg:max-w-max mx-auto 2xl:w-[90%] xl:mx-auto gap-3 md:gap-8 lg:gap-12 lg:px-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 ">
           {designs.map((data, i) => (
             <CompanyCard data={data} key={i} />
           ))}
