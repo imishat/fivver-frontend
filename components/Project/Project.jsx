@@ -35,8 +35,10 @@ const Project = () => {
 
   // get categorie by category id
   const { data: category } = useGetCategoryData({
+
     categoryId: singleDesign.categoryId,
   });
+  console.log(category,"a")
 
     // get design id
 

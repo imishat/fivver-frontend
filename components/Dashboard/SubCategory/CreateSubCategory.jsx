@@ -22,10 +22,17 @@ function CreateSubCategory() {
 
   // handle create category
   const handleCreate = (data) => {
+  
     // create image
+    
     const createData = {
       name: data.name,
       price: data.price,
+      FD_Amount:data.FD_Amount,
+      fastDay:data.fastDay,
+      regulardays:data.regulardays,
+      tagName:data.tagName,
+
       imageIds: [],
     };
     // create category
@@ -57,7 +64,7 @@ function CreateSubCategory() {
            <input
             {...register("tagName", { required: true })}
             placeholder="Tag line"
-            className="input input-bordered rounded-none input-sm  inline-block w-32 h-7"
+            className="input input-bordered rounded-none input-sm  inline-block w-32 h-7 text-black"
             type="text"
             id="label"
           />

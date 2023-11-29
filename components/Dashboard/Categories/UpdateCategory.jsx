@@ -176,7 +176,7 @@ const UpdateCategory = () => {
                     htmlFor={subCat?.subcategoryId}
                     className="cursor-pointer select-none"
                   >
-                    {subCat?.name} <span className="font-bold">({subCat?.price})</span>
+                    {subCat?.name} <span className="font-bold">({subCat?.price})</span><span className="font-bold">{subCat?.tagName}</span>
                   </label>
                 </div>
               );
