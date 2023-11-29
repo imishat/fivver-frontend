@@ -7,7 +7,7 @@ function SubCategory() {
 const {data:subcategoryData} = useGetSubCategoryById({subcategoryId:''})
 // subcategory
 const subcategory = subcategoryData?.data?.subcategories
-console.log(subcategory)
+
     return (
         <div className="md:flex gap-3">
         <div className="md:w-2/3 mx-auto">
