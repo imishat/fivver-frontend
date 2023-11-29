@@ -1,5 +1,5 @@
 import axios from "@/components/lib/axiosFetch"
-import { GET_CATEGORIES } from "@/components/utils/constant"
+import { DELETED_CATEGORIES, GET_CATEGORIES } from "@/components/utils/constant"
 import { useMutation } from "@tanstack/react-query"
 
 
@@ -9,3 +9,11 @@ export function useCreateCategory(){
         return data
     })
   }
+  export function useDeleteCatagory() {
+    return useMutation(async (designId) => {
+        console.log(designId,"dsad") 
+      const { data } = await axios('DELETE', `${DELETED_CATEGORIES}/${designId
+      }`);
+      return data;
+    })
+  };

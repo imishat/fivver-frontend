@@ -26,6 +26,7 @@ export const CREATE_DESIGN="designs"
 export const INQUIRIES="inquiries"
 // categories
 export const GET_CATEGORIES ="categories"
+export const DELETED_CATEGORIES ="categories"
 // subcategories
 export const GET_SUBCATEGORIES ="subcategories"
 // file upload
@@ -36,6 +37,7 @@ export const GET_FILE_BY_ID = 'files'
 export const GET_DESIGNS="designs"
 // companies
 export const COMPANIES="companies"
+export const DELETED_COMPANIES="companies"
 // tags
 export const TAGS="tags"
 // get user
