@@ -1,9 +1,33 @@
+import { useDeleteCompany } from "@/components/queries/mutation/updateCompany.mutation";
+import useToast from "@/components/utility/useToast";
+import { COMPANIES } from "@/components/utils/constant";
+import { useQueryClient } from "@tanstack/react-query";
 import moment from "moment";
 import Link from "next/link";
 
 const CompanyCard = ({company}) => {
-    console.log(company)
+    
+    const {mutate}= useDeleteCompany()
+    // refatch all desing
+    const queryClient = useQueryClient();
+    const { Toast, showToast } = useToast();
+
+    const handleDelete=(id)=>{
+
+        mutate(id, {
+          onSuccess:() => {
+            queryClient.invalidateQueries([COMPANIES])
+            showToast('Delete Company Successfully', 'success');
+          },
+          onError: (err) => {
+            showToast(err?.response?.data?.message,"Error");
+          },
+        })
+    
+      }
     return (
+      <>
+      <Toast/>
         <div className=" bg-[#F4F9FF] border border-gray-400 p-4">
           <div className="sm:flex justify-between items-center ">
             <div className="sm:flex items-center gap-4">
@@ -22,13 +46,14 @@ const CompanyCard = ({company}) => {
                     </li>
                     <li className="flex gap-2 items-center">
                         <Link className="font-bold text-lg text-[#1C8DDD]" href={`/update/company/${company.companyId}`}>Edit</Link>
-                        <Link className="font-bold text-lg text-[#e64784]" href={'#'}>Delete</Link>
+                        <div className="font-bold text-lg text-[#e64784] cursor-pointer " onClick={() => handleDelete(company.companyId
+)}>Delete</div>
                     </li>
                 </ul>
             </div>
         </div>
        
-      </div>
+      </div></>
     );
 };
 

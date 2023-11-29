@@ -20,6 +20,7 @@ import useToast from "../utility/useToast";
 import RelatedDesignCard from "./RelatedDesignCard";
 
 import { removeFromCart } from "@/components/redux/features/cart/cart";
+import { PhotoProvider, PhotoView } from "react-photo-view";
 
 const DesignDescription = ({ data }) => {
   const { Toast, showToast } = useToast();
@@ -82,17 +83,32 @@ const DesignDescription = ({ data }) => {
         <Swiper
           navigation={true}
           modules={[Navigation]}
-          className="mySwiper sm:!w-[640px] sm:!h-[500px] md:!w-[750px] !mx-0">
+          className="mySwiper sm:!w-[640px] sm:!h-[550px] md:!w-[750px] !mx-0">
           {design?.imageIds?.map((id, i) => (
             <SwiperSlide key={i} className="flex !gap-2 sm:!w-[640px] sm:!h-[500px] md:!w-[750px]">
               <div className="border h-full w-full sm:!w-[640px] sm:!h-[100%] md:!w-[750px]">
-                <Image
+                {/* <Image
                   height={300}
                   width={850}
                   className="w-full h-full object-content"
                   src={`${process.env.NEXT_PUBLIC_API}/files/download/public/${id}`}
                   alt=""
-                />
+                /> */}
+
+                <PhotoProvider
+                >
+                  <PhotoView src={`${process.env.NEXT_PUBLIC_API}/files/download/public/${id}`}>
+                    <img
+                      height={300}
+                      width={850}
+                      className="w-full h-full object-content"
+                      src={`${process.env.NEXT_PUBLIC_API}/files/download/public/${id}`}
+                      alt=""
+                    />
+
+                  </PhotoView>
+                </PhotoProvider>
+
               </div>
             </SwiperSlide>
           ))}

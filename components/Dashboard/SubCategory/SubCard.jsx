@@ -1,6 +1,7 @@
 import { useDeleteAction } from "@/components/queries/mutation/delete.mutation";
 import useToast from "@/components/utility/useToast";
 import { GET_SUBCATEGORIES } from "@/components/utils/constant";
+import { useQueryClient } from "@tanstack/react-query";
 import moment from "moment";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -13,7 +14,7 @@ function SubCard({sub}) {
   const {mutate:deleteSubCat} = useDeleteAction()
   // router
   const router = useRouter();
-
+  const queryClient = useQueryClient();
     // handle delete
     const handleDelete = id =>{
         const deleteSub ={
@@ -22,6 +23,7 @@ function SubCard({sub}) {
         }
         deleteSubCat(deleteSub,{
         onSuccess: (res) => {
+            queryClient.invalidateQueries([GET_SUBCATEGORIES])
           showToast("Delete Sub Category", "success");
           router.push('/dashboard?n=subcategories')
         },

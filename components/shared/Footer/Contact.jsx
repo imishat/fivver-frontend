@@ -80,10 +80,9 @@ const Contact=()=>{
         <div className=" flex justify-center text-center py-4">
           <div className="md:text-2xl font-semibold">
             
-            <p className="text-black">If you would like to take a template/source file of any design
+            <p className="text-black">If you have any questions or inquiries about our services, please feel free to contact us by filling out this form
 . </p>
-            <p className="text-black">  we have created, please contact us, and show us the design you like. </p>
-            <p className="text-black"> We will give you the template/source file </p>
+            
           </div>
         </div>
       </div>
