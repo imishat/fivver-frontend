@@ -29,10 +29,10 @@ export default function Reviews({filteredReviews}) {
                       {  review?.description
 }
                     </p>
-                    <div className='w-64 md:w-28 border h-20 bg-white flex justify-center items-center text-xs'>
+                    <div className='w-64 md:w-[50%] border h-20 bg-white flex justify-center items-center text-xs'>
                     <PhotoProvider>
-      <PhotoView src="http://localhost:3000/_next/image?url=http%3A%2F%2F103.49.169.89%3A30912%2Fapi%2Fv1.0%2Ffiles%2Fdownload%2Fpublic%2Fsa9P7&w=256&q=75">
-        <img src="http://localhost:3000/_next/image?url=http%3A%2F%2F103.49.169.89%3A30912%2Fapi%2Fv1.0%2Ffiles%2Fdownload%2Fpublic%2Fsa9P7&w=256&q=75" alt="" />
+      <PhotoView src="https://i.ibb.co/qJFwS5F/Solar-Energy-Door-Hanger-Design.jpg">
+        <img src="https://i.ibb.co/qJFwS5F/Solar-Energy-Door-Hanger-Design.jpg" className='w-[120px] h-[89px]' alt="" />
       </PhotoView>
     </PhotoProvider>
                      
