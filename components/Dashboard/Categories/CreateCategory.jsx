@@ -152,7 +152,7 @@ function CreateCategory() {
                     htmlFor={subCat?.subcategoryId}
                     className="cursor-pointer select-none"
                   >
-                    {subCat?.name}
+                    {subCat?.name} <span className="font-bold">({subCat?.price})</span><span className="font-bold">{subCat?.tagName}</span>
                   </label>
                 </div>
               );

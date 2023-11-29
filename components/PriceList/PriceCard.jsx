@@ -20,7 +20,7 @@ const PriceCard = ({category}) => {
         router.push('/project')
     }
     return (
-        <div className="h-full sm:h-52 rounded-xl overflow-hidden border border-[#D4C9C9] relative">
+        <div className="h-full sm:h-62 rounded-xl overflow-hidden border border-[#D4C9C9] relative">
             {/* Title */}
             <div className=" w-full bg-[#FFEFEF] flex justify-center items-center h-12 ">
                 <h3 className="text-2xl font-bold">{category.name}</h3>
@@ -34,6 +34,8 @@ const PriceCard = ({category}) => {
                     <div key={i}>
                     <p className="sm:text-xl">{sub.name}</p>
                     <h3 className="text-center text-[#1B8CDC] sm:text-xl font-bold">${sub.price}USD</h3>
+                    <h3 className='text-center'> { sub?.regulardays} Days Delivery</h3>
+                    <h3>  Extra- Fast {sub?.fastDay} Day Delivery ${sub?.FD_Amount}</h3>
                 </div>)
                 })
                }
@@ -44,7 +46,7 @@ const PriceCard = ({category}) => {
             </div>
             <div>
                 <ul className="sm:flex justify-around">
-                    <li className="flex items-center gap-1"><span className='text-[#1B8CDC]'><HiCheckCircle /></span>Unlimited Revisions Ready PDF or JPEG FileReady PDF or JPEG File</li>
+                    <li className="flex items-center gap-1"><span className='text-[#1B8CDC]'><HiCheckCircle /></span>Unlimited Revisions</li>
                     <li className="flex items-center gap-1"><span className='text-[#1B8CDC]'><HiCheckCircle /></span>PSD Source File</li>
                     <li className="flex items-center gap-1"><span className='text-[#1B8CDC]'><HiCheckCircle /></span>Print Ready PDF or JPEG File</li>
                 </ul>

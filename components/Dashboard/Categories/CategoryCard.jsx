@@ -38,7 +38,7 @@ const {mutate}=useDeleteCatagory()
                             <p className="font-bold">{category?.name}
                                 <br />
                                 {
-                                    category?.subcategories?.map(sub => <span key={sub._id} className="font-normal text-sm mr-1 bg-blue-50 text-blue-400 px-1">{sub?.name}({sub?.price})</span>)
+                                    category?.subcategories?.map(sub => <span key={sub._id} className="font-normal text-sm mr-1 bg-blue-50 text-blue-400 px-1">{sub?.name}({sub?.price}) {sub?.tagName}</span>)
                                 }
 
                             </p>
@@ -49,6 +49,7 @@ const {mutate}=useDeleteCatagory()
                             <li className="text-center">
                                 <p>Time</p>
                                 <span className="font-bold text-lg">{moment(category.createdAt).fromNow()}</span>
+                                
                             </li>
                             <li className="flex gap-2 items-center">
                                 <Link className="font-bold text-lg text-[#1C8DDD]" href={`/update/category/${category.categoryId}`}>Edit</Link>
