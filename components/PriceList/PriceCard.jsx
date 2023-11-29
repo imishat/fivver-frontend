@@ -44,7 +44,7 @@ const PriceCard = ({category}) => {
             </div>
             <div>
                 <ul className="sm:flex justify-around">
-                    <li className="flex items-center gap-1"><span className='text-[#1B8CDC]'><HiCheckCircle /></span>Unlimited Revisions</li>
+                    <li className="flex items-center gap-1"><span className='text-[#1B8CDC]'><HiCheckCircle /></span>Unlimited Revisions Ready PDF or JPEG FileReady PDF or JPEG File</li>
                     <li className="flex items-center gap-1"><span className='text-[#1B8CDC]'><HiCheckCircle /></span>PSD Source File</li>
                     <li className="flex items-center gap-1"><span className='text-[#1B8CDC]'><HiCheckCircle /></span>Print Ready PDF or JPEG File</li>
                 </ul>

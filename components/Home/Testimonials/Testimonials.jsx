@@ -98,7 +98,7 @@ const Testimonials = () => {
               <BsStarFill color="#1781CB" />
               <BsStarFill color="#1781CB" />
               <BsStarFill color="#1781CB" />
-              <BsStarFill color="#1781CB" />
+              <BsStarFill color="#1781CB" /><BsStarFill color="#c8e3f6" />
            
             </div>
             <p className="sm:text-sm text-xs">{filteredReviews?.length}</p>
@@ -110,7 +110,7 @@ const Testimonials = () => {
             <div className="flex md:gap-2 items-center justify-center text-xl">
               <BsStarFill color="#1781CB" />
               <BsStarFill color="#1781CB" />
-              <BsStarFill color="#1781CB" />
+              <BsStarFill color="#1781CB" /><BsStarFill color="#c8e3f6" /><BsStarFill color="#c8e3f6" />
               
             </div>
             <p className="sm:text-sm text-xs">{filteredReviews?.length}</p>
@@ -120,9 +120,12 @@ const Testimonials = () => {
             handleStarFilter(2)}}className="text-center border font-bold space-y-2 bg-white md:py-4 p-1 rounded-md">
             <h2  className="md:text-xl text-sm sm:text-base font-bold">2 Stars</h2>
             <div className="flex md:gap-2 items-center justify-center text-xl">
+              
               <BsStarFill color="#1781CB" />
               <BsStarFill color="#1781CB" />
-             
+              <BsStarFill color="#c8e3f6" />
+              <BsStarFill color="#c8e3f6" />
+              <BsStarFill color="#c8e3f6" />
             </div>
             <p className="sm:text-sm text-xs">{filteredReviews?.length}</p>
           </div>
@@ -132,6 +135,7 @@ const Testimonials = () => {
             <h2  className="md:text-xl text-sm sm:text-base font-bold">1 Stars</h2>
             <div className="flex md:gap-2 items-center justify-center text-xl">
               <BsStarFill color="#1781CB" />
+              <BsStarFill color="#c8e3f6" /><BsStarFill color="#c8e3f6" /><BsStarFill color="#c8e3f6" /><BsStarFill color="#c8e3f6" />
              
             </div>
             <p className="sm:text-sm text-xs">{filteredReviews?.length}</p>
@@ -142,7 +146,7 @@ const Testimonials = () => {
           <div className="my-6">
             <div className="flex w-full md:text-xl text-sm sm:text-base items-center border-b md:py-5 py-2 border-[#242627]">
               <p className="font-bold md:w-44 px-1 w-20">Sort By</p>
-             <div className="flex items-center md:justify-between w-full px-6">
+             <div className="flex items-center gap-16 w-full px-6">
              <button onClick={() => {
               // handleStarFilter(null)
               setShort('relevant')

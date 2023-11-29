@@ -80,9 +80,9 @@ const Footer = () => {
       {router.asPath !== "/" ? (
         <div>
           {/* Email */}
-          <div className="bg-[#1781CB] py-2 md:text-2xl text-white flex gap-4 px-6">
+          {/* <div className="bg-[#1781CB] py-2 md:text-2xl text-white flex gap-4 px-6">
             <p>Email: </p> <p>mahfujurrahman535@gmail.com</p>
-          </div>
+          </div> */}
           {/* Main Footer */}
           <div className="bg-black">
             <div className="flex text-white justify-between items-center border-b pb-3 md:px-6 md:mx-5">
