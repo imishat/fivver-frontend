@@ -56,7 +56,7 @@ function CreateSubCategory() {
       >
         <div className="w-full">
           <label
-            className="bg-[#3b82f6] capitalize text-white inline-block py-2 px-3 font-bold w-full flex justify-between"
+            className="bg-[#1881cc] capitalize text-white inline-block py-2 px-3 font-bold w-full flex justify-between"
             htmlFor="label"
           >
            <span> Subcategory</span>

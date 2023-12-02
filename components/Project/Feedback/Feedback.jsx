@@ -8,19 +8,19 @@ import { PiStarFill, PiStarLight } from "react-icons/pi";
 import { useSelector } from "react-redux";
 
 const Feedback = ({ singleProject }) => {
-  const { handleSubmit,reset, register } = useForm();
+  const { handleSubmit, reset, register } = useForm();
 
   // router
   const router = useRouter()
 
   // create review
-  const {mutate:createReview} = useReviewMutation()
+  const { mutate: createReview } = useReviewMutation()
 
   // toast 
-  const {showToast,Toast} = useToast()
+  const { showToast, Toast } = useToast()
 
   const project = singleProject?.data?.project;
-// get user
+  // get user
   const { user } = useSelector((state) => state.user);
   // get date distance
   function dateDiffInDays(date1, date2) {
@@ -39,39 +39,39 @@ const Feedback = ({ singleProject }) => {
   const [star, setStar] = useState(null);
   const [review, setReview] = useState(0);
 
-  const [isSelected,setIsSelected] = useState(false)
+  const [isSelected, setIsSelected] = useState(false)
   console.log(isSelected)
 
-  const projectImage = isSelected ? project?.featuredImageId||project?.imageIds?.[0]:''
+  const projectImage = isSelected ? project?.featuredImageId || project?.imageIds?.[0] : ''
 
   // create review
   const handleCreateReview = (data) => {
-      const reviewData = {
-      userId: user?.role === 'ADMIN' ? project?.startedBy :user?.userId,
+    const reviewData = {
+      userId: user?.role === 'ADMIN' ? project?.startedBy : user?.userId,
       projectUserId: project?.startedBy,
-      reviewer:{name:user?.fullName,profilePicture:user?.profilePicture,userName:user?.username},
+      reviewer: { name: user?.fullName, profilePicture: user?.profilePicture, userName: user?.username },
       description: data?.message,
-      projectId:project?.projectId,
+      projectId: project?.projectId,
       stars: review,
-      projectImage:projectImage,
-      addToReview:data.addHome
+      projectImage: projectImage,
+      addToReview: data.addHome
     };
-    createReview({type:'POST',reviewData},{
+    createReview({ type: 'POST', reviewData }, {
       onSuccess: (res) => {
         console.log(res)
-        if(res?.data){
-          showToast('Review Created','success');
+        if (res?.data) {
+          showToast('Review Created', 'success');
           reset()
           router.push(`/project/completed/tip/${project?.projectId}`)
-        }else{
+        } else {
           showToast('Try Again');
         }
-      
-    },
-    onError: err => {
-      showToast(err?.response?.data?.message)
-    }
-  })
+
+      },
+      onError: err => {
+        showToast(err?.response?.data?.message)
+      }
+    })
   };
   return (
     <div className="mt-6 lg:mx-20 md:flex gap-12 justify-between">
@@ -151,7 +151,7 @@ const Feedback = ({ singleProject }) => {
           <div className="md:flex mx-4 md:mx-0 items-center gap-2">
             <div className="w-full">
               <textarea
-                {...register("message",{required:true})}
+                {...register("message", { required: true })}
                 placeholder="Type your experience"
                 className="w-full p-3 h-36 border-gray-500 border"
               ></textarea>
@@ -162,22 +162,22 @@ const Feedback = ({ singleProject }) => {
                 htmlFor="item"
                 className="w-full h-32 inline-block relative bg-rose-100 mb-2"
               >
-                <input onChange={()=>setIsSelected(!isSelected)}
+                <input onChange={() => setIsSelected(!isSelected)}
                   className="absolute checkbox rounded-none bg-white checkbox-info checkbox-sm right-1 bottom-1"
                   type="checkbox"
                   id="item"
                 />
-                 <img
-              src={`${process.env.NEXT_PUBLIC_API}/files/download/public/${project?.imageIds[0]}`}
-              className="bg-rose-100 w-full h-full"
-              alt=""
-            />
+                <img
+                  src={`${process.env.NEXT_PUBLIC_API}/files/download/public/${project?.imageIds[0]}`}
+                  className="bg-rose-100 w-full h-full"
+                  alt=""
+                />
               </label>
             </div>
           </div>
           <div className="flex mb-12 items-center mt-6">
             <div className="w-full flex items-center justify-center">
-              <button className="bg-blue-500 md:w-60 px-3 py-1 text-2xl font-bold text-white rounded">
+              <button className="bg-[#1881cc] md:w-60 px-3 py-1 text-2xl font-bold text-white rounded">
                 Send Feedback
               </button>
             </div>

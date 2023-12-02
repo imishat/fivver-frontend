@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 function CreateQuick() {
 
-    // react hook form custom offer
+  // react hook form custom offer
   const {
     register,
     handleSubmit,
@@ -18,52 +18,52 @@ function CreateQuick() {
   const dispatch = useDispatch()
 
   // selector update
-  const messageUpdate = useSelector((state)=>state.update)
+  const messageUpdate = useSelector((state) => state.update)
 
-// create new quick response
-const {mutate:createQuick}= useQuickResponse()
-    // input value
-    const [value,setValue] = useState('')
+  // create new quick response
+  const { mutate: createQuick } = useQuickResponse()
+  // input value
+  const [value, setValue] = useState('')
 
 
-    // toast
-    const { Toast, showToast } = useToast();
+  // toast
+  const { Toast, showToast } = useToast();
 
   // handle create Quick
-    const handleCreate = (data) => {
-        const quickData ={
-            type:'POST',
-            "label": data?.quick,
-            "value": data?.description?.split(' ').join('-').toLowerCase(),
-            id:''
-          }
-          createQuick(quickData,{
-            onSuccess: (res) => {
-              showToast("New Response Created", "success");
-              dispatch(updateState(!messageUpdate?.update))
-              reset()
-            },
-            onError: (err) => {
-              showToast(err?.message);
-            },
-          });
-    };
+  const handleCreate = (data) => {
+    const quickData = {
+      type: 'POST',
+      "label": data?.quick,
+      "value": data?.description?.split(' ').join('-').toLowerCase(),
+      id: ''
+    }
+    createQuick(quickData, {
+      onSuccess: (res) => {
+        showToast("New Response Created", "success");
+        dispatch(updateState(!messageUpdate?.update))
+        reset()
+      },
+      onError: (err) => {
+        showToast(err?.message);
+      },
+    });
+  };
   return (
     <dialog id="create_new_quick" className="modal">
-        <Toast/>
+      <Toast />
       <div className="modal-box ">
         <div>
           <h3 className="font-bold text-lg">Create New Quick Response!</h3>
           <form onSubmit={handleSubmit(handleCreate)} className="flex  flex-col space-y-5">
             <div className="flex flex-col mt-4">
               <label htmlFor="create">Title</label>
-              <input  {...register("quick", { required: true })}  onChange={(e)=>setValue(e.target.value)} type="text" className="input input-bordered rounded-none" id="create" />
+              <input  {...register("quick", { required: true })} onChange={(e) => setValue(e.target.value)} type="text" className="input input-bordered rounded-none" id="create" />
             </div>
             <div className="flex flex-col mt-4">
               <label htmlFor="">Description</label>
-              <input  {...register("description", { required: true })}  type="text" className="input input-bordered rounded-none h-[150px]" id="create" />
+              <input  {...register("description", { required: true })} type="text" className="input input-bordered rounded-none h-[150px]" id="create" />
             </div>
-            <button className="btn rounded-none bg-blue-400 hover:bg-blue-500 duration-300 text-white">
+            <button className="btn rounded-none bg-blue-400 hover:bg-[#1881cc] duration-300 text-white">
               Create
             </button>
           </form>

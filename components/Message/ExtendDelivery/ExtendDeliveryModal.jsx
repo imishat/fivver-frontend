@@ -9,15 +9,15 @@ import { useDispatch, useSelector } from "react-redux";
 
 function ExtendDeliveryModal({ project, reply, setReply, update, setUpdate }) {
   const { message, setMessage, sendMessage, returnMessage } = useSocketChat();
-  
+
   const [days, setDays] = useState(1);
 
   const dispatch = useDispatch()
 
   // get user 
-const {user} = useSelector(state => state.user)
+  const { user } = useSelector(state => state.user)
 
-  const messageUpdate = useSelector(state=>state.update)
+  const messageUpdate = useSelector(state => state.update)
 
   // react hook form
   const { handleSubmit, register, reset } = useForm();
@@ -56,23 +56,23 @@ const {user} = useSelector(state => state.user)
 
     // reset()
   };
-  const isForAdmin = user?.role === 'ADMIN' ? false:true
+  const isForAdmin = user?.role === 'ADMIN' ? false : true
   // create notification
-  const {mutate: createNotification} = useCreateNotifications()
-    // handle create notifications
-    const handleCreateNotifications  = (data) =>{
-      const notificationData = {
-        "type": "project",
-        "model":"extend",
-        "message": data?.message,
-        "image": {fileId:project?.featuredImageId||project?.imageIds[0]},
-        "isForAdmin":isForAdmin,
-        "isRead":false,
-        "userId": project?.startedBy,
-        "projectId": project?.projectId
-        
+  const { mutate: createNotification } = useCreateNotifications()
+  // handle create notifications
+  const handleCreateNotifications = (data) => {
+    const notificationData = {
+      "type": "project",
+      "model": "extend",
+      "message": data?.message,
+      "image": { fileId: project?.featuredImageId || project?.imageIds[0] },
+      "isForAdmin": isForAdmin,
+      "isRead": false,
+      "userId": project?.startedBy,
+      "projectId": project?.projectId
+
     }
-    createNotification(notificationData,{
+    createNotification(notificationData, {
       onSuccess: (res) => {
         console.log(res.data);
       },
@@ -80,8 +80,8 @@ const {user} = useSelector(state => state.user)
         showToast(err?.response?.data?.message);
       },
     })
-    }
-  
+  }
+
 
   return (
     <div>
@@ -134,7 +134,7 @@ const {user} = useSelector(state => state.user)
               </div>
               {/* Button */}
               <div>
-                <button className="bg-blue-500  font-bold hover:bg-blue-700 text-white py-2 px-6 text-center sm:px-4 sm:py-2">
+                <button className="bg-[#1881cc]  font-bold hover:bg-blue-700 text-white py-2 px-6 text-center sm:px-4 sm:py-2">
                   Extend
                 </button>
               </div>

@@ -11,7 +11,7 @@ const StockImageSites = () => {
             url:'#'
         },
         {id:3,
-            image:'/stock/06 Dreamstime_Logo.png',
+            image:'/stock/alamy logo.png',
             url:'#'
         },
         {id:4,
@@ -30,10 +30,18 @@ const StockImageSites = () => {
             image:'/stock/07 Vectezzy logo.png',
             url:'#'
         },
+        {id:8,
+            image:'/stock/05 Getty_Images_Logo.png',
+            url:'#'
+        },
+        {id:9,
+            image:'/stock/depositphotos.png',
+            url:'#'
+        },
     ]
     return (
-       <div className="rounded-lg w-full overflow-hidden border border-blue-400">
-        <div className="bg-blue-400 text-white px-1 py-1 text-center ">
+       <div className="rounded-lg w-full overflow-hidden border border-[#1C8CDC]">
+        <div className="bg-[#1881cc] text-white px-1 py-1 text-center ">
             <p>We have added links to some<br/> stock image sites below.<br/> You can choose images<br/> from any of the sites linked<br/> below for your design.</p>
         </div>
         <div className="p-2 space-y-3 grid sm:grid-cols-2 md:grid-cols-1 gap-2">

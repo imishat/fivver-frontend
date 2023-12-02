@@ -92,10 +92,10 @@ const Activity = () => {
   // socket hook
   const { sendMessage, returnMessage } = useSocketChat();
 
-      // get project review
-      const {data:projectReviewData} = useGetReviews({userId:'',projectId:projectId,update:messageUpdate})
-      // reviews
-    const projectReview = projectReviewData?.data?.reviews
+  // get project review
+  const { data: projectReviewData } = useGetReviews({ userId: '', projectId: projectId, update: messageUpdate })
+  // reviews
+  const projectReview = projectReviewData?.data?.reviews
 
   // get project b y id
   const { data: projectData } = useGetProject({
@@ -156,14 +156,14 @@ const Activity = () => {
     setValue((prevText) => prevText + e);
   };
 
-   // show and hide emoji
-   const [showEmoji,setShowEmoji]= useState(false)
+  // show and hide emoji
+  const [showEmoji, setShowEmoji] = useState(false)
 
 
-// set emoji in textarea
- const handleEmojiSelect = (event, emojiObject) => {
-  setValue((prevText) => prevText + event?.emoji);
-  setShowEmoji(!showEmoji)
+  // set emoji in textarea
+  const handleEmojiSelect = (event, emojiObject) => {
+    setValue((prevText) => prevText + event?.emoji);
+    setShowEmoji(!showEmoji)
   };
 
   // toast
@@ -196,22 +196,22 @@ const Activity = () => {
       9: 'i',
       0: 'Z',
     };
-  
+
     const result = [];
-  
+
     for (let i = 0; i < input?.length; i++) {
       const digit = input[i];
       if (mapping[digit] !== undefined) {
         result.push(mapping[digit]);
       }
     }
-  
+
     return result.join('');
   }
 
   // console.log(projectNumber('125'),'number')
 
-  
+
   // blob images for preview images
   let imagesBlobs = [];
 
@@ -293,30 +293,30 @@ const Activity = () => {
       handleClick();
     }
   };
-  const isForAdmin = user?.role === 'ADMIN' ? false:true
-   // create notification
-   const {mutate: createNotification} = useCreateNotifications()
-   // handle create notifications
-   const handleCreateNotifications  = () =>{
-     const notificationData = {
-       "type": "project",
-       "model":"message",
-       "message": value,
-       "image": {fileId:project?.featuredImageId||project?.imageIds[0]},
-       "isForAdmin":isForAdmin,
-       "userId": project?.startedBy,
-       "isRead":false,
-       "projectId": project?.projectId
-   }
-   createNotification(notificationData,{
-     onSuccess: (res) => {
-       console.log(res.data);
-     },
-     onError: (err) => {
-       showToast(err?.response?.data?.message);
-     },
-   })
-   }
+  const isForAdmin = user?.role === 'ADMIN' ? false : true
+  // create notification
+  const { mutate: createNotification } = useCreateNotifications()
+  // handle create notifications
+  const handleCreateNotifications = () => {
+    const notificationData = {
+      "type": "project",
+      "model": "message",
+      "message": value,
+      "image": { fileId: project?.featuredImageId || project?.imageIds[0] },
+      "isForAdmin": isForAdmin,
+      "userId": project?.startedBy,
+      "isRead": false,
+      "projectId": project?.projectId
+    }
+    createNotification(notificationData, {
+      onSuccess: (res) => {
+        console.log(res.data);
+      },
+      onError: (err) => {
+        showToast(err?.response?.data?.message);
+      },
+    })
+  }
 
   useEffect(() => {
     handleClick();
@@ -334,17 +334,17 @@ const Activity = () => {
 
 
 
-    // handle send mail
-    const {mutate:sendMail} = useSendMail({style:true})
+  // handle send mail
+  const { mutate: sendMail } = useSendMail({ style: true })
 
-    const handleSendMail = (data) =>{
-      if(user?.role!=='ADMIN'){
+  const handleSendMail = (data) => {
+    if (user?.role !== 'ADMIN') {
       const emailData = {
         "sendToEmail": process.env.NEXT_PUBLIC_ADMIN_EMAIL,
-      "subject": `You've receive message from ${user?.fullName}`,
-      "message": `<html lang='en'><head><style>@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&display=swap');.font{font-family: 'Inter', sans-serif;}</style></head> <body class='font' style='display: flex; color: #000; justify-content: center;margin-top: 20px;margin-bottom: 20px; background-color: #ddedfc;'><div style='justify-content: center; width: 70%; margin: 0 auto; height: fit-content; padding: 24px 48px; background-color: white; text-align: center;'><div><div><img src='https://res.cloudinary.com/dl1cxduy0/image/upload/w_450,h_200,c_scale/v1698946120/MR_Logo_Final_4_Black_lc11jd.png' alt='' /></div><div><h2>You've receive message from ${user?.fullName}</h2></div><div><hr style='border-bottom: 1px solid #000; width: 35%' /></div><div style='text-align: left'><p>${data?.messageData}</p></div><br /><div style='margin: 0px 0 33px 0'><a href='${process.env.NEXT_PUBLIC_URL}/message/project/${project?.projectId}' target='_blank'><button style='background-color: #1a8ce2; padding: 15px 30px; border: none; color: white; font-size: 16px; border-radius: 5px; font-weight: 700;'>View and Reply</button></a></div><div><a target='_blank' href='#'><img style='width: 30px; margin:4px;' src='https://res.cloudinary.com/dl1cxduy0/image/upload/v1698981561/f_logo_g0pwgu.png' alt=''/></a><a target='_blank' href='#'><img style='width: 30px; margin:4px;' src='https://res.cloudinary.com/dl1cxduy0/image/upload/v1698981561/i_logo_gsutpp.png' alt=''/></a><a target='_blank' href='#'><img style='width: 30px; margin:4px;' src='https://res.cloudinary.com/dl1cxduy0/image/upload/v1698981562/t_logo_ktnb5y.png' alt=''/></a><a target='_blank' href='#'><img style='width: 30px; margin:4px;' src='https://res.cloudinary.com/dl1cxduy0/image/upload/v1698981562/p_logo_gyq0rn.png' alt=''/></a><a target='_blank' href='#'><img style='width: 30px; margin:4px;' src='https://res.cloudinary.com/dl1cxduy0/image/upload/v1698981562/in_logo_pvkie5.png' alt=''/></a></div></div></div></body></html>`
+        "subject": `You've receive message from ${user?.fullName}`,
+        "message": `<html lang='en'><head><style>@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&display=swap');.font{font-family: 'Inter', sans-serif;}</style></head> <body class='font' style='display: flex; color: #000; justify-content: center;margin-top: 20px;margin-bottom: 20px; background-color: #ddedfc;'><div style='justify-content: center; width: 70%; margin: 0 auto; height: fit-content; padding: 24px 48px; background-color: white; text-align: center;'><div><div><img src='https://res.cloudinary.com/dl1cxduy0/image/upload/w_450,h_200,c_scale/v1698946120/MR_Logo_Final_4_Black_lc11jd.png' alt='' /></div><div><h2>You've receive message from ${user?.fullName}</h2></div><div><hr style='border-bottom: 1px solid #000; width: 35%' /></div><div style='text-align: left'><p>${data?.messageData}</p></div><br /><div style='margin: 0px 0 33px 0'><a href='${process.env.NEXT_PUBLIC_URL}/message/project/${project?.projectId}' target='_blank'><button style='background-color: #1a8ce2; padding: 15px 30px; border: none; color: white; font-size: 16px; border-radius: 5px; font-weight: 700;'>View and Reply</button></a></div><div><a target='_blank' href='#'><img style='width: 30px; margin:4px;' src='https://res.cloudinary.com/dl1cxduy0/image/upload/v1698981561/f_logo_g0pwgu.png' alt=''/></a><a target='_blank' href='#'><img style='width: 30px; margin:4px;' src='https://res.cloudinary.com/dl1cxduy0/image/upload/v1698981561/i_logo_gsutpp.png' alt=''/></a><a target='_blank' href='#'><img style='width: 30px; margin:4px;' src='https://res.cloudinary.com/dl1cxduy0/image/upload/v1698981562/t_logo_ktnb5y.png' alt=''/></a><a target='_blank' href='#'><img style='width: 30px; margin:4px;' src='https://res.cloudinary.com/dl1cxduy0/image/upload/v1698981562/p_logo_gyq0rn.png' alt=''/></a><a target='_blank' href='#'><img style='width: 30px; margin:4px;' src='https://res.cloudinary.com/dl1cxduy0/image/upload/v1698981562/in_logo_pvkie5.png' alt=''/></a></div></div></div></body></html>`
       }
-      sendMail(emailData,{
+      sendMail(emailData, {
         onSuccess: (res) => {
           console.log(res);
           showToast(`Email Send`, "success");
@@ -354,13 +354,13 @@ const Activity = () => {
           showToast(err?.message);
         },
       })
-    }else if(user?.role==='ADMIN'){
+    } else if (user?.role === 'ADMIN') {
       const emailData = {
         "sendToEmail": userInfo?.email,
-      "subject": `You've receive message from ${user?.fullName}`,
-      "message": `<html lang='en'><head><style>@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&display=swap');.font{font-family: 'Inter', sans-serif;}</style></head> <body class='font' style='display: flex; color: #000; justify-content: center;margin-top: 20px;margin-bottom: 20px; background-color: #ddedfc;'><div style='justify-content: center; width: 70%; margin: 0 auto; height: fit-content; padding: 24px 48px; background-color: white; text-align: center;'><div><div><img src='https://res.cloudinary.com/dl1cxduy0/image/upload/w_450,h_200,c_scale/v1698946120/MR_Logo_Final_4_Black_lc11jd.png' alt='' /></div><div><h2>You've receive message from ${user?.fullName}</h2></div><div><hr style='border-bottom: 1px solid #000; width: 35%' /></div><div style='text-align: left'><p>${data?.messageData}</p></div><br /><div style='margin: 0px 0 33px 0'><a href='${process.env.NEXT_PUBLIC_URL}/message/project/${project?.projectId}' target='_blank'><button style='background-color: #1a8ce2; padding: 15px 30px; border: none; color: white; font-size: 16px; border-radius: 5px; font-weight: 700;'>View and Reply</button></a></div><div><a target='_blank' href='#'><img style='width: 30px; margin:4px;' src='https://res.cloudinary.com/dl1cxduy0/image/upload/v1698981561/f_logo_g0pwgu.png' alt=''/></a><a target='_blank' href='#'><img style='width: 30px; margin:4px;' src='https://res.cloudinary.com/dl1cxduy0/image/upload/v1698981561/i_logo_gsutpp.png' alt=''/></a><a target='_blank' href='#'><img style='width: 30px; margin:4px;' src='https://res.cloudinary.com/dl1cxduy0/image/upload/v1698981562/t_logo_ktnb5y.png' alt=''/></a><a target='_blank' href='#'><img style='width: 30px; margin:4px;' src='https://res.cloudinary.com/dl1cxduy0/image/upload/v1698981562/p_logo_gyq0rn.png' alt=''/></a><a target='_blank' href='#'><img style='width: 30px; margin:4px;' src='https://res.cloudinary.com/dl1cxduy0/image/upload/v1698981562/in_logo_pvkie5.png' alt=''/></a></div></div></div></body></html>`
+        "subject": `You've receive message from ${user?.fullName}`,
+        "message": `<html lang='en'><head><style>@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&display=swap');.font{font-family: 'Inter', sans-serif;}</style></head> <body class='font' style='display: flex; color: #000; justify-content: center;margin-top: 20px;margin-bottom: 20px; background-color: #ddedfc;'><div style='justify-content: center; width: 70%; margin: 0 auto; height: fit-content; padding: 24px 48px; background-color: white; text-align: center;'><div><div><img src='https://res.cloudinary.com/dl1cxduy0/image/upload/w_450,h_200,c_scale/v1698946120/MR_Logo_Final_4_Black_lc11jd.png' alt='' /></div><div><h2>You've receive message from ${user?.fullName}</h2></div><div><hr style='border-bottom: 1px solid #000; width: 35%' /></div><div style='text-align: left'><p>${data?.messageData}</p></div><br /><div style='margin: 0px 0 33px 0'><a href='${process.env.NEXT_PUBLIC_URL}/message/project/${project?.projectId}' target='_blank'><button style='background-color: #1a8ce2; padding: 15px 30px; border: none; color: white; font-size: 16px; border-radius: 5px; font-weight: 700;'>View and Reply</button></a></div><div><a target='_blank' href='#'><img style='width: 30px; margin:4px;' src='https://res.cloudinary.com/dl1cxduy0/image/upload/v1698981561/f_logo_g0pwgu.png' alt=''/></a><a target='_blank' href='#'><img style='width: 30px; margin:4px;' src='https://res.cloudinary.com/dl1cxduy0/image/upload/v1698981561/i_logo_gsutpp.png' alt=''/></a><a target='_blank' href='#'><img style='width: 30px; margin:4px;' src='https://res.cloudinary.com/dl1cxduy0/image/upload/v1698981562/t_logo_ktnb5y.png' alt=''/></a><a target='_blank' href='#'><img style='width: 30px; margin:4px;' src='https://res.cloudinary.com/dl1cxduy0/image/upload/v1698981562/p_logo_gyq0rn.png' alt=''/></a><a target='_blank' href='#'><img style='width: 30px; margin:4px;' src='https://res.cloudinary.com/dl1cxduy0/image/upload/v1698981562/in_logo_pvkie5.png' alt=''/></a></div></div></div></body></html>`
       }
-      sendMail(emailData,{
+      sendMail(emailData, {
         onSuccess: (res) => {
           console.log(res);
           showToast(`Email Send`, "success");
@@ -371,8 +371,8 @@ const Activity = () => {
         },
       })
     }
-    }
-  
+  }
+
 
   return (
     <>
@@ -383,21 +383,19 @@ const Activity = () => {
             {/* Btns */}
             <button
               onClick={() => setToggle("activity")}
-              className={`uppercase font-bold ${
-                toggle === "activity"
+              className={`uppercase font-bold ${toggle === "activity"
                   ? "text-blue-500 border-blue-500"
                   : "border-transparent"
-              } border-b `}
+                } border-b `}
             >
               Activity
             </button>
             <button
               onClick={() => setToggle("requirements")}
-              className={`uppercase font-bold ${
-                toggle === "requirements"
+              className={`uppercase font-bold ${toggle === "requirements"
                   ? "text-blue-500 border-blue-500"
                   : "border-transparent"
-              } border-b `}
+                } border-b `}
             >
               Page Requirements
             </button>
@@ -442,7 +440,7 @@ const Activity = () => {
                             {/* // Normal Message */}
                             {message?.type === "offer" && (
                               <OfferMessageCard
-                              project={project}
+                                project={project}
                                 setReply={setReply}
                                 key={message.messageId}
                                 message={message}
@@ -507,129 +505,129 @@ const Activity = () => {
                   <BsArrowDownCircle size={20} />
                 </button>
                 {
-project?.track === 5 && !projectReview?.length ? <ProjectFeedback project={project} />:
-                
-                <div>
-                  {
-                    user?.role === 'ADMIN' ? <div>
-                    {/* Quick Response */}
+                  project?.track === 5 && !projectReview?.length ? <ProjectFeedback project={project} /> :
 
-                    <AllQuickResponse
-                      lastMessage={lastMessage}
-                      setValue={handleTextareaClick}
-                      value={value}
-                    />
-                  </div>:''
-                  }
-                  <div className="my-2 relative">
-                    {/* If Reply Message */}
-                    <div className="">
-                      {reply?.messageId ? (
-                        <div className="mx-3 flex">
-                          <span className="font-bold">Reply:</span>
-                          <p className="flex rounded-full px-2 max-w-fit my-2 mx-2 bg-base-300 items-center gap-2 ">
-                            {reply?.reply?.slice(0, 55)}{" "}
-                            <span>
-                              {reply?.reply?.length > 55 ? "..." : ""}
-                            </span>{" "}
-                            <span
-                              onClick={() => setReply({})}
-                              className="cursor-pointer"
-                            >
-                              <IoCloseCircleOutline color="#f77070" size={20} />
-                            </span>
-                          </p>
-                        </div>
-                      ) : (
-                        ""
-                      )}
-                    </div>
-                    {/* If File selected */}
                     <div>
-                      {imagesBlobs?.length ? (
-                        <span className="font-bold">Files:</span>
-                      ) : (
-                        ""
-                      )}
-                      <div className={`flex items-center flex-wrap gap-1 mx-1 ${user?.role==='ADMIN' ? 'my-3':''}`}>
-                        {imagesBlobs?.length > 0
-                          ? imagesBlobs?.map((image, i) => {
-                              return (
-                                <div key={i} className="flex relative">
-                                  <Image
-                                    width={80}
-                                    height={80}
-                                    src={window.URL.createObjectURL(image)}
-                                    className="w-20 h-20 rounded object-cover"
-                                    alt=""
-                                  />
-                                </div>
-                              );
-                            })
-                          : ""}
-                      </div>
-                    </div>
-                    <form onSubmit={handleSubmit(handleSendMessage)}>
-                    <div className="w-full">
-                      <textarea
-                        {...register("messageData", { required: true })}
-                        value={value}
-                        id="sendbox"
-                        onChange={(e) => setValue(e.target.value)}
-                        className="w-full focus-within:border focus-within:outline-none textarea textarea-bordered rounded-none"
-                      ></textarea>
-                    </div>
-                    <div className="flex items-center relative">
-                      {/* Like */}
-                      <div  className="w-14 relative text-xl cursor-pointer right-0 flex justify-center">
-                        {
-                          showEmoji ? <span className='w-full h-full fixed left-0 top-0 ' onClick={()=>setShowEmoji(!showEmoji)}></span>:''
-                        }
-                        <span onClick={()=>setShowEmoji(!showEmoji)}>👍</span>
-                        {
-                          showEmoji ? <div className='absolute left-0 -top-96'><EmojiPicker onEmojiClick={handleEmojiSelect} /></div>:''
-                        }
-                      </div>
-                      <span
-                        // onClick={() => handleSendLike()}
-                      
-                      >
-                     
-                      </span>
-                      <span className="pr-5 pl-3">|</span>
-                      <div className="flex w-full gap-6 items-center">
-                        {/* Files */}
-                        <label className="cursor-pointer">
-                          <MdAttachment size={24} />
-                          <input
-                            type="file"
-                            className="hidden"
-                            multiple
-                            onChange={(e) => setImages(e)}
+                      {
+                        user?.role === 'ADMIN' ? <div>
+                          {/* Quick Response */}
+
+                          <AllQuickResponse
+                            lastMessage={lastMessage}
+                            setValue={handleTextareaClick}
+                            value={value}
                           />
-                        </label>
-                        {/* Offer */}
-                        <span
-                          className="cursor-pointer"
-                          onClick={() =>
-                            document
-                              .getElementById("custom_offer")
-                              .showModal()
-                          }
-                        >
-                          {" "}
-                          Create an offer
-                        </span>
+                        </div> : ''
+                      }
+                      <div className="my-2 relative">
+                        {/* If Reply Message */}
+                        <div className="">
+                          {reply?.messageId ? (
+                            <div className="mx-3 flex">
+                              <span className="font-bold">Reply:</span>
+                              <p className="flex rounded-full px-2 max-w-fit my-2 mx-2 bg-base-300 items-center gap-2 ">
+                                {reply?.reply?.slice(0, 55)}{" "}
+                                <span>
+                                  {reply?.reply?.length > 55 ? "..." : ""}
+                                </span>{" "}
+                                <span
+                                  onClick={() => setReply({})}
+                                  className="cursor-pointer"
+                                >
+                                  <IoCloseCircleOutline color="#f77070" size={20} />
+                                </span>
+                              </p>
+                            </div>
+                          ) : (
+                            ""
+                          )}
+                        </div>
+                        {/* If File selected */}
+                        <div>
+                          {imagesBlobs?.length ? (
+                            <span className="font-bold">Files:</span>
+                          ) : (
+                            ""
+                          )}
+                          <div className={`flex items-center flex-wrap gap-1 mx-1 ${user?.role === 'ADMIN' ? 'my-3' : ''}`}>
+                            {imagesBlobs?.length > 0
+                              ? imagesBlobs?.map((image, i) => {
+                                return (
+                                  <div key={i} className="flex relative">
+                                    <Image
+                                      width={80}
+                                      height={80}
+                                      src={window.URL.createObjectURL(image)}
+                                      className="w-20 h-20 rounded object-cover"
+                                      alt=""
+                                    />
+                                  </div>
+                                );
+                              })
+                              : ""}
+                          </div>
+                        </div>
+                        <form onSubmit={handleSubmit(handleSendMessage)}>
+                          <div className="w-full">
+                            <textarea
+                              {...register("messageData", { required: true })}
+                              value={value}
+                              id="sendbox"
+                              onChange={(e) => setValue(e.target.value)}
+                              className="w-full focus-within:border focus-within:outline-none textarea textarea-bordered rounded-none"
+                            ></textarea>
+                          </div>
+                          <div className="flex items-center relative">
+                            {/* Like */}
+                            <div className="w-14 relative text-xl cursor-pointer right-0 flex justify-center">
+                              {
+                                showEmoji ? <span className='w-full h-full fixed left-0 top-0 ' onClick={() => setShowEmoji(!showEmoji)}></span> : ''
+                              }
+                              <span onClick={() => setShowEmoji(!showEmoji)}>👍</span>
+                              {
+                                showEmoji ? <div className='absolute left-0 -top-96'><EmojiPicker onEmojiClick={handleEmojiSelect} /></div> : ''
+                              }
+                            </div>
+                            <span
+                            // onClick={() => handleSendLike()}
+
+                            >
+
+                            </span>
+                            <span className="pr-5 pl-3">|</span>
+                            <div className="flex w-full gap-6 items-center">
+                              {/* Files */}
+                              <label className="cursor-pointer">
+                                <MdAttachment size={24} />
+                                <input
+                                  type="file"
+                                  className="hidden"
+                                  multiple
+                                  onChange={(e) => setImages(e)}
+                                />
+                              </label>
+                              {/* Offer */}
+                              <span
+                                className="cursor-pointer"
+                                onClick={() =>
+                                  document
+                                    .getElementById("custom_offer")
+                                    .showModal()
+                                }
+                              >
+                                {" "}
+                                Create an offer
+                              </span>
+                            </div>
+                            {/* send */}
+                            <button className="w-20 px-4 font-bold text-blue-400">
+                              Send
+                            </button>
+                          </div>
+                        </form>
+
                       </div>
-                      {/* send */}
-                      <button className="w-20 px-4 font-bold text-blue-400">
-                        Send
-                      </button>
                     </div>
-                  </form>
-                    
-                  </div>
-                </div>
                 }
               </div>
             </div>
@@ -672,7 +670,7 @@ project?.track === 5 && !projectReview?.length ? <ProjectFeedback project={proje
                   onClick={() =>
                     document.getElementById("modal_delivery").showModal()
                   }
-                  className="bg-blue-500 w-full text-center py-1 font-bold text-lg text-white"
+                  className="bg-[#1881cc] w-full text-center py-1 font-bold text-lg text-white"
                 >
                   Deliver Now
                 </button>
@@ -764,7 +762,7 @@ project?.track === 5 && !projectReview?.length ? <ProjectFeedback project={proje
                 </li>
                 <li className="flex items-center justify-between">
                   <p>Project Number</p>
-                  
+
                   <span className='font-bold'>#MR{projectNumber(`${project?.projectNumber}`)}PN</span>
                 </li>
               </ul>
@@ -777,13 +775,11 @@ project?.track === 5 && !projectReview?.length ? <ProjectFeedback project={proje
               </div>
               <div className="relative ml-6 border-l pb-5 border-blue-500 pl-4">
                 <span
-                  className={`absolute ${
-                    project?.track >= 1
-                      ? "bg-blue-500"
-                      : ` ${
-                          project?.track >= 0 ? "bg-blue-500" : "bg-white"
-                        } border border-gray-500`
-                  } p-2 h-5 w-5 rounded-full -left-2.5`}
+                  className={`absolute ${project?.track >= 1
+                      ? "bg-[#1881cc]"
+                      : ` ${project?.track >= 0 ? "bg-[#1881cc]" : "bg-white"
+                      } border border-gray-500`
+                    } p-2 h-5 w-5 rounded-full -left-2.5`}
                 >
                   {project?.track >= 1 && (
                     <BsCheckLg
@@ -797,13 +793,11 @@ project?.track === 5 && !projectReview?.length ? <ProjectFeedback project={proje
               </div>
               <div className="relative ml-6 border-l pb-5 border-blue-500 pl-4">
                 <span
-                  className={`absolute ${
-                    project?.track >= 2
-                      ? "bg-blue-500"
-                      : ` ${
-                          project?.track >= 1 ? "bg-blue-500" : "bg-white"
-                        } border border-gray-500`
-                  } p-2 h-5 w-5 rounded-full -left-2.5`}
+                  className={`absolute ${project?.track >= 2
+                      ? "bg-[#1881cc]"
+                      : ` ${project?.track >= 1 ? "bg-[#1881cc]" : "bg-white"
+                      } border border-gray-500`
+                    } p-2 h-5 w-5 rounded-full -left-2.5`}
                 >
                   {project?.track >= 2 && (
                     <BsCheckLg
@@ -817,13 +811,11 @@ project?.track === 5 && !projectReview?.length ? <ProjectFeedback project={proje
               </div>
               <div className="relative ml-6 border-l pb-5 border-blue-500 pl-4">
                 <span
-                  className={`absolute ${
-                    project?.track >= 3
-                      ? "bg-blue-500"
-                      : ` ${
-                          project?.track >= 2 ? "bg-blue-500" : "bg-white"
-                        } border border-gray-500`
-                  } p-2 h-5 w-5 rounded-full -left-2.5`}
+                  className={`absolute ${project?.track >= 3
+                      ? "bg-[#1881cc]"
+                      : ` ${project?.track >= 2 ? "bg-[#1881cc]" : "bg-white"
+                      } border border-gray-500`
+                    } p-2 h-5 w-5 rounded-full -left-2.5`}
                 >
                   {project?.track >= 3 && (
                     <BsCheckLg
@@ -837,13 +829,11 @@ project?.track === 5 && !projectReview?.length ? <ProjectFeedback project={proje
               </div>
               <div className="relative ml-6 border-l pb-5 border-blue-500 pl-4">
                 <span
-                  className={`absolute ${
-                    project?.track >= 4
-                      ? "bg-blue-500"
-                      : ` ${
-                          project?.track >= 3 ? "bg-blue-500" : "bg-white"
-                        } border border-gray-500`
-                  } p-2 h-5 w-5 rounded-full -left-2.5`}
+                  className={`absolute ${project?.track >= 4
+                      ? "bg-[#1881cc]"
+                      : ` ${project?.track >= 3 ? "bg-[#1881cc]" : "bg-white"
+                      } border border-gray-500`
+                    } p-2 h-5 w-5 rounded-full -left-2.5`}
                 >
                   {project?.track >= 4 && (
                     <BsCheckLg
@@ -857,13 +847,11 @@ project?.track === 5 && !projectReview?.length ? <ProjectFeedback project={proje
               </div>
               <div className="relative ml-6 border-l border-blue-500 pl-4">
                 <span
-                  className={`absolute ${
-                    project?.track >= 5
-                      ? "bg-blue-500"
-                      : ` ${
-                          project?.track >= 4 ? "bg-blue-500" : "bg-white"
-                        } border border-gray-500`
-                  } p-2 h-5 w-5 rounded-full -left-2.5`}
+                  className={`absolute ${project?.track >= 5
+                      ? "bg-[#1881cc]"
+                      : ` ${project?.track >= 4 ? "bg-[#1881cc]" : "bg-white"
+                      } border border-gray-500`
+                    } p-2 h-5 w-5 rounded-full -left-2.5`}
                 >
                   {project?.track >= 5 && (
                     <BsCheckLg
