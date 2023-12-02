@@ -15,23 +15,23 @@ import AllQuickResponse from "../QuickResponse/AllQuickResponse";
 
 function DeliveryModal({ update, setUpdate, reply, setReply, project }) {
   const { mutate: deleteFile } = useDeleteAction();
-// get user 
-const {user} = useSelector(state => state.user)
+  // get user 
+  const { user } = useSelector(state => state.user)
   // image upload call
   const { mutate: sendFileData, isLoading } = useUploadFile({
 
-        watermark: true,
+    watermark: true,
   });
   // image upload call
-  const { mutate: sendSourceFileData, isLoading:sourceIsLoading } = useUploadSourceFile({
+  const { mutate: sendSourceFileData, isLoading: sourceIsLoading } = useUploadSourceFile({
     watermark: true,
   });
   // create notification
-  const {mutate: createNotification} = useCreateNotifications()
+  const { mutate: createNotification } = useCreateNotifications()
 
   const dispatch = useDispatch();
   // update 
-  const messageUpdate = useSelector(state=>state.update)
+  const messageUpdate = useSelector(state => state.update)
 
   // toast
   const { showToast, Toast } = useToast();
@@ -43,7 +43,7 @@ const {user} = useSelector(state => state.user)
     setValue(prevText => prevText + e);
   };
 
- ;
+  ;
   const [updateValue, setUpdateValue] = useState(false);
   // ============== socket options =================
 
@@ -73,31 +73,31 @@ const {user} = useSelector(state => state.user)
   }
   // draft state
   const [draftData, setDraftData] = useState({});
-  
+
   // ============= Thumbnail area start ===============
 
   const [thumbnail, setThumbnail] = useState({});
-const[uplode,setUplode]=useState(0)
-console.log(uplode,"uplode")
+  const [uplode, setUplode] = useState(0)
+  console.log(uplode, "uplode")
   // handle upload thumbnail
   // const handleUploadThumbnail = async (e) => {
   //   e.preventDefault();
   //   const thumbnail = e.target.files[0]; // Assuming only one file is selected
-  
+
   //   const photoData = new FormData();
   //   photoData.append("files", thumbnail);
-  
+
   // };
 
   const handleUploadThumbnail = async (e) => {
     e.preventDefault();
     const thumbnail = e.target.files[0]; // Assuming only one file is selected
-  
+
     const photoData = new FormData();
     photoData.append("files", thumbnail);
-  
+
     try {
-      const response = await sendFileData(photoData,{
+      const response = await sendFileData(photoData, {
         onUploadProgress: (event) => {
           if (event.lengthComputable) {
             const percentCompleted = Math.round((event.loaded * 100) / event.total);
@@ -115,7 +115,7 @@ console.log(uplode,"uplode")
           // Handle error as needed
         },
       });
-  
+
       // Handle response here if necessary
     } catch (error) {
       console.error("Error during file upload:", error);
@@ -130,13 +130,13 @@ console.log(uplode,"uplode")
 
 
 
-  
+
   // ============= Thumbnail area end ===============
 
   // ============= Source Files area start ===============
 
   const [sourceFiles, setSourceFiles] = useState([]);
-console.log(sourceFiles)
+  console.log(sourceFiles)
   // handle upload Source Files
   const handleUploadSourceFiles = (e) => {
     e.preventDefault();
@@ -145,50 +145,50 @@ console.log(sourceFiles)
     for (const p in thumbnail) {
       photoData.append("files", thumbnail[p]);
     }
-   
+
     const accessToken = typeof window !== 'undefined' && localStorage.getItem('accessToken');
     axios
-    .post(`${process.env.NEXT_PUBLIC_API}/files?shallIncludeWatermark=false`, photoData, {
-      headers: {
-        'Authorization': `Bearer ${accessToken}`,
-        'Content-Type': 'multipart/form-data',
-      },
-      onUploadProgress: (progressEvent) => {
-        const progress = Math.round((progressEvent.loaded / progressEvent.total) * 100);
-        setUplode(progress);
-      },
-    })
-    .then((res) => {
-      // Handle the response from the server here
-  
+      .post(`${process.env.NEXT_PUBLIC_API}/files?shallIncludeWatermark=false`, photoData, {
+        headers: {
+          'Authorization': `Bearer ${accessToken}`,
+          'Content-Type': 'multipart/form-data',
+        },
+        onUploadProgress: (progressEvent) => {
+          const progress = Math.round((progressEvent.loaded / progressEvent.total) * 100);
+          setUplode(progress);
+        },
+      })
+      .then((res) => {
+        // Handle the response from the server here
 
-      const images = res?.data?.data?.files;
-      console.log( images," images")
-      setSourceFiles(images);
-    })
-    .catch((error) => {
-      // Handle errors here
-    });
+
+        const images = res?.data?.data?.files;
+        console.log(images, " images")
+        setSourceFiles(images);
+      })
+      .catch((error) => {
+        // Handle errors here
+      });
 
   };
 
   // ============= Source Files area end ===============
   // update project
-  const {mutate:updateProject} = useUpdateProject()
+  const { mutate: updateProject } = useUpdateProject()
 
   /// handle update project track
-  const handleUpdateProject = () =>{
-    const status = project?.status === 'Revision' ? 'Revision':'Waiting'
-    const track = project?.track === 4 ? 4:3
+  const handleUpdateProject = () => {
+    const status = project?.status === 'Revision' ? 'Revision' : 'Waiting'
+    const track = project?.track === 4 ? 4 : 3
     const projectData = {
-      id:project?.projectId,
-      track:track,
+      id: project?.projectId,
+      track: track,
       status: status,
-      deadline:'',
-      categoryId:project?.categoryId,
-      subcategoryId:project?.subcategoryId,
+      deadline: '',
+      categoryId: project?.categoryId,
+      subcategoryId: project?.subcategoryId,
     }
-    updateProject(projectData,{
+    updateProject(projectData, {
       onSuccess: (res) => {
         dispatch(updateState(!messageUpdate?.update))
         showToast("Delivery Success", "success");
@@ -200,30 +200,30 @@ console.log(sourceFiles)
     })
   }
 
-  const isForAdmin = user?.role === 'ADMIN' ? false:true
+  const isForAdmin = user?.role === 'ADMIN' ? false : true
   // handle create notifications
-  const handleCreateNotifications  = () =>{
+  const handleCreateNotifications = () => {
     const notificationData = {
       "type": "project",
-      "model":"delivery",
+      "model": "delivery",
       "message": value || draftData?.content,
-      "image":thumbnail?.fileId ? thumbnail : draftData?.thumbnail,
-      "isForAdmin":isForAdmin,
-      "isRead":false,
+      "image": thumbnail?.fileId ? thumbnail : draftData?.thumbnail,
+      "isForAdmin": isForAdmin,
+      "isRead": false,
       "userId": project?.startedBy,
       "projectId": project?.projectId
-  }
-  createNotification(notificationData,{
-    onSuccess: (res) => {
-      console.log(res.data);
-    },
-    onError: (err) => {
-      showToast(err?.response?.data?.message);
-    },
-  })
+    }
+    createNotification(notificationData, {
+      onSuccess: (res) => {
+        console.log(res.data);
+      },
+      onError: (err) => {
+        showToast(err?.response?.data?.message);
+      },
+    })
   }
 
-  
+
 
   // ============== Input Area start =============
 
@@ -243,7 +243,7 @@ console.log(sourceFiles)
     };
 
     sendMessage(messageData);
-    
+
     dispatch(updateState(!messageUpdate?.update))
     handleUpdateProject()
     showToast("Project Delivered", "success");
@@ -356,8 +356,8 @@ console.log(sourceFiles)
             <h2 className="py-4 text-xl font-bold text-blue-400">
               Deliver Work
             </h2>
-            
-  
+
+
 
             <form method="dialog">
               {/* if there is a button, it will close the modal */}
@@ -391,7 +391,7 @@ console.log(sourceFiles)
                 ""
               )}
             </div>
-           
+
             <textarea
               className="w-full p-2 textarea textarea-lg textarea-bordered rounded-none"
               value={value}
@@ -402,61 +402,61 @@ console.log(sourceFiles)
           <div className="w-full overflow-x-auto flex items-center gap-3 my-3 image_scroll">
             {sourceFiles?.[0]?.fileId || draftData?.sourceFiles?.[0]?.fileId
               ? allFiles?.map((image, i) => {
-                  return (
-                    <>
-                      {image?.fileId ? (
-                        <div key={i} className="w-28 relative">
-                          <span
-                            onClick={() =>
-                              handleDeleteSourceFiles(image?.fileId)
-                            }
-                            className="absolute top-0 right-0 text-rose-600 bg-rose-100 cursor-pointer"
-                          >
-                            <IoClose size={20} />
-                          </span>
-                          {sourceIsLoading ? (
-                            <div className="w-28 bg-rose-100 h-24 border overflow-hidden object-cover flex items-center justify-center">
-                              <span className="h-8 rounded-full w-8 border-2 border-dashed animate-spin border-rose-600"></span>
-                            </div>
-                          ) : (
-                            (image?.contentType === "image/jpeg" || image?.contentType === "image/png"|| image?.contentType === "image/jpg") && (
-                              <img
-                                className="w-28 bg-rose-100 h-24 border overflow-hidden object-cover"
-                                src={`${process.env.NEXT_PUBLIC_API}/files/download/public/${image?.fileId}`}
-                                alt=""
-                              />
-                            )
-                          )}
-                          {image?.fileExtension === ".psd" && (
-                            <img
-                              className="w-28 bg-rose-100 h-24 border p-4 overflow-hidden object-cover"
-                              src={`/images/psd.png`}
-                              alt=""
-                            />
-                          )}
-                          {image?.fileExtension === ".pdf" && (
-                            <img
-                              className="w-28 bg-rose-100 h-24 p-4 border overflow-hidden object-cover"
-                              src={`/images/pdf.png`}
-                              alt=""
-                            />
-                          )}
-
-                          <div hidden={sourceIsLoading} className=" flex text-sm">
-                            <p title={image?.originalFileName} className="w-24 truncate">
-                              {image?.originalFileName}
-                            </p>{image?.fileExtension}
+                return (
+                  <>
+                    {image?.fileId ? (
+                      <div key={i} className="w-28 relative">
+                        <span
+                          onClick={() =>
+                            handleDeleteSourceFiles(image?.fileId)
+                          }
+                          className="absolute top-0 right-0 text-rose-600 bg-rose-100 cursor-pointer"
+                        >
+                          <IoClose size={20} />
+                        </span>
+                        {sourceIsLoading ? (
+                          <div className="w-28 bg-rose-100 h-24 border overflow-hidden object-cover flex items-center justify-center">
+                            <span className="h-8 rounded-full w-8 border-2 border-dashed animate-spin border-rose-600"></span>
                           </div>
-                          <p className="text-xs">
-                            {formatBytes(image?.fileSize)}
-                          </p>
+                        ) : (
+                          (image?.contentType === "image/jpeg" || image?.contentType === "image/png" || image?.contentType === "image/jpg") && (
+                            <img
+                              className="w-28 bg-rose-100 h-24 border overflow-hidden object-cover"
+                              src={`${process.env.NEXT_PUBLIC_API}/files/download/public/${image?.fileId}`}
+                              alt=""
+                            />
+                          )
+                        )}
+                        {image?.fileExtension === ".psd" && (
+                          <img
+                            className="w-28 bg-rose-100 h-24 border p-4 overflow-hidden object-cover"
+                            src={`/images/psd.png`}
+                            alt=""
+                          />
+                        )}
+                        {image?.fileExtension === ".pdf" && (
+                          <img
+                            className="w-28 bg-rose-100 h-24 p-4 border overflow-hidden object-cover"
+                            src={`/images/pdf.png`}
+                            alt=""
+                          />
+                        )}
+
+                        <div hidden={sourceIsLoading} className=" flex text-sm">
+                          <p title={image?.originalFileName} className="w-24 truncate">
+                            {image?.originalFileName}
+                          </p>{image?.fileExtension}
                         </div>
-                      ) : (
-                        ""
-                      )}
-                    </>
-                  );
-                })
+                        <p className="text-xs">
+                          {formatBytes(image?.fileSize)}
+                        </p>
+                      </div>
+                    ) : (
+                      ""
+                    )}
+                  </>
+                );
+              })
               : ""}
           </div>
           {/* Thumbnail Btn */}
@@ -492,13 +492,13 @@ console.log(sourceFiles)
                 />{" "}
                 Source Files
               </label>
-              
-      
-     {
-             uplode ? <div className="h-4 w-full bg-gray-200">
-               <div className="h-full bg-blue-500" style={{width: `${uplode}%`}}></div>
-           </div>:''
-     }
+
+
+              {
+                uplode ? <div className="h-4 w-full bg-gray-200">
+                  <div className="h-full bg-[#1881cc]" style={{ width: `${uplode}%` }}></div>
+                </div> : ''
+              }
             </div>
             <p>
               {draftData?.sourceFiles?.length || sourceFiles?.length}{" "}
@@ -512,11 +512,10 @@ console.log(sourceFiles)
                 {draftData?.thumbnail?.fileId || thumbnail?.fileId ? (
                   <img
                     className="w-20 border-2 bg-blue-200 object-cover overflow-hidden inline-block rounded h-16"
-                    src={`${process.env.NEXT_PUBLIC_API}/files/download/public/${
-                      draftData?.thumbnail?.fileId || thumbnail?.fileId
-                      
-                      
-                    }`}
+                    src={`${process.env.NEXT_PUBLIC_API}/files/download/public/${draftData?.thumbnail?.fileId || thumbnail?.fileId
+
+
+                      }`}
                     alt=""
                   />
                 ) : (
@@ -550,11 +549,11 @@ console.log(sourceFiles)
                 onClick={() => handleDraft()}
                 className="px-6 py-2 rounded bg-gray-400 text-white font-bold"
               >
-               Save Draft
+                Save Draft
               </button>
               <button
                 onClick={() => handleSendMessage()}
-                className="px-6 py-2 rounded bg-blue-500 text-white font-bold"
+                className="px-6 py-2 rounded bg-[#1881cc] text-white font-bold"
               >
                 Delivery
               </button>

@@ -14,14 +14,14 @@ import { IoClose } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 
-function ImageModal({ messageId,messageIdClick,project }) {
+function ImageModal({ messageId, messageIdClick, project }) {
 
   /// dispatch
   const dispatch = useDispatch()
- 
+
   // message
-  const messageState = useSelector(state=>state.message)
- 
+  const messageState = useSelector(state => state.message)
+
 
   // get user
   const { user } = useSelector((state) => state.user);
@@ -30,24 +30,24 @@ function ImageModal({ messageId,messageIdClick,project }) {
   // hook form
   const { register, handleSubmit, reset } = useForm();
   // image id from local
-  const [imageId,setImageId] = useState('')
+  const [imageId, setImageId] = useState('')
   // update message
-  const { mutate: updateMessage,isLoading:isLoadingUpdate } = useUpdateMessage();
+  const { mutate: updateMessage, isLoading: isLoadingUpdate } = useUpdateMessage();
 
-const {messageUpdate} = useSelector(state=>state.update)
+  const { messageUpdate } = useSelector(state => state.update)
 
-//   const [messageLocalId,setMessageLocalId] = useState('')
+  //   const [messageLocalId,setMessageLocalId] = useState('')
 
-//  useEffect(()=>{
-//     setMessageLocalId(typeof window !== "undefined" && localStorage.getItem("messageId"))
-//     },[update,imageId?.length,messageIdClick])
-    
+  //  useEffect(()=>{
+  //     setMessageLocalId(typeof window !== "undefined" && localStorage.getItem("messageId"))
+  //     },[update,imageId?.length,messageIdClick])
+
   // get message info
   const { data: signMessageInfo } = useGetSingleMessage({
-    messageId:  messageState?.message?.messageId,
+    messageId: messageState?.message?.messageId,
 
   });
-  
+
   const singleMessageDta = signMessageInfo?.data?.message
   const singleMessage = messageState?.message;
 
@@ -56,20 +56,20 @@ const {messageUpdate} = useSelector(state=>state.update)
       dispatch(updateState(!messageUpdate?.update))
     }, 1000);
     return () => clearTimeout(timer);
-  }, [messageId,imageId,messageIdClick]);
- 
+  }, [messageId, imageId, messageIdClick]);
 
 
-  useEffect(()=>{
-  setImageId(typeof window !== "undefined" && localStorage.getItem("imageId"))
-  dispatch(updateState(!messageUpdate?.update))
-  },[!imageId])
+
+  useEffect(() => {
+    setImageId(typeof window !== "undefined" && localStorage.getItem("imageId"))
+    dispatch(updateState(!messageUpdate?.update))
+  }, [!imageId])
 
   // highlight comment
   const [highLightComment, setHighLightComment] = useState({});
 
   // get file info
-  const { data: imageInfo,isLoading,isFetching } = useGetFile({ fileId: singleMessage?.thumbnail?.fileId,update:messageUpdate?.update });
+  const { data: imageInfo, isLoading, isFetching } = useGetFile({ fileId: singleMessage?.thumbnail?.fileId, update: messageUpdate?.update });
   const image = imageInfo?.data?.file;
 
   // store data
@@ -107,14 +107,14 @@ const {messageUpdate} = useSelector(state=>state.update)
     };
     setCommentStore([...commentStore, commentData]);
     dispatch(updateState(!messageUpdate?.update))
-   
+
     reset();
     setReply({});
   };
 
   const handleSendComment = () => {
     const messageInfo = {
-      comments:  singleMessage?.comments?.length ? singleMessage?.comments?.concat(commentStore) :  commentStore,
+      comments: singleMessage?.comments?.length ? singleMessage?.comments?.concat(commentStore) : commentStore,
       id: singleMessage?.messageId,
       projectId: singleMessage?.projectId,
       receiverId: singleMessage?.receiverId,
@@ -129,7 +129,7 @@ const {messageUpdate} = useSelector(state=>state.update)
         handleSendMail()
         setHighLightComment({})
         handleCreateNotifications(commentStore?.at(-1))
-      
+
         dispatch(messageData(res?.data?.message))
       },
       onError: (err) => {
@@ -139,44 +139,44 @@ const {messageUpdate} = useSelector(state=>state.update)
   };
 
 
-   // handle send mail
-   const {mutate:sendMail} = useSendMail({style:true})
+  // handle send mail
+  const { mutate: sendMail } = useSendMail({ style: true })
 
-   const handleSendMail = () =>{
-     if(user?.role!=='ADMIN'){
-     const emailData = {
-       "sendToEmail": process.env.NEXT_PUBLIC_ADMIN_EMAIL,
-     "subject": `You've new comments in your project files`,
-     "message": `<html lang='en'><head><style>@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&display=swap');.font{font-family: 'Inter', sans-serif;}</style></head> <body class='font' style='display: flex; color: #000; justify-content: center;margin-top: 20px;margin-bottom: 20px; background-color: #ddedfc;'><div style='justify-content: center; width: 70%; margin: 0 auto; height: fit-content; padding: 24px 48px; background-color: white; text-align: center;'><div><div><img src='https://res.cloudinary.com/dl1cxduy0/image/upload/w_450,h_200,c_scale/v1698946120/MR_Logo_Final_4_Black_lc11jd.png' alt='' /></div><div><h2>${user?.fullName} left you new comments</h2></div><div><hr style='border-bottom: 1px solid #000; width: 35%' /></div><div style='text-align: left'><p>${user?.fullName} left you ${commentStore?.length} new comments in  your project files. View the conversation to reply</p></div><br /><div style='margin: 0px 0 33px 0'><a href='${process.env.NEXT_PUBLIC_URL}/message/project/${project?.projectId}' target='_blank'><button style='background-color: #1a8ce2; padding: 15px 30px; border: none; color: white; font-size: 16px; border-radius: 5px; font-weight: 700;'>View and Reply</button></a></div><div><a target='_blank' href='#'><img style='width: 30px; margin:4px;' src='https://res.cloudinary.com/dl1cxduy0/image/upload/v1698981561/f_logo_g0pwgu.png' alt=''/></a><a target='_blank' href='#'><img style='width: 30px; margin:4px;' src='https://res.cloudinary.com/dl1cxduy0/image/upload/v1698981561/i_logo_gsutpp.png' alt=''/></a><a target='_blank' href='#'><img style='width: 30px; margin:4px;' src='https://res.cloudinary.com/dl1cxduy0/image/upload/v1698981562/t_logo_ktnb5y.png' alt=''/></a><a target='_blank' href='#'><img style='width: 30px; margin:4px;' src='https://res.cloudinary.com/dl1cxduy0/image/upload/v1698981562/p_logo_gyq0rn.png' alt=''/></a><a target='_blank' href='#'><img style='width: 30px; margin:4px;' src='https://res.cloudinary.com/dl1cxduy0/image/upload/v1698981562/in_logo_pvkie5.png' alt=''/></a></div></div></div></body></html>`
-     }
-     sendMail(emailData,{
-       onSuccess: (res) => {
-         dispatch(updateState(!messageUpdate?.update))
-       },
-       onError: (err) => {
-         showToast(err?.message);
-       },
-     })
-   }
-   }
-
-
-  const isForAdmin = user?.role === 'ADMIN' ? false:true
-    // create notification
-    const {mutate: createNotification} = useCreateNotifications()
-    // handle create notifications
-    const handleCreateNotifications  = (data) =>{
-      const notificationData = {
-        "type": "project",
-        "model":"comment",
-        "message": data?.message,
-        "image": {fileId:project?.featuredImageId||project?.imageIds[0]},
-        "isForAdmin":isForAdmin,
-        "userId": project?.startedBy,
-        "isRead":false,
-        "projectId": project?.projectId
+  const handleSendMail = () => {
+    if (user?.role !== 'ADMIN') {
+      const emailData = {
+        "sendToEmail": process.env.NEXT_PUBLIC_ADMIN_EMAIL,
+        "subject": `You've new comments in your project files`,
+        "message": `<html lang='en'><head><style>@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&display=swap');.font{font-family: 'Inter', sans-serif;}</style></head> <body class='font' style='display: flex; color: #000; justify-content: center;margin-top: 20px;margin-bottom: 20px; background-color: #ddedfc;'><div style='justify-content: center; width: 70%; margin: 0 auto; height: fit-content; padding: 24px 48px; background-color: white; text-align: center;'><div><div><img src='https://res.cloudinary.com/dl1cxduy0/image/upload/w_450,h_200,c_scale/v1698946120/MR_Logo_Final_4_Black_lc11jd.png' alt='' /></div><div><h2>${user?.fullName} left you new comments</h2></div><div><hr style='border-bottom: 1px solid #000; width: 35%' /></div><div style='text-align: left'><p>${user?.fullName} left you ${commentStore?.length} new comments in  your project files. View the conversation to reply</p></div><br /><div style='margin: 0px 0 33px 0'><a href='${process.env.NEXT_PUBLIC_URL}/message/project/${project?.projectId}' target='_blank'><button style='background-color: #1a8ce2; padding: 15px 30px; border: none; color: white; font-size: 16px; border-radius: 5px; font-weight: 700;'>View and Reply</button></a></div><div><a target='_blank' href='#'><img style='width: 30px; margin:4px;' src='https://res.cloudinary.com/dl1cxduy0/image/upload/v1698981561/f_logo_g0pwgu.png' alt=''/></a><a target='_blank' href='#'><img style='width: 30px; margin:4px;' src='https://res.cloudinary.com/dl1cxduy0/image/upload/v1698981561/i_logo_gsutpp.png' alt=''/></a><a target='_blank' href='#'><img style='width: 30px; margin:4px;' src='https://res.cloudinary.com/dl1cxduy0/image/upload/v1698981562/t_logo_ktnb5y.png' alt=''/></a><a target='_blank' href='#'><img style='width: 30px; margin:4px;' src='https://res.cloudinary.com/dl1cxduy0/image/upload/v1698981562/p_logo_gyq0rn.png' alt=''/></a><a target='_blank' href='#'><img style='width: 30px; margin:4px;' src='https://res.cloudinary.com/dl1cxduy0/image/upload/v1698981562/in_logo_pvkie5.png' alt=''/></a></div></div></div></body></html>`
+      }
+      sendMail(emailData, {
+        onSuccess: (res) => {
+          dispatch(updateState(!messageUpdate?.update))
+        },
+        onError: (err) => {
+          showToast(err?.message);
+        },
+      })
     }
-    createNotification(notificationData,{
+  }
+
+
+  const isForAdmin = user?.role === 'ADMIN' ? false : true
+  // create notification
+  const { mutate: createNotification } = useCreateNotifications()
+  // handle create notifications
+  const handleCreateNotifications = (data) => {
+    const notificationData = {
+      "type": "project",
+      "model": "comment",
+      "message": data?.message,
+      "image": { fileId: project?.featuredImageId || project?.imageIds[0] },
+      "isForAdmin": isForAdmin,
+      "userId": project?.startedBy,
+      "isRead": false,
+      "projectId": project?.projectId
+    }
+    createNotification(notificationData, {
       onSuccess: (res) => {
         console.log(res.data);
       },
@@ -184,12 +184,12 @@ const {messageUpdate} = useSelector(state=>state.update)
         showToast(err?.response?.data?.message);
       },
     })
-    }
+  }
 
   // handle delete message
-  const handleDeleteMessage = id =>{
-   
-    const restComments = singleMessage?.comments.filter(comment=>comment.id!==id)
+  const handleDeleteMessage = id => {
+
+    const restComments = singleMessage?.comments.filter(comment => comment.id !== id)
     const messageInfo = {
       comments: restComments,
       id: messageId,
@@ -198,11 +198,11 @@ const {messageUpdate} = useSelector(state=>state.update)
     };
     updateMessage(messageInfo, {
       onSuccess: (res) => {
-        dispatch(messageData({...singleMessage,comments:restComments}))
+        dispatch(messageData({ ...singleMessage, comments: restComments }))
         console.log(res?.data?.message)
         showToast("Comment Deleted", "success");
         dispatch(updateState(!messageUpdate?.update))
-        
+
       },
       onError: (err) => {
         showToast(err?.message);
@@ -213,25 +213,25 @@ const {messageUpdate} = useSelector(state=>state.update)
   return (
     <div>
       <Toast />
-      
+
       {/* aaa */}
       <input type="checkbox" id="image_modal" className="modal-toggle" />
-<div className="modal">
-<div className="modal-box bg-transparent h-full backdrop-blur-md w-full max-w-7xl min-w-fit">
+      <div className="modal">
+        <div className="modal-box bg-transparent h-full backdrop-blur-md w-full max-w-7xl min-w-fit">
           <div className="flex w-full h-full">
             <div className="w-full">
               <div className="flex items-center gap-2">
                 {/* Close */}
-                <label onClick={()=>{
+                <label onClick={() => {
                   dispatch(messageData({}))
-                setHighLightComment({})
-                dispatch(updateState(!messageUpdate?.update))
-              }
-              } className="bg-black text-white rounded-full" htmlFor="image_modal"> <BsArrowLeftCircle
-                     
-                     size={25}
-                   /></label>
-               
+                  setHighLightComment({})
+                  dispatch(updateState(!messageUpdate?.update))
+                }
+                } className="bg-black text-white rounded-full" htmlFor="image_modal"> <BsArrowLeftCircle
+
+                    size={25}
+                  /></label>
+
                 {/* Title */}
                 <h3 className="font-bold text-lg">
                   {image?.originalFileName && image?.originalFileName}
@@ -244,18 +244,18 @@ const {messageUpdate} = useSelector(state=>state.update)
                   isLoading || isFetching ? <div className="w-full max-h-fit min-h-screen h-[50vh] bg-base-100 rounded-md animate-pulse">
                     <div className="">
                     </div>
-                  </div>:
-                  <Image height={500} width={500}
-                  draggable={false}
-                  className="w-full max-h-fit min-h-full"
-                  src={`${process.env.NEXT_PUBLIC_API}/files/download/public/${singleMessage?.thumbnail?.fileId}`}
-                  onClick={(e) => handleImageClick(e)}
-                  alt=""
-                />
+                  </div> :
+                    <Image height={500} width={500}
+                      draggable={false}
+                      className="w-full max-h-fit min-h-full"
+                      src={`${process.env.NEXT_PUBLIC_API}/files/download/public/${singleMessage?.thumbnail?.fileId}`}
+                      onClick={(e) => handleImageClick(e)}
+                      alt=""
+                    />
                 }
-                
+
                 {commentStore?.map((comment, i) => {
-                
+
                   return (
                     <div
                       key={i}
@@ -267,7 +267,7 @@ const {messageUpdate} = useSelector(state=>state.update)
                     ></div>
                   );
                 })}
-                { singleMessage?.comments?.map((comment, i) => {
+                {singleMessage?.comments?.map((comment, i) => {
                   return (
                     <div
                       key={i}
@@ -284,7 +284,7 @@ const {messageUpdate} = useSelector(state=>state.update)
                     left: position.x + 40 + "px",
                     top: position.y + 40 + "px",
                   }}
-                  className="bg-blue-500 absolute h-4 w-4 border-2 border-white rounded-full"
+                  className="bg-[#1881cc] absolute h-4 w-4 border-2 border-white rounded-full"
                 ></div>
                 {highLightComment?.comment ? (
                   <div
@@ -308,7 +308,7 @@ const {messageUpdate} = useSelector(state=>state.update)
               <div className="px-4 py-2 border-b">
                 <p className="font-bold">Comments</p>
               </div>
-              <div className="bg-blue-500 border-b px-3 my-2">
+              <div className="bg-[#1881cc] border-b px-3 my-2">
                 <h2 className="text-sm font-bold truncate">
                   {image?.originalFileName}
                 </h2>
@@ -319,7 +319,7 @@ const {messageUpdate} = useSelector(state=>state.update)
                 {/* Submitted Data Get From API */}
                 <div className=" ">
                   {singleMessage?.comments?.map((comment, i) => {
-                     console.log(comment)
+                    console.log(comment)
                     return (
                       <div
                         key={i}
@@ -331,12 +331,12 @@ const {messageUpdate} = useSelector(state=>state.update)
                             src={`${process.env.NEXT_PUBLIC_API}/files/download/public/${comment?.sender?.profilePicture}`}
                             alt=""
                           />
-                          <p className="font-bold text-lg">{comment?.sender?.id ===user?.userId ? 'Me':comment?.sender?.name}</p>
-                         {
-                          comment?.sender?.id ===user?.userId ? <span onClick={()=>handleDeleteMessage(comment?.id)}
-                           className="bg-rose-400 cursor-pointer rounded-full p-1 absolute h-3 w-3 top-0 right-0"
-                         ></span>:''
-                         }
+                          <p className="font-bold text-lg">{comment?.sender?.id === user?.userId ? 'Me' : comment?.sender?.name}</p>
+                          {
+                            comment?.sender?.id === user?.userId ? <span onClick={() => handleDeleteMessage(comment?.id)}
+                              className="bg-rose-400 cursor-pointer rounded-full p-1 absolute h-3 w-3 top-0 right-0"
+                            ></span> : ''
+                          }
                         </div>
                         <div className="my-2 ml-9  text-sm">
                           {comment?.reply?.id ? (
@@ -396,13 +396,13 @@ const {messageUpdate} = useSelector(state=>state.update)
                             src={`${process.env.NEXT_PUBLIC_API}/files/download/public/${comment?.sender?.profilePicture}`}
                             alt=""
                           />
-                          <p className="font-bold text-lg">{comment?.sender?.id ===user?.userId ? 'Me':comment?.sender?.name}</p>
+                          <p className="font-bold text-lg">{comment?.sender?.id === user?.userId ? 'Me' : comment?.sender?.name}</p>
                           <p className="rounded-full border px-2 py-0 text-sm font-semibold border-gray-300">
                             Not Yet Submitted
                           </p>
                         </div>
                         <div className="my-2 ml-9  text-sm">
-                        {comment?.reply?.id ? (
+                          {comment?.reply?.id ? (
                             <span className="bg-bule-500 opacity-40 rounded-full px-2 py-0">
                               {comment?.reply
                                 ? comment?.reply?.reply?.slice(0, 15)
@@ -410,7 +410,7 @@ const {messageUpdate} = useSelector(state=>state.update)
                             </span>
                           ) : (
                             ""
-                          )}  
+                          )}
                           <p
                             className="cursor-pointer"
                             onClick={() => setHighLightComment(comment)}
@@ -422,7 +422,7 @@ const {messageUpdate} = useSelector(state=>state.update)
                               setReply({
                                 id: comment?.id,
                                 reply: comment?.comment,
-                               profilePicture: comment?.sender?.profilePicture
+                                profilePicture: comment?.sender?.profilePicture
                               })
                             }
                             className="flex my-2 cursor-pointer items-center gap-2"
@@ -440,13 +440,13 @@ const {messageUpdate} = useSelector(state=>state.update)
               <div className="border border-blue-500 m-4">
                 <div className="p-2">
                   <div className="flex items-center overflow-hidden gap-1">
-                  {
-                    reply?.id ?  <img
-                    className="w-6 object-cover h-6 rounded-full"
-                    src={`${process.env.NEXT_PUBLIC_API}/files/download/public/${reply?.profilePicture}`}
-                    alt=""
-                  /> :''
-                  } 
+                    {
+                      reply?.id ? <img
+                        className="w-6 object-cover h-6 rounded-full"
+                        src={`${process.env.NEXT_PUBLIC_API}/files/download/public/${reply?.profilePicture}`}
+                        alt=""
+                      /> : ''
+                    }
                     <p className="font-bold truncate text-sm w-56">
                       {reply?.reply}
                     </p>
@@ -465,11 +465,11 @@ const {messageUpdate} = useSelector(state=>state.update)
                       className="textarea w-full rounded border-b border-t-0 border-l-0 border-r-0 focus-within:outline-none textarea-bordered "
                     ></textarea>
                     <div className="flex items-center justify-end">
-                      <label  htmlFor="image_modal" className="px-2 cursor-pointer font-bold text-bule-500 ">
+                      <label htmlFor="image_modal" className="px-2 cursor-pointer font-bold text-bule-500 ">
                         Cancel
                       </label>
 
-                      <button className="px-2 font-bold cursor-pointer bg-blue-500">
+                      <button className="px-2 font-bold cursor-pointer bg-[#1881cc]">
                         Add
                       </button>
                     </div>
@@ -478,9 +478,9 @@ const {messageUpdate} = useSelector(state=>state.update)
                 {/* Submit */}
               </div>
               <div className="absolute mb-4  -bottom-1 w-full flex items-center">
-                <button disabled={!commentStore?.length||isLoading}
+                <button disabled={!commentStore?.length || isLoading}
                   onClick={() => handleSendComment()}
-                  className={`py-2 text-center w-full rounded-md mx-4 text-white bg-blue-500 font-bold text-lg ${isLoadingUpdate ? 'animate-pulse':''}`}
+                  className={`py-2 text-center w-full rounded-md mx-4 text-white bg-[#1881cc] font-bold text-lg ${isLoadingUpdate ? 'animate-pulse' : ''}`}
                 >
                   Submit {commentStore?.length} Comments
                 </button>
@@ -488,8 +488,8 @@ const {messageUpdate} = useSelector(state=>state.update)
             </div>
           </div>
         </div>
- 
-</div>
+
+      </div>
     </div>
   );
 

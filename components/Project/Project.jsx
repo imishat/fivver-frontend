@@ -14,7 +14,7 @@ const Project = () => {
   const {
     register,
     handleSubmit,
-    watch,reset,
+    watch, reset,
     formState: { errors },
   } = useForm();
 
@@ -25,7 +25,7 @@ const Project = () => {
   // get all selected designs
   const [selectedDesign, setSelectedDesign] = useState([]);
   useEffect(() => {
-   
+
     setSelectedDesign(
       JSON.parse(
         typeof window !== "undefined" && window.localStorage.getItem("designs")
@@ -38,11 +38,11 @@ const Project = () => {
 
     categoryId: singleDesign.categoryId,
   });
-  console.log(category,"a")
+  console.log(category, "a")
 
-    // get design id
+  // get design id
 
-    const [designId,setDesignId] = useState('')
+  const [designId, setDesignId] = useState('')
 
   // subcategories
   const subcategories = category?.data?.categories[0]?.subcategories;
@@ -54,44 +54,44 @@ const Project = () => {
     return setProjectData(
       JSON.parse(
         typeof window !== "undefined" &&
-          window.localStorage.getItem("projectData")
+        window.localStorage.getItem("projectData")
       )
     );
-  }, [subcategories,designId, updateData,selectedDesign]);
+  }, [subcategories, designId, updateData, selectedDesign]);
 
-  
+
   // total price
 
-// qunatity
-  const [quantity,setQuantity] = useState(1)
+  // qunatity
+  const [quantity, setQuantity] = useState(1)
 
-// subCategory Price
-const [subCatPrice,setSubCatPrice] = useState(0)
+  // subCategory Price
+  const [subCatPrice, setSubCatPrice] = useState(0)
 
-// get sub category by id
-const [subCatId,setSubCatId]= useState('')
+  // get sub category by id
+  const [subCatId, setSubCatId] = useState('')
 
-// get sub category by id
-const {data:subcategoryData} = useGetSubCategoryById({subcategoryId:subCatId})
-// subcategory
-const subcategory = subcategoryData?.data?.subcategory
-
-
-// extra fast price
-const [extraFast,setExtraFast] = useState(false)
+  // get sub category by id
+  const { data: subcategoryData } = useGetSubCategoryById({ subcategoryId: subCatId })
+  // subcategory
+  const subcategory = subcategoryData?.data?.subcategory
 
 
+  // extra fast price
+  const [extraFast, setExtraFast] = useState(false)
 
-useEffect(()=>{
+
+
+  useEffect(() => {
     console.log(designId)
-    localStorage.setItem('projectData',JSON.stringify(projectData.filter(project=>project.designId!==designId)))
+    localStorage.setItem('projectData', JSON.stringify(projectData.filter(project => project.designId !== designId)))
     setUpdateData(!updateData)
-  },[designId])
+  }, [designId])
 
   // handle selected single design
 
   const selectedSingleDesign = (data) => {
-    const subCat = data.subcategoryId.length ? data.subcategoryId :  subcategories[0]?._id
+    const subCat = data.subcategoryId.length ? data.subcategoryId : subcategories[0]?._id
     const modifyData = {
       status: "Pending",
       title: singleDesign.title,
@@ -99,24 +99,24 @@ useEffect(()=>{
       description: singleDesign.description,
       size: singleDesign.size,
       fileFormat: singleDesign.fileFormat,
-      featuredImageId:singleDesign?.featuredImageId,
+      featuredImageId: singleDesign?.featuredImageId,
       categoryId: singleDesign.categoryId,
       subcategoryId: subCat,
       imageIds: singleDesign.imageIds,
       quantity: parseInt(data.quantity),
       isExtraFastDeliveryEnabled: data.extraFast,
       totalCost: extraFast ?
-         ((parseInt(subcategory?.price) + 10 )  * quantity)
-        
-        :
-        
-        ( parseInt(subcategory?.price) * quantity)
-        }
-    
+        ((parseInt(subcategory?.price) + 10) * quantity)
 
-    const filterdata = projectData.length? projectData?.filter(
+        :
+
+        (parseInt(subcategory?.price) * quantity)
+    }
+
+
+    const filterdata = projectData.length ? projectData?.filter(
       (data) => data.imageIds[0] !== modifyData.imageIds[0]
-    ):''
+    ) : ''
     if (filterdata.length) {
       // set data if
       window.localStorage.setItem(
@@ -129,8 +129,8 @@ useEffect(()=>{
         window.localStorage.setItem(
           "projectData",
           JSON.stringify([modifyData])
-          );
-         
+        );
+
       setUpdateData(!updateData);
     }
   };
@@ -138,7 +138,7 @@ useEffect(()=>{
 
 
   // get all price
- const totalPrice = projectData?.length && projectData?.reduce((prev,current) =>  prev + current.totalCost, 0);
+  const totalPrice = projectData?.length && projectData?.reduce((prev, current) => prev + current.totalCost, 0);
   return (
     <div className="w-full pl-8">
       {/* warinig */}
@@ -150,7 +150,7 @@ useEffect(()=>{
       {/* Project start */}
       <div className="border border-gray-400 bg-[#F2F9FF]">
         {/* Title */}
-        <div className="w-full bg-blue-500 py-4 flex justify-center items-center">
+        <div className="w-full bg-[#1881cc] py-4 flex justify-center items-center">
           <h3 className="text-xl font-bold text-white">
             {" "}
             You are starting a project
@@ -175,7 +175,7 @@ useEffect(()=>{
             <div className="border py-1 px-3  bg-white">
               <select
                 {...register("subcategoryId", { required: true })}
-                onClick={(e)=>setSubCatId(e.target.value)}
+                onClick={(e) => setSubCatId(e.target.value)}
                 className="w-full bg-white focus-visible::ring-0 focus-visible:outline-none text-sm"
                 id="design"
               >
@@ -197,10 +197,10 @@ useEffect(()=>{
               <p>Quantity</p>
               <select
                 {...register("quantity", { required: true })}
-                onChange={(e)=>{
+                onChange={(e) => {
                   setQuantity(e.target.value)
-                  
-                }} 
+
+                }}
                 className="sm:px-12 px-2 py-2 bg-white border"
                 id="quantity"
               >
@@ -213,9 +213,9 @@ useEffect(()=>{
             <div className="flex items-center gap-2">
               <label htmlFor="extraFast" className="flex items-center gap-1">
                 <input
-                  
+
                   {...register("extraFast", { required: false })}
-                  onChange={(e)=>{
+                  onChange={(e) => {
                     e.target.checked ? setExtraFast(true) : setExtraFast(false)
                   }}
                   className="checkbox checkbox-sm rounded-none checkbox-bordered input-info"
@@ -267,20 +267,20 @@ useEffect(()=>{
               <div className="">
                 <h3 className="text-xl">Total</h3>
                 <h1 className="text-3xl font-semibold text-[#3695E0]">$
-             
-                
-                {
-               
-                extraFast ?
-                 ((parseInt(subcategory?.price) + 10 )  * quantity
-                 ||
-                 subCatPrice)
-                
-                :
-                
-                ( parseInt(subcategory?.price) * quantity 
-                ||
-                subCatPrice)}</h1>
+
+
+                  {
+
+                    extraFast ?
+                      ((parseInt(subcategory?.price) + 10) * quantity
+                        ||
+                        subCatPrice)
+
+                      :
+
+                      (parseInt(subcategory?.price) * quantity
+                        ||
+                        subCatPrice)}</h1>
               </div>
             </div>
           </div>
@@ -293,13 +293,13 @@ useEffect(()=>{
         </form>
         {/* saved data */}
         {projectData?.length ?
-        projectData?.map((select,i) =><SelectedProjects setDesignId={setDesignId} singleDesign={singleDesign} setSubCatPrice={setSubCatPrice} updateData={updateData} key={i} select={select} />):''}
+          projectData?.map((select, i) => <SelectedProjects setDesignId={setDesignId} singleDesign={singleDesign} setSubCatPrice={setSubCatPrice} updateData={updateData} key={i} select={select} />) : ''}
 
         {/* btn */}
         <div className="w-full p-3 flex justify-center items-center">
-         {projectData?.length ? <Link href={'/project/payment'} className="flex items-center gap-3 hover:bg-opacity-70 bg-[#3695E0] w-full text-white justify-center py-2 text-xl font-semibold">
+          {projectData?.length ? <Link href={'/project/payment'} className="flex items-center gap-3 hover:bg-opacity-70 bg-[#3695E0] w-full text-white justify-center py-2 text-xl font-semibold">
             Continue (${totalPrice})
-          </Link>:""}
+          </Link> : ""}
         </div>
         {/* hint */}
         <div className="flex justify-center p-3 items-center">

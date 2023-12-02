@@ -22,7 +22,7 @@ const PriceCard = ({category}) => {
     return (
         <div className="h-full sm:h-62 rounded-xl overflow-hidden border border-[#D4C9C9] relative">
             {/* Title */}
-            <div className=" w-full bg-[#FFEFEF] flex justify-center items-center h-12 ">
+            <div className=" w-full bg-[#ffefef] flex justify-center items-center h-12 ">
                 <h3 className="text-2xl font-bold">{category.name}</h3>
             </div>
             {/* Prices */}
@@ -32,10 +32,10 @@ const PriceCard = ({category}) => {
                 category?.subcategories.map((sub,i)=>{
                     return (
                     <div key={i}>
-                    <p className="sm:text-xl">{sub.name}</p>
-                    <h3 className="text-center text-[#1B8CDC] sm:text-xl font-bold">${sub.price}USD</h3>
+                    <p className="sm:text-xl text-center font-semibold">{sub.name}</p>
+                    <h3 className="text-center text-[#1B8CDC] sm:text-xl font-bold">${sub.price} USD</h3>
                     <h3 className='text-center'> { sub?.regulardays} Days Delivery</h3>
-                    <h3>  Extra- Fast {sub?.fastDay} Day Delivery ${sub?.FD_Amount}</h3>
+                    <h3 className='text-center'>  Extra- Fast {sub?.fastDay} Day Delivery ${sub?.FD_Amount}</h3>
                 </div>)
                 })
                }

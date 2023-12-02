@@ -16,12 +16,12 @@ const AllQuickResponse = ({ setValue, value, lastMessage }) => {
   //   path: "/realtime-messaging",
   // });
   const router = useRouter();
- 
-const [show, setShow] = useState(false)
+
+  const [show, setShow] = useState(false)
   // Define a function to check if the current URL is "/login".
-  
+
   const [online, setOnline] = useState(false);
- 
+
 
   const messageUpdate = useSelector((state) => state.update);
 
@@ -38,7 +38,7 @@ const [show, setShow] = useState(false)
   // quick id
   const [quickId, setQuickId] = useState("");
 
- 
+
 
   const dispatch = useDispatch()
 
@@ -59,88 +59,88 @@ const [show, setShow] = useState(false)
   //  console.log(quickResponseDataId)
 
   return (
-    <div className={`p-2 pb-0 m-2 ${show? 'h-28 overflow-y-auto':''} `}>
+    <div className={`p-2 pb-0 m-2 ${show ? 'h-28 overflow-y-auto' : ''} `}>
       {/* Quick Response */}
       {/* <Toast /> */}
       <div className=" flex items-center justify-between px-2  cursor-pointer">
         <h2 onClick={handleClick}>Quick Response</h2>
         <div className="flex items-center  gap-2">
-        <div>
-      {router.pathname=== '/message/[messageId]' ? (
-       ''
-      ) : (
-        <p className="text-xs">
-          {online ? (
-            'Online'
-          ) : (
-            <span>
-              Last seen {moment(lastMessage?.createdAt).fromNow()} | Local Time: {moment(new Date()).format('LL')}
-            </span>
-          )}
-        </p>
-      )}
-    </div>
-        {
-          show ?   <div className="dropdown dropdown-left">
-          <label
-            tabIndex={0}
-            className="hover:bg-base-300 rounded-md px-2 inline-block py-2"
-          >
-            <CiMenuKebab />
-          </label>
-          <ul className="dropdown-content rounded-none z-[1] tabIndex={0} menu shadow bg-base-100 border p-1">
-            <div>
-              {editMode ? (
-                <button
-                  onClick={() => setEditMode(false)}
-                  className="px-2 py-1 hover:bg-base-300 w-full text-teal-400  font-bold"
-                >
-                  Done
-                </button>
-              ) : (
-                <button
-                  onClick={() => setEditMode(true)}
-                  className="px-2 py-1 hover:bg-base-300 w-full text-blue-500 font-bold"
-                >
-                  Edit
-                </button>
-              )}
-              {deleteMode ? (
-                <button
-                  onClick={() => setDeleteMode(false)}
-                  className="px-2 py-1 hover:bg-base-300 w-full text-teal-400  font-bold"
-                >
-                  Done
-                </button>
-              ) : (
-                <button
-                  onClick={() => setDeleteMode(true)}
-                  className="px-2 py-1 hover:bg-base-300 w-full text-rose-400  font-bold"
-                >
-                  Delete
-                </button>
-              )}
-            </div>
-          </ul>
-        </div>:''
-        }
+          <div>
+            {router.pathname === '/message/[messageId]' ? (
+              ''
+            ) : (
+              <p className="text-xs">
+                {online ? (
+                  'Online'
+                ) : (
+                  <span>
+                    Last seen {moment(lastMessage?.createdAt).fromNow()} | Local Time: {moment(new Date()).format('LL')}
+                  </span>
+                )}
+              </p>
+            )}
+          </div>
+          {
+            show ? <div className="dropdown dropdown-left">
+              <label
+                tabIndex={0}
+                className="hover:bg-base-300 rounded-md px-2 inline-block py-2"
+              >
+                <CiMenuKebab />
+              </label>
+              <ul className="dropdown-content rounded-none z-[1] tabIndex={0} menu shadow bg-base-100 border p-1">
+                <div>
+                  {editMode ? (
+                    <button
+                      onClick={() => setEditMode(false)}
+                      className="px-2 py-1 hover:bg-base-300 w-full text-teal-400  font-bold"
+                    >
+                      Done
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => setEditMode(true)}
+                      className="px-2 py-1 hover:bg-base-300 w-full text-blue-500 font-bold"
+                    >
+                      Edit
+                    </button>
+                  )}
+                  {deleteMode ? (
+                    <button
+                      onClick={() => setDeleteMode(false)}
+                      className="px-2 py-1 hover:bg-base-300 w-full text-teal-400  font-bold"
+                    >
+                      Done
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => setDeleteMode(true)}
+                      className="px-2 py-1 hover:bg-base-300 w-full text-rose-400  font-bold"
+                    >
+                      Delete
+                    </button>
+                  )}
+                </div>
+              </ul>
+            </div> : ''
+          }
         </div>
       </div>
       <div className="flex ">
         <div className="flex gap-2 text-[13px] flex-wrap">
           {show && quickResponses?.map((quick, i) => (
             <>
-             <button
-  key={i}
-  onClick={(e) => {
-    setValue(e.target.value);
-    setShow(false); 
-  }}
-  className="px-1 flex cursor-pointer items-center gap-1 py-0 border border-gray-500"
-  value={quick.value}
->
-  {quick.label}
-</button>
+              <button
+                key={i}
+                onClick={(e) => {
+                  setValue(e.target.value);
+                  setShow(false);
+                }}
+                className="px-1 flex cursor-pointer items-center gap-1 py-0 border border-gray-500"
+                value={quick.value}
+              >
+                {quick.label}
+              </button>
               {deleteMode ? (
                 <span
                   onClickCapture={() => setQuickId(quick?.quickResponseId)}
@@ -156,8 +156,8 @@ const [show, setShow] = useState(false)
               )}
               {editMode ? (
                 <span
-                  className="px-1 py-1 cursor-pointer rounded-full bg-blue-500 text-white"
-                  onClick={() =>{
+                  className="px-1 py-1 cursor-pointer rounded-full bg-[#1881cc] text-white"
+                  onClick={() => {
                     setEditId(quick?.quickResponseId)
                     document.getElementById("edit_modal").showModal()
                     dispatch(updateState(!messageUpdate?.update))
@@ -173,17 +173,17 @@ const [show, setShow] = useState(false)
           ))}
 
           {/* Add NEw */}
-         {
-          show&& <button
-          onClick={() =>
-            document.getElementById("create_new_quick").showModal()
+          {
+            show && <button
+              onClick={() =>
+                document.getElementById("create_new_quick").showModal()
+              }
+              className="border border-gray-500 px-1 py-0 bg-white"
+            >
+              + Add New
+            </button>
           }
-          className="border border-gray-500 px-1 py-0 bg-white"
-        >
-          + Add New
-        </button>
-         }
-         </div> 
+        </div>
       </div>
       <EditModal quickId={editId} />
       <CreateQuick />

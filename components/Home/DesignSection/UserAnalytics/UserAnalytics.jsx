@@ -6,7 +6,7 @@ const UserAnalytics = () => {
   const AdminData=data?.data
   
     return (
-        <div className="h-auto w-auto text-center md:text-left p-2 rounded-md border-2 bg-[#F2F9FF] border-[#A2D1F2]">
+        <div className="h-auto w-[auto] text-center md:text-left p-2 rounded-md border-2 bg-[#F2F9FF] border-[#A2D1F2]">
         {/* Username */}
         <div className="py-2 text-black font-bold border-b border-blue-200">
           <p>Mahfujurrahm535</p>

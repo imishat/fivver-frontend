@@ -13,19 +13,19 @@ import Tags from "./Tags/Tags";
 
 const Dashboard = () => {
 
-// router 
-const router = useRouter()
+  // router 
+  const router = useRouter()
   // dashboard
-  const [route, setRoute] = useState(router.query.n||"dashboard");
+  const [route, setRoute] = useState(router.query.n || "dashboard");
   return (
     <div className="my-14">
       {/* Dashboard navbar */}
-      <div className="flex my-6 justify-center bg-blue-400 font-bold">
+      <div className="flex my-6 justify-center bg-[#1881cc] font-bold">
         <ul className="flex flex-wrap ">
           <li>
             <Link href={'/dashboard?n=dashboard'}
               onClick={() => setRoute("dashboard")}
-              className={`px-3 py-3 inline-block ${route==='dashboard'?'bg-blue-500':""} h-full text-white`}
+              className={`px-3 py-3 inline-block ${route === 'dashboard' ? 'bg-[#1881cc]' : ""} h-full text-white`}
             >
               Dashboard
             </Link>
@@ -33,7 +33,7 @@ const router = useRouter()
           <li>
             <Link href={'/dashboard?n=categories'}
               onClick={() => setRoute("categories")}
-              className={`px-3 py-3 inline-block ${route==='categories'?'bg-blue-500':""} h-full text-white`}
+              className={`px-3 py-3 inline-block ${route === 'categories' ? 'bg-[#1881cc]' : ""} h-full text-white`}
             >
               Categories
             </Link>
@@ -41,7 +41,7 @@ const router = useRouter()
           <li>
             <Link href={'/dashboard?n=subcategories'}
               onClick={() => setRoute("subcategories")}
-              className={`px-3 py-3 inline-block ${route==='subcategories'?'bg-blue-500':""} h-full text-white`}
+              className={`px-3 py-3 inline-block ${route === 'subcategories' ? 'bg-[#1881cc]' : ""} h-full text-white`}
             >
               SubCategories
             </Link>
@@ -49,7 +49,7 @@ const router = useRouter()
           <li>
             <Link href={'/dashboard?n=designs'}
               onClick={() => setRoute("designs")}
-              className={`px-3 py-3 inline-block ${route==='designs'?'bg-blue-500':""} h-full text-white`}
+              className={`px-3 py-3 inline-block ${route === 'designs' ? 'bg-[#1881cc]' : ""} h-full text-white`}
             >
               Designs
             </Link>
@@ -57,7 +57,7 @@ const router = useRouter()
           <li>
             <Link href={'/dashboard?n=companies'}
               onClick={() => setRoute("companies")}
-              className={`px-3 py-3 inline-block ${route==='companies'?'bg-blue-500':""} h-full text-white`}
+              className={`px-3 py-3 inline-block ${route === 'companies' ? 'bg-[#1881cc]' : ""} h-full text-white`}
             >
               Companies
             </Link>
@@ -65,7 +65,7 @@ const router = useRouter()
           <li>
             <Link href={'/dashboard?n=tags'}
               onClick={() => setRoute("tags")}
-              className={`px-3 py-3 inline-block ${route==='tags'?'bg-blue-500':""} h-full text-white`}
+              className={`px-3 py-3 inline-block ${route === 'tags' ? 'bg-[#1881cc]' : ""} h-full text-white`}
             >
               Tags
             </Link>
@@ -73,7 +73,7 @@ const router = useRouter()
           <li>
             <Link href={'/dashboard?n=affiliate'}
               onClick={() => setRoute("affiliate")}
-              className={`px-3 py-3 inline-block ${route==='affiliate'?'bg-blue-500':""} h-full text-white`}
+              className={`px-3 py-3 inline-block ${route === 'affiliate' ? 'bg-[#1881cc]' : ""} h-full text-white`}
             >
               Affiliate
             </Link>
@@ -81,27 +81,27 @@ const router = useRouter()
         </ul>
       </div>
       {
-        route==='dashboard' && <Projects />
+        route === 'dashboard' && <Projects />
       }
       {
-        route==='designs' && <Designs />
+        route === 'designs' && <Designs />
       }
       {
-        route==='subcategories' && <SubCategory />
+        route === 'subcategories' && <SubCategory />
       }
       {
-        route==='companies' && <Companies />
+        route === 'companies' && <Companies />
       }
       {
-        route==='categories' && <Categories />
+        route === 'categories' && <Categories />
       }
       {
-        route==='tags' && <Tags />
+        route === 'tags' && <Tags />
       }
       {
-        route==='affiliate' && <Affiliate />
+        route === 'affiliate' && <Affiliate />
       }
-     
+
     </div>
   );
 };

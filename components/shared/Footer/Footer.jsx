@@ -100,7 +100,7 @@ const Footer = () => {
                 </div>
                 {/* Social icons */}
                 <div className="flex justify-center">
-                <SocialIcons size={20}/>
+                  <SocialIcons size={20} />
                 </div>
               </div>
               <div className="py-3 w-full mx-auto">
@@ -169,19 +169,19 @@ const Footer = () => {
                 </div>
                 {/* Social icons */}
                 <div className="flex justify-center">
-                  <SocialIcons size={20}/>
+                  <SocialIcons size={20} />
                 </div>
               </div>
               <div
                 className={`${user?.email
-                    ? "py-3 md:w-6/12 w-full text-center"
-                    : "py-3 md:w-9/12 w-full text-center"
+                  ? "py-3 md:w-6/12 w-full text-center"
+                  : "py-3 md:w-9/12 w-full text-center"
                   }`}
               >
                 <ul
                   className={`${user?.email
-                      ? "lg:grid grid-cols-2 md:grid-cols-4 mt-20 flex items-center flex-wrap px-12 gap-3 sm:flex sm:flex-col  space-y-2 w-full justify-between"
-                      : "flex md:grid md:flex-wrap grid-cols-2"
+                    ? "lg:grid grid-cols-2 md:grid-cols-4 mt-20 flex items-center flex-wrap px-12 gap-3 sm:flex sm:flex-col  space-y-2 w-full justify-between"
+                    : "flex md:grid md:flex-wrap grid-cols-2"
                     }`}
                 >
                   <li>
@@ -245,7 +245,7 @@ const Footer = () => {
                           type="text"
                           id="website"
                         />
-                        <label htmlFor="design" className="relative flex flex-col gap-3"> 
+                        <label htmlFor="design" className="relative flex flex-col gap-3">
                           <input
                             {...register("design", { required: "true" })}
                             placeholder="Example Design"
@@ -257,7 +257,7 @@ const Footer = () => {
                             <input onChange={(e) => handleUploadDesignFile(e)} hidden type="file" id="designFile" />
                             <IoIosAttach size={30} />
                           </label>
-                          </label>
+                        </label>
 
                         <label htmlFor="message"></label>
                         <textarea
@@ -267,7 +267,7 @@ const Footer = () => {
                           className="textarea h-24 textarea-bordered w-full rounded-none"
                         ></textarea>
                         <div className="flex justify-center w-full">
-                          <button className="px-4 py-2 rounded-sm mx-auto bg-blue-500">
+                          <button className="px-4 py-2 rounded-sm mx-auto bg-[#1881cc]">
                             Submit
                           </button>
                         </div>

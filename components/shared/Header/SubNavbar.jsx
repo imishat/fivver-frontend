@@ -20,7 +20,7 @@ const companies = companyData?.data?.companies
 const [showDesigns,setShowDesigns] = useState(false)
 const [showCompanies,setShowCompanies] = useState(false)
 
-  return <div className="flex lg:mt-11 justify-center bg-blue-500 text-white">
+  return <div className="flex lg:mt-11 justify-center bg-[#1881cc] text-white">
     <div>
       <ul className="flex flex-wrap md:py-2 items-center">
         {

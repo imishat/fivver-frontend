@@ -27,7 +27,7 @@ export default function DesignCategorySectionCard({category}) {
       <div className="flex py-1 justify-between">
         <h2 className="font-bold">{category?.name}</h2>
         <Link
-          className="text-blue-500 font-bold"
+          className="text-[#1881cc] font-bold"
           href={`/designs/category/${category.categoryId}`}
         >
           All Designs
