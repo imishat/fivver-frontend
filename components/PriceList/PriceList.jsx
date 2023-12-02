@@ -7,7 +7,7 @@ const PriceList = () => {
     const {data:categoriesData} = useGetCategoryData({categoryId:''})
     const categories = categoriesData?.data?.categories
     return (
-        <div className="md:flex my-6 px-8 gap-6">
+        <div className="md:flex my-8 px-10 gap-8 ">
             <div className="md:w-9/12">
                 <div>
                     <p className="text-lg"><span className="font-bold">We have priced many designs below. The design you need, You can start a project for that design. We will create your design.</span> <br /> Please contact us first if you need any designs other than those below. <br /> (Also, if you need more than one design, you can start a separate project for each design. Or you can contact us to start a custom project for all your designs.)
@@ -26,7 +26,7 @@ const PriceList = () => {
                     </p>
                 </div>
             </div>
-            <div className="md:w-3/12">
+            <div className="md:w-2/12">
                 <StockImageSites />
             </div>
         </div>

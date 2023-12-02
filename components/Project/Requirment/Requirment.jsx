@@ -219,7 +219,7 @@ minus18Hours.setTime(minus18Hours.getTime() + (24*((project?.isExtraFastDelivery
 // Format the date as YYYY-MM-DD
 let utcDate1 = minus18Hours.toISOString()
 
-console.log(utcDate1);  // This will print the UTC date that is 18 hours before the current time.
+  // This will print the UTC date that is 18 hours before the current time.
 
 
 

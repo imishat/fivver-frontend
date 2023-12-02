@@ -106,7 +106,7 @@ const CustomarProfile = () => {
                 ) : (
                   <h1 className="text-7xl rounded-full relative w-32 flex justify-center items-center h-32 font-bold text-gray-400  bg-gray-300 ">
                     C{" "}
-                    <span className="h-4 w-4 bottom-0 right-6 rounded-full bg-blue-500 absolute"></span>
+                    <span className="h-4 w-4 bottom-0 right-6 rounded-full bg-[#1881cc] absolute"></span>
                   </h1>
                 )}
               </div>

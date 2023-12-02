@@ -7,8 +7,8 @@ import { useForm } from "react-hook-form";
 import { IoIosAttach } from "react-icons/io";
 import { useSelector } from "react-redux";
 
-const Contact=()=>{
- 
+const Contact = () => {
+
   // react hook form
   const { handleSubmit, register, reset } = useForm();
 
@@ -73,84 +73,84 @@ const Contact=()=>{
       },
     });
   };
-    return(
-<> <Toast />
-        <div className="max-w-2xl mx-auto">
-        
+  return (
+    <> <Toast />
+      <div className="max-w-2xl mx-auto">
+
         <div className=" flex justify-center text-center py-4">
           <div className="md:text-2xl font-semibold">
-            
+
             <p className="text-black">If you have any questions or inquiries about our services, please feel free to contact us by filling out this form
-. </p>
-            
+              . </p>
+
           </div>
         </div>
       </div>
-        <div className='w-2/5 mx-auto'>
-      
-            <div className="flex justify-center justify-items-center  mb-10 mt-10 mx-10 items-center">
-            <form
-                      onSubmit={handleSubmit(handleSendMessage)}
-                      className="w-[100%] mx-auto relative rounded-md bg-rose-100 text-black p-6"
-                    >
-                      <div className="space-y-3">
-                        <label htmlFor="name"></label>
-                        <input
-                          {...register("name", { required: "true" })}
-                          placeholder="Name"
-                          className="input input-bordered rounded-none w-full"
-                          type="text"
-                          id="name"
-                        />
-                        <label htmlFor="email"></label>
-                        <input
-                          {...register("email", { required: "true" })}
-                          placeholder="Email"
-                          className="input input-bordered rounded-none w-full"
-                          type="email"
-                          id="email"
-                        />
-                        <label htmlFor="website"></label>
-                        <input
-                          {...register("website", { required: "true" })}
-                          placeholder="Website / Facebook"
-                          className="input input-bordered rounded-none w-full"
-                          type="text"
-                          id="website"
-                        />
-                        <label htmlFor="design" className="relative flex flex-col gap-3"> 
-                          <input
-                            {...register("design", { required: "true" })}
-                            placeholder="Example Design"
-                            className="input input-bordered rounded-none w-full"
-                            type="text"
-                            id="design"
-                          />
-                          <label htmlFor="designFile" className="absolute right-3 z-30 cursor-pointer  bottom-2">
-                            <input onChange={(e) => handleUploadDesignFile(e)} hidden type="file" id="designFile" />
-                            <IoIosAttach size={30} />
-                          </label>
-                          </label>
+      <div className='w-2/5 mx-auto'>
 
-                        <label htmlFor="message"></label>
-                        <textarea
-                          {...register("message", { required: "true" })}
-                          placeholder="Message"
-                          id="message"
-                          className="textarea h-24 textarea-bordered w-full rounded-none"
-                        ></textarea>
-                        <div className="flex justify-center w-full">
-                          <button className="px-4 py-2 rounded-sm mx-auto bg-blue-500">
-                            Submit
-                          </button>
-                        </div>
-                      </div>
-                    </form>
+        <div className="flex justify-center justify-items-center  mb-10 mt-10 mx-10 items-center">
+          <form
+            onSubmit={handleSubmit(handleSendMessage)}
+            className="w-[100%] mx-auto relative rounded-md bg-rose-100 text-black p-6"
+          >
+            <div className="space-y-3">
+              <label htmlFor="name"></label>
+              <input
+                {...register("name", { required: "true" })}
+                placeholder="Name"
+                className="input input-bordered rounded-none w-full"
+                type="text"
+                id="name"
+              />
+              <label htmlFor="email"></label>
+              <input
+                {...register("email", { required: "true" })}
+                placeholder="Email"
+                className="input input-bordered rounded-none w-full"
+                type="email"
+                id="email"
+              />
+              <label htmlFor="website"></label>
+              <input
+                {...register("website", { required: "true" })}
+                placeholder="Website / Facebook"
+                className="input input-bordered rounded-none w-full"
+                type="text"
+                id="website"
+              />
+              <label htmlFor="design" className="relative flex flex-col gap-3">
+                <input
+                  {...register("design", { required: "true" })}
+                  placeholder="Example Design"
+                  className="input input-bordered rounded-none w-full"
+                  type="text"
+                  id="design"
+                />
+                <label htmlFor="designFile" className="absolute right-3 z-30 cursor-pointer  bottom-2">
+                  <input onChange={(e) => handleUploadDesignFile(e)} hidden type="file" id="designFile" />
+                  <IoIosAttach size={30} />
+                </label>
+              </label>
+
+              <label htmlFor="message"></label>
+              <textarea
+                {...register("message", { required: "true" })}
+                placeholder="Message"
+                id="message"
+                className="textarea h-24 textarea-bordered w-full rounded-none"
+              ></textarea>
+              <div className="flex justify-center w-full">
+                <button className="px-4 py-2 rounded-sm mx-auto bg-[#1881cc]">
+                  Submit
+                </button>
+              </div>
+            </div>
+          </form>
         </div>
-        
 
-</div>
-</>
-    )
+
+      </div>
+    </>
+  )
 }
 export default Contact

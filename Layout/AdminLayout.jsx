@@ -26,7 +26,7 @@ const AdminLayout = ({ children, title, description, thumb,routes }) => {
           <li>
             <Link href={`/dashboard?n=${routes?.toLowerCase()}`}
               onClick={() => setRoute("dashboard")}
-              className={`px-3 py-3 ${route==='dashboard'?'bg-blue-500':""} h-full text-white flex items-center gap-2`}
+              className={`px-3 py-3 ${route==='dashboard'?'bg-[#1881cc]':""} h-full text-white flex items-center gap-2`}
             >
               <BsBackspace size={24} />
               Back to {routes}

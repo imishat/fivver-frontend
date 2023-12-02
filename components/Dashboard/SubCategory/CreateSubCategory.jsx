@@ -22,10 +22,17 @@ function CreateSubCategory() {
 
   // handle create category
   const handleCreate = (data) => {
+  
     // create image
+    
     const createData = {
       name: data.name,
       price: data.price,
+      FD_Amount:data.FD_Amount,
+      fastDay:data.fastDay,
+      regulardays:data.regulardays,
+      tagName:data.tagName,
+
       imageIds: [],
     };
     // create category
@@ -49,7 +56,7 @@ function CreateSubCategory() {
       >
         <div className="w-full">
           <label
-            className="bg-[#3b82f6] capitalize text-white inline-block py-2 px-3 font-bold w-full flex justify-between"
+            className="bg-[#1881cc] capitalize text-white inline-block py-2 px-3 font-bold w-full flex justify-between"
             htmlFor="label"
           >
            <span> Subcategory</span>
@@ -57,7 +64,7 @@ function CreateSubCategory() {
            <input
             {...register("tagName", { required: true })}
             placeholder="Tag line"
-            className="input input-bordered rounded-none input-sm  inline-block w-32 h-7"
+            className="input input-bordered rounded-none input-sm  inline-block w-32 h-7 text-black"
             type="text"
             id="label"
           />
