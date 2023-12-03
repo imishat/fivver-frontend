@@ -34,7 +34,7 @@ const CompanyCard = ({ data }) => {
     <div
       onMouseEnter={() => setShowCart(true)}
       onMouseLeave={() => setShowCart(isAddedData ? true : false)}
-      className="relative w-full  md:w-[300px] md:h-[220px] xl:w-[300px] xl:!h-[210px]  mb-8 "
+      className="relative w-full h-full mb-8 "
     >
       {showCart ? (
         <div className="absolute right-0 top-0 flex justify-center items-center p-2 rounded-md bg-base-200">
@@ -58,11 +58,11 @@ const CompanyCard = ({ data }) => {
       ) : (
         ""
       )}
-      <div className="bg-rose-100 md:h-56 w-full">
+      <div className="bg-rose-100 h-full w-full">
         <Image
           height={160}
           width={224}
-          className="w-full md:h-56 object-cover"
+          className="w-full h-full object-cover"
           src={`${process.env.NEXT_PUBLIC_API}/files/download/public/${
             data?.featuredImageId ? data?.featuredImageId : data?.imageIds[0]
           }`}

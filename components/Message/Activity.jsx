@@ -25,6 +25,8 @@ import { useGetUserData } from "../queries/query/getUserProfile.query";
 import { useGetProject } from "../queries/query/project.query";
 import { messagesState } from "../redux/features/message/allMessagesSlice";
 import { updateState } from "../redux/features/update/updateSlice";
+import AdditionalMessage from './Card/AdditionalMessage/AdditionalMessage';
+import AdditionalOffer from './Modal/AdditionalOffer/AdditionalOffer';
 
 
 
@@ -438,8 +440,8 @@ const Activity = () => {
                               />
                             )}
                             {/* // Normal Message */}
-                            {message?.type === "offer" && (
-                              <OfferMessageCard
+                            {message?.type === "additional" && (
+                              <AdditionalMessage
                                 project={project}
                                 setReply={setReply}
                                 key={message.messageId}
@@ -496,7 +498,7 @@ const Activity = () => {
               )}
 
               {/* send box */}
-              <div className=" m-2 relative">
+              <div className=" m-2 relative border">
                 {/* Scroll Down */}
                 <button
                   className="absolute right-5 -top-12"
@@ -611,7 +613,7 @@ const Activity = () => {
                                 className="cursor-pointer"
                                 onClick={() =>
                                   document
-                                    .getElementById("custom_offer")
+                                    .getElementById("additional_modal")
                                     .showModal()
                                 }
                               >
@@ -890,9 +892,7 @@ const Activity = () => {
           reply={reply}
           project={project}
           userInfo={userInfo} />
-        <CustomOfferModal
-          update={update}
-          setUpdate={setUpdate}
+        <AdditionalOffer
           setReply={setReply}
           reply={reply}
           project={project}

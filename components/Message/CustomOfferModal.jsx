@@ -125,7 +125,7 @@ function CustomOfferModal({ project, reply, setReply }) {
   return (
     <dialog id="custom_offer" className="modal">
       <Toast />
-      <form onSubmit={handleSubmit(handleCustomOffer)} className="modal-box rounded-none  max-w-md bg-blue-50 p-0">
+      <form onSubmit={handleSubmit(handleCustomOffer)} className="modal-box rounded-none  max-w-lg bg-blue-50 p-0">
         <div className="bg-blue-400 py-2 text-white font-bold text-center">
           <h2>Create a single payment offer</h2>
         </div>
@@ -156,10 +156,26 @@ function CustomOfferModal({ project, reply, setReply }) {
             <div className="flex items-center gap-2">
               <h2>Delivery</h2>
               <select  {...register("delivered", { required: true })} className="px-6 bg-base-100 outline-none border border-gray-400 select-sm rounded-none">
-                <option value="1">1 Days&nbsp;</option>
-                <option value="2">2 Days&nbsp;</option>
-                <option value="3">3 Days&nbsp;</option>
-                <option value="3">4 Days&nbsp;</option>
+                <option value="1">1 hour&nbsp;</option>
+                <option value="2">2 hours&nbsp;</option>
+                <option value="3">3 hours&nbsp;</option>
+                <option value="4">4 hours&nbsp;</option>
+                <option value="5">5 hours&nbsp;</option>
+                <option value="6">6 hours&nbsp;</option>
+                <option value="7">7 hours&nbsp;</option>
+                <option value="8">8 hours&nbsp;</option>
+                <option value="9">9 hours&nbsp;</option>
+                <option value="10">10 hours&nbsp;</option>
+                <option value="11">11 hours&nbsp;</option>
+                <option value="12">12 hours&nbsp;</option>
+                <option value="24">1 Day&nbsp;</option>
+                <option value="48">2 Days&nbsp;</option>
+                <option value="72">3 Days&nbsp;</option>
+                <option value="96">4 Days&nbsp;</option>
+                <option value="120">5 Days&nbsp;</option>
+                <option value="144">6 Days&nbsp;</option>
+                <option value="168">7 Days&nbsp;</option>
+                <option value="192">8 Days&nbsp;</option>
               </select>
             </div>
 

@@ -18,9 +18,9 @@ const Dashboard = () => {
   // dashboard
   const [route, setRoute] = useState(router.query.n || "dashboard");
   return (
-    <div className="my-14">
+    <div className="my-0">
       {/* Dashboard navbar */}
-      <div className="flex my-6 justify-center bg-[#1881cc] font-bold">
+      <div className="flex mb-6 mt-1 justify-center bg-[#1881cc] font-bold">
         <ul className="flex flex-wrap ">
           <li>
             <Link href={'/dashboard?n=dashboard'}

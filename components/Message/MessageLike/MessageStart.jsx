@@ -58,7 +58,7 @@ const userInfo = userData?.data?.user
             </span>
                 <div>
                   {
-                    message?.designFile ? <img className="max-w-md" src={`${process.env.NEXT_PUBLIC_DOWNLOAD}/${message?.designFile}`} alt="" />:''
+                    message?.designFile ? <img className="max-w-lg" src={`${process.env.NEXT_PUBLIC_DOWNLOAD}/${message?.designFile}`} alt="" />:''
                   }
                 </div>
           <span className="cursor-pointer p-1" onClick={()=>setReply({reply:message?.content,messageId:message?.messageId})}><BsReply /></span>

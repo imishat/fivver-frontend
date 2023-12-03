@@ -9,7 +9,7 @@ const AdminLayout = ({ children, title, description, thumb,routes }) => {
     // dashboard
     const [route, setRoute] = useState("dashboard");
   return (
-    <div className="container mx-auto my-14 md:my-20   overflow-hidden">
+    <div className=" mx-auto my-1 md:my-20   overflow-hidden">
       <Head>
         <title>{title}</title>
         <meta name="description" content={description} key="desc" />

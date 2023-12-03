@@ -34,6 +34,8 @@ const Design = () => {
           </div>
         </div>
       </div>
+   <div className="flex justify-center">
+   <div className="w-[80%] max-w-fit mx-auto">
       {/* comnany */}
       <div>
         <div className="my-6">
@@ -49,7 +51,7 @@ const Design = () => {
           </ul>
         </div>
       </div>
-      <div className="border-b-2 border-[#1881cc] " />
+      <div className="border-b-2 border-[#1881cc]" />
       {/* catagory */}
       <div className=" ">
         <div className="my-6">
@@ -67,11 +69,14 @@ const Design = () => {
           </ul>
         </div>
       </div>
-      {/* all designs */}
-      {designs?.length ?
-        <div className="grid 2xl:grid-cols-6 2xl:gap-3 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 px-4 gap-4">
+   
+       {/* all designs */}
+       {designs?.length ?
+        <div className=" grid lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 max-w-fit gap-3 w-full">
           {designs.map((data, i) => (
+             <div className="w-[350px] h-[260px] mb-6" key={i}>
             <CompanyCard data={data} key={i} />
+            </div>
           ))
 
 
@@ -79,8 +84,11 @@ const Design = () => {
         </div>
         :
         'NO DESING'}
+     </div>
+   </div>
       {/* pagination */}
       <div className="flex justify-center my-6">
+       
         <Pagination onChange={(e) => setCurrentPage(e)} className="flex cursor-pointer select-none gap-2 px-3 py-1 " total={count} defaultPageSize={1} />
       </div>
 

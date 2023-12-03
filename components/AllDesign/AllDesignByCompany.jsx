@@ -39,10 +39,14 @@ const AllDesignByCompany = ({ companyId }) => {
           </h2>
         </div>
       </div>
+      <div className="w-[80%] mx-auto">
+   <div className="flex justify-center">
       {designs?.length ? (
-        <div className="md:w-full xl:max-w-7xl lg:max-w-max mx-auto 2xl:w-[90%] xl:mx-auto gap-3 md:gap-8 lg:gap-12 lg:px-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 ">
+        <div className="grid lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 max-w-fit gap-3 w-full">
           {designs.map((data, i) => (
+            <div className="!w-[350px] border-spacing-24 border-white border-8 !h-[260px]" key={i}>
             <CompanyCard data={data} key={i} />
+            </div>
           ))}
         </div>
       ) : (
@@ -50,7 +54,8 @@ const AllDesignByCompany = ({ companyId }) => {
           <p className="capitalize">No data in {query}</p>
         </div>
       )}
-
+</div>
+</div>
       {/* pagination */}
       <div className="flex justify-center my-6">
         <Pagination
