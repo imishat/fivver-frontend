@@ -10,7 +10,6 @@ import "swiper/css/navigation";
 import { useState } from "react";
 import "./styles.module.css";
 // import required modules
-import Image from "next/image";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigation } from "swiper/modules";
@@ -83,7 +82,7 @@ const DesignDescription = ({ data }) => {
         <Swiper
           navigation={true}
           modules={[Navigation]}
-          className="mySwiper sm:!w-[640px] sm:!h-[550px] md:!w-[750px] !mx-0">
+          className="mySwiper sm:!w-[640px] !max-h-fit sm:!h-[500px] md:!w-[750px] !mx-0">
           {design?.imageIds?.map((id, i) => (
             <SwiperSlide key={i} className="flex !gap-2 sm:!w-[640px] sm:!h-[500px] md:!w-[750px]">
               <div className="border h-full w-full sm:!w-[640px] sm:!h-[100%] md:!w-[750px]">
@@ -115,7 +114,7 @@ const DesignDescription = ({ data }) => {
 
         </Swiper>
 
-        <div className="sm:w-80 p-4 bg-[#F2F9FF]">
+        <div className="sm:w-80 px-4 bg-[#F2F9FF]">
           <div>
             <h1 className="md:text-2xl sm:text-xl font-bold">
               {design?.title}
@@ -168,7 +167,7 @@ const DesignDescription = ({ data }) => {
           </div>
         </div>
       </div>
-      <div className="px-8">
+      <div className="px-8 w-[80%] mx-auto">
         <h2 className="sm:text-3xl text-lg font-semibold my-3">
           {design?.title}
         </h2>

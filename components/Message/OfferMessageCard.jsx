@@ -55,7 +55,7 @@ function OfferMessageCard({ message, setReply, project }) {
   // deadline get 
   const nowUTC = new Date();
 
-  const hoursToAdd = 24 * parseInt(message?.delivered);
+  const hoursToAdd = parseInt(message?.delivered);
 
   // Add 6 hours
   nowUTC.setUTCHours((nowUTC.getUTCHours() * hoursToAdd));
@@ -204,7 +204,7 @@ function OfferMessageCard({ message, setReply, project }) {
             message?.reply?.messageId ? <a href={`#${message?.message?.reply?.messageId}`} className="p-1 px-3 bg-base-200 top-0 z-0 text-xs relative rounded-full">{message?.reply?.reply?.slice(0, 55)} <span>{message?.message?.reply?.reply?.length > 55 ? '...' : ''}</span>  </a> : ''
           }
 
-          <div className="max-w-md bg-blue-50 h-full">
+          <div className="max-w-lg bg-blue-50 h-full">
             {/* Offer image */}
             <div className="flex bg-blue-200 items-center justify-between p-3">
               <Image height={100} width={100} className="w-14 object-cover h-14 border p-1 border-gray-400" src={`${process.env.NEXT_PUBLIC_API}/files/download/public/${message?.imageId}`} alt="" />

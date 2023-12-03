@@ -99,7 +99,7 @@ const handleImageChange = (event) => {
   const tagsOptions = tagsData?.data?.tags;
   // tags
   const [selectedTags, setSelectedTags] = useState('');
-console.log(selectedTags,"selectedTags")
+// console.log(selectedTags?.split(','),"selectedTags")
   // ====================== Category ======================== //
   // categories
   const categories = getCategories?.data?.categories;
@@ -173,7 +173,7 @@ console.log(selectedTags,"selectedTags")
                 imageIds: imageIds,
                 companies: selectedCompanies,
                 relatedDesignIds: relatedIds.split(","),
-                tags: selectedTags,
+                tags: selectedTags?.split(','),
                 featuredImageId: thumbnail,
               };
               sendDesignData(projectData, {
@@ -407,7 +407,7 @@ console.log(selectedTags,"selectedTags")
                 Tags
               </label>
             
-              <textarea  onChange={(e) => setSelectedTags(e)} {...register("description", { required: true })}  type="text" className=" px-3 py-2" id="create" />
+              <textarea  onChange={(e) => setSelectedTags(e.target.value)}  type="text" className=" px-3 py-2" id="create" />
             </div>
             {/* Thumbnail */}
             <div className="border">
@@ -416,7 +416,7 @@ console.log(selectedTags,"selectedTags")
               </p>
               {/* Image  */}
               <div>
-              {thumbBlob && <img src={thumbBlob} className="w-24 m-3 object-cover h-24" alt="Uploaded Image" />}
+              {thumbBlob ? <img src={thumbBlob} className="w-24 m-3 object-cover h-24" alt="Uploaded Image" />:''}
               </div>
               <div>
                 <input
@@ -442,11 +442,11 @@ console.log(selectedTags,"selectedTags")
                 <span className="text-rose-400">*</span>
               </p>
 <div className="">
-{imageBlob?.length && <div className="flex items-center flex-wrap">
+{imageBlob?.length ? <div className="flex items-center flex-wrap">
   {
    imageBlob?.map((image,i)=><img key={i} src={image} className="w-24 m-1 object-cover h-24" alt="Uploaded Image" />) 
   }
-  </div>}
+  </div>:''}
 </div>
               <div>
                 <input

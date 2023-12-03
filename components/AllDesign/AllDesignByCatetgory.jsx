@@ -34,8 +34,9 @@ const AllDesignByCatetgory = ({ categoryId }) => {
 
   return (
     <div className=" w-full ">
-      {/* Design Title */}
-      <div className="h-full w-full relative ">
+     <div>
+       {/* Design Title */}
+       <div className="h-full w-full relative ">
         <img className="w-full h-full" src="/images/Web Banner 2.jpg" alt="" />
         <div className="flex justify-center items-center  text-black ">
           <h3 className="absolute text-[#1C8CDD] md:text-4xl sm:text-2xl text-xl top-1/2 font-bold text-center ">
@@ -51,10 +52,14 @@ const AllDesignByCatetgory = ({ categoryId }) => {
           </h2>
         </div>
       </div>
-      {designs?.length ?
-        <div className="md:w-full xl:max-w-7xl lg:max-w-max mx-auto 2xl:w-[100%] xl:mx-auto gap-5 md:gap-8 lg:gap-24 lg:px-24 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
+    <div className="w-[80%] mx-auto">
+   <div className="flex justify-center">
+   {designs?.length ?
+        <div className="grid lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 max-w-fit gap-3 w-full">
           {designs.map((data, i) => (
+            <div className="!w-[350px] border-spacing-24 border-white border-8 !h-[260px]" key={i}>
             <Card data={data} key={i} />
+            </div>
           ))
 
 
@@ -64,10 +69,13 @@ const AllDesignByCatetgory = ({ categoryId }) => {
         <div className="flex justify-center w-full">
           <p>No data in {category?.name}</p>
         </div>}
+   </div>
       {/* pagination */}
       <div className="flex justify-center my-6">
         <Pagination onChange={(e) => setCurrentPage(e)} className="flex cursor-pointer select-none gap-2 px-3 py-1 " total={count} defaultPageSize={1} />
       </div>
+    </div>
+     </div>
 
       {/* Related */}
       <CategoryRelated currentItems={othersCategoryData} />

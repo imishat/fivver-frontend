@@ -62,7 +62,7 @@ const AllQuickResponse = ({ setValue, value, lastMessage }) => {
     <div className={`p-2 pb-0 m-2 ${show ? 'h-28 overflow-y-auto' : ''} `}>
       {/* Quick Response */}
       {/* <Toast /> */}
-      <div className=" flex items-center justify-between px-2  cursor-pointer">
+      <div className=" flex items-center justify-between px-2   cursor-pointer">
         <h2 onClick={handleClick}>Quick Response</h2>
         <div className="flex items-center  gap-2">
           <div>

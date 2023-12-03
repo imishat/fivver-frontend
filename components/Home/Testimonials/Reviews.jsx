@@ -29,8 +29,8 @@ export default function Reviews({filteredReviews}) {
                       {  review?.description
 }
                     </p>
-                    <div className='w-52  border h-20 bg-white flex justify-center items-center text-xs object-cover'>
-                    <PhotoProvider>
+                    <div className='w-[120px] h-[89px]  border bg-white  flex justify-center items-center text-xs object-cover'>
+                    <PhotoProvider >
       <PhotoView src="https://i.ibb.co/qJFwS5F/Solar-Energy-Door-Hanger-Design.jpg">
         <img src="https://i.ibb.co/qJFwS5F/Solar-Energy-Door-Hanger-Design.jpg" className='w-[120px] h-[89px]' alt="" />
       </PhotoView>

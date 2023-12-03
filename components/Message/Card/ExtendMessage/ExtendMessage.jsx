@@ -198,7 +198,7 @@ function ExtendMessage({ message, setReply }) {
             message?.reply?.messageId ? <a href={`#${message?.message?.reply?.messageId}`} className="p-1 px-3 bg-base-200 top-0 z-0 text-xs relative rounded-full">{message?.reply?.reply?.slice(0, 55)} <span>{message?.message?.reply?.reply?.length > 55 ? '...' : ''}</span>  </a> : ''
           }
 
-          <div className="max-w-md bg-blue-50 h-full">
+          <div className="max-w-lg bg-blue-50 h-full">
             {/* Offer image */}
             <div className="flex bg-blue-200 items-center justify-between p-3">
               {/* days */}
